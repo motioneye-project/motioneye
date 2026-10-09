@@ -53,7 +53,9 @@ def pretty_date_time(date_time, tzinfo=None, short=False):
         )
 
     if tzinfo:
-        offset = tzinfo.utcoffset(datetime.datetime.utcnow()).seconds  # noqa: DTZ003
+        offset = tzinfo.utcoffset(
+            datetime.datetime.now(tz=datetime.timezone.utc)
+        ).seconds
         tz = 'GMT'
         if offset >= 0:
             tz += '+'
@@ -62,9 +64,7 @@ def pretty_date_time(date_time, tzinfo=None, short=False):
             tz += '-'
             offset = -offset
 
-        tz += '%.2d' % (offset // 3600) + ':%.2d' % (  # noqa: UP031
-            (offset % 3600) // 60
-        )  # noqa: RUF100, UP031
+        tz += f'{offset // 3600:02d}:{(offset % 3600) // 60:02d}'
 
         text += ' (' + tz + ')'
 

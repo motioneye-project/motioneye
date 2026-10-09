@@ -349,9 +349,10 @@ class StartupTest(_ConfigCase):
         handler.get_argument.return_value = None
         handler.request.files = {'files': [{'body': b''}]}
         for result in ({'reboot': True}, None):
-            with self.subTest(result=result):  # noqa: SIM117
-                with patch('motioneye.config.restore', return_value=result):
-                    ConfigHandler.restore(handler)
+            with self.subTest(result=result), patch(
+                'motioneye.config.restore', return_value=result
+            ):
+                ConfigHandler.restore(handler)
 
         migrate.assert_not_called()
 

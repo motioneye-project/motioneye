@@ -49,11 +49,10 @@ class L10nTest(unittest.TestCase):
         self.assertIsNone(settings.js_translations)
 
     def test_unreadable_translations_are_logged(self):
-        with patch(  # noqa: SIM117
+        with patch(
             'motioneye.meyectl.open', side_effect=OSError('gone'), create=True
-        ):  # noqa: RUF100, SIM117
-            with self.assertLogs(level='ERROR'):
-                self.load('en')
+        ), self.assertLogs(level='ERROR'):
+            self.load('en')
         self.assertIsNone(settings.js_translations)
 
     def test_page_embeds_translations(self):

@@ -157,7 +157,7 @@ def make_camera_response(c):
 
 
 async def list_cameras(local_config) -> utils.GetCamerasResponse:
-    scheme, host, port, remote_secret, path, _ = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, _camera_id = _remote_params(local_config)
 
     logging.debug(
         f'listing remote cameras on {pretty_camera_url(local_config, camera=False)}'
@@ -169,7 +169,8 @@ async def list_cameras(local_config) -> utils.GetCamerasResponse:
 
     if response.error:
         logging.error(
-            f'failed to list remote cameras on {pretty_camera_url(local_config, camera=False)}: {utils.pretty_http_error(response)}'
+            'failed to list remote cameras on '
+            f'{pretty_camera_url(local_config, camera=False)}: {utils.pretty_http_error(response)}'
         )
 
         return utils.GetCamerasResponse(None, utils.pretty_http_error(response))
@@ -179,7 +180,7 @@ async def list_cameras(local_config) -> utils.GetCamerasResponse:
 
     except Exception as e:
         logging.error(
-            f'failed to decode json answer from {pretty_camera_url(local_config, camera=False)}: {e!s}'
+            f'failed to decode json answer from {pretty_camera_url(local_config, camera=False)}: {e}'
         )
 
         return utils.GetCamerasResponse(None, str(e))
@@ -211,7 +212,8 @@ async def get_config(local_config) -> utils.GetConfigResponse:
 
     if response.error:
         logging.error(
-            f'failed to get config for remote camera {camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
+            'failed to get config for remote camera '
+            f'{camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
         )
 
         return utils.GetConfigResponse(None, error=utils.pretty_http_error(response))
@@ -221,7 +223,7 @@ async def get_config(local_config) -> utils.GetConfigResponse:
 
     except Exception as e:
         logging.error(
-            f'failed to decode json answer from {pretty_camera_url(local_config)}: {e!s}'
+            f'failed to decode json answer from {pretty_camera_url(local_config)}: {e}'
         )
 
         return utils.GetConfigResponse(None, error=str(e))
@@ -287,7 +289,8 @@ async def set_config(local_config, ui_config) -> str | None:
 
     if response.error:
         logging.error(
-            f'failed to set config for remote camera {camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
+            'failed to set config for remote camera '
+            f'{camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
         )
 
         result = utils.pretty_http_error(response)
@@ -318,7 +321,8 @@ async def test(local_config, data) -> utils.CommonExternalResponse:
     response = await _send_request(request)
     if response.error:
         logging.error(
-            f'failed to test {what} on remote camera {camera_id}, on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
+            f'failed to test {what} on remote camera {camera_id}, '
+            f'on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
         )
 
         return utils.CommonExternalResponse(
@@ -360,7 +364,8 @@ async def get_current_picture(
 
     if response.error:
         logging.error(
-            f'failed to get current picture for remote camera {camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
+            'failed to get current picture for remote camera '
+            f'{camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
         )
 
         return utils.GetCurrentPictureResponse(error=utils.pretty_http_error(response))
@@ -402,7 +407,8 @@ async def list_media(
     response = await _send_request(request)
     if response.error:
         logging.error(
-            f'failed to get media list for remote camera {camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
+            'failed to get media list for remote camera '
+            f'{camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
         )
 
         return utils.ListMediaResponse(error=utils.pretty_http_error(response))
@@ -412,7 +418,7 @@ async def list_media(
 
     except Exception as e:
         logging.error(
-            f'failed to decode json answer from {pretty_camera_url(local_config)}: {e!s}'
+            f'failed to decode json answer from {pretty_camera_url(local_config)}: {e}'
         )
 
         return utils.ListMediaResponse(error=str(e))
@@ -445,7 +451,8 @@ async def get_media_content(
     response = await _send_request(request)
     if response.error:
         logging.error(
-            f'failed to download file {filename} of remote camera {camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
+            f'failed to download file {filename} of remote camera {camera_id} '
+            f'on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
         )
 
         return utils.CommonExternalResponse(error=utils.pretty_http_error(response))
@@ -500,7 +507,7 @@ async def make_zipped_content(
 
     except Exception as e:
         logging.error(
-            f'failed to decode json answer from {pretty_camera_url(local_config)}: {e!s}'
+            f'failed to decode json answer from {pretty_camera_url(local_config)}: {e}'
         )
 
         return utils.CommonExternalResponse(error=str(e))
@@ -532,7 +539,8 @@ async def get_zipped_content(
     response = await _send_request(request)
     if response.error:
         logging.error(
-            f'failed to download zip file for remote camera {camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
+            'failed to download zip file for remote camera '
+            f'{camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
         )
 
         return utils.CommonExternalResponse(error=utils.pretty_http_error(response))
@@ -599,7 +607,7 @@ async def make_timelapse_movie(
 
     except Exception as e:
         logging.error(
-            f'failed to decode json answer from {pretty_camera_url(local_config)}: {e!s}'
+            f'failed to decode json answer from {pretty_camera_url(local_config)}: {e}'
         )
 
         return utils.CommonExternalResponse(error=str(e))
@@ -625,7 +633,8 @@ async def check_timelapse_movie(
 
     if response.error:
         logging.error(
-            f'failed to check timelapse movie status for remote camera {camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
+            'failed to check timelapse movie status for remote camera '
+            f'{camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
         )
 
         return utils.CommonExternalResponse(error=utils.pretty_http_error(response))
@@ -635,7 +644,7 @@ async def check_timelapse_movie(
 
     except Exception as e:
         logging.error(
-            f'failed to decode json answer from {pretty_camera_url(local_config)}: {e!s}'
+            f'failed to decode json answer from {pretty_camera_url(local_config)}: {e}'
         )
 
         return utils.CommonExternalResponse(error=str(e))
@@ -668,7 +677,8 @@ async def get_timelapse_movie(
     response = await _send_request(request)
     if response.error:
         logging.error(
-            f'failed to download timelapse movie for remote camera {camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
+            'failed to download timelapse movie for remote camera '
+            f'{camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
         )
 
         return utils.CommonExternalResponse(error=utils.pretty_http_error(response))
@@ -711,7 +721,8 @@ async def get_media_preview(
     response = await _send_request(request)
     if response.error:
         logging.error(
-            f'failed to get file preview for {filename} of remote camera {camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
+            f'failed to get file preview for {filename} of remote camera {camera_id} '
+            f'on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
         )
 
         return utils.CommonExternalResponse(error=utils.pretty_http_error(response))
@@ -746,7 +757,8 @@ async def del_media_content(
     response = await _send_request(request)
     if response.error:
         logging.error(
-            f'failed to delete file {filename} of remote camera {camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
+            f'failed to delete file {filename} of remote camera {camera_id} '
+            f'on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
         )
 
         return utils.CommonExternalResponse(error=utils.pretty_http_error(response))
@@ -758,7 +770,7 @@ async def del_media_group(
     local_config, group: str, media_type
 ) -> utils.CommonExternalResponse:
     if '..' in group.split('/'):
-        raise Exception(f'Path traversal detected in group "{group}"')  # noqa: TRY002
+        raise ValueError(f'Path traversal detected in group "{group}"')
 
     scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
 
@@ -822,7 +834,8 @@ async def exec_action(local_config, action) -> utils.CommonExternalResponse:
     response = await _send_request(request)
     if response.error:
         logging.error(
-            f'failed to execute action "{action}" of remote camera {camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
+            f'failed to execute action "{action}" of remote camera {camera_id} '
+            f'on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
         )
 
         return utils.CommonExternalResponse(error=utils.pretty_http_error(response))

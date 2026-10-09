@@ -93,7 +93,7 @@ def make_message(
                 os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path']))
                 for m in files
             ]
-            logging.debug('selected %d pictures' % len(files))  # noqa: UP031
+            logging.debug(f'selected {len(files)} pictures')
 
         format_dict = {
             'camera': camera_config['camera_name'],
@@ -208,8 +208,8 @@ def main(parser, args):
             send_message(options.api, options.chatid, message, files or [])
             logging.info('telegram sent')
 
-        except Exception as e:
-            logging.error(f'failed to send telegram: {e}', exc_info=True)  # noqa: G201
+        except Exception:
+            logging.exception('failed to send telegram')
 
         logging.debug('bye!')
 

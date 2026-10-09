@@ -6,7 +6,7 @@ from secrets import token_hex
 from shutil import rmtree
 from tempfile import mkdtemp
 from time import time
-from typing import Generic, Optional, Type, TypeVar  # noqa: F401
+from typing import Generic, TypeVar
 from unittest.mock import MagicMock, patch
 
 from tornado.testing import AsyncHTTPTestCase

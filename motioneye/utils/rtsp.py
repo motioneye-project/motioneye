@@ -75,10 +75,8 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
         try:
             io_loop.remove_timeout(timeout[0])
             s = f.result()
-        except Exception as e:
-            logging.error(  # noqa: G201
-                f'[ON_CONNECT] Stream connection error occurred: {e}', exc_info=True
-            )
+        except Exception:
+            logging.exception('[ON_CONNECT] Stream connection error occurred')
             if _timeout:
                 return handle_error('timeout connecting to rtsp netcam')
             else:
@@ -104,10 +102,8 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
     def seek_rtsp(f: Future):
         try:
             f.result()
-        except Exception as e:
-            logging.error(  # noqa: G201
-                f'[SEEK_RTSP] Error occurred: {e}', exc_info=True
-            )  # noqa: G201, RUF100
+        except Exception:
+            logging.exception('[SEEK_RTSP] Error occurred')
             if check_error():
                 return None
         else:
@@ -127,8 +123,8 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
         try:
             io_loop.remove_timeout(timeout[0])
             data = f.result()
-        except Exception as e:
-            logging.error(f'[ON_RTSP] Error occurred: {e}', exc_info=True)  # noqa: G201
+        except Exception:
+            logging.exception('[ON_RTSP] Error occurred')
             handle_error('timeout waiting for rtsp netcam response')
         else:
             if not data:
@@ -190,10 +186,8 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
         try:
             io_loop.remove_timeout(timeout[0])
             data = f.result()
-        except Exception as e:
-            logging.error(  # noqa: G201
-                f'[ON_WWW_AUTH] {auth_timeout_log_msg}: {e}', exc_info=True
-            )  # noqa: G201, RUF100
+        except Exception:
+            logging.error(f'[ON_WWW_AUTH] {auth_timeout_log_msg}')
             handle_error(f'{auth_timeout_msg}')
         else:
             if data:

@@ -94,7 +94,7 @@ def start(deferred=False):
 
     binary, version = find_motion()
     if not binary:
-        raise Exception('motion executable could not be found')  # noqa: TRY002
+        raise FileNotFoundError('motion executable could not be found')
 
     logging.debug(f'starting motion executable "{binary}" version "{version}"')
 
@@ -131,13 +131,11 @@ def start(deferred=False):
     )
 
     # wait 2 seconds to see that the process has successfully started
-    for _ in range(20):
+    for _i in range(20):
         sleep(0.1)
         exit_code = process.poll()
         if exit_code is not None and exit_code != 0:
-            raise Exception(  # noqa: TRY002
-                f'motion failed to start with exit code "{exit_code}"'
-            )  # noqa: RUF100, TRY002
+            raise RuntimeError(f'motion failed to start with exit code "{exit_code}"')
 
     pid = process.pid
 
@@ -177,7 +175,7 @@ def stop(invalidate=False):
             kill(pid, SIGTERM)
 
             # wait 5 seconds for the process to exit
-            for _ in range(50):
+            for _i in range(50):
                 waitpid(pid, WNOHANG)
                 sleep(0.1)
 
@@ -185,7 +183,7 @@ def stop(invalidate=False):
             kill(pid, SIGKILL)
 
             # wait 2 seconds for the process to exit
-            for _ in range(20):
+            for _i in range(20):
                 sleep(0.1)
                 waitpid(pid, WNOHANG)
 
@@ -195,9 +193,7 @@ def stop(invalidate=False):
                 PowerControl.reboot()
 
             else:
-                raise Exception(  # noqa: TRY002
-                    'could not terminate the motion process'
-                )  # noqa: RUF100, TRY002
+                raise RuntimeError('could not terminate the motion process')
 
         except OSError as e:
             if e.errno not in (ESRCH, ECHILD):

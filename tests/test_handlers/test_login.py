@@ -94,16 +94,17 @@ class LoginHandlerTest(HandlerTestCase):
             '@normal_username': '',
             '@normal_password': '',
         }
-        with patch.object(config, '_main_config_cache', main_config):  # noqa: SIM117
-            with patch.object(config, 'set_admin_password') as mock_set_admin:
-                response = self.fetch(
-                    '/login',
-                    method='POST',
-                    body=f'username={admin_user}&password={plain}',
-                    headers={'Content-Type': 'application/x-www-form-urlencoded'},
-                )
-                self.assertEqual(200, response.code)
-                mock_set_admin.assert_called_once_with(plain)
+        with patch.object(config, '_main_config_cache', main_config), patch.object(
+            config, 'set_admin_password'
+        ) as mock_set_admin:
+            response = self.fetch(
+                '/login',
+                method='POST',
+                body=f'username={admin_user}&password={plain}',
+                headers={'Content-Type': 'application/x-www-form-urlencoded'},
+            )
+            self.assertEqual(200, response.code)
+            mock_set_admin.assert_called_once_with(plain)
 
     def test_login_plaintext_normal_password_migrates(self):
         admin_user = 'admin'
@@ -115,16 +116,17 @@ class LoginHandlerTest(HandlerTestCase):
             '@normal_username': normal_user,
             '@normal_password': normal_plain,
         }
-        with patch.object(config, '_main_config_cache', main_config):  # noqa: SIM117
-            with patch.object(config, 'set_normal_password') as mock_set_normal:
-                response = self.fetch(
-                    '/login',
-                    method='POST',
-                    body=f'username={normal_user}&password={normal_plain}',
-                    headers={'Content-Type': 'application/x-www-form-urlencoded'},
-                )
-                self.assertEqual(200, response.code)
-                mock_set_normal.assert_called_once_with(normal_plain)
+        with patch.object(config, '_main_config_cache', main_config), patch.object(
+            config, 'set_normal_password'
+        ) as mock_set_normal:
+            response = self.fetch(
+                '/login',
+                method='POST',
+                body=f'username={normal_user}&password={normal_plain}',
+                headers={'Content-Type': 'application/x-www-form-urlencoded'},
+            )
+            self.assertEqual(200, response.code)
+            mock_set_normal.assert_called_once_with(normal_plain)
 
     def _assert_session_lifetime(
         self, response, user_type: str, expected_seconds: int
@@ -154,14 +156,15 @@ class LoginHandlerTest(HandlerTestCase):
             '@normal_username': normal_user,
             '@normal_password': ph.hash(normal_pass),
         }
-        with patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 5):  # noqa: SIM117
-            with patch.object(config, '_main_config_cache', main_config):
-                response = self.fetch(
-                    '/login',
-                    method='POST',
-                    body=f'username={normal_user}&password={normal_pass}',
-                    headers={'Content-Type': 'application/x-www-form-urlencoded'},
-                )
+        with patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 5), patch.object(
+            config, '_main_config_cache', main_config
+        ):
+            response = self.fetch(
+                '/login',
+                method='POST',
+                body=f'username={normal_user}&password={normal_pass}',
+                headers={'Content-Type': 'application/x-www-form-urlencoded'},
+            )
         self.assertEqual(200, response.code)
         self._assert_session_lifetime(response, 'normal', 5 * 3600)
 
@@ -175,14 +178,15 @@ class LoginHandlerTest(HandlerTestCase):
             '@normal_password': '',
         }
         # even a large normal-user lifetime must not affect the admin cookie
-        with patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 999):  # noqa: SIM117
-            with patch.object(config, '_main_config_cache', main_config):
-                response = self.fetch(
-                    '/login',
-                    method='POST',
-                    body=f'username={admin_user}&password={admin_pass}',
-                    headers={'Content-Type': 'application/x-www-form-urlencoded'},
-                )
+        with patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 999), patch.object(
+            config, '_main_config_cache', main_config
+        ):
+            response = self.fetch(
+                '/login',
+                method='POST',
+                body=f'username={admin_user}&password={admin_pass}',
+                headers={'Content-Type': 'application/x-www-form-urlencoded'},
+            )
         self.assertEqual(200, response.code)
         self._assert_session_lifetime(response, 'admin', 24 * 3600)
 
@@ -195,14 +199,15 @@ class LoginHandlerTest(HandlerTestCase):
             '@normal_username': normal_user,
             '@normal_password': ph.hash(normal_pass),
         }
-        with patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 0):  # noqa: SIM117
-            with patch.object(config, '_main_config_cache', main_config):
-                response = self.fetch(
-                    '/login',
-                    method='POST',
-                    body=f'username={normal_user}&password={normal_pass}',
-                    headers={'Content-Type': 'application/x-www-form-urlencoded'},
-                )
+        with patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 0), patch.object(
+            config, '_main_config_cache', main_config
+        ):
+            response = self.fetch(
+                '/login',
+                method='POST',
+                body=f'username={normal_user}&password={normal_pass}',
+                headers={'Content-Type': 'application/x-www-form-urlencoded'},
+            )
         self.assertEqual(200, response.code)
         self._assert_session_lifetime(response, 'normal', 1 * 3600)
 

@@ -77,24 +77,22 @@ class UploadService:
         except Exception as e:
             msg = f'failed to open file "{filename}": {e}'
             self.error(msg)
-            raise Exception(msg)  # noqa: TRY002
+            raise RuntimeError(msg)
 
         if st.st_size > self.MAX_FILE_SIZE:
             msg = f'file "{filename}" is too large ({st.st_size / 1024 / 1024}MB/{self.MAX_FILE_SIZE / 1024 / 1024}MB)'
-
             self.error(msg)
-            raise Exception(msg)  # noqa: TRY002
+            raise RuntimeError(msg)
 
         try:
-            f = open(filename, 'rb')  # noqa: SIM115
+            with open(filename, 'rb') as f:
+                data = f.read()
 
         except Exception as e:
-            msg = f'failed to open file "{filename}": {e}'
+            msg = f'failed to read file "{filename}": {e}'
             self.error(msg)
-            raise Exception(msg)  # noqa: TRY002
+            raise RuntimeError(msg)
 
-        with f:
-            data = f.read()
         self.debug(f'size of "{filename}" is {len(data) / 1024.0 / 1024:.3f}MB')
 
         mime_type = mimetypes.guess_type(filename)[0] or 'image/jpeg'
@@ -201,7 +199,7 @@ class GoogleBase:
             if not self._authorization_key:
                 msg = 'missing authorization key'
                 self.error(msg)
-                raise Exception(msg)  # noqa: TRY002
+                raise ValueError(msg)
 
             self.debug('requesting credentials')
             try:
@@ -249,7 +247,7 @@ class GoogleBase:
                     msg = str(e)
 
                 self.error(f'request failed: {msg}')
-                raise Exception(msg)  # noqa: TRY002
+                raise RuntimeError(msg)
 
         except Exception as e:
             self.error(f'request failed: {e}')
@@ -287,7 +285,7 @@ class GoogleBase:
 
         except HTTPError as e:
             error = json.load(e)
-            raise Exception(  # noqa: TRY002
+            raise RuntimeError(
                 error.get('error_description') or error.get('error') or str(e)
             )
 
@@ -316,7 +314,7 @@ class GoogleBase:
 
         except HTTPError as e:
             error = json.load(e)
-            raise Exception(  # noqa: TRY002
+            raise RuntimeError(
                 error.get('error_description') or error.get('error') or str(e)
             )
 
@@ -464,7 +462,7 @@ class GoogleDrive(UploadService, GoogleBase):
             else:
                 msg = f'folder with name "{child_name}" does not exist'
                 self.error(msg)
-                raise Exception(msg)  # noqa: TRY002
+                raise RuntimeError(msg)
 
         return items[0]['id']
 
@@ -766,7 +764,7 @@ class Dropbox(UploadService):
             if not self._authorization_key:
                 msg = 'missing authorization key'
                 self.error(msg)
-                raise Exception(msg)  # noqa: TRY002
+                raise ValueError(msg)
 
             self.debug('requesting credentials')
             try:
@@ -806,7 +804,7 @@ class Dropbox(UploadService):
             elif str(e).count('not_found'):
                 msg = f'folder "{self._location}" not found'
                 self.error(msg)
-                raise Exception(msg)  # noqa: TRY002
+                raise FileNotFoundError(msg)
 
             else:
                 self.error(f'request failed: {e}')
@@ -836,7 +834,7 @@ class Dropbox(UploadService):
 
         except HTTPError as e:
             error = json.load(e)
-            raise Exception(  # noqa: TRY002
+            raise RuntimeError(
                 error.get('error_description') or error.get('error') or str(e)
             )
 
@@ -865,7 +863,7 @@ class Dropbox(UploadService):
 
         except HTTPError as e:
             error = json.load(e)
-            raise Exception(  # noqa: TRY002
+            raise RuntimeError(
                 error.get('error_description') or error.get('error') or str(e)
             )
 

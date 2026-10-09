@@ -684,8 +684,7 @@ def get_media_content(camera_config: dict, path: str):
             return f.read()
 
     except Exception as e:
-        logging.error(f'failed to read file {full_path}: {e!s}')
-
+        logging.error(f'failed to read file {full_path}: {e}')
         return None
 
 
@@ -1027,13 +1026,14 @@ def get_media_preview(
     full_path: str = os.path.join(target_dir, path)
 
     if media_type == 'movie':
-        if not os.path.exists(full_path + '.thumb'):  # noqa: SIM102
-            # at this point we expect the thumb to
-            # have already been created by the thumbnailer task;
-            # if, for some reason that's not the case,
-            # we create it right away
-            if not make_movie_preview(camera_config, full_path):
-                return None
+        # at this point we expect the thumb to
+        # have already been created by the thumbnailer task;
+        # if, for some reason that's not the case,
+        # we create it right away
+        if not os.path.exists(full_path + '.thumb') and not make_movie_preview(
+            camera_config, full_path
+        ):
+            return None
 
         full_path += '.thumb'
 
@@ -1102,7 +1102,7 @@ def del_media_content(camera_config: dict, path: str):
             os.removedirs(dir_path)
 
     except Exception as e:
-        logging.error(f'failed to remove file {full_path}: {e!s}')
+        logging.error(f'failed to remove file {full_path}: {e}')
 
         raise
 
@@ -1127,7 +1127,7 @@ def del_media_group(camera_config: dict, group: str, media_type: str):
             os.remove(path)
 
         except Exception as e:
-            logging.error(f'failed to remove file {full_path}: {e!s}')
+            logging.error(f'failed to remove file {full_path}: {e}')
             raise
 
     # remove the group directory if empty or contains only thumb files

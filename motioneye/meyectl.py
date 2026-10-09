@@ -142,7 +142,7 @@ def load_settings():
 
         parts = line.split(' ', 1)
         if len(parts) != 2:
-            raise Exception(f'invalid configuration line: {line}')  # noqa: TRY002
+            raise ValueError(f'invalid configuration line: {line}')
 
         name, value = parts
         upper_name = name.upper().replace('-', '_')

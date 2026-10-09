@@ -70,7 +70,7 @@ def send_mail(server, port, account, password, tls, _from, to, subject, message,
         email.attach(part)
 
     if files:
-        logging.debug('attached %d pictures' % len(files))  # noqa: UP031
+        logging.debug(f'attached {len(files)} pictures')
 
     logging.debug('sending email message')
     conn.sendmail(_from, to, email.as_string())
@@ -124,7 +124,7 @@ def make_message(
                 for m in files
             ]
 
-            logging.debug('selected %d pictures' % len(files))  # noqa: UP031
+            logging.debug(f'selected {len(files)} pictures')
 
         format_dict = {
             'camera': camera_config['camera_name'],
@@ -253,9 +253,9 @@ def main(parser, args):
     logging.debug(f'msg_id = {options.msg_id}')
     logging.debug(f'motion_camera_id = {options.motion_camera_id}')
     logging.debug(f'camera_id = {camera_id}')
-    logging.debug('moment = {}'.format(options.moment.strftime('%Y-%m-%d %H:%M:%S')))
-    logging.debug('smtp timeout = %d' % settings.SMTP_TIMEOUT)  # noqa: UP031
-    logging.debug('timespan = %d' % options.timespan)  # noqa: UP031
+    logging.debug(f'moment = {options.moment.strftime("%Y-%m-%d %H:%M:%S")}')
+    logging.debug(f'smtp timeout = {settings.SMTP_TIMEOUT}')
+    logging.debug(f'timespan = {options.timespan}')
 
     to = [t.strip() for t in re.split('[,;| ]', options.to)]
     to = [t for t in to if t]
@@ -277,8 +277,8 @@ def main(parser, args):
             )
             logging.info('email sent')
 
-        except Exception as e:
-            logging.error(f'failed to send mail: {e}', exc_info=True)  # noqa: G201
+        except Exception:
+            logging.exception('failed to send mail')
 
         logging.debug('bye!')
 

@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import os
 import unittest
@@ -20,6 +21,7 @@ from pathlib import Path
 from shutil import rmtree
 from tempfile import mkdtemp
 from time import time
+from typing import ClassVar
 
 from motioneye import mediafiles
 from motioneye.mediafiles import _list_media_files
@@ -302,13 +304,13 @@ class TestMediaFilesPathValidation(unittest.TestCase):
         rmtree(cls._outside_dir, ignore_errors=True)
 
     # Traversal inputs: each contains '..' as a path component.
-    _FILENAME_TRAVERSALS = [  # noqa: RUF012
+    _FILENAME_TRAVERSALS: ClassVar[list[str]] = [
         '../etc/passwd',
         '../../etc/passwd',
         'subdir/../../../etc/passwd',
         '../secret.jpg',
     ]
-    _SUBDIR_TRAVERSALS = [  # noqa: RUF012
+    _SUBDIR_TRAVERSALS: ClassVar[list[str]] = [
         '..',
         '../group',
         'subdir/..',
@@ -316,12 +318,15 @@ class TestMediaFilesPathValidation(unittest.TestCase):
     ]
 
     # Absolute path inputs: each starts with '/'.
-    _FILENAME_ABSOLUTES = ['/etc/passwd', '/mnt/secret.jpg']  # noqa: RUF012
-    _SUBDIR_ABSOLUTES = ['/etc', '/root/.ssh', '/var/log']  # noqa: RUF012
+    _FILENAME_ABSOLUTES: ClassVar[list[str]] = ['/etc/passwd', '/mnt/secret.jpg']
+    _SUBDIR_ABSOLUTES: ClassVar[list[str]] = ['/etc', '/root/.ssh', '/var/log']
 
     # Camera dir escape inputs: use the 'escape' symlink.
-    _FILENAME_ESCAPES = ['escape/secret.jpg', 'escape/subdir/file.mp4']  # noqa: RUF012
-    _SUBDIR_ESCAPES = ['escape', 'escape/subdir']  # noqa: RUF012
+    _FILENAME_ESCAPES: ClassVar[list[str]] = [
+        'escape/secret.jpg',
+        'escape/subdir/file.mp4',
+    ]
+    _SUBDIR_ESCAPES: ClassVar[list[str]] = ['escape', 'escape/subdir']
 
     def _assert_raises_traversal(self, fn, *args, **kwargs):
         with self.assertRaises(Exception) as ctx:

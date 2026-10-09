@@ -16,9 +16,12 @@
 
 """Tests for the remote module functions."""
 
+from __future__ import annotations
+
 import json
 import unittest
 from types import SimpleNamespace
+from typing import ClassVar
 from unittest.mock import AsyncMock, patch
 
 from motioneye import remote
@@ -31,7 +34,7 @@ class TestRemotePathTraversal(unittest.IsolatedAsyncioTestCase):
     any network I/O, so awaiting the coroutine raises immediately.
     """
 
-    _LOCAL_CONFIG = {  # noqa: RUF012
+    _LOCAL_CONFIG: ClassVar[dict[str, str | int]] = {
         '@proto': 'mjpeg',
         '@host': '127.0.0.1',
         '@port': 8765,
@@ -42,19 +45,19 @@ class TestRemotePathTraversal(unittest.IsolatedAsyncioTestCase):
     }
 
     # Traversal inputs to test for filenames/paths and groups/prefixes.
-    _FILENAME_TRAVERSALS = [  # noqa: RUF012
+    _FILENAME_TRAVERSALS: ClassVar[list[str]] = [
         '../etc/passwd',
         '../../etc/passwd',
         'subdir/../../../etc/passwd',
         '../secret.jpg',
     ]
-    _GROUP_TRAVERSALS = [  # noqa: RUF012
+    _GROUP_TRAVERSALS: ClassVar[list[str]] = [
         '..',
         '../group',
         'subdir/..',
         'subdir/../../other',
     ]
-    _PREFIX_TRAVERSALS = [  # noqa: RUF012
+    _PREFIX_TRAVERSALS: ClassVar[list[str]] = [
         '..',
         '../prefix',
         'prefix/../..',
@@ -151,7 +154,7 @@ class TestRemotePathTraversal(unittest.IsolatedAsyncioTestCase):
 class TestRemoteGetConfig(unittest.IsolatedAsyncioTestCase):
     """Tests for get_config() answers."""
 
-    _LOCAL_CONFIG = {  # noqa: RUF012
+    _LOCAL_CONFIG: ClassVar[dict[str, str | int]] = {
         '@proto': 'motioneye',
         '@host': 'hub.example',
         '@port': 8765,

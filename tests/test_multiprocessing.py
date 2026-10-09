@@ -84,12 +84,13 @@ class TestMultiprocessing(unittest.TestCase):
                 p for p in (package_root, env.get('PYTHONPATH')) if p
             )
 
-            result = subprocess.run(  # noqa: PLW1510
+            result = subprocess.run(
                 [sys.executable, script, conf_path, report_path],
                 capture_output=True,
                 text=True,
                 timeout=120,
                 env=env,
+                check=False,
             )
 
             self.assertEqual(result.returncode, 0, result.stderr)

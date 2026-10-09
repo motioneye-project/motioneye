@@ -28,7 +28,7 @@ import urllib.parse
 import urllib.request
 from collections import namedtuple
 from dataclasses import dataclass
-from typing import Any, Awaitable, Callable, Dict, List, Optional, cast  # noqa: F401
+from typing import Any, Awaitable, Callable, cast
 
 from PIL import Image, ImageDraw
 from tornado.concurrent import Future
@@ -102,7 +102,7 @@ def spawn_callback_timeout_wrapper(
 
 def pretty_size(size):
     if size < 1024:  # less than 1kB
-        size, unit = size, 'B'  # noqa: PLW0127
+        unit = 'B'
 
     elif size < 1024 * 1024:  # less than 1MB
         size, unit = size / 1024.0, 'kB'
@@ -175,13 +175,13 @@ def split_semicolon(s):
 
 
 def get_disk_usage(path):
-    logging.debug(f'getting disk usage for path {path}...')
+    logging.debug(f'getting disk usage for path {path} ...')
 
     try:
         result = os.statvfs(path)
 
     except OSError as e:
-        logging.error(f'failed to execute statvfs: {e!s}')
+        logging.error(f'failed to execute statvfs: {e}')
 
         return None
 
@@ -646,12 +646,11 @@ def validate_paths(
                     reason='Path traversal detected',
                 )
 
-            if camera_dir is not None:  # noqa: SIM102
-                if not os.path.realpath(os.path.join(camera_dir, path)).startswith(
-                    camera_dir
-                ):
-                    raise HTTPError(
-                        403,
-                        f'Path "{path}" escapes camera directory "{camera_dir}"',
-                        reason='Path escapes camera directory',
-                    )
+            if camera_dir is not None and not os.path.realpath(
+                os.path.join(camera_dir, path)
+            ).startswith(camera_dir):
+                raise HTTPError(
+                    403,
+                    f'Path "{path}" escapes camera directory "{camera_dir}"',
+                    reason='Path escapes camera directory',
+                )

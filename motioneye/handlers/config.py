@@ -378,7 +378,7 @@ class ConfigHandler(BaseHandler):
 
                 if settings.SMB_SHARES:
                     logging.debug('updating SMB mounts')
-                    _, start = smbctl.update_mounts()
+                    _stop, start = smbctl.update_mounts()
 
                     if start:
                         motionctl.start()
@@ -668,7 +668,7 @@ class ConfigHandler(BaseHandler):
             motionctl.stop()
 
             if settings.SMB_SHARES:
-                _, start = smbctl.update_mounts()
+                _stop, start = smbctl.update_mounts()
 
                 if start:
                     motionctl.start()
