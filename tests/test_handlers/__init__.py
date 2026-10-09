@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 import atexit
 import os
 from secrets import token_hex
 from shutil import rmtree
 from tempfile import mkdtemp
 from time import time
-from typing import Generic, Optional, Type, TypeVar
+from typing import Generic, TypeVar
 from unittest.mock import MagicMock, patch
 
 from tornado.testing import AsyncHTTPTestCase
@@ -43,7 +45,7 @@ _FAKE_CAMERA_CONFIG = {
 
 
 class HandlerTestCase(AsyncHTTPTestCase, Generic[T]):
-    handler_cls: Type[T]
+    handler_cls: type[T]
 
     def get_app(self) -> Application:
         self.app = make_app()
@@ -73,7 +75,7 @@ class HandlerTestCase(AsyncHTTPTestCase, Generic[T]):
         # Wipe any sessions left over from this test so the next test starts clean.
         _session_store.clear()
 
-    def get_handler(self, request: Optional[MagicMock] = None) -> T:
+    def get_handler(self, request: MagicMock | None = None) -> T:
         req = request or MagicMock()
         return self.handler_cls(self.app, req)
 

@@ -90,6 +90,7 @@ class TestMultiprocessing(unittest.TestCase):
                 text=True,
                 timeout=120,
                 env=env,
+                check=False,
             )
 
             self.assertEqual(result.returncode, 0, result.stderr)

@@ -18,7 +18,7 @@ msgstr ""
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr ""
 
-#: motioneye/server.py:233
+#: motioneye/server.py:234
 msgid "interrompa signalo ricevita, fermanta …"
 msgstr ""
 
@@ -42,47 +42,47 @@ msgstr ""
 msgid "bonvolu instali pycurl"
 msgstr ""
 
-#: motioneye/server.py:421
+#: motioneye/server.py:422
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr ""
 
-#: motioneye/server.py:431
+#: motioneye/server.py:432
 msgid "The admin and/or surveillance user has no password assigned. Please login to the web interface to set both passwords."
 msgstr ""
 
-#: motioneye/server.py:448
+#: motioneye/server.py:449
 msgid "purigado komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:450
+#: motioneye/server.py:451
 msgid "wsswitch komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:453
+#: motioneye/server.py:454
 msgid "taskoj komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:457
+#: motioneye/server.py:458
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:470
+#: motioneye/server.py:471
 msgid "servilo komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:476
+#: motioneye/server.py:477
 msgid "servilo haltis"
 msgstr ""
 
-#: motioneye/server.py:478
+#: motioneye/server.py:479
 msgid "taskoj haltis"
 msgstr ""
 
-#: motioneye/server.py:486
+#: motioneye/server.py:487
 msgid "motion haltis"
 msgstr ""
 
-#: motioneye/server.py:491
+#: motioneye/server.py:492
 msgid "adiaŭ!"
 msgstr ""
 
@@ -958,7 +958,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:792 motioneye/templates/main.html:905
 #: motioneye/templates/main.html:980 motioneye/templates/main.html:1109
-#: motioneye/utils/dtconv.py:155 motioneye/utils/dtconv.py:158
+#: motioneye/utils/dtconv.py:157 motioneye/utils/dtconv.py:160
 msgid "sekundoj"
 msgstr ""
 
@@ -1086,7 +1086,7 @@ msgstr ""
 msgid "Filmoj Vivdaŭro"
 msgstr ""
 
-#: motioneye/templates/main.html:924 motioneye/utils/dtconv.py:134
+#: motioneye/templates/main.html:924 motioneye/utils/dtconv.py:136
 msgid "tagoj"
 msgstr ""
 
@@ -1553,46 +1553,46 @@ msgstr ""
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr ""
 
-#: motioneye/utils/dtconv.py:35 motioneye/utils/dtconv.py:74
+#: motioneye/utils/dtconv.py:35 motioneye/utils/dtconv.py:76
 msgid "neniam"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:122
+#: motioneye/utils/dtconv.py:124
 msgid "tago"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:125
+#: motioneye/utils/dtconv.py:127
 msgid "semajno"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:128
+#: motioneye/utils/dtconv.py:130
 msgid "monato"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:131
+#: motioneye/utils/dtconv.py:133
 msgid "jaro"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:138
+#: motioneye/utils/dtconv.py:140
 msgid "horo"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:141
+#: motioneye/utils/dtconv.py:143
 msgid "horoj"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:145
+#: motioneye/utils/dtconv.py:147
 msgid "minuto"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:148
+#: motioneye/utils/dtconv.py:150
 msgid "minutoj"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:152
+#: motioneye/utils/dtconv.py:154
 msgid "sekundo"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:162
+#: motioneye/utils/dtconv.py:164
 msgid "minus"
 msgstr ""

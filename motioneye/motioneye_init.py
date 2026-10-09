@@ -23,11 +23,11 @@ import motioneye
 
 
 def main():
-    cmd = f"cd '{motioneye.__path__[0]}' && extra/linux_init"
-    for arg in sys.argv[1:]:
-        cmd += f" '{arg}'"
-
-    subprocess.run(cmd, shell=True)
+    subprocess.run(
+        ['extra/linux_init', *sys.argv[1:]],
+        cwd=motioneye.__path__[0],
+        check=False,
+    )
 
 
 if __name__ == '__main__':

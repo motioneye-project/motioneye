@@ -78,9 +78,10 @@ class PeerMainConfigTest(HandlerTestCase):
                 '1': {'enabled': True},
             }
         )
-        with patch.object(config, 'set_main') as set_main:
-            with patch.object(config, 'set_camera') as set_camera:
-                response = self._peer_fetch('POST', '/config/0/set/', body)
+        with patch.object(config, 'set_main') as set_main, patch.object(
+            config, 'set_camera'
+        ) as set_camera:
+            response = self._peer_fetch('POST', '/config/0/set/', body)
         self.assertEqual(403, response.code)
         set_main.assert_not_called()
         set_camera.assert_not_called()

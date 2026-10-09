@@ -13,17 +13,17 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 from re import sub
-from typing import List, Tuple
 
 from motioneye.utils import call_subprocess
 
 
-def get_os_version() -> Tuple[str, str]:
+def get_os_version() -> tuple[str, str]:
     try:
         output: str = call_subprocess(['lsb_release', '-sri'])
-        lines: List[str] = output.strip().split()
+        lines: list[str] = output.strip().split()
         name, version = lines
         if version.lower() == 'rolling':
             version = ''
@@ -34,10 +34,10 @@ def get_os_version() -> Tuple[str, str]:
         return _get_os_version_uname()
 
 
-def _get_os_version_uname() -> Tuple[str, str]:
+def _get_os_version_uname() -> tuple[str, str]:
     try:
         output: str = call_subprocess(['uname', '-rs'])
-        lines: List[str] = output.strip().split()
+        lines: list[str] = output.strip().split()
         name, version = lines
 
         return name, version
@@ -57,8 +57,8 @@ def compare_versions(version1: str, version2: str) -> int:
         except Exception:
             return 0
 
-    version1_list: List[int] = [int_or_0(n) for n in version1.split('.')]
-    version2_list: List[int] = [int_or_0(n) for n in version2.split('.')]
+    version1_list: list[int] = [int_or_0(n) for n in version1.split('.')]
+    version2_list: list[int] = [int_or_0(n) for n in version2.split('.')]
 
     len1: int = len(version1_list)
     len2: int = len(version2_list)

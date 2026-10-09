@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import calendar
 import datetime
@@ -21,7 +22,6 @@ import multiprocessing
 import os
 import pickle
 import time
-from typing import List
 
 from tornado.ioloop import IOLoop
 
@@ -35,7 +35,7 @@ _MAX_TASKS = 100
 # TODO replace the pool with one simple thread
 _POOL_SIZE = 1
 
-_tasks: List[tuple] = []
+_tasks: list[tuple] = []
 _pool = None
 
 
@@ -66,7 +66,7 @@ def add(when, func, tag=None, callback=None, **params):
     if len(_tasks) >= _MAX_TASKS:
         logging.error(f'the maximum number of tasks ({_MAX_TASKS}) has been reached')
 
-        return None
+        return
 
     now = time.time()
 
@@ -88,7 +88,7 @@ def add(when, func, tag=None, callback=None, **params):
 
     _save()
 
-    return None
+    return
 
 
 def _check_tasks():
@@ -98,7 +98,7 @@ def _check_tasks():
     now = time.time()
     changed = False
     while _tasks and _tasks[0][0] <= now:
-        when, func, tag, callback, params = _tasks.pop(0)  # @UnusedVariable
+        _when, func, tag, callback, params = _tasks.pop(0)  # @UnusedVariable
 
         logging.debug(f'executing task "{tag or func.__name__}"')
         _pool.apply_async(
@@ -122,7 +122,7 @@ def _load():
         logging.debug(f'loading tasks from "{file_path}"...')
 
         try:
-            f = open(file_path, 'rb')
+            f = open(file_path, 'rb')  # noqa: SIM115
 
         except Exception as e:
             logging.error(f'could not open tasks file "{file_path}": {e}')
@@ -145,7 +145,7 @@ def _save():
     logging.debug(f'saving tasks to "{file_path}"...')
 
     try:
-        f = open(file_path, 'wb')
+        f = open(file_path, 'wb')  # noqa: SIM115
 
     except Exception as e:
         logging.error(f'could not open tasks file "{file_path}": {e}')

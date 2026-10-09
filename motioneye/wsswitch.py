@@ -66,10 +66,7 @@ def _during_working_schedule(now, working_schedule) -> bool:
     if now.hour == from_h and now.minute < from_m:
         return False
 
-    if now.hour == to_h and now.minute > to_m:
-        return False
-
-    return True
+    return not (now.hour == to_h and now.minute > to_m)
 
 
 async def _switch_motion_detection_status(
@@ -80,32 +77,26 @@ async def _switch_motion_detection_status(
 ) -> None:
     if motion_detection_resp.error:  # could not detect current status
         logging.warning(
-            'skipping motion detection status update for camera with id {id}: {error}'.format(
-                id=camera_id, error=motion_detection_resp.error
-            )
+            f'skipping motion detection status update for camera with id {camera_id}: {motion_detection_resp.error}'
         )
 
-        return None
+        return
 
     if motion_detection_resp.enabled and not must_be_enabled:
         logging.debug(
-            'must disable motion detection for camera with id {id} ({what} working schedule)'.format(
-                id=camera_id, what=working_schedule_type
-            )
+            f'must disable motion detection for camera with id {camera_id} ({working_schedule_type} working schedule)'
         )
 
         await motionctl.set_motion_detection(camera_id, False)
 
     elif not motion_detection_resp.enabled and must_be_enabled:
         logging.debug(
-            'must enable motion detection for camera with id {id} ({what} working schedule)'.format(
-                id=camera_id, what=working_schedule_type
-            )
+            f'must enable motion detection for camera with id {camera_id} ({working_schedule_type} working schedule)'
         )
 
         await motionctl.set_motion_detection(camera_id, True)
 
-    return None
+    return
 
 
 async def _check_ws() -> None:

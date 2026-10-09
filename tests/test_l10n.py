@@ -49,9 +49,10 @@ class L10nTest(unittest.TestCase):
         self.assertIsNone(settings.js_translations)
 
     def test_unreadable_translations_are_logged(self):
-        with patch('motioneye.meyectl.open', side_effect=OSError('gone'), create=True):
-            with self.assertLogs(level='ERROR'):
-                self.load('en')
+        with patch(
+            'motioneye.meyectl.open', side_effect=OSError('gone'), create=True
+        ), self.assertLogs(level='ERROR'):
+            self.load('en')
         self.assertIsNone(settings.js_translations)
 
     def test_page_embeds_translations(self):
@@ -77,7 +78,12 @@ class L10nTest(unittest.TestCase):
         main = self.render('en', has_motion=True, mask_width=32, current_user='admin')
         camera = {'stream_maxrate': 5, '@proto': 'mjpeg', '@url': 'http://cam/'}
         up = '../../../static/'
-        ctx = dict(frame=True, camera_id=1, camera_config=camera, static_path=up)
+        ctx = {
+            'frame': True,
+            'camera_id': 1,
+            'camera_config': camera,
+            'static_path': up,
+        }
         frame = self.render('en', **ctx)
         for html in (main, frame):
             for attrs in re.findall(r'<script\b([^>]*)>', html):

@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import datetime
 import logging
@@ -27,7 +28,7 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import formatdate, make_msgid
-from typing import Callable, Optional
+from typing import Callable
 
 from tornado.ioloop import IOLoop
 
@@ -64,12 +65,12 @@ def send_mail(server, port, account, password, tls, _from, to, subject, message,
 
         encode_base64(part)
         part.add_header(
-            'Content-Disposition', 'attachment; filename="%s"' % os.path.basename(name)
+            'Content-Disposition', f'attachment; filename="{os.path.basename(name)}"'
         )
         email.attach(part)
 
     if files:
-        logging.debug('attached %d pictures' % len(files))
+        logging.debug(f'attached {len(files)} pictures')
 
     logging.debug('sending email message')
     conn.sendmail(_from, to, email.as_string())
@@ -102,7 +103,7 @@ def make_message(
 
         timestamp = time.mktime(moment.timetuple())
 
-        files: Optional[list] = (
+        files: list | None = (
             media_files.result() if hasattr(media_files, 'result') else media_files
         )
         if files is None:
@@ -123,7 +124,7 @@ def make_message(
                 for m in files
             ]
 
-            logging.debug('selected %d pictures' % len(files))
+            logging.debug(f'selected {len(files)} pictures')
 
         format_dict = {
             'camera': camera_config['camera_name'],
@@ -151,7 +152,7 @@ def make_message(
     if not timespan:
         on_media_files([])
 
-        return None
+        return
 
     logging.debug('waiting for pictures to be taken')
     time.sleep(timespan)  # give motion some time to create motion pictures
@@ -168,7 +169,7 @@ def make_message(
         or snapshot_filename.startswith('%Y-%m-%d/')
     ):
         prefix = moment.strftime('%Y-%m-%d')
-        logging.debug('narrowing down still images path lookup to %s' % prefix)
+        logging.debug(f'narrowing down still images path lookup to {prefix}')
 
     # only pictures within +/- timespan are ever used (see on_media_files),
     # so let the listing skip the rest instead of formatting and piping a
@@ -187,7 +188,7 @@ def make_message(
 
     io_loop.start()
 
-    return None
+    return
 
 
 def parse_options(parser, args):
@@ -241,20 +242,20 @@ def main(parser, args):
     # email notifications are critical
     settings.LIST_MEDIA_TIMEOUT = settings.LIST_MEDIA_TIMEOUT_EMAIL
 
-    logging.debug('server = %s' % options.server)
-    logging.debug('port = %s' % options.port)
-    logging.debug('account = %s' % options.account)
+    logging.debug(f'server = {options.server}')
+    logging.debug(f'port = {options.port}')
+    logging.debug(f'account = {options.account}')
     logging.debug('password = ******')
-    logging.debug('server = %s' % options.server)
-    logging.debug('tls = %s' % str(options.tls).lower())
+    logging.debug(f'server = {options.server}')
+    logging.debug(f'tls = {str(options.tls).lower()}')
     logging.debug(f'from = {options.sender}')
-    logging.debug('to = %s' % options.to)
-    logging.debug('msg_id = %s' % options.msg_id)
-    logging.debug('motion_camera_id = %s' % options.motion_camera_id)
-    logging.debug('camera_id = %s' % camera_id)
-    logging.debug('moment = %s' % options.moment.strftime('%Y-%m-%d %H:%M:%S'))
-    logging.debug('smtp timeout = %d' % settings.SMTP_TIMEOUT)
-    logging.debug('timespan = %d' % options.timespan)
+    logging.debug(f'to = {options.to}')
+    logging.debug(f'msg_id = {options.msg_id}')
+    logging.debug(f'motion_camera_id = {options.motion_camera_id}')
+    logging.debug(f'camera_id = {camera_id}')
+    logging.debug(f'moment = {options.moment.strftime("%Y-%m-%d %H:%M:%S")}')
+    logging.debug(f'smtp timeout = {settings.SMTP_TIMEOUT}')
+    logging.debug(f'timespan = {options.timespan}')
 
     to = [t.strip() for t in re.split('[,;| ]', options.to)]
     to = [t for t in to if t]
@@ -276,8 +277,8 @@ def main(parser, args):
             )
             logging.info('email sent')
 
-        except Exception as e:
-            logging.error('failed to send mail: %s' % e, exc_info=True)
+        except Exception:
+            logging.exception('failed to send mail')
 
         logging.debug('bye!')
 

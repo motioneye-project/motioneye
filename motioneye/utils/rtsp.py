@@ -14,13 +14,13 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import datetime
 import functools
 import logging
 import re
 import socket
-from typing import List, Optional
 
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
@@ -33,14 +33,14 @@ from motioneye.utils.http import RtspUrl
 __all__ = ('test_rtsp_url',)
 
 
-def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
+def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
     url_obj = RtspUrl.from_dict(data)
     url = str(url_obj)
 
     called = [False]
     send_auth = [False]
-    timeout: List[Optional[object]] = [None]
-    stream: Optional[IOStream] = None
+    timeout: list[object | None] = [None]
+    stream: IOStream | None = None
 
     io_loop = IOLoop.current()
     future: Future = Future()
@@ -56,7 +56,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         if stream is not None:
             try:
                 stream.close()
-            except Exception:
+            except Exception:  # noqa: S110
                 pass  # already closed or closing failed, nothing we can do
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
@@ -75,10 +75,8 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         try:
             io_loop.remove_timeout(timeout[0])
             s = f.result()
-        except Exception as e:
-            logging.error(
-                f'[ON_CONNECT] Stream connection error occurred: {e}', exc_info=True
-            )
+        except Exception:
+            logging.exception('[ON_CONNECT] Stream connection error occurred')
             if _timeout:
                 return handle_error('timeout connecting to rtsp netcam')
             else:
@@ -104,8 +102,8 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
     def seek_rtsp(f: Future):
         try:
             f.result()
-        except Exception as e:
-            logging.error(f'[SEEK_RTSP] Error occurred: {e}', exc_info=True)
+        except Exception:
+            logging.exception('[SEEK_RTSP] Error occurred')
             if check_error():
                 return None
         else:
@@ -125,8 +123,8 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         try:
             io_loop.remove_timeout(timeout[0])
             data = f.result()
-        except Exception as e:
-            logging.error(f'[ON_RTSP] Error occurred: {e}', exc_info=True)
+        except Exception:
+            logging.exception('[ON_RTSP] Error occurred')
             handle_error('timeout waiting for rtsp netcam response')
         else:
             if not data:
@@ -188,8 +186,8 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         try:
             io_loop.remove_timeout(timeout[0])
             data = f.result()
-        except Exception as e:
-            logging.error(f'[ON_WWW_AUTH] {auth_timeout_log_msg}: {e}', exc_info=True)
+        except Exception:
+            logging.error(f'[ON_WWW_AUTH] {auth_timeout_log_msg}')
             handle_error(f'{auth_timeout_msg}')
         else:
             if data:
@@ -243,7 +241,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         try:
             stream.close()
 
-        except Exception:
+        except Exception:  # noqa: S110
             pass  # already closed or closing failed, nothing we can do
 
         future.set_result(GetCamerasResponse(None, error=e))

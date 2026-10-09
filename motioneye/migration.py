@@ -13,12 +13,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import logging
 import re
 from shlex import split
 from shutil import disk_usage
-from typing import Optional
 
 from motioneye import config, settings
 
@@ -93,7 +93,7 @@ def _move_notification_settings(camera_id: int, camera_config: dict) -> bool:
     return True
 
 
-def _old_sendmail(e: list) -> Optional[dict]:
+def _old_sendmail(e: list) -> dict | None:
     # moved from motion_camera_dict_to_ui()
     if len(e) < 11:
         return None
@@ -114,7 +114,7 @@ def _old_sendmail(e: list) -> Optional[dict]:
     }
 
 
-def _old_sendtelegram(e: list) -> Optional[dict]:
+def _old_sendtelegram(e: list) -> dict | None:
     # moved from motion_camera_dict_to_ui()
     if len(e) < 6:
         return None

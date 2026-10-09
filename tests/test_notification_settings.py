@@ -444,9 +444,10 @@ class SenderTest(_ConfigCase):
                 self.assertNotIn('-42', stderr.getvalue())  # nor the chat id
 
         parser = meyectl.make_arg_parser('sendtelegram')
-        with patch('sys.stderr', io.StringIO()) as stderr:
-            with self.assertRaises(SystemExit) as raised:
-                sendtelegram.main(parser, ['-c', _CONF, '1', 'FAKE-moment'])
+        with patch('sys.stderr', io.StringIO()) as stderr, self.assertRaises(
+            SystemExit
+        ) as raised:
+            sendtelegram.main(parser, ['-c', _CONF, '1', 'FAKE-moment'])
 
         self.assertEqual(2, raised.exception.code)
         self.assertIn('moment must be in ISO-8601 format', stderr.getvalue())
