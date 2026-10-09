@@ -14,10 +14,10 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import logging
 import re
-from typing import List
 
 from tornado.concurrent import Future
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest, HTTPResponse
@@ -30,8 +30,8 @@ __all__ = ('test_mjpeg_url',)
 
 
 def test_mjpeg_url(
-    data: dict, auth_modes: List[str], allow_jpeg: bool
-) -> 'Future[GetCamerasResponse]':
+    data: dict, auth_modes: list[str], allow_jpeg: bool
+) -> Future[GetCamerasResponse]:
     url_obj = MjpegUrl.from_dict(data)
     url = str(url_obj)
 
@@ -41,7 +41,7 @@ def test_mjpeg_url(
 
     future: Future = Future()
 
-    def do_request() -> 'Future[HTTPResponse]':
+    def do_request() -> Future[HTTPResponse]:
         if url_obj.username:
             auth = auth_modes[0]
 

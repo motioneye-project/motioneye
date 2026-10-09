@@ -14,6 +14,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import base64
 import hashlib
@@ -27,7 +28,7 @@ import urllib.parse
 import urllib.request
 from collections import namedtuple
 from dataclasses import dataclass
-from typing import Any, Awaitable, Callable, Dict, List, Optional, cast
+from typing import Any, Awaitable, Callable, Dict, List, Optional, cast  # noqa: F401
 
 from PIL import Image, ImageDraw
 from tornado.concurrent import Future
@@ -79,8 +80,8 @@ class GetCurrentPictureResponse:
 
 @dataclass
 class ListMediaResponse:
-    media_list: Optional[list] = None
-    error: Optional[str] = None
+    media_list: list | None = None
+    error: str | None = None
 
 
 @dataclass
@@ -101,7 +102,7 @@ def spawn_callback_timeout_wrapper(
 
 def pretty_size(size):
     if size < 1024:  # less than 1kB
-        size, unit = size, 'B'
+        size, unit = size, 'B'  # noqa: PLW0127
 
     elif size < 1024 * 1024:  # less than 1MB
         size, unit = size / 1024.0, 'kB'
@@ -180,7 +181,7 @@ def get_disk_usage(path):
         result = os.statvfs(path)
 
     except OSError as e:
-        logging.error(f'failed to execute statvfs: {str(e)}')
+        logging.error(f'failed to execute statvfs: {e!s}')
 
         return None
 
@@ -230,8 +231,8 @@ def is_simple_mjpeg_camera(config):
     return bool(config.get('@proto') == 'mjpeg')
 
 
-def parse_cookies(cookies_headers: List[str]) -> Dict[str, str]:
-    parsed: Dict[str, str] = {}
+def parse_cookies(cookies_headers: list[str]) -> dict[str, str]:
+    parsed: dict[str, str] = {}
 
     for cookie in cookies_headers:
         for name, value in parse_cookie(cookie).items():
@@ -299,7 +300,7 @@ def build_digest_header(method, url, username, password, state):
     else:
         nonce_count = 1
 
-    ncvalue = '%08x' % nonce_count
+    ncvalue = f'{nonce_count:08x}'
     s = str(nonce_count).encode('utf-8')
     s += nonce.encode('utf-8')
     s += time.ctime().encode('utf-8')
@@ -321,13 +322,7 @@ def build_digest_header(method, url, username, password, state):
 
     last_nonce = nonce
 
-    base = 'username="{}", realm="{}", nonce="{}", uri="{}", response="{}"'.format(
-        username,
-        realm,
-        nonce,
-        path,
-        respdig,
-    )
+    base = f'username="{username}", realm="{realm}", nonce="{nonce}", uri="{path}", response="{respdig}"'
     if opaque:
         base += f', opaque="{opaque}"'
     if algorithm:
@@ -368,8 +363,7 @@ def build_editable_mask_file(
     mask_lines = mask_lines[2:]
 
     logging.debug(
-        'building editable %s mask for camera with id %s (%sx%s)'
-        % (mask_class, camera_id, width, height)
+        f'building editable {mask_class} mask for camera with id {camera_id} ({width}x{height})'
     )
 
     # horizontal rectangles
@@ -442,8 +436,7 @@ def build_editable_mask_file(
     # resize the image if necessary
     if capture_width and capture_height and im.size != (capture_width, capture_height):
         logging.debug(
-            'editable mask needs resizing from %sx%s to %sx%s'
-            % (im.size[0], im.size[1], capture_width, capture_height)
+            f'editable mask needs resizing from {im.size[0]}x{im.size[1]} to {capture_width}x{capture_height}'
         )
 
         im = im.resize((capture_width, capture_height))
@@ -620,12 +613,12 @@ def remove_prefix(s: str, prefix: str) -> str:
 
 
 def validate_paths(
-    *paths: Optional[str],
-    camera_id: Optional[str] = None,
-    target_dir: Optional[str] = None,
+    *paths: str | None,
+    camera_id: str | None = None,
+    target_dir: str | None = None,
 ) -> None:
     # Obtain camera dir from optional named arguments
-    camera_dir: Optional[str] = None
+    camera_dir: str | None = None
     if target_dir is not None:
         camera_dir = os.path.realpath(target_dir) + os.sep
 
@@ -653,7 +646,7 @@ def validate_paths(
                     reason='Path traversal detected',
                 )
 
-            if camera_dir is not None:
+            if camera_dir is not None:  # noqa: SIM102
                 if not os.path.realpath(os.path.join(camera_dir, path)).startswith(
                     camera_dir
                 ):

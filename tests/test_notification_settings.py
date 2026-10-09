@@ -444,7 +444,7 @@ class SenderTest(_ConfigCase):
                 self.assertNotIn('-42', stderr.getvalue())  # nor the chat id
 
         parser = meyectl.make_arg_parser('sendtelegram')
-        with patch('sys.stderr', io.StringIO()) as stderr:
+        with patch('sys.stderr', io.StringIO()) as stderr:  # noqa: SIM117
             with self.assertRaises(SystemExit) as raised:
                 sendtelegram.main(parser, ['-c', _CONF, '1', 'FAKE-moment'])
 

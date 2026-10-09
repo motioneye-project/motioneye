@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 import inspect
 from dataclasses import dataclass
-from typing import Any, Union
+from typing import Any
 
-__all__ = ('RtmpUrl', 'RtspUrl', 'MjpegUrl')
+__all__ = ('MjpegUrl', 'RtmpUrl', 'RtspUrl')
 
 
 @dataclass
@@ -11,20 +13,20 @@ class StreamUrl:
     port: str
     host: str = '127.0.0.1'
     path: str = ''
-    username: Union[None, str] = None
-    password: Union[None, str] = None
+    username: None | str = None
+    password: None | str = None
 
     _tpl = '%(scheme)s://%(host)s%(port)s%(path)s'
 
     def __str__(self):
-        return self._tpl % dict(
-            scheme=self.scheme,
-            host=self.host,
-            port=(':' + str(self.port)) if self.port else '',
-            path=self.path,
-            username=self.username,
-            password=self.password,
-        )
+        return self._tpl % {
+            'scheme': self.scheme,
+            'host': self.host,
+            'port': (':' + str(self.port)) if self.port else '',
+            'path': self.path,
+            'username': self.username,
+            'password': self.password,
+        }
 
     @classmethod
     def _get_dict_field_val(cls, k: str, v: Any) -> Any:

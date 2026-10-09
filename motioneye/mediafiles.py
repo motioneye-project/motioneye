@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import datetime
 import fcntl
@@ -27,7 +28,7 @@ from hashlib import sha1
 from io import BytesIO
 from signal import SIGKILL, SIGTERM
 from time import time
-from typing import Any, Awaitable, List, Optional
+from typing import Any, Awaitable
 from zipfile import ZipFile
 
 from PIL import Image
@@ -105,13 +106,13 @@ _ffmpeg_binary_cache = None
 
 def _list_media_files(
     base_path: str,
-    exts: List[str],
-    sub_path: Optional[str] = None,
+    exts: list[str],
+    sub_path: str | None = None,
     with_stat: bool = True,
     *,
-    min_timestamp: Optional[float] = None,
-    max_timestamp: Optional[float] = None,
-) -> List[tuple]:
+    min_timestamp: float | None = None,
+    max_timestamp: float | None = None,
+) -> list[tuple]:
     # Determine scan path based on sub_path parameter
     if sub_path is not None:
         if sub_path == 'ungrouped':
@@ -179,7 +180,7 @@ def _remove_older_files(
     directory: str,
     moment: datetime.datetime,
     clean_cloud_info: dict,
-    exts: List[str],
+    exts: list[str],
 ):
     removed_folder_count = 0
     for full_path, st in _list_media_files(directory, exts, with_stat=True):
@@ -232,11 +233,11 @@ def _remove_older_files(
 def _do_list_media(
     pipe,
     target_dir: str,
-    exts: List[str],
-    sub_path: Optional[str] = None,
+    exts: list[str],
+    sub_path: str | None = None,
     with_stat: bool = True,
-    min_timestamp: Optional[float] = None,
-    max_timestamp: Optional[float] = None,
+    min_timestamp: float | None = None,
+    max_timestamp: float | None = None,
 ) -> None:
     from mimetypes import guess_type
 
@@ -488,7 +489,7 @@ def get_movie_duration_seconds(path: str) -> int:
         return 0
 
 
-def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
+def make_movie_preview(camera_config: dict, full_path: str) -> str | None:
     framerate = camera_config['framerate']
     pre_capture = camera_config['pre_capture']
     offs = pre_capture / framerate
@@ -581,7 +582,7 @@ def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
         try:
             os.remove(thumb_path)
 
-        except Exception:
+        except Exception:  # noqa: S110
             pass  # nothing we can do about it
 
         return None
@@ -592,11 +593,11 @@ def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
 def list_media(
     camera_config: dict,
     media_type: str,
-    prefix: Optional[str] = None,
+    prefix: str | None = None,
     with_stat: bool = True,
     *,
-    min_timestamp: Optional[float] = None,
-    max_timestamp: Optional[float] = None,
+    min_timestamp: float | None = None,
+    max_timestamp: float | None = None,
 ) -> Awaitable:
     target_dir: str = camera_config['target_dir']
     utils.validate_paths(prefix, target_dir=target_dir)
@@ -651,7 +652,7 @@ def list_media(
                 try:
                     os.kill(process.pid, SIGKILL)
 
-                except Exception:
+                except Exception:  # noqa: S110
                     pass  # nevermind
 
                 fut.set_result(None)
@@ -683,7 +684,7 @@ def get_media_content(camera_config: dict, path: str):
             return f.read()
 
     except Exception as e:
-        logging.error(f'failed to read file {full_path}: {str(e)}')
+        logging.error(f'failed to read file {full_path}: {e!s}')
 
         return None
 
@@ -726,7 +727,7 @@ def get_zipped_content(camera_config: dict, media_type: str, group: str) -> Awai
                 try:
                     os.kill(process.pid, SIGTERM)
 
-                except Exception:
+                except Exception:  # noqa: S110
                     pass  # nevermind
 
                 fut.set_result(None)
@@ -765,7 +766,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
     _timelapse_process = multiprocessing.Process(
         target=_do_list_pictures, args=(child_pipe, target_dir, group)
     )
-    setattr(_timelapse_process, 'progress', 0)
+    _timelapse_process.progress = 0
     _timelapse_process.start()
     _timelapse_data = None
 
@@ -805,7 +806,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                 try:
                     os.kill(_timelapse_process.pid, SIGTERM)
 
-                except Exception:
+                except Exception:  # noqa: S110
                     pass  # nevermind
 
                 _timelapse_process.progress = -1
@@ -830,7 +831,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
         for m in media_list:
             offs = m['timestamp'] - start
             pos = float(offs) / interval - 0.5
-            idx = int(round(pos))
+            idx = round(pos)
             max_idx = idx
             m['delta'] = abs(pos - idx)
             slices.setdefault(idx, []).append(m)
@@ -967,7 +968,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                 try:
                     os.remove(tmp_filename)
 
-                except Exception:
+                except Exception:  # noqa: S110
                     pass  # nothing we can do about it
 
             else:
@@ -992,7 +993,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                     try:
                         os.remove(tmp_filename)
 
-                    except Exception:
+                    except Exception:  # noqa: S110
                         pass  # nothing we can do about it
 
     poll_media_list_process()
@@ -1018,15 +1019,15 @@ def get_media_preview(
     camera_config: dict,
     path: str,
     media_type: str,
-    width: Optional[str] = None,
-    height: Optional[str] = None,
-) -> Optional[bytes]:
+    width: str | None = None,
+    height: str | None = None,
+) -> bytes | None:
     target_dir: str = camera_config['target_dir']
     utils.validate_paths(path, target_dir=target_dir)
     full_path: str = os.path.join(target_dir, path)
 
     if media_type == 'movie':
-        if not os.path.exists(full_path + '.thumb'):
+        if not os.path.exists(full_path + '.thumb'):  # noqa: SIM102
             # at this point we expect the thumb to
             # have already been created by the thumbnailer task;
             # if, for some reason that's not the case,
@@ -1084,7 +1085,7 @@ def del_media_content(camera_config: dict, path: str):
         try:
             os.remove(full_path + '.thumb')
 
-        except Exception:
+        except Exception:  # noqa: S110
             pass  # thumb file may not exist
 
         # remove the parent directories if empty or contains only thumb files
@@ -1101,7 +1102,7 @@ def del_media_content(camera_config: dict, path: str):
             os.removedirs(dir_path)
 
     except Exception as e:
-        logging.error(f'failed to remove file {full_path}: {str(e)}')
+        logging.error(f'failed to remove file {full_path}: {e!s}')
 
         raise
 
@@ -1126,7 +1127,7 @@ def del_media_group(camera_config: dict, group: str, media_type: str):
             os.remove(path)
 
         except Exception as e:
-            logging.error(f'failed to remove file {full_path}: {str(e)}')
+            logging.error(f'failed to remove file {full_path}: {e!s}')
             raise
 
     # remove the group directory if empty or contains only thumb files

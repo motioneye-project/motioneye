@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import json
 import logging
@@ -34,7 +35,7 @@ _DEFAULT_PREFS: PrefsDict = {
     'camera_order': [],
 }
 
-_prefs: Dict[str, PrefsDict] = {}
+_prefs: dict[str, PrefsDict] = {}
 
 
 def _load() -> None:
@@ -46,7 +47,7 @@ def _load() -> None:
         logging.debug(f'loading preferences from "{file_path}"...')
 
         try:
-            f = open(file_path)
+            f = open(file_path)  # noqa: SIM115
 
         except Exception as e:
             logging.error(f'could not open preferences file "{file_path}": {e}')
@@ -74,7 +75,7 @@ def _save() -> None:
     logging.debug(f'saving preferences to "{file_path}"...')
 
     try:
-        f = open(file_path, 'w')
+        f = open(file_path, 'w')  # noqa: SIM115
 
     except Exception as e:
         logging.error(f'could not open preferences file "{file_path}": {e}')
@@ -91,9 +92,7 @@ def _save() -> None:
         f.close()
 
 
-def get(
-    username: str, key: Union[str, None] = None
-) -> Union[PrefsDict, PrefsValue, None]:
+def get(username: str, key: str | None = None) -> PrefsDict | PrefsValue | None:
     if not _prefs:
         _load()
 
@@ -104,9 +103,7 @@ def get(
         return {**_DEFAULT_PREFS, **_prefs.get(username, {})}
 
 
-def set(
-    username: str, value: Union[PrefsDict, PrefsValue], key: Union[str, None] = None
-) -> None:
+def set(username: str, value: PrefsDict | PrefsValue, key: str | None = None) -> None:
     if not _prefs:
         _load()
 

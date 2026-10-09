@@ -94,7 +94,7 @@ class LoginHandlerTest(HandlerTestCase):
             '@normal_username': '',
             '@normal_password': '',
         }
-        with patch.object(config, '_main_config_cache', main_config):
+        with patch.object(config, '_main_config_cache', main_config):  # noqa: SIM117
             with patch.object(config, 'set_admin_password') as mock_set_admin:
                 response = self.fetch(
                     '/login',
@@ -115,7 +115,7 @@ class LoginHandlerTest(HandlerTestCase):
             '@normal_username': normal_user,
             '@normal_password': normal_plain,
         }
-        with patch.object(config, '_main_config_cache', main_config):
+        with patch.object(config, '_main_config_cache', main_config):  # noqa: SIM117
             with patch.object(config, 'set_normal_password') as mock_set_normal:
                 response = self.fetch(
                     '/login',
@@ -154,7 +154,7 @@ class LoginHandlerTest(HandlerTestCase):
             '@normal_username': normal_user,
             '@normal_password': ph.hash(normal_pass),
         }
-        with patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 5):
+        with patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 5):  # noqa: SIM117
             with patch.object(config, '_main_config_cache', main_config):
                 response = self.fetch(
                     '/login',
@@ -175,7 +175,7 @@ class LoginHandlerTest(HandlerTestCase):
             '@normal_password': '',
         }
         # even a large normal-user lifetime must not affect the admin cookie
-        with patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 999):
+        with patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 999):  # noqa: SIM117
             with patch.object(config, '_main_config_cache', main_config):
                 response = self.fetch(
                     '/login',
@@ -195,7 +195,7 @@ class LoginHandlerTest(HandlerTestCase):
             '@normal_username': normal_user,
             '@normal_password': ph.hash(normal_pass),
         }
-        with patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 0):
+        with patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 0):  # noqa: SIM117
             with patch.object(config, '_main_config_cache', main_config):
                 response = self.fetch(
                     '/login',

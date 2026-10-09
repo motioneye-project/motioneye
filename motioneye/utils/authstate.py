@@ -1,9 +1,10 @@
+from __future__ import annotations
+
 import hmac
 from dataclasses import dataclass
 from hashlib import sha256
 from secrets import token_hex
 from time import time
-from typing import Optional
 
 # Replay cache: stores (nonce, timestamp) pairs to prevent replay attacks
 # Format: nonce -> timestamp
@@ -52,7 +53,7 @@ class PasswordHashState:
     normal: UserHashState
 
 
-_password_hash_state: Optional[PasswordHashState] = None
+_password_hash_state: PasswordHashState | None = None
 
 
 def set_password_hash_state(state: PasswordHashState) -> None:
@@ -66,7 +67,7 @@ def get_password_hash_state() -> PasswordHashState:
     return _password_hash_state
 
 
-def _build_user_hash_state(hash: Optional[str]) -> UserHashState:
+def _build_user_hash_state(hash: str | None) -> UserHashState:
     hash_type: str = 'legacy'
     if not hash:
         hash_type = 'missing'
@@ -88,10 +89,9 @@ def build_password_hash_state(main_config: dict) -> PasswordHashState:
 
 
 def validate_password_hash_state(state: PasswordHashState) -> bool:
-    if state.admin.hash_type == 'missing' or state.normal.hash_type == 'missing':
-        return False
-
-    return True
+    return not (
+        state.admin.hash_type == 'missing' or state.normal.hash_type == 'missing'
+    )
 
 
 def mark_user_migrated(user_type: str) -> None:

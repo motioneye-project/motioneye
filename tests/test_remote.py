@@ -31,7 +31,7 @@ class TestRemotePathTraversal(unittest.IsolatedAsyncioTestCase):
     any network I/O, so awaiting the coroutine raises immediately.
     """
 
-    _LOCAL_CONFIG = {
+    _LOCAL_CONFIG = {  # noqa: RUF012
         '@proto': 'mjpeg',
         '@host': '127.0.0.1',
         '@port': 8765,
@@ -42,19 +42,19 @@ class TestRemotePathTraversal(unittest.IsolatedAsyncioTestCase):
     }
 
     # Traversal inputs to test for filenames/paths and groups/prefixes.
-    _FILENAME_TRAVERSALS = [
+    _FILENAME_TRAVERSALS = [  # noqa: RUF012
         '../etc/passwd',
         '../../etc/passwd',
         'subdir/../../../etc/passwd',
         '../secret.jpg',
     ]
-    _GROUP_TRAVERSALS = [
+    _GROUP_TRAVERSALS = [  # noqa: RUF012
         '..',
         '../group',
         'subdir/..',
         'subdir/../../other',
     ]
-    _PREFIX_TRAVERSALS = [
+    _PREFIX_TRAVERSALS = [  # noqa: RUF012
         '..',
         '../prefix',
         'prefix/../..',
@@ -151,7 +151,7 @@ class TestRemotePathTraversal(unittest.IsolatedAsyncioTestCase):
 class TestRemoteGetConfig(unittest.IsolatedAsyncioTestCase):
     """Tests for get_config() answers."""
 
-    _LOCAL_CONFIG = {
+    _LOCAL_CONFIG = {  # noqa: RUF012
         '@proto': 'motioneye',
         '@host': 'hub.example',
         '@port': 8765,

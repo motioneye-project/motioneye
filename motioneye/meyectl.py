@@ -103,7 +103,7 @@ def find_command(command):
         cmd = __file__
         cmd = sys.executable + ' ' + cmd
         cmd = cmd.replace('-b', '')  # remove server-specific options
-        cmd += ' %s ' % command
+        cmd += f' {command} '
         cmd += ' '.join([quote(arg) for arg in sys.argv[2:] if arg not in ['-b']])
 
     return cmd
@@ -142,7 +142,7 @@ def load_settings():
 
         parts = line.split(' ', 1)
         if len(parts) != 2:
-            raise Exception(f'invalid configuration line: {line}')
+            raise Exception(f'invalid configuration line: {line}')  # noqa: TRY002
 
         name, value = parts
         upper_name = name.upper().replace('-', '_')
@@ -258,8 +258,8 @@ def configure_logging(cmd):
         sys.stderr.write(f'failed to configure logging: {e}\n')
         sys.exit(-1)
 
-    logging.getLogger('tornado').setLevel(logging.WARN)
-    logging.getLogger('oauth2client').setLevel(logging.WARN)
+    logging.getLogger('tornado').setLevel(logging.WARNING)
+    logging.getLogger('oauth2client').setLevel(logging.WARNING)
 
 
 def configure_tornado():

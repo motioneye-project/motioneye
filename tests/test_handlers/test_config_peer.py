@@ -78,7 +78,7 @@ class PeerMainConfigTest(HandlerTestCase):
                 '1': {'enabled': True},
             }
         )
-        with patch.object(config, 'set_main') as set_main:
+        with patch.object(config, 'set_main') as set_main:  # noqa: SIM117
             with patch.object(config, 'set_camera') as set_camera:
                 response = self._peer_fetch('POST', '/config/0/set/', body)
         self.assertEqual(403, response.code)

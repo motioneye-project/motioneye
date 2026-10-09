@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import datetime
 import logging
@@ -21,7 +22,7 @@ import re
 import signal
 import socket
 import time
-from typing import Callable, Optional
+from typing import Callable
 
 import pycurl
 from tornado.ioloop import IOLoop
@@ -31,8 +32,8 @@ from motioneye.controls import tzctl
 
 
 def send_message(api_key, chat_id, message, files):
-    telegram_message_url = 'https://api.telegram.org/bot%s/sendMessage' % api_key
-    telegram_photo_url = 'https://api.telegram.org/bot%s/sendPhoto' % api_key
+    telegram_message_url = f'https://api.telegram.org/bot{api_key}/sendMessage'
+    telegram_photo_url = f'https://api.telegram.org/bot{api_key}/sendPhoto'
     c = pycurl.Curl()
     c.setopt(c.POST, 1)
     c.setopt(c.URL, telegram_message_url)
@@ -74,7 +75,7 @@ def make_message(
         io_loop.stop()
 
         timestamp = time.mktime(moment.timetuple())
-        files: Optional[list] = (
+        files: list | None = (
             media_files.result() if hasattr(media_files, 'result') else media_files
         )
         if files is None:
@@ -92,7 +93,7 @@ def make_message(
                 os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path']))
                 for m in files
             ]
-            logging.debug('selected %d pictures' % len(files))
+            logging.debug('selected %d pictures' % len(files))  # noqa: UP031
 
         format_dict = {
             'camera': camera_config['camera_name'],
@@ -114,7 +115,7 @@ def make_message(
     if not timespan:
         on_media_files([])
 
-        return None
+        return
 
     logging.debug(f'waiting {timespan}s for pictures to be taken')
     time.sleep(timespan)  # give motion some time to create motion pictures
@@ -131,7 +132,7 @@ def make_message(
         or snapshot_filename.startswith('%Y-%m-%d/')
     ):
         prefix = moment.strftime('%Y-%m-%d')
-        logging.debug('narrowing down still images path lookup to %s' % prefix)
+        logging.debug(f'narrowing down still images path lookup to {prefix}')
 
     # only pictures within +/- timespan are used, see on_media_files()
     event_timestamp: float = time.mktime(moment.timetuple())
@@ -147,7 +148,7 @@ def make_message(
     fut.add_done_callback(on_media_files)
     io_loop.start()
 
-    return None
+    return
 
 
 def parse_options(parser, args):
@@ -208,7 +209,7 @@ def main(parser, args):
             logging.info('telegram sent')
 
         except Exception as e:
-            logging.error('failed to send telegram: %s' % e, exc_info=True)
+            logging.error(f'failed to send telegram: {e}', exc_info=True)  # noqa: G201
 
         logging.debug('bye!')
 

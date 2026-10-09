@@ -94,7 +94,7 @@ def start(deferred=False):
 
     binary, version = find_motion()
     if not binary:
-        raise Exception('motion executable could not be found')
+        raise Exception('motion executable could not be found')  # noqa: TRY002
 
     logging.debug(f'starting motion executable "{binary}" version "{version}"')
 
@@ -106,7 +106,7 @@ def start(deferred=False):
     if settings.LOG_LEVEL <= logging.DEBUG:
         args.append('9')
 
-    elif settings.LOG_LEVEL <= logging.WARN:
+    elif settings.LOG_LEVEL <= logging.WARNING:
         args.append('5')
 
     elif settings.LOG_LEVEL <= logging.ERROR:
@@ -135,7 +135,9 @@ def start(deferred=False):
         sleep(0.1)
         exit_code = process.poll()
         if exit_code is not None and exit_code != 0:
-            raise Exception(f'motion failed to start with exit code "{exit_code}"')
+            raise Exception(  # noqa: TRY002
+                f'motion failed to start with exit code "{exit_code}"'
+            )  # noqa: RUF100, TRY002
 
     pid = process.pid
 
@@ -193,7 +195,9 @@ def stop(invalidate=False):
                 PowerControl.reboot()
 
             else:
-                raise Exception('could not terminate the motion process')
+                raise Exception(  # noqa: TRY002
+                    'could not terminate the motion process'
+                )  # noqa: RUF100, TRY002
 
         except OSError as e:
             if e.errno not in (ESRCH, ECHILD):
@@ -256,7 +260,7 @@ async def set_motion_detection(camera_id, enabled):
     if motion_camera_id is None:
         logging.error(f'could not find motion camera id for camera with id {camera_id}')
 
-        return None
+        return
 
     if not enabled:
         _motion_detected[camera_id] = False
@@ -287,7 +291,7 @@ async def set_motion_detection(camera_id, enabled):
             f"successfully {['disabled', 'enabled'][enabled]} motion detection for camera with id {camera_id}"
         )
 
-    return None
+    return
 
 
 async def take_snapshot(camera_id):
@@ -295,7 +299,7 @@ async def take_snapshot(camera_id):
     if motion_camera_id is None:
         logging.error(f'could not find motion camera id for camera with id {camera_id}')
 
-        return None
+        return
 
     logging.debug(f'taking snapshot for camera with id {camera_id}')
 
@@ -315,7 +319,7 @@ async def take_snapshot(camera_id):
     else:
         logging.debug(f'successfully took snapshot for camera with id {camera_id}')
 
-    return None
+    return
 
 
 def is_motion_detected(camera_id):
@@ -383,7 +387,7 @@ def is_motion_post43():
 
 
 def has_h264_omx_support():
-    binary, version, codecs = mediafiles.find_ffmpeg()
+    binary, _version, codecs = mediafiles.find_ffmpeg()
     if not binary:
         return False
 
@@ -391,7 +395,7 @@ def has_h264_omx_support():
 
 
 def has_h264_v4l2m2m_support():
-    binary, version, codecs = mediafiles.find_ffmpeg()
+    binary, _version, codecs = mediafiles.find_ffmpeg()
     if not binary:
         return False
 
@@ -399,7 +403,7 @@ def has_h264_v4l2m2m_support():
 
 
 def has_h264_nvenc_support():
-    binary, version, codecs = mediafiles.find_ffmpeg()
+    binary, _version, codecs = mediafiles.find_ffmpeg()
     if not binary:
         return False
 
@@ -407,7 +411,7 @@ def has_h264_nvenc_support():
 
 
 def has_h264_nvmpi_support():
-    binary, version, codecs = mediafiles.find_ffmpeg()
+    binary, _version, codecs = mediafiles.find_ffmpeg()
     if not binary:
         return False
 
@@ -415,7 +419,7 @@ def has_h264_nvmpi_support():
 
 
 def has_hevc_nvmpi_support():
-    binary, version, codecs = mediafiles.find_ffmpeg()
+    binary, _version, codecs = mediafiles.find_ffmpeg()
     if not binary:
         return False
 
@@ -423,7 +427,7 @@ def has_hevc_nvmpi_support():
 
 
 def has_hevc_nvenc_support():
-    binary, version, codecs = mediafiles.find_ffmpeg()
+    binary, _version, codecs = mediafiles.find_ffmpeg()
     if not binary:
         return False
 
@@ -431,7 +435,7 @@ def has_hevc_nvenc_support():
 
 
 def has_h264_qsv_support():
-    binary, version, codecs = mediafiles.find_ffmpeg()
+    binary, _version, codecs = mediafiles.find_ffmpeg()
     if not binary:
         return False
 
@@ -439,7 +443,7 @@ def has_h264_qsv_support():
 
 
 def has_hevc_qsv_support():
-    binary, version, codecs = mediafiles.find_ffmpeg()
+    binary, _version, codecs = mediafiles.find_ffmpeg()
     if not binary:
         return False
 
@@ -452,10 +456,7 @@ def resolution_is_valid(width, height):
     if width % 8:
         return False
 
-    if height % 8:
-        return False
-
-    return True
+    return not height % 8
 
 
 async def _disable_initial_motion_detection():

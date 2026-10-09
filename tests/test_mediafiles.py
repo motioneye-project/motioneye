@@ -302,13 +302,13 @@ class TestMediaFilesPathValidation(unittest.TestCase):
         rmtree(cls._outside_dir, ignore_errors=True)
 
     # Traversal inputs: each contains '..' as a path component.
-    _FILENAME_TRAVERSALS = [
+    _FILENAME_TRAVERSALS = [  # noqa: RUF012
         '../etc/passwd',
         '../../etc/passwd',
         'subdir/../../../etc/passwd',
         '../secret.jpg',
     ]
-    _SUBDIR_TRAVERSALS = [
+    _SUBDIR_TRAVERSALS = [  # noqa: RUF012
         '..',
         '../group',
         'subdir/..',
@@ -316,12 +316,12 @@ class TestMediaFilesPathValidation(unittest.TestCase):
     ]
 
     # Absolute path inputs: each starts with '/'.
-    _FILENAME_ABSOLUTES = ['/etc/passwd', '/mnt/secret.jpg']
-    _SUBDIR_ABSOLUTES = ['/etc', '/root/.ssh', '/var/log']
+    _FILENAME_ABSOLUTES = ['/etc/passwd', '/mnt/secret.jpg']  # noqa: RUF012
+    _SUBDIR_ABSOLUTES = ['/etc', '/root/.ssh', '/var/log']  # noqa: RUF012
 
     # Camera dir escape inputs: use the 'escape' symlink.
-    _FILENAME_ESCAPES = ['escape/secret.jpg', 'escape/subdir/file.mp4']
-    _SUBDIR_ESCAPES = ['escape', 'escape/subdir']
+    _FILENAME_ESCAPES = ['escape/secret.jpg', 'escape/subdir/file.mp4']  # noqa: RUF012
+    _SUBDIR_ESCAPES = ['escape', 'escape/subdir']  # noqa: RUF012
 
     def _assert_raises_traversal(self, fn, *args, **kwargs):
         with self.assertRaises(Exception) as ctx:

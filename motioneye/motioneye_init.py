@@ -27,7 +27,7 @@ def main():
     for arg in sys.argv[1:]:
         cmd += f" '{arg}'"
 
-    subprocess.run(cmd, shell=True)
+    subprocess.run(cmd, shell=True)  # noqa: PLW1510
 
 
 if __name__ == '__main__':

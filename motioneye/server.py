@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import atexit
 import datetime
@@ -24,7 +25,7 @@ import signal
 import sys
 import time
 from secrets import token_bytes
-from typing import Sequence, Tuple
+from typing import Sequence
 
 from tornado.ioloop import IOLoop
 from tornado.web import Application
@@ -183,7 +184,7 @@ def _log_request(handler):
         )
 
 
-handler_mapping: Sequence[Tuple] = [
+handler_mapping: Sequence[tuple] = [
     (r'^/$', MainHandler),
     (r'^/manifest.json$', ManifestHandler),
     (r'^/config/main/(?P<op>set|get)/?$', ConfigHandler),
@@ -270,10 +271,9 @@ def test_requirements():
         )
         sys.exit(-1)
 
-    if os.geteuid() != 0:
-        if settings.SMB_SHARES:
-            logging.fatal(_('smb-akcioj postulas radikajn privilegiojn'))
-            sys.exit(-1)
+    if os.geteuid() != 0 and settings.SMB_SHARES:
+        logging.fatal(_('smb-akcioj postulas radikajn privilegiojn'))
+        sys.exit(-1)
 
     try:
         import tornado  # noqa: F401
@@ -343,7 +343,7 @@ def make_media_folders():
     camera_ids = config.get_camera_ids()
     for camera_id in camera_ids:
         camera_config = config.get_camera(camera_id)
-        if 'target_dir' in camera_config:
+        if 'target_dir' in camera_config:  # noqa: SIM102
             if not os.path.exists(camera_config['target_dir']):
                 try:
                     os.makedirs(camera_config['target_dir'])
@@ -373,7 +373,9 @@ def start_motion():
                 motionctl.start()
 
             except Exception as e:
-                logging.error(f'failed to start motion: {str(e)}', exc_info=True)
+                logging.error(  # noqa: G201
+                    f'failed to start motion: {e!s}', exc_info=True
+                )  # noqa: G201, RUF100
 
         io_loop.add_timeout(
             datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker
@@ -383,7 +385,7 @@ def start_motion():
         motionctl.start()
 
     except Exception as e:
-        logging.error(str(e), exc_info=True)
+        logging.error(str(e), exc_info=True)  # noqa: G201
 
     io_loop.add_timeout(
         datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker
@@ -436,7 +438,7 @@ def run():
     migration.migrate_cameras()  # before motion reads the camera configs
 
     if settings.SMB_SHARES:
-        stop, start = smbctl.update_mounts()  # @UnusedVariable
+        _stop, start = smbctl.update_mounts()  # @UnusedVariable
         if start:
             start_motion()
 

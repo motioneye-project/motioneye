@@ -14,12 +14,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import builtins
 import datetime
-from typing import Union
 
-__all__ = ('pretty_date_time', 'pretty_date', 'pretty_duration', 'pretty_time')
+__all__ = ('pretty_date', 'pretty_date_time', 'pretty_duration', 'pretty_time')
 
 if not hasattr(builtins, '_') and '_' not in globals():
     import gettext
@@ -53,7 +53,7 @@ def pretty_date_time(date_time, tzinfo=None, short=False):
         )
 
     if tzinfo:
-        offset = tzinfo.utcoffset(datetime.datetime.utcnow()).seconds
+        offset = tzinfo.utcoffset(datetime.datetime.utcnow()).seconds  # noqa: DTZ003
         tz = 'GMT'
         if offset >= 0:
             tz += '+'
@@ -62,14 +62,16 @@ def pretty_date_time(date_time, tzinfo=None, short=False):
             tz += '-'
             offset = -offset
 
-        tz += '%.2d' % (offset // 3600) + ':%.2d' % ((offset % 3600) // 60)
+        tz += '%.2d' % (offset // 3600) + ':%.2d' % (  # noqa: UP031
+            (offset % 3600) // 60
+        )  # noqa: RUF100, UP031
 
         text += ' (' + tz + ')'
 
     return text
 
 
-def pretty_date(d: Union[datetime.date, int]) -> str:
+def pretty_date(d: datetime.date | int) -> str:
     if d is None:
         return '(' + _('neniam') + ')'
 
@@ -81,7 +83,7 @@ def pretty_date(d: Union[datetime.date, int]) -> str:
     )
 
 
-def pretty_time(t: Union[datetime.time, datetime.timedelta]) -> str:
+def pretty_time(t: datetime.time | datetime.timedelta) -> str:
     if t is None:
         return ''
 

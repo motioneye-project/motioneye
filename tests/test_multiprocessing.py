@@ -84,7 +84,7 @@ class TestMultiprocessing(unittest.TestCase):
                 p for p in (package_root, env.get('PYTHONPATH')) if p
             )
 
-            result = subprocess.run(
+            result = subprocess.run(  # noqa: PLW1510
                 [sys.executable, script, conf_path, report_path],
                 capture_output=True,
                 text=True,
