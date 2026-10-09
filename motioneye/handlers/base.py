@@ -26,7 +26,7 @@ from motioneye import VERSION, config, template
 from motioneye.settings import NORMAL_SESSION_EXPIRY_HOURS
 from motioneye.utils.authstate import verify_hmac_signature
 
-__all__ = ('BaseHandler', 'NotFoundHandler', 'ManifestHandler')
+__all__ = ('BaseHandler', 'ManifestHandler', 'NotFoundHandler')
 
 # Session expiry: 24 hours
 _SESSION_EXPIRY_SECONDS: int = 86400
@@ -70,8 +70,7 @@ def validate_session(session_id):
 
 def invalidate_session(session_id):
     """Invalidate a specific session."""
-    if session_id in _session_store:
-        del _session_store[session_id]
+    _session_store.pop(session_id, None)
 
 
 def invalidate_user_sessions(user_type):
@@ -214,7 +213,7 @@ class BaseHandler(RequestHandler):
                 )
 
             else:
-                logging.error(str(exception), exc_info=True)
+                logging.exception(str(exception))
                 self.set_status(500)
                 self.finish_json({'error': 'internal server error'})
 

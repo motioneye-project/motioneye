@@ -15,9 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations
+
 import logging
+from asyncio import get_running_loop
 from os.path import join
-from typing import Optional
+from pathlib import Path
 
 from tornado.web import HTTPError
 
@@ -28,7 +31,7 @@ __all__ = ('MovieHandler',)
 
 
 class MovieHandler(BaseHandler):
-    async def get(self, camera_id: str, op, filename: Optional[str] = None):
+    async def get(self, camera_id: str, op, filename: str | None = None):
         camera_id = int(camera_id)  # type: ignore[assignment]
         if camera_id not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
@@ -68,8 +71,8 @@ class MovieHandler(BaseHandler):
         self,
         camera_id: str,
         op,
-        filename: Optional[str] = None,
-        group: Optional[str] = None,
+        filename: str | None = None,
+        group: str | None = None,
     ):
         camera_id = int(camera_id)  # type: ignore[assignment]
         if camera_id not in config.get_camera_ids():
@@ -143,9 +146,7 @@ class MovieHandler(BaseHandler):
             if resp.error:
                 return self.finish_json(
                     {
-                        'error': 'Failed to get movie list for {url}: {msg}.'.format(
-                            url=remote.pretty_camera_url(camera_config), msg=resp.error
-                        )
+                        'error': f'failed to get movie list for {remote.pretty_camera_url(camera_config)}: {resp.error}'
                     }
                 )
 
@@ -169,16 +170,6 @@ class MovieHandler(BaseHandler):
                 height=self.get_argument('height', None),
             )
 
-            if content:
-                self.set_header('Content-Type', 'image/jpeg')
-
-            else:
-                self.set_header('Content-Type', 'image/svg+xml')
-                with open(join(settings.STATIC_PATH, 'img', 'no-preview.svg')) as f:
-                    content = f.read()
-
-            return self.finish(content)
-
         elif utils.is_remote_camera(camera_config):
             resp = await remote.get_media_preview(
                 camera_config,
@@ -187,29 +178,27 @@ class MovieHandler(BaseHandler):
                 width=self.get_argument('width', None),
                 height=self.get_argument('height', None),
             )
-
             content = resp.result
-            if content:
-                self.set_header('Content-Type', 'image/jpeg')
-
-            else:
-                self.set_header('Content-Type', 'image/svg+xml')
-                with open(join(settings.STATIC_PATH, 'img', 'no-preview.svg')) as f:
-                    content = f.read()
-
-            return self.finish(content)
 
         else:  # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')
 
+        if content:
+            self.set_header('Content-Type', 'image/jpeg')
+
+        else:
+            self.set_header('Content-Type', 'image/svg+xml')
+            content = await get_running_loop().run_in_executor(
+                None,
+                Path(join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read_bytes,
+            )
+
+        return self.finish(content)
+
     @BaseHandler.auth(admin=True)
     @BaseHandler.peer_allowed()
     async def delete(self, camera_id, filename):
-        logging.debug(
-            'deleting movie {filename} of camera {id}'.format(
-                filename=filename, id=camera_id
-            )
-        )
+        logging.debug(f'deleting movie {filename} of camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
@@ -227,9 +216,7 @@ class MovieHandler(BaseHandler):
             if resp.error:
                 return self.finish_json(
                     {
-                        'error': 'Failed to delete movie from {url}: {msg}.'.format(
-                            url=remote.pretty_camera_url(camera_config), msg=resp.error
-                        )
+                        'error': f'failed to delete movie from {remote.pretty_camera_url(camera_config)}: {resp.error}'
                     }
                 )
 
@@ -242,9 +229,7 @@ class MovieHandler(BaseHandler):
     @BaseHandler.peer_allowed()
     async def delete_all(self, camera_id, group):
         logging.debug(
-            'deleting movie group "{group}" of camera {id}'.format(
-                group=group or 'ungrouped', id=camera_id
-            )
+            f'deleting movie group "{group or "ungrouped"}" of camera {camera_id}'
         )
 
         camera_config = config.get_camera(camera_id)
@@ -263,9 +248,7 @@ class MovieHandler(BaseHandler):
             if resp.error:
                 return self.finish_json(
                     {
-                        'error': 'Failed to delete movie group at {url}: {msg}.'.format(
-                            url=remote.pretty_camera_url(camera_config), msg=resp.error
-                        )
+                        'error': f'failed to delete movie group at {remote.pretty_camera_url(camera_config)}: {resp.error}'
                     }
                 )
 

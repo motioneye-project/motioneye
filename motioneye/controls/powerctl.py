@@ -14,11 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations
+
 import logging
 import os
 import subprocess
 from collections import OrderedDict
-from typing import Dict
+from typing import ClassVar
 
 from motioneye import utils
 
@@ -26,7 +28,7 @@ __all__ = ('PowerControl',)
 
 
 class PowerControl:
-    _shut_down_cmd_sequence = OrderedDict(
+    _shut_down_cmd_sequence: ClassVar[OrderedDict] = OrderedDict(
         [
             ('poweroff', ''),
             ('shutdown', ' -h now'),
@@ -35,7 +37,7 @@ class PowerControl:
         ]
     )
 
-    _reboot_cmd_sequence = OrderedDict(
+    _reboot_cmd_sequence: ClassVar[OrderedDict] = OrderedDict(
         [
             ('reboot', ''),
             ('shutdown', ' -r now'),
@@ -51,11 +53,11 @@ class PowerControl:
     @classmethod
     def _exec_prog(cls, prog: str, args: str = '') -> bool:
         p = cls._find_prog(prog)
-        logging.info('executing "%s"' % p)
+        logging.info(f'executing "{p}"')
         return os.system(p + args) == 0
 
     @classmethod
-    def _run_procedure(cls, prog_sequence: Dict[str, str], log_msg: str) -> bool:
+    def _run_procedure(cls, prog_sequence: dict[str, str], log_msg: str) -> bool:
         logging.info(log_msg)
 
         for prog, args in prog_sequence.items():

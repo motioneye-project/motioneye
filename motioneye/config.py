@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations
+
 import logging
 import os.path
 import tarfile
@@ -29,7 +31,6 @@ from secrets import token_hex
 from shlex import split
 from stat import S_IMODE
 from subprocess import STDOUT
-from typing import Optional, Union
 from urllib.parse import quote, urlunparse
 
 from argon2 import PasswordHasher
@@ -152,7 +153,7 @@ def webcontrol_html_output(v, data):
 
 
 def text_scale(v, data):
-    return {'text_double': True if int(v) > 1 else False}
+    return {'text_double': int(v) > 1}
 
 
 def webcontrol_interface(v, data):
@@ -193,10 +194,10 @@ _MOTION_43_TO_41_OPTIONS_MAPPING = {
 }
 
 
-def netcam_keepalive_params(v: Union[bool, str], data: dict) -> dict:
-    value: str = 'on' if v == True else 'force' if v == 'force' else 'off'  # noqa: E712
+def netcam_keepalive_params(v: bool | str, data: dict) -> dict:
+    value: str = 'on' if v == True else 'force' if v == 'force' else 'off'
 
-    if 'netcam_params' in data and data['netcam_params']:
+    if data.get('netcam_params'):
         return {'netcam_params': data['netcam_params'] + ',keepalive = ' + value}
 
     return {'netcam_params': 'keepalive = ' + value}
@@ -205,7 +206,7 @@ def netcam_keepalive_params(v: Union[bool, str], data: dict) -> dict:
 def netcam_tolerant_check_params(v: bool, data: dict) -> dict:
     value: str = 'on' if v else 'off'
 
-    if 'netcam_params' in data and data['netcam_params']:
+    if data.get('netcam_params'):
         return {'netcam_params': data['netcam_params'] + ',tolerant_check = ' + value}
 
     return {'netcam_params': 'tolerant_check = ' + value}
@@ -214,7 +215,7 @@ def netcam_tolerant_check_params(v: bool, data: dict) -> dict:
 def netcam_use_tcp_params(v: bool, data: dict) -> dict:
     value: str = 'tcp' if v else 'udp'
 
-    if 'netcam_params' in data and data['netcam_params']:
+    if data.get('netcam_params'):
         return {'netcam_params': data['netcam_params'] + ',rtsp_transport = ' + value}
 
     return {'netcam_params': 'rtsp_transport = ' + value}
@@ -230,10 +231,10 @@ def netcam_params(v: str, data: dict) -> dict:
             )
 
         elif split[0] == 'tolerant_check':
-            params['netcam_tolerant_check'] = True if split[1] == 'on' else False
+            params['netcam_tolerant_check'] = split[1] == 'on'
 
         elif split[0] == 'rtsp_transport':
-            params['netcam_use_tcp'] = False if split[1] == 'udp' else True
+            params['netcam_use_tcp'] = split[1] != 'udp'
 
     return params
 
@@ -289,48 +290,46 @@ def get_main(as_lines=False):
 
     config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
 
-    logging.debug(f'reading main config from file {config_file_path}...')
+    logging.debug(f'reading main config from file {config_file_path} ...')
 
     lines = None
     try:
-        f = open(config_file_path)
+        f = open(config_file_path)  # noqa: SIM115
 
     except OSError as e:
         if e.errno == ENOENT:  # file does not exist
             logging.info(
                 f'main config file {config_file_path} does not exist, using default values'
             )
-
             lines = []
-            f = None
 
         else:
             logging.error(f'could not open main config file {config_file_path}: {e}')
             raise
 
-    if f and S_IMODE(stat(config_file_path).st_mode) != 0o600:
-        logging.warning(
-            f'main config file {config_file_path} has insecure mode, applying 0600 ...'
-        )
-        try:
-            os.chmod(config_file_path, 0o600)
-        except Exception as e:
-            logging.error(
-                f'failed to chown 0600 main config file {config_file_path}: {e}'
-            )
-            raise
+    else:
+        with f:
+            if S_IMODE(stat(config_file_path).st_mode) != 0o600:
+                logging.warning(
+                    f'main config file {config_file_path} has insecure mode, applying 0600 ...'
+                )
+                try:
+                    os.chmod(config_file_path, 0o600)
 
-    if lines is None and f:
-        try:
-            lines = [line[:-1] for line in f.readlines()]
+                except Exception as e:
+                    logging.error(
+                        f'failed to chown 0600 main config file {config_file_path}: {e}'
+                    )
+                    raise
 
-        except Exception as e:
-            logging.error(f'could not read main config file {config_file_path}: {e}')
+            try:
+                lines = [line.strip() for line in f]
 
-            raise
-
-        finally:
-            f.close()
+            except Exception as e:
+                logging.error(
+                    f'could not read main config file {config_file_path}: {e}'
+                )
+                raise
 
     if as_lines:
         return lines
@@ -401,37 +400,40 @@ def set_main(main_config):
     elif motionctl.is_motion_post43():
         adapt_config_directives(main_config, _MOTION_43_TO_44_OPTIONS_MAPPING)
 
-    config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
-
     # read the actual configuration from file
+    config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
     lines = get_main(as_lines=True)
 
     # write the configuration to file
-    logging.debug(f'writing main config to {config_file_path}...')
+    logging.debug(f'writing main config to {config_file_path} ...')
 
     try:
-        f = open(config_file_path, 'w')
-        os.chmod(config_file_path, 0o600)
+        f = open(config_file_path, 'w')  # noqa: SIM115
 
     except Exception as e:
         logging.error(
             f'could not open main config file {config_file_path} for writing: {e}'
         )
-
         raise
 
-    lines = _dict_to_conf(lines, main_config, list_names=['camera'])
+    with f:
+        try:
+            os.chmod(config_file_path, 0o600)
 
-    try:
-        f.writelines([utils.make_str(line) + '\n' for line in lines])
+        except Exception as e:
+            logging.error(
+                f'could not harden mode of main config file {config_file_path}: {e}'
+            )
+            raise
 
-    except Exception as e:
-        logging.error(f'could not write main config file {config_file_path}: {e}')
+        lines = _dict_to_conf(lines, main_config, list_names=['camera'])
 
-        raise
+        try:
+            f.writelines([utils.make_str(line) + '\n' for line in lines])
 
-    finally:
-        f.close()
+        except Exception as e:
+            logging.error(f'could not write main config file {config_file_path}: {e}')
+            raise
 
 
 def get_camera_ids():
@@ -442,14 +444,13 @@ def get_camera_ids():
 
     config_path = settings.CONF_PATH
 
-    logging.debug(f'listing config dir {config_path}...')
+    logging.debug(f'listing config dir {config_path} ...')
 
     try:
         ls = os.listdir(config_path)
 
     except Exception as e:
         logging.error(f'failed to list config dir {config_path}: {e}')
-
         raise
 
     camera_ids = []
@@ -523,38 +524,37 @@ def get_camera(camera_id, as_lines=False):
         'id': camera_id
     }
 
-    logging.debug(f'reading camera config from {camera_config_path}...')
+    logging.debug(f'reading camera config from {camera_config_path} ...')
 
     try:
-        f = open(camera_config_path)
+        f = open(camera_config_path)  # noqa: SIM115
 
     except Exception as e:
-        logging.error(f'could not open camera config file: {str(e)}')
-
+        logging.error(f'could not open camera config file: {e}')
         raise
 
-    if S_IMODE(stat(camera_config_path).st_mode) != 0o600:
-        logging.warning(
-            f'camera config file {camera_config_path} has insecure mode, applying 0600 ...'
-        )
+    with f:
+        if S_IMODE(stat(camera_config_path).st_mode) != 0o600:
+            logging.warning(
+                f'camera config file {camera_config_path} has insecure mode, applying 0600 ...'
+            )
+            try:
+                os.chmod(camera_config_path, 0o600)
+
+            except Exception as e:
+                logging.error(
+                    f'failed to chown 0600 camera config file {camera_config_path}: {e}'
+                )
+                raise
+
         try:
-            os.chmod(camera_config_path, 0o600)
+            lines = [line.strip() for line in f]
+
         except Exception as e:
             logging.error(
-                f'failed to chown 0600 camera config file {camera_config_path}: {e}'
+                f'could not read camera config file {camera_config_path}: {e}'
             )
             raise
-
-    try:
-        lines = [line.strip() for line in f.readlines()]
-
-    except Exception as e:
-        logging.error(f'could not read camera config file {camera_config_path}: {e}')
-
-        raise
-
-    finally:
-        f.close()
 
     if as_lines:
         return lines
@@ -667,34 +667,35 @@ def set_camera(camera_id, camera_config):
         lines = []
 
     # write the configuration to file
-    camera_config_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {
-        'id': camera_id
-    }
-    logging.debug(f'writing camera config to {camera_config_path}...')
+    logging.debug(f'writing camera config to {config_file_path} ...')
 
     try:
-        f = open(camera_config_path, 'w')
-        os.chmod(camera_config_path, 0o600)
+        f = open(config_file_path, 'w')  # noqa: SIM115
 
     except Exception as e:
         logging.error(
-            f'could not open camera config file {camera_config_path} for writing: {e}'
+            f'could not open camera config file {config_file_path} for writing: {e}'
         )
-
         raise
 
-    lines = _dict_to_conf(lines, camera_config)
+    with f:
+        try:
+            os.chmod(config_file_path, 0o600)
 
-    try:
-        f.writelines([utils.make_str(line) + '\n' for line in lines])
+        except Exception as e:
+            logging.error(
+                f'could not harden mode of camera config file {config_file_path}: {e}'
+            )
+            raise
 
-    except Exception as e:
-        logging.error(f'could not write camera config file {camera_config_path}: {e}')
+        lines = _dict_to_conf(lines, camera_config)
 
-        raise
+        try:
+            f.writelines([utils.make_str(line) + '\n' for line in lines])
 
-    finally:
-        f.close()
+        except Exception as e:
+            logging.error(f'could not write camera config file {config_file_path}: {e}')
+            raise
 
 
 # what motionEye's own on_* commands read from the camera config, by argument name
@@ -718,7 +719,7 @@ MOMENT = '%Y-%m-%dT%H:%M:%S'  # the event time, expanded by motion
 _SHORT = f" %t '{MOMENT}'"
 
 
-def get_notification_settings(camera_id: Optional[int], keys: dict) -> Optional[dict]:
+def get_notification_settings(camera_id: int | None, keys: dict) -> dict | None:
     camera_config = get_camera(camera_id) if camera_id is not None else None
     if not camera_config or not all(key in camera_config for key in keys.values()):
         return None  # e.g. disabled since motion was started
@@ -793,7 +794,7 @@ def add_camera(device_details):
     while camera_id in camera_ids:
         camera_id += 1
 
-    logging.info(f'adding new {proto} camera with id {camera_id}...')
+    logging.info(f'adding new {proto} camera with id {camera_id} ...')
 
     # prepare a default camera config
     camera_config = {'@enabled': True}
@@ -891,7 +892,7 @@ def rem_camera(camera_id):
 
     set_main(main_config)
 
-    logging.info(f'removing camera config file {camera_config_path}...')
+    logging.info(f'removing camera config file {camera_config_path} ...')
 
     _camera_ids_cache = None
     _camera_config_cache.clear()
@@ -901,7 +902,6 @@ def rem_camera(camera_id):
 
     except Exception as e:
         logging.error(f'could not remove camera config file {camera_config_path}: {e}')
-
         raise
 
 
@@ -1260,10 +1260,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             pass  # already exists, things should be just fine
 
         else:
-            logging.error(
-                f'failed to create root directory "{data["target_dir"]}": {e}',
-                exc_info=True,
-            )
+            logging.exception(f'failed to create root directory "{data["target_dir"]}"')
 
     if ui['upload_enabled'] and '@id' in prev_config:
         upload_settings = {
@@ -1484,12 +1481,11 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         )
 
         on_event_end.append(
-            "%(script)s '%(method)s' '%(url)s'"
-            % {
-                'script': meyectl.find_command('webhook'),
-                'method': ui['web_hook_end_notifications_http_method'],
-                'url': url,
-            }
+            "{script} '{method}' '{url}'".format(
+                script=meyectl.find_command('webhook'),
+                method=ui['web_hook_end_notifications_http_method'],
+                url=url,
+            )
         )
 
     if ui['command_end_notifications_enabled']:
@@ -1556,7 +1552,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     return prev_config
 
 
-def motion_camera_dict_to_ui(data):  # noqa: C901
+def motion_camera_dict_to_ui(data):
     ui = {
         # device
         'name': data['camera_name'],
@@ -2131,7 +2127,7 @@ def invalidate_monitor_commands():
     _monitor_command_cache.clear()
 
 
-def backup() -> Optional[bytes]:
+def backup() -> bytes | None:
     logging.debug('generating config backup file')
 
     files = [
@@ -2150,13 +2146,13 @@ def backup() -> Optional[bytes]:
 
         return buf.getvalue()
 
-    except Exception as e:
-        logging.error(f'backup failed: {e}', exc_info=True)
+    except Exception:
+        logging.exception('backup failed')
 
         return None
 
 
-def restore(content: bytes) -> Optional[dict]:
+def restore(content: bytes) -> dict | None:
     logging.info('restoring config from backup file')
 
     patterns = ['motion.conf', 'camera-*.conf', 'mask_*.pgm', 'prefs.json']
@@ -2197,9 +2193,8 @@ def restore(content: bytes) -> Optional[dict]:
 
         return {'reboot': settings.ENABLE_REBOOT}
 
-    except Exception as e:
-        logging.error(f'failed to restore configuration: {e}', exc_info=True)
-
+    except Exception:
+        logging.exception('failed to restore configuration')
         return None
 
 
@@ -2259,7 +2254,6 @@ def _conf_to_dict(lines, list_names=None, no_convert=None):
     data = OrderedDict()
 
     for line in lines:
-        line = line.strip()
         if len(line) == 0:  # empty line
             continue
 
@@ -2267,7 +2261,7 @@ def _conf_to_dict(lines, list_names=None, no_convert=None):
         if _match:
             name, value = _match.groups()[:2]
 
-        elif line.startswith('#') or line.startswith(';'):  # comment line
+        elif line.startswith(('#', ';')):  # comment line
             continue
 
         else:
@@ -2311,7 +2305,7 @@ def _dict_to_conf(lines, data, list_names=None):
         if _match:  # @line
             name, value = _match.groups()[:2]
 
-        elif line.startswith('#') or line.startswith(';'):  # simple comment line
+        elif line.startswith(('#', ';')):  # simple comment line
             conf_lines.append(line)
             continue
 

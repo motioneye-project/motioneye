@@ -64,7 +64,7 @@ def make_mount_point(server, share, username):
 
 
 def list_mounts():
-    logging.debug('listing smb mounts...')
+    logging.debug('listing smb mounts ...')
 
     mounts = []
     with open('/proc/mounts') as f:
@@ -183,7 +183,7 @@ def test_share(server, share, smb_ver, username, password, root_directory):
     if not mount_point:
         mount_point = _mount(server, share, smb_ver, username, password)
         if not mount_point:
-            raise Exception('cannot mount network share')
+            raise RuntimeError('cannot mount network share')
 
         mounted = True
 
@@ -200,8 +200,8 @@ def test_share(server, share, smb_ver, username, password, root_directory):
     try:
         os.makedirs(path)
 
-    except Exception:
-        raise Exception('cannot create root directory')
+    except Exception as e:
+        raise RuntimeError('cannot create root directory') from e
 
     finally:
         maybe_umount()
@@ -212,7 +212,7 @@ def test_share(server, share, smb_ver, username, password, root_directory):
 def _mount(server, share, smb_ver, username, password):
     mount_point = make_mount_point(server, share, username)
 
-    logging.debug('making sure mount point "%s" exists' % mount_point)
+    logging.debug(f'making sure mount point "{mount_point}" exists')
 
     if not os.path.exists(mount_point):
         os.makedirs(mount_point)
@@ -242,7 +242,7 @@ def _mount(server, share, smb_ver, username, password):
         # password-hashing modes do not apply.
         sec_types = [None, 'none']
 
-    opts += ',vers=%s' % smb_ver
+    opts += f',vers={smb_ver}'
 
     for sec in sec_types:
         if sec:
@@ -275,11 +275,10 @@ def _mount(server, share, smb_ver, username, password):
         path = os.path.join(mount_point, '.motioneye_' + str(int(time.time())))
         os.mkdir(path)
         os.rmdir(path)
-        logging.debug('directory at "%s" is writable' % mount_point)
+        logging.debug(f'directory at "{mount_point}" is writable')
 
     except Exception:
-        logging.error('directory at "%s" is not writable' % mount_point)
-
+        logging.error(f'directory at "{mount_point}" is not writable')
         return None
 
     return mount_point
@@ -296,7 +295,6 @@ def _umount(server, share, username):
         logging.error(
             f'failed to unmount smb share "//{server}/{share}" from "{mount_point}"'
         )
-
         return False
 
     try:
@@ -304,7 +302,6 @@ def _umount(server, share, username):
 
     except Exception as e:
         logging.error(f'failed to remove smb mount point "{mount_point}": {e}')
-
         return False
 
     return True

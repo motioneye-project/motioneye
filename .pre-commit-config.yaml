@@ -25,24 +25,24 @@ repos:
       - id: bandit
         args: ["--skip=B104,B105,B108,B110,B301,B310,B321,B402,B403,B404,B602,B603,B604,B605,B607,B701"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.22
+    rev: v0.17.0
     hooks:
       - id: ruff-check
-        args: [--target-version=py37, --ignore, E722, --config, "builtins = ['_']"]
+        args: [--target-version=py37, "--ignore=E722,LOG015,BLE001", --config, "builtins = ['_']"]
       - id: ruff-format
         args: [--target-version=py37, --config, "format.quote-style = 'preserve'"]
   - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 26.5.1
+    rev: 26.10.0
     hooks:
       - id: black
-        args: [--skip-string-normalization, -t, py37, -t, py38, -t, py39, -t, py310, -t, py311, -t, py312, -t, py313, -t, py314]
+        args: [--diff, --color, --skip-string-normalization, -t, py37, -t, py38, -t, py39, -t, py310, -t, py311, -t, py312, -t, py313, -t, py314]
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.3
     hooks:
       - id: codespell
       # See args in setup.cfg
   - repo: https://github.com/PyCQA/flake8
-    rev: 7.3.0
+    rev: 7.4.1
     hooks:
       - id: flake8
         # Skipped plugins which are currently not used by "--select": flake8-return, which does not support Python 3.14 yet: https://github.com/afonasev/flake8-return/pull/139
@@ -57,12 +57,12 @@ repos:
           - --show-source
           - --statistics
   - repo: https://github.com/timothycrosley/isort
-    rev: 9.0.0b1
+    rev: 9.0.2
     hooks:
       - id: isort
         args: [--profile, black, --filter-files]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.21.2
+    rev: v3.22.0
     hooks:
       - id: pyupgrade
         args: [--py37-plus]
