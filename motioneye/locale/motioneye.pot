@@ -82,7 +82,7 @@ msgstr ""
 msgid "motion haltis"
 msgstr ""
 
-#: motioneye/server.py:492
+#: motioneye/server.py:493
 msgid "adiaŭ!"
 msgstr ""
 
