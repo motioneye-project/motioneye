@@ -15,71 +15,77 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import annotations
 
-import calendar
-import datetime
 import logging
-import multiprocessing
 import os
-import pickle
-import time
+import pickle  # nosec: B403
+from calendar import timegm
+from datetime import datetime, timedelta
+from multiprocessing import Pool
+from multiprocessing.pool import Pool as PoolClass
+from time import time
 
 from tornado.ioloop import IOLoop
 
 from motioneye import settings
 
-_INTERVAL = 2
-_STATE_FILE_NAME = 'tasks.pickle'
-_MAX_TASKS = 100
+_INTERVAL: int = 2
+_STATE_FILE_NAME: str = 'tasks.pickle'
+_MAX_TASKS: int = 100
 
 # we must be sure there's only one extra process that handles all tasks
-# TODO replace the pool with one simple thread
-_POOL_SIZE = 1
+# TODO replace the pool with one simple thread: concurrent.futures.ThreadPoolExecutor
+_POOL_SIZE: int = 1
 
 _tasks: list[tuple] = []
-_pool = None
+_pool: PoolClass | None = None
 
 
-def _init_pool_process():
+def _init_pool_process() -> None:
     import signal
 
     signal.signal(signal.SIGINT, signal.SIG_IGN)
     signal.signal(signal.SIGTERM, signal.SIG_IGN)
 
 
-def start():
+def start() -> None:
     global _pool
-
-    io_loop = IOLoop.current()
-    io_loop.add_timeout(datetime.timedelta(seconds=_INTERVAL), _check_tasks)
 
     _load()
-    _pool = multiprocessing.Pool(_POOL_SIZE, initializer=_init_pool_process)
+    _pool = Pool(_POOL_SIZE, initializer=_init_pool_process)
+
+    IOLoop.current().add_timeout(timedelta(seconds=_INTERVAL), _check_tasks)
 
 
-def stop():
+def stop() -> None:
     global _pool
 
+    # close pool gracefully, letting running tasks finish
+    # but set global _pool to None to terminate handler loop
+    pool: PoolClass | None = _pool
     _pool = None
 
+    if pool is not None:
+        pool.close()
+        pool.join()
 
-def add(when, func, tag=None, callback=None, **params):
+
+def add(when, func, tag: str | None = None, callback=None, **params) -> None:
     if len(_tasks) >= _MAX_TASKS:
         logging.error(f'the maximum number of tasks ({_MAX_TASKS}) has been reached')
-
         return
 
-    now = time.time()
+    now: float = time()
 
     if isinstance(when, int):  # delay, in seconds
         when += now
 
-    elif isinstance(when, datetime.timedelta):
+    elif isinstance(when, timedelta):
         when = now + when.total_seconds()
 
-    elif isinstance(when, datetime.datetime):
-        when = calendar.timegm(when.timetuple())
+    elif isinstance(when, datetime):
+        when = timegm(when.timetuple())
 
-    i = 0
+    i: int = 0
     while i < len(_tasks) and _tasks[i][0] <= when:
         i += 1
 
@@ -88,17 +94,17 @@ def add(when, func, tag=None, callback=None, **params):
 
     _save()
 
-    return
 
+def _check_tasks() -> None:
+    if _pool is None:
+        return
 
-def _check_tasks():
-    io_loop = IOLoop.current()
-    io_loop.add_timeout(datetime.timedelta(seconds=_INTERVAL), _check_tasks)
+    IOLoop.current().add_timeout(timedelta(seconds=_INTERVAL), _check_tasks)
 
-    now = time.time()
-    changed = False
+    now: float = time()
+    changed: bool = False
     while _tasks and _tasks[0][0] <= now:
-        _when, func, tag, callback, params = _tasks.pop(0)  # @UnusedVariable
+        _when, func, tag, callback, params = _tasks.pop(0)
 
         logging.debug(f'executing task "{tag or func.__name__}"')
         _pool.apply_async(
@@ -111,12 +117,12 @@ def _check_tasks():
         _save()
 
 
-def _load():
+def _load() -> None:
     global _tasks
 
     _tasks = []
 
-    file_path = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
+    file_path: str = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
 
     if os.path.exists(file_path):
         logging.debug(f'loading tasks from "{file_path}"...')
@@ -126,11 +132,10 @@ def _load():
 
         except Exception as e:
             logging.error(f'could not open tasks file "{file_path}": {e}')
-
             return
 
         try:
-            _tasks = pickle.load(f)
+            _tasks = pickle.load(f)  # nosec: B301
 
         except Exception as e:
             logging.error(f'could not read tasks from file "{file_path}": {e}')
@@ -139,8 +144,8 @@ def _load():
             f.close()
 
 
-def _save():
-    file_path = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
+def _save() -> None:
+    file_path: str = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
 
     logging.debug(f'saving tasks to "{file_path}"...')
 
@@ -149,12 +154,11 @@ def _save():
 
     except Exception as e:
         logging.error(f'could not open tasks file "{file_path}": {e}')
-
         return
 
     try:
         # don't save tasks that have a callback
-        tasks = [t for t in _tasks if not t[3]]
+        tasks: list = [t for t in _tasks if not t[3]]
         pickle.dump(tasks, f)
 
     except Exception as e:

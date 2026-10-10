@@ -32,7 +32,7 @@ STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 CONF_PATH = [sys.prefix, ''][sys.prefix == '/usr'] + '/etc/motioneye'
 
 # path to the directory where pid files go (must be writable by motionEye)
-for d in ['/run', '/var/run', '/tmp', '/var/tmp']:
+for d in ['/run', '/var/run']:
     if os.path.exists(d):
         RUN_PATH = d
         break
@@ -41,7 +41,7 @@ else:
     RUN_PATH = PROJECT_PATH
 
 # path to the directory where log files go (must be writable by motionEye)
-for d in ['/log', '/var/log', '/tmp', '/var/tmp']:
+for d in ['/log', '/var/log']:
     if os.path.exists(d):
         LOG_PATH = d
         break
@@ -62,7 +62,7 @@ LOG_TO_FILE = False
 
 # the IP address to listen on
 # (0.0.0.0 for all interfaces, 127.0.0.1 for localhost)
-LISTEN = '0.0.0.0'
+LISTEN = '0.0.0.0'  # nosec: B104
 
 # the TCP port to listen on
 PORT = 8765

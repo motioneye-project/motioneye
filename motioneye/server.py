@@ -485,6 +485,7 @@ def run():
     if motionctl.running():
         motionctl.stop()
         logging.info(_('motion haltis'))
+
     if settings.SMB_SHARES:
         smbctl.stop()
         logging.info('smb mounts stopped')

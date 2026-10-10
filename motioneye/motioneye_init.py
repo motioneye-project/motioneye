@@ -16,15 +16,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import subprocess
 import sys
+from subprocess import run
 
 import motioneye
 
 
 def main():
-    subprocess.run(
-        ['extra/linux_init', *sys.argv[1:]],
+    run(
+        [f'{motioneye.__path__[0]}/extra/linux_init', *sys.argv[1:]],
         cwd=motioneye.__path__[0],
         check=False,
     )

@@ -21,14 +21,14 @@ import hashlib
 import logging
 import os
 import subprocess
-import sys
 import time
-import urllib.error
-import urllib.parse
-import urllib.request
 from collections import namedtuple
 from dataclasses import dataclass
+from http.client import HTTPResponse
 from typing import Any, Awaitable, Callable, cast
+from urllib.parse import urlparse, urlsplit
+from urllib.request import Request
+from urllib.request import urlopen as _urlopen
 
 from PIL import Image, ImageDraw
 from tornado.concurrent import Future
@@ -267,7 +267,7 @@ def build_digest_header(method, url, username, password, state):
         def md5_utf8(x):
             if isinstance(x, str):
                 x = x.encode('utf-8')
-            return hashlib.md5(x).hexdigest()  # nosec B324
+            return hashlib.md5(x).hexdigest()  # nosec: B324
 
         hash_utf8 = md5_utf8
 
@@ -276,14 +276,14 @@ def build_digest_header(method, url, username, password, state):
         def sha_utf8(x):
             if isinstance(x, str):
                 x = x.encode('utf-8')
-            return hashlib.sha1(x).hexdigest()  # nosec B324
+            return hashlib.sha1(x).hexdigest()  # nosec: B324
 
         hash_utf8 = sha_utf8
 
     def KD(s, d):
         return hash_utf8(f"{s}:{d}")
 
-    p_parsed = urllib.parse.urlparse(url)
+    p_parsed = urlparse(url)
     path = p_parsed.path
     if p_parsed.query:
         path += '?' + p_parsed.query
@@ -336,11 +336,12 @@ def build_digest_header(method, url, username, password, state):
     return f'Digest {base}'
 
 
-def urlopen(*args, **kwargs):
-    if sys.version_info >= (2, 7, 9) and not VALIDATE_CERTS:
-        # ssl certs are not verified by default
-        # in versions prior to 2.7.9
+def urlopen(request: Request, **kwargs) -> HTTPResponse:
+    scheme: str = urlsplit(request.full_url).scheme
+    if scheme not in ('http', 'https'):
+        raise ValueError(f'Unsupported URL scheme: {scheme!r}')
 
+    if not VALIDATE_CERTS:
         import ssl
 
         ctx = ssl.create_default_context()
@@ -349,7 +350,7 @@ def urlopen(*args, **kwargs):
 
         kwargs.setdefault('context', ctx)
 
-    return urllib.request.urlopen(*args, **kwargs)
+    return _urlopen(request, **kwargs)  # nosec: B310
 
 
 def build_editable_mask_file(
@@ -593,7 +594,7 @@ def call_subprocess(
         stdout=stdout,
         stderr=stderr,
         capture_output=capture_output,
-        shell=shell,
+        shell=shell,  # nosec: B602
         cwd=cwd,
         timeout=timeout,
         check=check,

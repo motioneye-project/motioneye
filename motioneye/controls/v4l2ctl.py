@@ -84,11 +84,12 @@ def list_resolutions(device):
 
     resolutions = set()
     output = b''
-    cmd = f"v4l2-ctl -d {quote(device)} --list-formats-ext | grep -vi stepwise | grep -oE '[0-9]+x[0-9]+' || true"
+    cmd = f"v4l2-ctl -d {quote(device)} --list-formats-ext | grep -vi stepwise | grep -oE '[0-9]+x[0-9]+'"
     logging.debug(f'running command "{cmd}"')
 
     try:
-        output = utils.call_subprocess(cmd, shell=True, stderr=subprocess.DEVNULL)
+        output = utils.call_subprocess(cmd, shell=True, check=False)  # nosec: B604
+
     except Exception:
         logging.error(f'failed to list resolutions of device "{device}"')
 
