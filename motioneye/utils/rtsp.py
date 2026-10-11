@@ -69,7 +69,7 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
 
         timeout[0] = io_loop.add_timeout(
             datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
-            functools.partial(on_connect, _timeout=True),
+            functools.partial(on_connect, f, _timeout=True),
         )
 
     def on_connect(f: Future, _timeout: bool = False) -> None:
@@ -178,7 +178,7 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
         f.add_done_callback(on_www_authenticate)
 
         timeout[0] = io_loop.add_timeout(
-            datetime.timedelta(seconds=1), on_www_authenticate
+            datetime.timedelta(seconds=1), functools.partial(on_www_authenticate, f)
         )
 
     def on_www_authenticate(f: Future):
