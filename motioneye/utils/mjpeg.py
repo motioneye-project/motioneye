@@ -117,7 +117,11 @@ def test_mjpeg_url(
                     http_11[0] = True
 
     def on_response(res_future: Future):
-        response = res_future.result()
+        try:
+            response = res_future.result()
+        except Exception as e:
+            # network errors and timeouts raise, even after a stream was recognized
+            response = HTTPResponse(HTTPRequest(url), 599, error=e)
 
         if not called[0]:
             if response.code == 401 and auth_modes and url_obj.username:
