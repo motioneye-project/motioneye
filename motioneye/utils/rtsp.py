@@ -55,6 +55,7 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
 
         if stream is not None:
             try:
+                stream.set_close_callback(None)  # not an error when reconnecting
                 stream.close()
 
             except Exception:  # nosec: B110 # noqa: S110
@@ -89,7 +90,7 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
 
             if url_obj.username and send_auth[0]:
                 auth_header = 'Authorization: ' + build_basic_header(
-                    url_obj.username, url_obj.password
+                    url_obj.username, url_obj.password or ''
                 )
                 lines.append(auth_header)
 
@@ -192,7 +193,7 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
             handle_error(f'{auth_timeout_msg}')
         else:
             if data:
-                scheme = re.findall(rb'WWW-Authenticate: ([^\s]+)', data)[0].strip()
+                scheme = re.findall(rb'WWW-Authenticate: ([^\s]+)', data)[0].decode()
                 logging.debug(f'rtsp netcam auth scheme: {scheme}')
                 if scheme.lower() == 'basic':
                     send_auth[0] = True
