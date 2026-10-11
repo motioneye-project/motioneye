@@ -424,6 +424,11 @@ def run():
     test_requirements()
     make_media_folders()
 
+    legacy_pickle_file = os.path.join(settings.CONF_PATH, 'tasks.pickle')
+    if os.path.exists(legacy_pickle_file):
+        logging.warning(f'removing legacy tasks pickle file {legacy_pickle_file!r}')
+        os.remove(legacy_pickle_file)
+
     state = authstate.build_password_hash_state(config.get_main())
     authstate.set_password_hash_state(state)
     if not authstate.validate_password_hash_state(state):
@@ -447,6 +452,7 @@ def run():
     if settings.CLEANUP_INTERVAL:
         cleanup.start()
         logging.info(_('purigado komenciĝis'))
+
     wsswitch.start()
     logging.info(_('wsswitch komenciĝis'))
 
