@@ -135,6 +135,9 @@ def test_mjpeg_url(
                     if response.error
                     else 'not a supported network camera'
                 )
+                # without the query, which may hold a password
+                log_url = url.split('?')[0]
+                logging.error(f'testing (m)jpg netcam at {log_url} failed: {error}')
                 future.set_result(GetCamerasResponse(None, error=error))
 
     do_request()
