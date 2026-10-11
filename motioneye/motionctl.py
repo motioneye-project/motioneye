@@ -19,7 +19,6 @@ import re
 from errno import ECHILD, ESRCH
 from os import WNOHANG, kill, waitpid
 from os.path import exists, join
-from shlex import quote
 from signal import SIGKILL, SIGTERM
 from subprocess import DEVNULL, CalledProcessError, Popen
 from time import sleep
@@ -59,7 +58,7 @@ def find_motion():
 
     # version
     try:
-        output = utils.call_subprocess(quote(binary) + ' -h || true', shell=True)
+        output = utils.call_subprocess([binary, '-h'], check=False)
 
     except CalledProcessError as e:  # not found as
         logging.error(f'motion version could not be found: {e}')

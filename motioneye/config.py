@@ -703,7 +703,7 @@ SENDMAIL_KEYS = {
     'server': '@email_notifications_smtp_server',
     'port': '@email_notifications_smtp_port',
     'account': '@email_notifications_smtp_account',
-    'password': '@email_notifications_smtp_password',
+    'password': '@email_notifications_smtp_password',  # nosec: B105
     'tls': '@email_notifications_smtp_tls',
     'sender': '@email_notifications_from',
     'to': '@email_notifications_addresses',
@@ -960,10 +960,10 @@ def main_dict_to_ui(data):
     # input box in the frontend. If a password is set, transmit nothing, in
     # which case the input box will show "*****".
     if data['@admin_password'] == '':
-        ui['admin_password'] = ''
+        ui['admin_password'] = ''  # nosec: B105
 
     if data['@normal_password'] == '':
-        ui['normal_password'] = ''
+        ui['normal_password'] = ''  # nosec: B105
 
     ui['_client_secret'] = data.get('@client_secret', '')
 
@@ -1679,8 +1679,8 @@ def motion_camera_dict_to_ui(data):
     # Only transmit an empty string if no password is set, to show an empty
     # input box in the frontend. If a password is set, transmit nothing, in
     # which case the input box will show "*****".
-    if streaming_password == '':
-        ui['streaming_password'] = ''
+    if streaming_password == '':  # nosec: B105
+        ui['streaming_password'] = ''  # nosec: B105
 
     if utils.is_net_camera(data):
         ui['device_url'] = data['netcam_url']
@@ -2649,7 +2649,7 @@ def set_admin_password(password):
     if password:
         main_config['@admin_password'] = ph.hash(password)
     else:
-        main_config['@admin_password'] = ''
+        main_config['@admin_password'] = ''  # nosec: B105
     set_main(main_config)
 
 
@@ -2658,5 +2658,5 @@ def set_normal_password(password):
     if password:
         main_config['@normal_password'] = ph.hash(password)
     else:
-        main_config['@normal_password'] = ''
+        main_config['@normal_password'] = ''  # nosec: B105
     set_main(main_config)

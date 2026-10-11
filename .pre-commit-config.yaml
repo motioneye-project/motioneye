@@ -1,9 +1,3 @@
-# Learn more about this config here: https://pre-commit.com/
-
-# To enable these pre-commit hook run:
-# `brew install pre-commit` or `python3 -m pip install pre-commit`
-# Then in the project root directory run `pre-commit install`
-
 default_language_version:
   python: python3.14
 
@@ -23,44 +17,30 @@ repos:
     rev: 1.9.4
     hooks:
       - id: bandit
-        args: ["--skip=B104,B105,B108,B110,B301,B310,B321,B402,B403,B404,B602,B603,B604,B605,B607,B701"]
+        args: [-c, pyproject.toml]
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.17.0
     hooks:
       - id: ruff-check
-        args: [--target-version=py37, "--ignore=E722,LOG015,BLE001", --config, "builtins = ['_']"]
       - id: ruff-format
-        args: [--target-version=py37, --config, "format.quote-style = 'preserve'"]
   - repo: https://github.com/psf/black-pre-commit-mirror
     rev: 26.10.0
     hooks:
       - id: black
-        args: [--diff, --color, --skip-string-normalization, -t, py37, -t, py38, -t, py39, -t, py310, -t, py311, -t, py312, -t, py313, -t, py314]
+        args: [--diff, --color]
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.3
     hooks:
       - id: codespell
-      # See args in setup.cfg
   - repo: https://github.com/PyCQA/flake8
     rev: 7.4.1
     hooks:
       - id: flake8
-        # Skipped plugins which are currently not used by "--select": flake8-return, which does not support Python 3.14 yet: https://github.com/afonasev/flake8-return/pull/139
-        # R501,R502,R503,R504,R505,R506,R507,R508
-        additional_dependencies: [flake8-2020, flake8-bugbear, flake8-comprehensions]
-        args:
-          - --builtins=_
-          - --count
-          - --max-complexity=68
-          - --max-line-length=125
-          - --select=C901,E501,E9,F63,F7,F82
-          - --show-source
-          - --statistics
+        additional_dependencies: [flake8-2020, flake8-bugbear, flake8-comprehensions, flake8-pyproject]
   - repo: https://github.com/timothycrosley/isort
     rev: 9.0.2
     hooks:
       - id: isort
-        args: [--profile, black, --filter-files]
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.22.0
     hooks:

@@ -53,6 +53,41 @@ motioneye = ["extra/*", "static/*.*", "static/*/*", "templates/*", "scripts/*", 
 [tool.setuptools.dynamic]
 version = {attr = "motioneye.VERSION"}
 
+[tool.bandit]
+# skip hardcoded password, MD5/SHA1 hashes, import subprocess, subprocess.run(..., shell=False)
+skips = ["B105", "B324", "B404", "B603"]
+
+[tool.black]
+skip-string-normalization = true
+target-version = ["py37", "py38", "py39", "py310", "py311", "py312", "py313", "py314", "py315"]
+
 [tool.codespell]
 ignore-words-list = "ot"
 skip = "*.html,*.js,*.json,*.po,*.pot"
+
+[tool.flake8]
+builtins = ["_"]
+count = true
+max-complexity = 68
+max-line-length = 125
+# flake8-return rules to add after its next release: https://github.com/afonasev/flake8-return/pull/139
+# => R501,R502,R503,R504,R505,R506,R507,R508
+select = ["C901", "E501", "E9", "F63", "F7", "F82"]
+show-source = true
+statistics = true
+
+[tool.isort]
+profile = "black"
+
+[tool.pyupgrade]
+py37-plus = true
+
+[tool.ruff]
+builtins = ["_"]
+target-version = "py37"
+
+[tool.ruff.format]
+quote-style = "preserve"
+
+[tool.ruff.lint]
+ignore = ["E722", "LOG015", "BLE001"]

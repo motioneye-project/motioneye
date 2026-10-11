@@ -13,11 +13,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 from __future__ import annotations
 
 import logging
-import os
 import subprocess
 from collections import OrderedDict
 from typing import ClassVar
@@ -28,43 +26,37 @@ __all__ = ('PowerControl',)
 
 
 class PowerControl:
-    _shut_down_cmd_sequence: ClassVar[OrderedDict] = OrderedDict(
+    _shut_down_cmd_sequence: ClassVar[OrderedDict[str, list[str]]] = OrderedDict(
         [
-            ('poweroff', ''),
-            ('shutdown', ' -h now'),
-            ('systemctl', ' poweroff'),
-            ('init', ' 0'),
+            ('poweroff', []),
+            ('shutdown', ['-h', 'now']),
+            ('systemctl', ['poweroff']),
+            ('init', ['0']),
         ]
     )
 
-    _reboot_cmd_sequence: ClassVar[OrderedDict] = OrderedDict(
+    _reboot_cmd_sequence: ClassVar[OrderedDict[str, list[str]]] = OrderedDict(
         [
-            ('reboot', ''),
-            ('shutdown', ' -r now'),
-            ('systemctl', ' reboot'),
-            ('init', ' 6'),
+            ('reboot', []),
+            ('shutdown', ['-r', 'now']),
+            ('systemctl', ['reboot']),
+            ('init', ['6']),
         ]
     )
 
-    @staticmethod
-    def _find_prog(prog: str) -> str:
-        return utils.call_subprocess(['which', prog])
-
     @classmethod
-    def _exec_prog(cls, prog: str, args: str = '') -> bool:
-        p = cls._find_prog(prog)
-        logging.info(f'executing "{p}"')
-        return os.system(p + args) == 0
-
-    @classmethod
-    def _run_procedure(cls, prog_sequence: dict[str, str], log_msg: str) -> bool:
+    def _run_procedure(cls, prog_sequence: dict[str, list[str]], log_msg: str) -> bool:
         logging.info(log_msg)
 
         for prog, args in prog_sequence.items():
             try:
-                return cls._exec_prog(prog, args)
+                p: str = utils.call_subprocess(['which', prog])
+
             except subprocess.CalledProcessError:  # program not found
                 continue
+
+            logging.info(f'executing "{prog}"')
+            return subprocess.run([p, *args], check=False).returncode == 0
 
         return False
 

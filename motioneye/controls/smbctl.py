@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import datetime
 import logging
@@ -24,6 +25,9 @@ import time
 from tornado.ioloop import IOLoop
 
 from motioneye import config, settings, utils
+
+_mount_cifs_path_cache: str | None = None
+_umount_path_cache: str | None = None
 
 
 def start():
@@ -37,12 +41,34 @@ def stop():
     _umount_all()
 
 
-def find_mount_cifs():
+def find_mount_cifs() -> str | None:
+    global _mount_cifs_path_cache
+    if _mount_cifs_path_cache:
+        return _mount_cifs_path_cache
+
     try:
-        return utils.call_subprocess(['which', 'mount.cifs'])
+        path: str = utils.call_subprocess(['which', 'mount.cifs'])
 
     except subprocess.CalledProcessError:  # not found
         return None
+
+    _mount_cifs_path_cache = path
+    return _mount_cifs_path_cache
+
+
+def find_umount() -> str | None:
+    global _umount_path_cache
+    if _umount_path_cache:
+        return _umount_path_cache
+
+    try:
+        path: str = utils.call_subprocess(['which', 'umount'])
+
+    except subprocess.CalledProcessError:  # not found
+        return None
+
+    _umount_path_cache = path
+    return _umount_path_cache
 
 
 def make_mount_point(server, share, username):
@@ -210,8 +236,10 @@ def test_share(server, share, smb_ver, username, password, root_directory):
 
 
 def _mount(server, share, smb_ver, username, password):
-    mount_point = make_mount_point(server, share, username)
+    if find_mount_cifs() is None:
+        raise RuntimeError('mount.cifs not found, please install cifs-utils')
 
+    mount_point = make_mount_point(server, share, username)
     logging.debug(f'making sure mount point "{mount_point}" exists')
 
     if not os.path.exists(mount_point):
@@ -256,7 +284,13 @@ def _mount(server, share, smb_ver, username, password):
                 f'mounting "//{server}/{share}" at "{mount_point}" (sec={sec})'
             )
             subprocess.run(
-                ['mount.cifs', f'//{server}/{share}', mount_point, '-o', actual_opts],
+                [
+                    _mount_cifs_path_cache,
+                    f'//{server}/{share}',
+                    mount_point,
+                    '-o',
+                    actual_opts,
+                ],
                 check=True,
             )
             break
@@ -285,11 +319,14 @@ def _mount(server, share, smb_ver, username, password):
 
 
 def _umount(server, share, username):
+    if find_umount() is None:
+        raise RuntimeError('umount command not found')
+
     mount_point = make_mount_point(server, share, username)
     logging.debug(f'unmounting "//{server}/{share}" from "{mount_point}"')
 
     try:
-        subprocess.run(['umount', mount_point], check=True)
+        subprocess.run([_umount_path_cache, mount_point], check=True)
 
     except subprocess.CalledProcessError:
         logging.error(

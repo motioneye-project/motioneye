@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
-import ftplib
+import ftplib  # nosec: B402
 import io
 import json
 import logging
@@ -1030,7 +1030,7 @@ class FTP(UploadService):
                     self._username or 'anonymous', self._server, self._port
                 )
             )
-            self._conn = ftplib.FTP()
+            self._conn = ftplib.FTP()  # nosec: B321
             self._conn.set_pasv(True)
             self._conn.connect(self._server, port=self._port)
             self._conn.login(self._username or 'anonymous', self._password)
@@ -1224,9 +1224,7 @@ class S3(UploadService):
             rel_filename = os.path.basename(filename)
 
         if self._sse_c_key:
-            sse_key_md5 = b64encode(
-                md5(b64decode(self._sse_c_key)).digest()  # nosec B324
-            ).decode()
+            sse_key_md5 = b64encode(md5(b64decode(self._sse_c_key)).digest()).decode()  # nosec: B324
             extra_args = {
                 'SSECustomerAlgorithm': 'AES256',
                 'SSECustomerKey': self._sse_c_key,
