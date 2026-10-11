@@ -15,9 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations
+
 import logging
 from os import sep
-from typing import Optional
 
 from motioneye import config, mediafiles, motionctl, tasks, uploadservices, utils
 from motioneye.handlers.base import BaseHandler
@@ -57,7 +58,7 @@ class RelayEventHandler(BaseHandler):
                 f'ignoring event for unknown motion camera id {motion_camera_id}'
             )
             self.finish_json()
-            return
+            return None
 
         else:
             logging.debug(
@@ -68,9 +69,9 @@ class RelayEventHandler(BaseHandler):
         if not utils.is_local_motion_camera(camera_config):
             logging.warning(f'ignoring event for non-local camera with id {camera_id}')
             self.finish_json()
-            return
+            return None
 
-        filename: Optional[str] = self.get_argument('filename')
+        filename: str | None = self.get_argument('filename')
         if filename is not None:
             target_dir: str = camera_config['target_dir']
             utils.validate_paths(
@@ -84,7 +85,7 @@ class RelayEventHandler(BaseHandler):
                     f'ignoring start event for camera with id {camera_id} and motion detection disabled'
                 )
                 self.finish_json()
-                return
+                return None
 
             motionctl.set_motion_detected(camera_id, True)
 
@@ -96,7 +97,7 @@ class RelayEventHandler(BaseHandler):
             tasks.add(
                 5,
                 mediafiles.make_movie_preview,
-                tag='make_movie_preview(%s)' % filename,
+                tag=f'make_movie_preview({filename})',
                 camera_config=camera_config,
                 full_path=filename,
             )
@@ -115,13 +116,15 @@ class RelayEventHandler(BaseHandler):
 
         self.finish_json()
 
+        return None
+
     def upload_media_file(self, filename, camera_id, camera_config, media_type):
         service_name = camera_config['@upload_service']
 
         tasks.add(
             5,
             uploadservices.upload_media_file,
-            tag='upload_media_file(%s)' % filename,
+            tag=f'upload_media_file({filename})',
             camera_id=camera_id,
             service_name=service_name,
             camera_name=camera_config['camera_name'],

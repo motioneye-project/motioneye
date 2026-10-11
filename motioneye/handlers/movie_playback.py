@@ -15,8 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations
+
 import logging
 import os
+from asyncio import Lock, get_running_loop
+from pathlib import Path
 from tempfile import gettempdir
 from time import time
 
@@ -25,12 +29,15 @@ from tornado.web import HTTPError, StaticFileHandler
 from motioneye import config, mediafiles, remote, utils
 from motioneye.handlers.base import BaseHandler
 
-__all__ = ('MoviePlaybackHandler', 'MovieDownloadHandler')
+__all__ = ('MovieDownloadHandler', 'MoviePlaybackHandler')
+
+# prevent concurrent remote fetching and movie cache writes
+_remote_movie_cache_locks: dict[str, Lock] = {}
 
 
 # support fetching movies with authentication
 class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
-    tmpdir = gettempdir() + '/MotionEye'
+    tmpdir: str = gettempdir() + '/MotionEye'
     if not os.path.exists(tmpdir):
         os.mkdir(tmpdir)
 
@@ -66,59 +73,53 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
         self.pretty_filename = os.path.basename(filename)
 
         if utils.is_local_motion_camera(camera_config):
-            filename = mediafiles.get_media_path(camera_config, filename, 'movie')
+            filename = mediafiles.get_media_path(camera_config, filename)
             self.pretty_filename = (
                 camera_config['camera_name'] + '_' + self.pretty_filename
             )
             await StaticFileHandler.get(self, filename, include_body=include_body)
-            return
+            return None
 
         elif utils.is_remote_camera(camera_config):
             # we will cache the movie since it takes a while to fetch from the remote camera
             # and we may be going to play it back in the browser, which will fetch the video in chunks
-            tmpfile = self.tmpdir + '/' + self.pretty_filename
-            if os.path.isfile(tmpfile):
-                # have a cached copy, update the timestamp so it's not flushed
-                mtime = os.stat(tmpfile).st_mtime
-                os.utime(tmpfile, (time(), mtime))
-                await StaticFileHandler.get(self, tmpfile, include_body=include_body)
-                return
-
-            resp = await remote.get_media_content(
-                camera_config, filename, media_type='movie'
-            )
-            if resp.error:
-                return self.finish_json(
-                    {
-                        'error': 'Failed to download movie from {url}: {msg}.'.format(
-                            url=remote.pretty_camera_url(camera_config), msg=resp.error
+            tmpfile: str = self.tmpdir + '/' + self.pretty_filename
+            lock: Lock = _remote_movie_cache_locks.setdefault(tmpfile, Lock())
+            async with lock:
+                if not os.path.isfile(tmpfile):
+                    resp = await remote.get_media_content(
+                        camera_config, filename, media_type='movie'
+                    )
+                    if resp.error:
+                        msg: str = (
+                            'failed to download movie from '
+                            f'{remote.pretty_camera_url(camera_config)}: {resp.error}'
                         )
-                    }
-                )
+                        return self.finish_json({'error': msg})
 
-            # check if the file has been created by another request while we were fetching the movie
-            if not os.path.isfile(tmpfile):
-                tmp = open(tmpfile, 'wb')
-                tmp.write(resp.result)
-                tmp.close()
+                    await get_running_loop().run_in_executor(
+                        None, Path(tmpfile).write_bytes, resp.result
+                    )
 
+            # cached movie is complete, update the timestamp so it's not flushed
+            mtime: float = os.stat(tmpfile).st_mtime
+            os.utime(tmpfile, (time(), mtime))
             await StaticFileHandler.get(self, tmpfile, include_body=include_body)
-            return
+            return None
 
         else:  # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')
 
     def on_finish(self):
         # delete any cached file older than an hour
-        stale_time = time() - (60 * 60)
+        stale_time: float = time() - (60 * 60)
         try:
             for f in os.listdir(self.tmpdir):
                 f = os.path.join(self.tmpdir, f)
                 if os.path.isfile(f) and os.stat(f).st_atime <= stale_time:
                     os.remove(f)
-        except:
-            logging.error('could not delete temp file', exc_info=True)
-            pass
+        except Exception:
+            logging.exception('could not delete temp file')
 
     def get_absolute_path(self, root, path):
         return path

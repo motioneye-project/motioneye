@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import os
 import unittest
@@ -20,6 +21,7 @@ from pathlib import Path
 from shutil import rmtree
 from tempfile import mkdtemp
 from time import time
+from typing import ClassVar
 
 from motioneye import mediafiles
 from motioneye.mediafiles import _list_media_files
@@ -269,7 +271,7 @@ class TestMediaFiles(unittest.TestCase):
         self.assertGreater(len(result_no_stat), 0)
         for path, st in result_no_stat:
             self.assertIsNone(st)
-            self.assertTrue('2024-01-01' in path)
+            self.assertIn('2024-01-01', path)
 
         # Should find only files directly in level1_dir, not in nested subdirectories
         expected_files = sorted(
@@ -302,13 +304,13 @@ class TestMediaFilesPathValidation(unittest.TestCase):
         rmtree(cls._outside_dir, ignore_errors=True)
 
     # Traversal inputs: each contains '..' as a path component.
-    _FILENAME_TRAVERSALS = [
+    _FILENAME_TRAVERSALS: ClassVar[list[str]] = [
         '../etc/passwd',
         '../../etc/passwd',
         'subdir/../../../etc/passwd',
         '../secret.jpg',
     ]
-    _SUBDIR_TRAVERSALS = [
+    _SUBDIR_TRAVERSALS: ClassVar[list[str]] = [
         '..',
         '../group',
         'subdir/..',
@@ -316,12 +318,15 @@ class TestMediaFilesPathValidation(unittest.TestCase):
     ]
 
     # Absolute path inputs: each starts with '/'.
-    _FILENAME_ABSOLUTES = ['/etc/passwd', '/mnt/secret.jpg']
-    _SUBDIR_ABSOLUTES = ['/etc', '/root/.ssh', '/var/log']
+    _FILENAME_ABSOLUTES: ClassVar[list[str]] = ['/etc/passwd', '/mnt/secret.jpg']
+    _SUBDIR_ABSOLUTES: ClassVar[list[str]] = ['/etc', '/root/.ssh', '/var/log']
 
     # Camera dir escape inputs: use the 'escape' symlink.
-    _FILENAME_ESCAPES = ['escape/secret.jpg', 'escape/subdir/file.mp4']
-    _SUBDIR_ESCAPES = ['escape', 'escape/subdir']
+    _FILENAME_ESCAPES: ClassVar[list[str]] = [
+        'escape/secret.jpg',
+        'escape/subdir/file.mp4',
+    ]
+    _SUBDIR_ESCAPES: ClassVar[list[str]] = ['escape', 'escape/subdir']
 
     def _assert_raises_traversal(self, fn, *args, **kwargs):
         with self.assertRaises(Exception) as ctx:
@@ -401,21 +406,21 @@ class TestMediaFilesPathValidation(unittest.TestCase):
         for path in self._FILENAME_TRAVERSALS:
             with self.subTest(path=path):
                 self._assert_raises_traversal(
-                    mediafiles.get_media_path, self._camera_config, path, 'picture'
+                    mediafiles.get_media_path, self._camera_config, path
                 )
 
     def test_get_media_path_rejects_absolute_path(self):
         for path in self._FILENAME_ABSOLUTES:
             with self.subTest(path=path):
                 self._assert_raises_absolute_path(
-                    mediafiles.get_media_path, self._camera_config, path, 'picture'
+                    mediafiles.get_media_path, self._camera_config, path
                 )
 
     def test_get_media_path_rejects_dir_escape(self):
         for path in self._FILENAME_ESCAPES:
             with self.subTest(path=path):
                 self._assert_raises_dir_escape(
-                    mediafiles.get_media_path, self._camera_config, path, 'picture'
+                    mediafiles.get_media_path, self._camera_config, path
                 )
 
     # --- get_media_content ---
@@ -427,7 +432,6 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                     mediafiles.get_media_content,
                     self._camera_config,
                     path,
-                    'picture',
                 )
 
     def test_get_media_content_rejects_absolute_path(self):
@@ -437,7 +441,6 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                     mediafiles.get_media_content,
                     self._camera_config,
                     path,
-                    'picture',
                 )
 
     def test_get_media_content_rejects_dir_escape(self):
@@ -447,7 +450,6 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                     mediafiles.get_media_content,
                     self._camera_config,
                     path,
-                    'picture',
                 )
 
     # --- get_zipped_content ---
@@ -564,7 +566,6 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                     mediafiles.del_media_content,
                     self._camera_config,
                     path,
-                    'picture',
                 )
 
     def test_del_media_content_rejects_absolute_path(self):
@@ -574,7 +575,6 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                     mediafiles.del_media_content,
                     self._camera_config,
                     path,
-                    'picture',
                 )
 
     def test_del_media_content_rejects_dir_escape(self):
@@ -584,7 +584,6 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                     mediafiles.del_media_content,
                     self._camera_config,
                     path,
-                    'picture',
                 )
 
     # --- del_media_group ---

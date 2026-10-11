@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 import tornado.testing
 
 from motioneye import config
-from motioneye.handlers.base import BaseHandler
+from motioneye.handlers.base import _CSP, BaseHandler
 from motioneye.utils.authstate import generate_hmac_signature
 from tests.test_handlers import HandlerTestCase
 
@@ -33,6 +33,12 @@ class BaseHandlerTest(HandlerTestCase):
         handler = self.get_handler(MagicMock(body='{{{{'))
         with self.assertRaises(json.decoder.JSONDecodeError):
             handler.get_argument('myarg')
+
+    def test_pages_send_csp(self):
+        with patch('motioneye.template.render', return_value=''):
+            response = self.fetch('/picture/1/frame/')
+        self.assertEqual(200, response.code)
+        self.assertEqual(_CSP, response.headers['Content-Security-Policy'])
 
     def test_get_current_user_unauthenticated(self):
         # Without any auth credentials the handler returns None (no default user).

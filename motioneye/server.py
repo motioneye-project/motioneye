@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import atexit
 import datetime
@@ -24,12 +25,12 @@ import signal
 import sys
 import time
 from secrets import token_bytes
-from typing import Sequence, Tuple
+from typing import Sequence
 
 from tornado.ioloop import IOLoop
 from tornado.web import Application
 
-from motioneye import settings, template
+from motioneye import config, migration, settings, template
 from motioneye.controls import smbctl, v4l2ctl
 from motioneye.handlers.action import ActionHandler
 from motioneye.handlers.base import ManifestHandler, NotFoundHandler
@@ -44,6 +45,7 @@ from motioneye.handlers.picture import PictureHandler
 from motioneye.handlers.power import PowerHandler
 from motioneye.handlers.prefs import PrefsHandler
 from motioneye.handlers.relay_event import RelayEventHandler
+from motioneye.utils import authstate
 
 _PID_FILE = 'motioneye.pid'
 _CURRENT_PICTURE_REGEX = re.compile(r'^/picture/\d+/current')
@@ -80,12 +82,12 @@ class Daemon:
         # redirect standard file descriptors
         sys.stdout.flush()
         sys.stderr.flush()
-        si = open(os.devnull)
-        so = open(os.devnull, 'a+')
-        se = open(os.devnull, 'a+')
-        os.dup2(si.fileno(), sys.stdin.fileno())
-        os.dup2(so.fileno(), sys.stdout.fileno())
-        os.dup2(se.fileno(), sys.stderr.fileno())
+        with open(os.devnull) as si:
+            os.dup2(si.fileno(), sys.stdin.fileno())
+        with open(os.devnull, 'a+') as so:
+            os.dup2(so.fileno(), sys.stdout.fileno())
+        with open(os.devnull, 'a+') as se:
+            os.dup2(se.fileno(), sys.stderr.fileno())
 
         # pid file
         atexit.register(self.del_pid)
@@ -96,7 +98,7 @@ class Daemon:
         try:
             os.remove(self.pid_file)
 
-        except:
+        except Exception:
             sys.stderr.write('failed to remove pid file.\n')
 
     def running(self):
@@ -104,14 +106,14 @@ class Daemon:
             with open(self.pid_file) as f:
                 pid = int(f.read().strip())
 
-        except:
+        except Exception:
             return None
 
         try:
             os.kill(pid, 0)
             return pid
 
-        except:
+        except Exception:
             return None
 
     def start(self):
@@ -135,7 +137,7 @@ class Daemon:
         except Exception as e:
             sys.stderr.write(f'failed to terminate server: {e}\n')
 
-        for i in range(50):  # @UnusedVariable
+        for _i in range(50):
             try:
                 os.kill(pid, 0)
                 time.sleep(0.1)
@@ -155,7 +157,7 @@ class Daemon:
             try:
                 os.kill(pid, signal.SIGKILL)
 
-            except:
+            except Exception:
                 sys.stderr.write('failed to kill...\n')
 
 
@@ -182,7 +184,7 @@ def _log_request(handler):
         )
 
 
-handler_mapping: Sequence[Tuple] = [
+handler_mapping: Sequence[tuple] = [
     (r'^/$', MainHandler),
     (r'^/manifest.json$', ManifestHandler),
     (r'^/config/main/(?P<op>set|get)/?$', ConfigHandler),
@@ -269,10 +271,9 @@ def test_requirements():
         )
         sys.exit(-1)
 
-    if os.geteuid() != 0:
-        if settings.SMB_SHARES:
-            logging.fatal(_('smb-akcioj postulas radikajn privilegiojn'))
-            sys.exit(-1)
+    if os.geteuid() != 0 and settings.SMB_SHARES:
+        logging.fatal(_('smb-akcioj postulas radikajn privilegiojn'))
+        sys.exit(-1)
 
     try:
         import tornado  # noqa: F401
@@ -342,17 +343,18 @@ def make_media_folders():
     camera_ids = config.get_camera_ids()
     for camera_id in camera_ids:
         camera_config = config.get_camera(camera_id)
-        if 'target_dir' in camera_config:
-            if not os.path.exists(camera_config['target_dir']):
-                try:
-                    os.makedirs(camera_config['target_dir'])
+        if 'target_dir' in camera_config and not os.path.exists(
+            camera_config['target_dir']
+        ):
+            try:
+                os.makedirs(camera_config['target_dir'])
 
-                except Exception as e:
-                    logging.error(
-                        'failed to create root media folder "{}" for camera with id {}: {}'.format(
-                            camera_config['target_dir'], camera_id, e
-                        )
+            except Exception as e:
+                logging.error(
+                    'failed to create root media folder "{}" for camera with id {}: {}'.format(
+                        camera_config['target_dir'], camera_id, e
                     )
+                )
 
 
 def start_motion():
@@ -371,8 +373,8 @@ def start_motion():
                 logging.error('motion not running, starting it')
                 motionctl.start()
 
-            except Exception as e:
-                logging.error(f'failed to start motion: {str(e)}', exc_info=True)
+            except Exception:
+                logging.error('failed to start motion')
 
         io_loop.add_timeout(
             datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker
@@ -381,8 +383,8 @@ def start_motion():
     try:
         motionctl.start()
 
-    except Exception as e:
-        logging.error(str(e), exc_info=True)
+    except Exception:
+        logging.exception('failed to start motion')
 
     io_loop.add_timeout(
         datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker
@@ -422,8 +424,20 @@ def run():
     test_requirements()
     make_media_folders()
 
+    state = authstate.build_password_hash_state(config.get_main())
+    authstate.set_password_hash_state(state)
+    if not authstate.validate_password_hash_state(state):
+        logging.warning(
+            _(
+                'The admin and/or surveillance user has no password assigned. '
+                'Please login to the web interface to set both passwords.'
+            )
+        )
+
+    migration.migrate_cameras()  # before motion reads the camera configs
+
     if settings.SMB_SHARES:
-        stop, start = smbctl.update_mounts()  # @UnusedVariable
+        _stop, start = smbctl.update_mounts()
         if start:
             start_motion()
 
@@ -471,6 +485,7 @@ def run():
     if motionctl.running():
         motionctl.stop()
         logging.info(_('motion haltis'))
+
     if settings.SMB_SHARES:
         smbctl.stop()
         logging.info('smb mounts stopped')
@@ -483,7 +498,12 @@ def main(parser, args, command):
 
     options = parse_options(parser, args)
 
-    meyectl.configure_logging('motioneye', options.background or options.log_to_file)
+    # daemon mode redirects stdout/stderr to /dev/null,
+    # so logging to file is the only way to preserve any output
+    if options.background:
+        settings.LOG_TO_FILE = True
+
+    meyectl.configure_logging('motioneye')
     meyectl.configure_tornado()
 
     if command == 'start':

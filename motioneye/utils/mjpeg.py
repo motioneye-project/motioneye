@@ -14,10 +14,10 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import logging
 import re
-from typing import List
 
 from tornado.concurrent import Future
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest, HTTPResponse
@@ -30,10 +30,11 @@ __all__ = ('test_mjpeg_url',)
 
 
 def test_mjpeg_url(
-    data: dict, auth_modes: List[str], allow_jpeg: bool
-) -> 'Future[GetCamerasResponse]':
+    data: dict, auth_modes: list[str], allow_jpeg: bool
+) -> Future[GetCamerasResponse]:
     url_obj = MjpegUrl.from_dict(data)
     url = str(url_obj)
+    log_url = url.split('?')[0]  # the query may hold a password
 
     called = [False]
     status_2xx = [False]
@@ -41,14 +42,14 @@ def test_mjpeg_url(
 
     future: Future = Future()
 
-    def do_request() -> 'Future[HTTPResponse]':
+    def do_request() -> Future[HTTPResponse]:
         if url_obj.username:
             auth = auth_modes[0]
 
         else:
             auth = 'no'
 
-        logging.debug(f'testing (m)jpg netcam at {url} using {auth} authentication')
+        logging.debug(f'testing (m)jpg netcam at {log_url} using {auth} authentication')
 
         request = HTTPRequest(
             url,
@@ -117,7 +118,11 @@ def test_mjpeg_url(
                     http_11[0] = True
 
     def on_response(res_future: Future):
-        response = res_future.result()
+        try:
+            response = res_future.result()
+        except Exception as e:
+            # network errors and timeouts raise, even after a stream was recognized
+            response = HTTPResponse(HTTPRequest(url), 599, error=e)
 
         if not called[0]:
             if response.code == 401 and auth_modes and url_obj.username:
@@ -131,6 +136,7 @@ def test_mjpeg_url(
                     if response.error
                     else 'not a supported network camera'
                 )
+                logging.error(f'testing (m)jpg netcam at {log_url} failed: {error}')
                 future.set_result(GetCamerasResponse(None, error=error))
 
     do_request()

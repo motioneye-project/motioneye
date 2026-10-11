@@ -18,11 +18,6 @@ jobs:
     runs-on: ${{ matrix.dist }}
     name: "Test on ${{ matrix.dist }}"
     steps:
-      - name: Ubuntu Noble workarounds
-        if: matrix.dist == 'ubuntu-24.04' || matrix.dist == 'ubuntu-24.04-arm'
-        run: |
-          # error: externally-managed-environment
-          echo -e '[global]\nbreak-system-packages=true' | sudo tee /etc/pip.conf
       # ERROR: Cannot uninstall pip 24.0, RECORD file not found. Hint: The package was installed by debian.
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq autopurge python3-pip python3-setuptools python3-wheel python3-dev
       - run: sudo apt-get -q update
@@ -32,7 +27,7 @@ jobs:
       - run: sudo python3 -m pip install --upgrade pip setuptools wheel
       - run: |
           REPO=$GITHUB_REPOSITORY BRANCH=$GITHUB_REF_NAME
-          [ ${{ github.event_name }} = 'pull_request' ] && REPO=${{ github.event.pull_request.head.repo.full_name }} BRANCH=${{ github.event.pull_request.head.ref }}
+          [ '${{ github.event_name }}' = 'pull_request' ] && REPO='${{ github.event.pull_request.head.repo.full_name }}' BRANCH='${{ github.event.pull_request.head.ref }}'
           sudo python3 -m pip install "https://github.com/$REPO/archive/$BRANCH.tar.gz"
       - run: sudo motioneye_init --skip-apt-update
       - run: i=0; until ss -tln | grep 8765; do [ $i -le 10 ] || exit 0; sleep 1; i=$(expr $i + 1); done

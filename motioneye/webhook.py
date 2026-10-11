@@ -35,12 +35,12 @@ def main(parser, args):
 
     options = parse_options(parser, args)
 
-    meyectl.configure_logging('webhook', options.log_to_file)
+    meyectl.configure_logging('webhook')
     meyectl.configure_tornado()
 
     logging.debug('hello!')
-    logging.debug('method = %s' % options.method)
-    logging.debug('url = %s' % options.url)
+    logging.debug(f'method = {options.method}')
+    logging.debug(f'url = {options.url}')
 
     # some endpoints reject requests without a User-Agent with HTTP 403
     headers = {'User-Agent': 'motionEye'}
@@ -73,6 +73,6 @@ def main(parser, args):
         logging.debug('webhook successfully called')
 
     except Exception as e:
-        logging.error('failed to call webhook: %s' % e)
+        logging.error(f'failed to call webhook: {e}')
 
     logging.debug('bye!')

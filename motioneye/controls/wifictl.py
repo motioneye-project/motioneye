@@ -26,18 +26,15 @@ WPA_SUPPLICANT_CONF = settings.WPA_SUPPLICANT_CONF  # @UndefinedVariable
 def _get_wifi_settings():
     # will return the first configured network
 
-    logging.debug('reading wifi settings from %s' % WPA_SUPPLICANT_CONF)
+    logging.debug(f'reading wifi settings from {WPA_SUPPLICANT_CONF}')
 
     try:
-        conf_file = open(WPA_SUPPLICANT_CONF)
+        with open(WPA_SUPPLICANT_CONF) as f:
+            lines = f.readlines()
 
     except Exception as e:
-        logging.error(f'could open wifi settings file {WPA_SUPPLICANT_CONF}: {str(e)}')
-
+        logging.error(f'failed to read wifi settings file {WPA_SUPPLICANT_CONF}: {e}')
         return {'wifiEnabled': False, 'wifiNetworkName': '', 'wifiNetworkKey': ''}
-
-    lines = conf_file.readlines()
-    conf_file.close()
 
     ssid = psk = ''
     in_section = False
@@ -50,7 +47,6 @@ def _get_wifi_settings():
             in_section = True
 
         elif line.startswith('}'):
-            in_section = False
             break
 
         elif in_section:
@@ -63,13 +59,11 @@ def _get_wifi_settings():
                 psk = m.group(1)
 
     if ssid:
-        logging.debug('wifi is enabled (ssid = "%s")' % ssid)
-
+        logging.debug(f'wifi is enabled (ssid = "{ssid}")')
         return {'wifiEnabled': True, 'wifiNetworkName': ssid, 'wifiNetworkKey': psk}
 
     else:
         logging.debug('wifi is disabled')
-
         return {'wifiEnabled': False, 'wifiNetworkName': ssid, 'wifiNetworkKey': psk}
 
 
@@ -87,26 +81,19 @@ def _set_wifi_settings(s):
     enabled = s['wifiEnabled']
     ssid = s['wifiNetworkName']
     psk = s['wifiNetworkKey']
-    psk_is_hex = re.match('^[a-f0-9]{64}$', psk, re.I) is not None
+    psk_is_hex = re.match('^[a-f0-9]{64}$', psk, re.IGNORECASE) is not None
     key_mgmt = None if psk else 'NONE'
 
     # will update the first configured network
     try:
-        conf_file = open(WPA_SUPPLICANT_CONF)
+        with open(WPA_SUPPLICANT_CONF) as f:
+            lines = f.readlines()
 
     except Exception as e:
-        logging.error(
-            'could open wifi settings file {path}: {msg}'.format(
-                path=WPA_SUPPLICANT_CONF, msg=str(e)
-            )
-        )
-
+        logging.error(f'failed to read wifi settings file {WPA_SUPPLICANT_CONF}: {e}')
         return
 
-    lines = conf_file.readlines()
-    conf_file.close()
-
-    in_section = False
+    found_section = False
     found_ssid = False
     found_psk = False
     found_key_mgmt = False
@@ -118,10 +105,9 @@ def _set_wifi_settings(s):
             continue
 
         if line.endswith('{'):
-            in_section = True
+            found_section = True
 
         elif line.startswith('}'):
-            in_section = False
             if enabled and ssid and not found_ssid:
                 lines.insert(i, '    ssid="' + ssid + '"\n')
             if enabled and psk and not found_psk:
@@ -133,11 +119,9 @@ def _set_wifi_settings(s):
             if enabled and not found_key_mgmt and key_mgmt:
                 lines.insert(i, '    key_mgmt=' + key_mgmt + '\n')
 
-            found_psk = found_ssid = found_key_mgmt = True
-
             break
 
-        elif in_section:
+        elif found_section:
             if enabled:
                 if re.match(r'ssid\s*=\s*".*?"', line):
                     lines[i] = '    ssid="' + ssid + '"\n'
@@ -170,7 +154,7 @@ def _set_wifi_settings(s):
 
         i += 1
 
-    if enabled and not found_ssid:
+    if enabled and not found_section:
         lines.append('network={\n')
         lines.append('    scan_ssid=1\n')
         lines.append('    ssid="' + ssid + '"\n')
@@ -184,21 +168,13 @@ def _set_wifi_settings(s):
         lines.append('}\n\n')
 
     try:
-        conf_file = open(WPA_SUPPLICANT_CONF, 'w')
+        with open(WPA_SUPPLICANT_CONF, 'w') as f:
+            for line in lines:
+                f.write(line)
 
     except Exception as e:
-        logging.error(
-            'could open wifi settings file {path}: {msg}'.format(
-                path=WPA_SUPPLICANT_CONF, msg=str(e)
-            )
-        )
-
+        logging.error(f'failed to write wifi settings file {WPA_SUPPLICANT_CONF}: {e}')
         return
-
-    for line in lines:
-        conf_file.write(line)
-
-    conf_file.close()
 
 
 @additional_section
@@ -209,7 +185,7 @@ def network():
 @additional_config
 def wifi_enabled():
     if not WPA_SUPPLICANT_CONF:
-        return
+        return None
 
     return {
         'label': 'Wireless Network',
@@ -226,7 +202,7 @@ def wifi_enabled():
 @additional_config
 def wifi_network_name():
     if not WPA_SUPPLICANT_CONF:
-        return
+        return None
 
     return {
         'label': 'Wireless Network Name',
@@ -245,7 +221,7 @@ def wifi_network_name():
 @additional_config
 def wifi_network_key():
     if not WPA_SUPPLICANT_CONF:
-        return
+        return None
 
     return {
         'label': 'Wireless Network Key',

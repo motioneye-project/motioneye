@@ -23,16 +23,28 @@ from time import time
 from tornado.web import HTTPError, RequestHandler
 
 from motioneye import VERSION, config, template
+from motioneye.settings import NORMAL_SESSION_EXPIRY_HOURS
 from motioneye.utils.authstate import verify_hmac_signature
 
-__all__ = ('BaseHandler', 'NotFoundHandler', 'ManifestHandler')
+__all__ = ('BaseHandler', 'ManifestHandler', 'NotFoundHandler')
 
 # Session expiry: 24 hours
 _SESSION_EXPIRY_SECONDS: int = 86400
 
+_CSP = (
+    "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; "
+    "img-src 'self' http: https:; object-src 'none'; base-uri 'none'"
+)
+
 # In-memory session store for browser session authentication
 # Format: session_id -> {'user': role, 'expires': timestamp}
 _session_store: dict = {}
+
+
+def session_expiry_seconds(user_type: str) -> int:
+    if user_type == 'normal':
+        return max(1, NORMAL_SESSION_EXPIRY_HOURS) * 3600
+    return _SESSION_EXPIRY_SECONDS
 
 
 def create_session(user_type):
@@ -40,7 +52,7 @@ def create_session(user_type):
     session_id = token_hex(32)
     _session_store[session_id] = {
         'user': user_type,
-        'expires': time() + _SESSION_EXPIRY_SECONDS,
+        'expires': time() + session_expiry_seconds(user_type),
     }
     return session_id
 
@@ -58,8 +70,7 @@ def validate_session(session_id):
 
 def invalidate_session(session_id):
     """Invalidate a specific session."""
-    if session_id in _session_store:
-        del _session_store[session_id]
+    _session_store.pop(session_id, None)
 
 
 def invalidate_user_sessions(user_type):
@@ -119,11 +130,14 @@ class BaseHandler(RequestHandler):
     def finish(self, chunk=None):
         if not self._finished:
             return super().finish(chunk=chunk)
-        else:
-            logging.debug('Already finished')
+
+        logging.debug('Already finished')
+
+        return None
 
     def render(self, template_name, content_type='text/html', **context):
         self.set_header('Content-Type', content_type)
+        self.set_header('Content-Security-Policy', _CSP)
 
         context.setdefault('version', VERSION)
 
@@ -138,7 +152,7 @@ class BaseHandler(RequestHandler):
 
     def get_current_user(self):
         # Check for session-based authentication (via secure cookie)
-        session_id = self.get_secure_cookie('user')
+        session_id = self.get_signed_cookie('user')
         if session_id:
             try:
                 session_id = (
@@ -199,7 +213,7 @@ class BaseHandler(RequestHandler):
                 )
 
             else:
-                logging.error(str(exception), exc_info=True)
+                logging.exception(str(exception))
                 self.set_status(500)
                 self.finish_json({'error': 'internal server error'})
 

@@ -15,16 +15,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations
+
 import logging
 from hashlib import sha1
 from secrets import compare_digest
-from typing import Any, Dict
+from typing import Any
 
 from argon2 import PasswordHasher
 from argon2.exceptions import InvalidHash, VerificationError, VerifyMismatchError
 
 from motioneye import config
-from motioneye.handlers.base import BaseHandler, create_session
+from motioneye.handlers.base import BaseHandler, create_session, session_expiry_seconds
 from motioneye.utils.authstate import (
     PasswordHashState,
     build_password_hash_state,
@@ -45,7 +47,7 @@ def verify_argon2_password(stored_hash, plaintext_password):
 
 
 def verify_legacy_sha1_password(stored_hash, plaintext_password):
-    candidate = sha1(plaintext_password.encode()).hexdigest()  # nosec B324
+    candidate = sha1(plaintext_password.encode()).hexdigest()  # nosec: B324
     return compare_digest(candidate, stored_hash)
 
 
@@ -126,7 +128,7 @@ class LoginHandler(BaseHandler):
                 mark_user_migrated(user_type)
 
             elif hash_type == 'missing':
-                if password != '':
+                if password != '':  # nosec: B105
                     self.set_status(401)
                     return self.finish_json({'error': 'invalid credentials'})
 
@@ -140,18 +142,20 @@ class LoginHandler(BaseHandler):
             return self.finish_json({'error': 'invalid credentials'})
 
         session_id = create_session(user_type)
-        self.set_secure_cookie(
+        self.set_signed_cookie(
             'user',
             session_id,
-            expires_days=1,
+            expires_days=session_expiry_seconds(user_type) / 86400,
             httponly=True,
             secure=should_use_secure_cookie(self),
             samesite='Strict',
         )
 
-        response: Dict[str, Any] = {'user': user_type}
+        response: dict[str, Any] = {'user': user_type}
 
         if hash_type == 'missing':
             response['force_password_change'] = True
 
         self.finish_json(response)
+
+        return None

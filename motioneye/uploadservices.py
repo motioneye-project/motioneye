@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
-import ftplib
+import ftplib  # nosec: B402
 import io
 import json
 import logging
@@ -77,27 +77,22 @@ class UploadService:
         except Exception as e:
             msg = f'failed to open file "{filename}": {e}'
             self.error(msg)
-            raise Exception(msg)
+            raise RuntimeError(msg)
 
         if st.st_size > self.MAX_FILE_SIZE:
-            msg = 'file "{}" is too large ({}MB/{}MB)'.format(
-                filename,
-                st.st_size / 1024 / 1024,
-                self.MAX_FILE_SIZE / 1024 / 1024,
-            )
-
+            msg = f'file "{filename}" is too large ({st.st_size / 1024 / 1024}MB/{self.MAX_FILE_SIZE / 1024 / 1024}MB)'
             self.error(msg)
-            raise Exception(msg)
+            raise RuntimeError(msg)
 
         try:
-            f = open(filename, 'rb')
+            with open(filename, 'rb') as f:
+                data = f.read()
 
         except Exception as e:
-            msg = f'failed to open file "{filename}": {e}'
+            msg = f'failed to read file "{filename}": {e}'
             self.error(msg)
-            raise Exception(msg)
+            raise RuntimeError(msg)
 
-        data = f.read()
         self.debug(f'size of "{filename}" is {len(data) / 1024.0 / 1024:.3f}MB')
 
         mime_type = mimetypes.guess_type(filename)[0] or 'image/jpeg'
@@ -204,7 +199,7 @@ class GoogleBase:
             if not self._authorization_key:
                 msg = 'missing authorization key'
                 self.error(msg)
-                raise Exception(msg)
+                raise ValueError(msg)
 
             self.debug('requesting credentials')
             try:
@@ -252,7 +247,7 @@ class GoogleBase:
                     msg = str(e)
 
                 self.error(f'request failed: {msg}')
-                raise Exception(msg)
+                raise RuntimeError(msg)
 
         except Exception as e:
             self.error(f'request failed: {e}')
@@ -290,7 +285,7 @@ class GoogleBase:
 
         except HTTPError as e:
             error = json.load(e)
-            raise Exception(
+            raise RuntimeError(
                 error.get('error_description') or error.get('error') or str(e)
             )
 
@@ -319,7 +314,7 @@ class GoogleBase:
 
         except HTTPError as e:
             error = json.load(e)
-            raise Exception(
+            raise RuntimeError(
                 error.get('error_description') or error.get('error') or str(e)
             )
 
@@ -467,7 +462,7 @@ class GoogleDrive(UploadService, GoogleBase):
             else:
                 msg = f'folder with name "{child_name}" does not exist'
                 self.error(msg)
-                raise Exception(msg)
+                raise RuntimeError(msg)
 
         return items[0]['id']
 
@@ -769,7 +764,7 @@ class Dropbox(UploadService):
             if not self._authorization_key:
                 msg = 'missing authorization key'
                 self.error(msg)
-                raise Exception(msg)
+                raise ValueError(msg)
 
             self.debug('requesting credentials')
             try:
@@ -809,7 +804,7 @@ class Dropbox(UploadService):
             elif str(e).count('not_found'):
                 msg = f'folder "{self._location}" not found'
                 self.error(msg)
-                raise Exception(msg)
+                raise FileNotFoundError(msg)
 
             else:
                 self.error(f'request failed: {e}')
@@ -839,7 +834,7 @@ class Dropbox(UploadService):
 
         except HTTPError as e:
             error = json.load(e)
-            raise Exception(
+            raise RuntimeError(
                 error.get('error_description') or error.get('error') or str(e)
             )
 
@@ -868,7 +863,7 @@ class Dropbox(UploadService):
 
         except HTTPError as e:
             error = json.load(e)
-            raise Exception(
+            raise RuntimeError(
                 error.get('error_description') or error.get('error') or str(e)
             )
 
@@ -909,7 +904,7 @@ class Webdav(UploadService):
                     'MKCOL failed with code 405, this is normal if the folder exists'
                 )
             else:
-                raise e
+                raise
 
     def _make_dirs(self, path):
         dir_url = self._endpoint_url.rstrip('/') + '/'
@@ -981,7 +976,7 @@ class FTP(UploadService):
             path = self._make_dirs(self._location, conn=conn)
             conn.cwd(path)
 
-            d = '%s' % int(time.time())
+            d = f'{int(time.time())}'
             self.debug(f'creating test directory {path}/{d}')
             conn.mkd(d)
             conn.rmd(d)
@@ -1035,7 +1030,7 @@ class FTP(UploadService):
                     self._username or 'anonymous', self._server, self._port
                 )
             )
-            self._conn = ftplib.FTP()
+            self._conn = ftplib.FTP()  # nosec: B321
             self._conn.set_pasv(True)
             self._conn.connect(self._server, port=self._port)
             self._conn.login(self._username or 'anonymous', self._password)
@@ -1144,14 +1139,10 @@ class SFTP(UploadService):
             self._location = data['location']
 
     def _get_conn(self, filename, auth_type='password'):
-        sftp_url = 'sftp://{}:{}/{}/{}'.format(
-            self._server, self._port, self._location, filename
-        )
+        sftp_url = f'sftp://{self._server}:{self._port}/{self._location}/{filename}'
 
         self.debug(
-            'creating sftp connection to {}@{}:{}'.format(
-                self._username, self._server, self._port
-            )
+            f'creating sftp connection to {self._username}@{self._server}:{self._port}'
         )
 
         self._conn = pycurl.Curl()
@@ -1233,9 +1224,7 @@ class S3(UploadService):
             rel_filename = os.path.basename(filename)
 
         if self._sse_c_key:
-            sse_key_md5 = b64encode(
-                md5(b64decode(self._sse_c_key)).digest()  # nosec B324
-            ).decode()
+            sse_key_md5 = b64encode(md5(b64decode(self._sse_c_key)).digest()).decode()  # nosec: B324
             extra_args = {
                 'SSECustomerAlgorithm': 'AES256',
                 'SSECustomerKey': self._sse_c_key,
@@ -1332,15 +1321,17 @@ def upload_media_file(
 ):
     service = get(camera_id, service_name)
     if not service:
-        return logging.error(
+        logging.error(
             f'service "{service_name}" not initialized for camera with id {camera_id}'
         )
+
+        return
 
     try:
         service.upload_file(target_dir, filename, camera_name)
 
     except Exception as e:
-        logging.error(
+        logging.error(  # noqa: G201
             f'failed to upload file "{filename}" with service {service}: {e}',
             exc_info=True,
         )
@@ -1359,15 +1350,17 @@ def upload_media_file(
 
         camera_config = config.get_camera(camera_id)
         rel = utils.remove_prefix(filename, camera_config['target_dir'] + os.sep)
-        mediafiles.del_media_content(camera_config, rel, media_type)
+        mediafiles.del_media_content(camera_config, rel)
         logging.debug(f'removed local file "{filename}" after successful upload')
 
     except Exception as e:
         # never let a cleanup error affect the (already successful) upload
-        logging.error(
+        logging.error(  # noqa: G201
             f'failed to remove local file "{filename}" after upload: {e}',
             exc_info=True,
         )
+
+    return
 
 
 def _load():
@@ -1379,7 +1372,7 @@ def _load():
         logging.debug(f'loading upload services state from "{file_path}"...')
 
         try:
-            f = open(file_path)
+            f = open(file_path)  # noqa: SIM115
 
         except Exception as e:
             logging.error(
@@ -1430,7 +1423,7 @@ def _save(services):
             data.setdefault(str(camera_id), {})[name] = service.dump()
 
     try:
-        f = open(file_path, 'w')
+        f = open(file_path, 'w')  # noqa: SIM115
 
     except Exception as e:
         logging.error(f'could not open upload services state file "{file_path}": {e}')
@@ -1453,7 +1446,7 @@ def clean_cloud(local_dir, data, info):
     camera_id = info['camera_id']
     service_name = info['service_name']
     cloud_dir_user = info['cloud_dir']
-    cloud_dir = [p.strip() for p in cloud_dir_user.split('/') if p.strip()][0]
+    cloud_dir = next(p.strip() for p in cloud_dir_user.split('/') if p.strip())
 
     logging.debug(f'clean_cloud({camera_id}, {service_name}, {local_dir}, {cloud_dir})')
 

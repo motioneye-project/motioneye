@@ -18,8 +18,10 @@
 
 import argparse
 import gettext
+import json
 import locale
 import logging
+import multiprocessing
 import os.path
 import sys
 from shlex import quote
@@ -79,6 +81,17 @@ def load_l10n():
         settings.traduction = gettext
         gettext.install('motioneye')
 
+    # embedded in the page, so the browser needs no extra request for them
+    settings.js_translations = None
+    if settings.lingvo != 'eo':
+        name = f'motioneye.{settings.lingvo}.json'
+        path = os.path.join(settings.STATIC_PATH, 'js', name)
+        try:
+            with open(path, encoding='utf-8') as f:
+                settings.js_translations = json.load(f)
+        except (OSError, ValueError) as e:
+            logging.error(f'failed to load {path}: {e}')
+
 
 def find_command(command):
     if command == 'relayevent':
@@ -90,7 +103,7 @@ def find_command(command):
         cmd = __file__
         cmd = sys.executable + ' ' + cmd
         cmd = cmd.replace('-b', '')  # remove server-specific options
-        cmd += ' %s ' % command
+        cmd += f' {command} '
         cmd += ' '.join([quote(arg) for arg in sys.argv[2:] if arg not in ['-b']])
 
     return cmd
@@ -101,6 +114,7 @@ def load_settings():
 
     config_file = None
     debug = False
+    log_to_file = False
 
     for i in range(1, len(sys.argv)):
         arg = sys.argv[i]
@@ -110,6 +124,9 @@ def load_settings():
 
         elif arg == '-d':
             debug = True
+
+        elif arg == '-l':
+            log_to_file = True
 
     conf_path_given = [False]
     run_path_given = [False]
@@ -125,7 +142,7 @@ def load_settings():
 
         parts = line.split(' ', 1)
         if len(parts) != 2:
-            raise Exception(f'invalid configuration line: {line}')
+            raise ValueError(f'invalid configuration line: {line}')
 
         name, value = parts
         upper_name = name.upper().replace('-', '_')
@@ -134,11 +151,18 @@ def load_settings():
             curr_value = getattr(settings, upper_name)
 
             if upper_name == 'LOG_LEVEL':
-                if value == 'quiet':
+                level = value.strip().lower()
+                if level == 'quiet':
                     value = 100
 
+                elif level.isdigit():
+                    value = int(level)
+
                 else:
-                    value = getattr(logging, value.upper(), logging.DEBUG)
+                    value = getattr(logging, level.upper(), None)
+                    if not isinstance(value, int):  # e.g. a typo, don't enable debug
+                        logging.warning(f'unknown log level: "{level}"')
+                        value = curr_value
 
             elif value.lower() == 'true':
                 value = True
@@ -202,10 +226,12 @@ def load_settings():
     if debug:
         settings.LOG_LEVEL = logging.DEBUG
 
+    if log_to_file:
+        settings.LOG_TO_FILE = True
 
-def configure_logging(cmd, log_to_file=False):
-    sys.stderr.write(f'configure_logging cmd {cmd}: {log_to_file}\n')
-    if log_to_file or cmd != 'motioneye':
+
+def configure_logging(cmd):
+    if settings.LOG_TO_FILE or cmd != 'motioneye':
         fmt = f'%(asctime)s: [{cmd}] %(levelname)8s: %(message)s'
 
     else:
@@ -215,13 +241,12 @@ def configure_logging(cmd, log_to_file=False):
         logging.getLogger().removeHandler(h)
 
     try:
-        if log_to_file:
+        if settings.LOG_TO_FILE:
             log_file = os.path.join(settings.LOG_PATH, 'motioneye.log')
 
         else:
             log_file = None
 
-        sys.stderr.write(f'configure logging to file: {log_file}\n')
         logging.basicConfig(
             filename=log_file,
             level=settings.LOG_LEVEL,
@@ -233,8 +258,8 @@ def configure_logging(cmd, log_to_file=False):
         sys.stderr.write(f'failed to configure logging: {e}\n')
         sys.exit(-1)
 
-    logging.getLogger('tornado').setLevel(logging.WARN)
-    logging.getLogger('oauth2client').setLevel(logging.WARN)
+    logging.getLogger('tornado').setLevel(logging.WARNING)
+    logging.getLogger('oauth2client').setLevel(logging.WARNING)
 
 
 def configure_tornado():
@@ -288,7 +313,7 @@ def make_arg_parser(command=None):
     )
     parser.add_argument(
         '-l',
-        help='log to file instead of standard error',
+        help='log to file instead of standard error, overriding the config file setting',
         action='store_true',
         dest='log_to_file',
     )
@@ -314,6 +339,16 @@ def print_version_and_exit():
     sys.exit()
 
 
+def configure_multiprocessing():
+    # Python 3.14 made 'forkserver' the default; its children start with
+    # import-time settings and no logging, but ours rely on inheriting the
+    # parent's (#3411). Keep 'fork', before any multiprocessing object exists.
+    if 'fork' not in multiprocessing.get_all_start_methods():
+        return
+
+    multiprocessing.set_start_method('fork', force=True)
+
+
 def main():
     for a in sys.argv:
         if a == '-v':
@@ -322,6 +357,7 @@ def main():
     if len(sys.argv) < 2 or sys.argv[1] == '-h':
         print_usage_and_exit(0)
 
+    configure_multiprocessing()
     load_settings()
 
     command = sys.argv[1]
@@ -331,23 +367,6 @@ def main():
 
     if command in ('startserver', 'stopserver'):
         from motioneye import server
-        from motioneye.utils.authstate import (
-            build_password_hash_state,
-            set_password_hash_state,
-            validate_password_hash_state,
-        )
-
-        if command == "startserver":
-            main_config = config.get_main()
-            state = build_password_hash_state(main_config)
-            set_password_hash_state(state)
-            if not validate_password_hash_state(state):
-                logging.warning(
-                    _(
-                        'The admin and/or surveillance user has no password assigned. '
-                        'Please login to the web interface to set both passwords.'
-                    )
-                )
 
         server.main(arg_parser, sys.argv[2:], command[:-6])
 

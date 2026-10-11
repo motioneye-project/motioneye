@@ -15,14 +15,14 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
 
-    - uses: actions/setup-python@v6
+    - uses: actions/setup-python@v7
       with:
         python-version: '3.x'
         check-latest: true
-        pip-install: babel jinja2
 
-    - name: Install gettext
+    - name: Install dependencies
       run: |
+        pip install -U babel jinja2 &
         sudo apt-get -q update
         sudo DEBIAN_FRONTEND='noninteractive' apt-get -qq --no-install-recommends install gettext
 

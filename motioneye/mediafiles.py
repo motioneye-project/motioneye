@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import datetime
 import fcntl
@@ -25,10 +26,9 @@ import subprocess
 from errno import EAGAIN, ENOENT
 from hashlib import sha1
 from io import BytesIO
-from shlex import quote
 from signal import SIGKILL, SIGTERM
 from time import time
-from typing import Awaitable, List, Optional
+from typing import Any, Awaitable
 from zipfile import ZipFile
 
 from PIL import Image
@@ -53,7 +53,7 @@ FFMPEG_CODEC_MAPPING = {
     'mkv:h264_omx': 'h264_omx',
     'mp4:h264_v4l2m2m': 'h264_v4l2m2m',
     'mkv:h264_v4l2m2m': 'h264_v4l2m2m',
-    'hevc': 'h265',
+    'hevc': 'hevc',
 }
 
 FFMPEG_FORMAT_MAPPING = {
@@ -98,7 +98,7 @@ MOVIE_EXT_TYPE_MAPPING = {
 # a cache of prepared files (whose preparing time is significant)
 _prepared_files: dict = {}
 
-_timelapse_process = None
+_timelapse_process: Any = None
 _timelapse_data = None
 
 _ffmpeg_binary_cache = None
@@ -106,10 +106,13 @@ _ffmpeg_binary_cache = None
 
 def _list_media_files(
     base_path: str,
-    exts: List[str],
-    sub_path: Optional[str] = None,
+    exts: list[str],
+    sub_path: str | None = None,
     with_stat: bool = True,
-) -> List[tuple]:
+    *,
+    min_timestamp: float | None = None,
+    max_timestamp: float | None = None,
+) -> list[tuple]:
     # Determine scan path based on sub_path parameter
     if sub_path is not None:
         if sub_path == 'ungrouped':
@@ -120,6 +123,9 @@ def _list_media_files(
             return []
     else:
         scan_path = base_path
+
+    # loop-invariant: only compute the window flag once
+    windowed: bool = min_timestamp is not None or max_timestamp is not None
 
     media_files = []
     for entry in os.scandir(scan_path):
@@ -135,7 +141,7 @@ def _list_media_files(
 
             # If stat is not needed, use None as placeholder
             st = None
-            if with_stat:
+            if with_stat or windowed:
                 # stat call may fail due to race conditions or permission issues
                 try:
                     st = entry.stat(follow_symlinks=False)
@@ -143,11 +149,29 @@ def _list_media_files(
                     logging.error(f'stat failed: {e}')
                     continue
 
-            media_files.append((entry.path, st))
+                # Skip files outside the caller's window before any of the
+                # expensive per-file work in _do_list_media. Bounds are
+                # inclusive, i.e. wider than any caller's own filter.
+                if windowed:
+                    mtime: float = st.st_mtime
+                    if min_timestamp is not None and mtime < min_timestamp:
+                        continue
+                    if max_timestamp is not None and mtime > max_timestamp:
+                        continue
+
+            media_files.append((entry.path, st if with_stat else None))
 
         # recurse into subdirectories only when no sub_path filter is set
         elif sub_path is None and entry.is_dir(follow_symlinks=False):
-            media_files.extend(_list_media_files(entry.path, exts, with_stat=with_stat))
+            media_files.extend(
+                _list_media_files(
+                    entry.path,
+                    exts,
+                    with_stat=with_stat,
+                    min_timestamp=min_timestamp,
+                    max_timestamp=max_timestamp,
+                )
+            )
 
     return media_files
 
@@ -156,7 +180,7 @@ def _remove_older_files(
     directory: str,
     moment: datetime.datetime,
     clean_cloud_info: dict,
-    exts: List[str],
+    exts: list[str],
 ):
     removed_folder_count = 0
     for full_path, st in _list_media_files(directory, exts, with_stat=True):
@@ -206,10 +230,25 @@ def _remove_older_files(
         uploadservices.clean_cloud(directory, {}, clean_cloud_info)
 
 
-def _do_list_media(pipe, target_dir, exts, sub_path, with_stat):
+def _do_list_media(
+    pipe,
+    target_dir: str,
+    exts: list[str],
+    sub_path: str | None = None,
+    with_stat: bool = True,
+    min_timestamp: float | None = None,
+    max_timestamp: float | None = None,
+) -> None:
     from mimetypes import guess_type
 
-    mf = _list_media_files(target_dir, exts, sub_path, with_stat)
+    mf = _list_media_files(
+        target_dir,
+        exts,
+        sub_path,
+        with_stat,
+        min_timestamp=min_timestamp,
+        max_timestamp=max_timestamp,
+    )
     for p, st in mf:
         path = p[len(target_dir) :]
         if not path.startswith('/'):
@@ -313,7 +352,7 @@ def find_ffmpeg() -> tuple:
 
     # version
     try:
-        output = utils.call_subprocess([quote(binary), '-version'])
+        output = utils.call_subprocess([binary, '-version'])
 
     except subprocess.CalledProcessError as e:
         logging.error(f'ffmpeg: could not find version: {e}')
@@ -324,7 +363,7 @@ def find_ffmpeg() -> tuple:
 
     # codecs
     try:
-        output = utils.call_subprocess(binary + ' -codecs -hide_banner', shell=True)
+        output = utils.call_subprocess([binary, '-codecs', '-hide_banner'])
 
     except subprocess.CalledProcessError as e:
         logging.error(f'ffmpeg: could not list supported codecs: {e}')
@@ -371,7 +410,7 @@ def cleanup_media(media_type: str) -> None:
         exts = _MOVIE_EXTS + ['.thumb']
 
     for camera_id in config.get_camera_ids():
-        camera_config = config.get_camera(camera_id)
+        camera_config: dict = config.get_camera(camera_id)
         if not utils.is_local_motion_camera(camera_config):
             continue
 
@@ -394,7 +433,7 @@ def cleanup_media(media_type: str) -> None:
             days=preserve_media
         )
 
-        target_dir = camera_config.get('target_dir')
+        target_dir: str = camera_config['target_dir']
         cloud_enabled = camera_config.get('@upload_enabled')
         clean_cloud_enabled = camera_config.get('@clean_cloud_enabled')
         cloud_dir = camera_config.get('@upload_location')
@@ -450,7 +489,7 @@ def get_movie_duration_seconds(path: str) -> int:
         return 0
 
 
-def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
+def make_movie_preview(camera_config: dict, full_path: str) -> str | None:
     framerate = camera_config['framerate']
     pre_capture = camera_config['pre_capture']
     offs = pre_capture / framerate
@@ -458,9 +497,7 @@ def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
     offs = max(
         (x for x in {offs * 2, offs} if x <= movie_duration), default=movie_duration / 2
     )
-
-    path = quote(full_path)
-    thumb_path = full_path + '.thumb'
+    thumb_path: str = full_path + '.thumb'
 
     target_dir: str = camera_config['target_dir']
     utils.validate_paths(
@@ -472,11 +509,23 @@ def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
         f'creating movie preview for {full_path} with an offset of {offs} seconds...'
     )
 
-    cmd = f'ffmpeg -i {path} -f mjpeg -vframes 1 -ss {offs} -y {path}.thumb'
-    logging.debug(f'running command "{cmd}"')
+    cmd: list = [
+        'ffmpeg',
+        '-i',
+        full_path,
+        '-f',
+        'mjpeg',
+        '-vframes',
+        '1',
+        '-ss',
+        str(offs),
+        '-y',
+        thumb_path,
+    ]
+    logging.debug(f'running command {cmd}')
 
     try:
-        utils.call_subprocess(cmd.split(), stderr=subprocess.STDOUT)
+        utils.call_subprocess(cmd, stderr=subprocess.STDOUT)
 
     except subprocess.CalledProcessError as e:
         logging.error(f'failed to create movie preview for {full_path}: {e}')
@@ -496,12 +545,24 @@ def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
             f'movie probably too short, grabbing first frame from {full_path}...'
         )
 
-        cmd = f'ffmpeg -i {path} -f mjpeg -vframes 1 -ss 0 -y {path}.thumb'
-        logging.debug(f'running command "{cmd}"')
+        cmd = [
+            'ffmpeg',
+            '-i',
+            full_path,
+            '-f',
+            'mjpeg',
+            '-vframes',
+            '1',
+            '-ss',
+            '0',
+            '-y',
+            thumb_path,
+        ]
+        logging.debug(f'running command {cmd}')
 
         # try again, this time grabbing the very first frame
         try:
-            utils.call_subprocess(cmd.split(), stderr=subprocess.STDOUT)
+            utils.call_subprocess(cmd, stderr=subprocess.STDOUT)
 
         except subprocess.CalledProcessError as e:
             logging.error(f'failed to create movie preview for {full_path}: {e}')
@@ -521,8 +582,8 @@ def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
         try:
             os.remove(thumb_path)
 
-        except:
-            pass
+        except Exception:  # nosec: B110 # noqa: S110
+            pass  # nothing we can do about it
 
         return None
 
@@ -532,10 +593,13 @@ def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
 def list_media(
     camera_config: dict,
     media_type: str,
-    prefix: Optional[str] = None,
+    prefix: str | None = None,
     with_stat: bool = True,
+    *,
+    min_timestamp: float | None = None,
+    max_timestamp: float | None = None,
 ) -> Awaitable:
-    target_dir = camera_config.get('target_dir')
+    target_dir: str = camera_config['target_dir']
     utils.validate_paths(prefix, target_dir=target_dir)
 
     if media_type == 'picture':
@@ -548,7 +612,16 @@ def list_media(
 
     parent_pipe, child_pipe = multiprocessing.Pipe(duplex=False)
     process = multiprocessing.Process(
-        target=_do_list_media, args=(child_pipe, target_dir, exts, prefix, with_stat)
+        target=_do_list_media,
+        args=(
+            child_pipe,
+            target_dir,
+            exts,
+            prefix,
+            with_stat,
+            min_timestamp,
+            max_timestamp,
+        ),
     )
     process.start()
     child_pipe.close()
@@ -579,7 +652,7 @@ def list_media(
                 try:
                     os.kill(process.pid, SIGKILL)
 
-                except:
+                except Exception:  # nosec: B110 # noqa: S110
                     pass  # nevermind
 
                 fut.set_result(None)
@@ -594,30 +667,29 @@ def list_media(
     return fut
 
 
-def get_media_path(camera_config, path: str, media_type):
-    target_dir = camera_config.get('target_dir')
+def get_media_path(camera_config: dict, path: str):
+    target_dir: str = camera_config['target_dir']
     utils.validate_paths(path, target_dir=target_dir)
-    full_path = os.path.join(target_dir, path)
+    full_path: str = os.path.join(target_dir, path)
     return full_path
 
 
-def get_media_content(camera_config, path: str, media_type):
-    target_dir = camera_config.get('target_dir')
+def get_media_content(camera_config: dict, path: str):
+    target_dir: str = camera_config['target_dir']
     utils.validate_paths(path, target_dir=target_dir)
-    full_path = os.path.join(target_dir, path)
+    full_path: str = os.path.join(target_dir, path)
 
     try:
         with open(full_path, 'rb') as f:
             return f.read()
 
     except Exception as e:
-        logging.error(f'failed to read file {full_path}: {str(e)}')
-
+        logging.error(f'failed to read file {full_path}: {e}')
         return None
 
 
 def get_zipped_content(camera_config: dict, media_type: str, group: str) -> Awaitable:
-    target_dir = camera_config.get('target_dir')
+    target_dir: str = camera_config['target_dir']
     utils.validate_paths(group, target_dir=target_dir)
 
     if media_type == 'picture':
@@ -654,7 +726,7 @@ def get_zipped_content(camera_config: dict, media_type: str, group: str) -> Awai
                 try:
                     os.kill(process.pid, SIGTERM)
 
-                except:
+                except Exception:  # nosec: B110 # noqa: S110
                     pass  # nevermind
 
                 fut.set_result(None)
@@ -664,7 +736,7 @@ def get_zipped_content(camera_config: dict, media_type: str, group: str) -> Awai
                 data = parent_pipe.recv()
                 logging.debug(f'zip process has returned {len(data)} bytes')
 
-            except:
+            except Exception:
                 data = None
 
             fut.set_result(data)
@@ -678,7 +750,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
     global _timelapse_process
     global _timelapse_data
 
-    target_dir = camera_config.get('target_dir')
+    target_dir: str = camera_config['target_dir']
     utils.validate_paths(group, target_dir=target_dir)
     # save movie_codec as a different variable so it doesn't get lost in the CODEC_MAPPING
     movie_codec = camera_config.get('movie_codec')
@@ -693,7 +765,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
     _timelapse_process = multiprocessing.Process(
         target=_do_list_pictures, args=(child_pipe, target_dir, group)
     )
-    setattr(_timelapse_process, 'progress', 0)
+    _timelapse_process.progress = 0
     _timelapse_process.start()
     _timelapse_data = None
 
@@ -703,7 +775,9 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
     media_list = []
 
     # use correct extension for the movie_codec
-    tmp_filename = os.path.join(settings.MEDIA_PATH, f'.{int(time())}.{file_format}')
+    tmp_filename: str = os.path.join(
+        settings.MEDIA_PATH, f'.{int(time())}.{file_format}'
+    )
 
     def read_media_list():
         while parent_pipe.poll():
@@ -731,7 +805,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                 try:
                     os.kill(_timelapse_process.pid, SIGTERM)
 
-                except:
+                except Exception:  # nosec: B110 # noqa: S110
                     pass  # nevermind
 
                 _timelapse_process.progress = -1
@@ -745,18 +819,18 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
 
                 return
 
-            pictures = select_pictures(media_list)
+            pictures: list = select_pictures(media_list)
             make_movie(pictures)
 
-    def select_pictures(media_list):
+    def select_pictures(media_list: list) -> list:
         media_list.sort(key=lambda e: e['timestamp'])
         start = media_list[0]['timestamp']
-        slices = {}
+        slices: dict = {}
         max_idx = 0
         for m in media_list:
             offs = m['timestamp'] - start
             pos = float(offs) / interval - 0.5
-            idx = int(round(pos))
+            idx = round(pos)
             max_idx = idx
             m['delta'] = abs(pos - idx)
             slices.setdefault(idx, []).append(m)
@@ -773,89 +847,128 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
 
         return selected
 
-    def make_movie(pictures):
+    def make_movie(pictures: list) -> None:
         global _timelapse_process
 
         # don't specify file format with -f, let ffmpeg work it out from the extension
-        cmd = 'rm -f %(tmp_filename)s;'
-        cmd += (
-            'cat %(jpegs)s | ffmpeg -framerate %(framerate)s -f image2pipe -vcodec mjpeg -i - -vcodec %(codec)s '
-            '-format %(format)s -b:v %(bitrate)s -qscale:v 0.1 %(tmp_filename)s'
-        )
+        cmd: list = [
+            'ffmpeg',
+            '-r',
+            str(framerate),
+            '-f',
+            'concat',
+            '-protocol_whitelist',
+            'fd,file,pipe',
+            '-safe',
+            '0',
+            '-i',
+            '-',
+            '-y',
+            '-vcodec',
+            codec,
+            '-format',
+            fmt,
+            '-b:v',
+            '9999999',
+            '-qscale:v',
+            '0.1',
+            tmp_filename,
+        ]
 
-        bitrate = 9999999
-
-        cmd = cmd % {
-            'tmp_filename': tmp_filename,
-            'jpegs': ' '.join(('"' + p['path'] + '"') for p in pictures),
-            'framerate': framerate,
-            'codec': codec,
-            'format': fmt,
-            'bitrate': bitrate,
-        }
-
-        logging.debug(f'executing "{cmd}"')
+        logging.debug(f'running command {cmd}')
 
         _timelapse_process = subprocess.Popen(
-            cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            stdin=subprocess.PIPE,
         )
         _timelapse_process.progress = 0.01  # 1%
+
+        for p in pictures:
+            path: str = p['path'].replace("'", "'\\''")
+            _timelapse_process.stdin.write(f"file 'file:{path}'\n".encode())
+        _timelapse_process.stdin.close()
 
         # make subprocess stdout pipe non-blocking
         fd = _timelapse_process.stdout.fileno()
         fl = fcntl.fcntl(fd, fcntl.F_GETFL)
         fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
-        poll_movie_process(pictures)
+        _poll_movie_process(pictures, [])
 
-    def poll_movie_process(pictures):
+    def _poll_movie_process(pictures: list, output: list):
         global _timelapse_process
         global _timelapse_data
+        output_chunk: bytes = b''
 
         io_loop = IOLoop.current()
         if _timelapse_process.poll() is None:  # not finished yet
-            io_loop.add_timeout(
-                datetime.timedelta(seconds=0.5),
-                functools.partial(poll_movie_process, pictures),
-            )
-
+            # Read output chunk from process pipe
             try:
-                output = _timelapse_process.stdout.read()
-                if not output:
-                    return
+                output_chunk = os.read(_timelapse_process.stdout.fileno(), 65536)
 
             except OSError as e:
-                if e.errno == EAGAIN:
-                    return
+                if e.errno == EAGAIN:  # no data available right now
+                    output_chunk = b''
+                else:
+                    raise
 
-                raise
+            # Append output chunk to full output list and increment progress value
+            if output_chunk:
+                output.append(output_chunk)
 
-            frame_index = re.findall(rb'frame=\s*(\d+)', output)
-            try:
-                frame_index = int(frame_index[-1])
+                frames: list = re.findall(rb'frame=\s*(\d+)', output_chunk)
+                if frames:
+                    frame_index: int = int(frames[-1])
+                    _timelapse_process.progress = max(0.01, frame_index / len(pictures))
 
-            except (IndexError, ValueError):
-                return
+                    logging.debug(
+                        f'timelapse progress: {int(100 * _timelapse_process.progress)} %'
+                    )
 
-            _timelapse_process.progress = max(0.01, float(frame_index) / len(pictures))
-
-            logging.debug(
-                f'timelapse progress: {int(100 * _timelapse_process.progress)} %'
+            # Schedule next iteration
+            io_loop.add_timeout(
+                datetime.timedelta(seconds=0.5),
+                functools.partial(_poll_movie_process, pictures, output),
             )
 
         else:  # finished
             exit_code = _timelapse_process.poll()
-            _timelapse_process = None
+            # Read all remaining output from process pipe
+            try:
+                while True:
+                    try:
+                        output_chunk = os.read(
+                            _timelapse_process.stdout.fileno(), 65536
+                        )
+                        if not output_chunk:
+                            break
+
+                    except OSError as e:
+                        if e.errno == EAGAIN:
+                            break
+
+                        raise
+
+                    output.append(output_chunk)
+
+            finally:
+                _timelapse_process = None
 
             if exit_code != 0:
-                logging.error('ffmpeg process failed')
+                logging.error(
+                    'ffmpeg process failed (exit code %s):\n%s',
+                    exit_code,
+                    b''.join(output).decode(errors='replace'),
+                )
                 _timelapse_data = None
 
                 try:
                     os.remove(tmp_filename)
 
-                except:
-                    pass
+                except Exception:  # nosec: B110 # noqa: S110
+                    pass  # nothing we can do about it
 
             else:
                 logging.debug(
@@ -879,8 +992,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                     try:
                         os.remove(tmp_filename)
 
-                    except:
-                        pass
+                    except Exception:  # nosec: B110 # noqa: S110
+                        pass  # nothing we can do about it
 
     poll_media_list_process()
 
@@ -901,19 +1014,26 @@ def check_timelapse_movie():
         return {'progress': -1, 'data': _timelapse_data}
 
 
-def get_media_preview(camera_config, path: str, media_type, width, height):
-    target_dir = camera_config.get('target_dir')
+def get_media_preview(
+    camera_config: dict,
+    path: str,
+    media_type: str,
+    width: str | None = None,
+    height: str | None = None,
+) -> bytes | None:
+    target_dir: str = camera_config['target_dir']
     utils.validate_paths(path, target_dir=target_dir)
-    full_path = os.path.join(target_dir, path)
+    full_path: str = os.path.join(target_dir, path)
 
     if media_type == 'movie':
-        if not os.path.exists(full_path + '.thumb'):
-            # at this point we expect the thumb to
-            # have already been created by the thumbnailer task;
-            # if, for some reason that's not the case,
-            # we create it right away
-            if not make_movie_preview(camera_config, full_path):
-                return None
+        # at this point we expect the thumb to
+        # have already been created by the thumbnailer task;
+        # if, for some reason that's not the case,
+        # we create it right away
+        if not os.path.exists(full_path + '.thumb') and not make_movie_preview(
+            camera_config, full_path
+        ):
+            return None
 
         full_path += '.thumb'
 
@@ -936,10 +1056,12 @@ def get_media_preview(camera_config, path: str, media_type, width, height):
         logging.error(f'failed to open media preview image file: {e}')
         return None
 
-    width = width and int(float(width)) or image.size[0]
-    height = height and int(float(height)) or image.size[1]
-
-    image.thumbnail((width, height))
+    image.thumbnail(
+        (
+            width and float(width) or image.width,
+            height and float(height) or image.height,
+        )
+    )
 
     bio = BytesIO()
     image.save(bio, format='JPEG')
@@ -947,10 +1069,10 @@ def get_media_preview(camera_config, path: str, media_type, width, height):
     return bio.getvalue()
 
 
-def del_media_content(camera_config, path: str, media_type):
-    target_dir = camera_config.get('target_dir')
+def del_media_content(camera_config: dict, path: str):
+    target_dir: str = camera_config['target_dir']
     utils.validate_paths(path, target_dir=target_dir)
-    full_path = os.path.join(target_dir, path)
+    full_path: str = os.path.join(target_dir, path)
 
     # create a sentinel file to make sure the target dir is never removed
     open(os.path.join(target_dir, '.keep'), 'w').close()
@@ -963,8 +1085,8 @@ def del_media_content(camera_config, path: str, media_type):
         try:
             os.remove(full_path + '.thumb')
 
-        except:
-            pass
+        except Exception:  # nosec: B110 # noqa: S110
+            pass  # thumb file may not exist
 
         # remove the parent directories if empty or contains only thumb files
         dir_path = os.path.dirname(full_path)
@@ -980,15 +1102,15 @@ def del_media_content(camera_config, path: str, media_type):
             os.removedirs(dir_path)
 
     except Exception as e:
-        logging.error(f'failed to remove file {full_path}: {str(e)}')
+        logging.error(f'failed to remove file {full_path}: {e}')
 
         raise
 
 
-def del_media_group(camera_config, group: str, media_type):
-    target_dir = camera_config.get('target_dir')
+def del_media_group(camera_config: dict, group: str, media_type: str):
+    target_dir: str = camera_config['target_dir']
     utils.validate_paths(group, target_dir=target_dir)
-    full_path = os.path.join(target_dir, group)
+    full_path: str = os.path.join(target_dir, group)
 
     if media_type == 'picture':
         exts = _PICTURE_EXTS
@@ -1005,7 +1127,7 @@ def del_media_group(camera_config, group: str, media_type):
             os.remove(path)
 
         except Exception as e:
-            logging.error(f'failed to remove file {full_path}: {str(e)}')
+            logging.error(f'failed to remove file {full_path}: {e}')
             raise
 
     # remove the group directory if empty or contains only thumb files
@@ -1071,7 +1193,7 @@ def get_prepared_cache(key):
 
 
 def set_prepared_cache(data):
-    key = sha1(str(time()).encode()).hexdigest()  # nosec B303, B324
+    key = sha1(str(time()).encode()).hexdigest()  # nosec: B324
 
     if key in _prepared_files:
         logging.warning(f'key "{key}" already present in prepared cache')

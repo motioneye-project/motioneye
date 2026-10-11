@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
+set -e
+
 if (( UID )); then
-  echo 'ERROR: Root permissions required. Please run this command as root user, via "sudo" or "su". Aborting...'
+  echo 'ERROR: Root permissions required. Please run this command as root user, via "sudo" or "su". Aborting ...'
   exit 1
 fi
 
@@ -12,7 +14,7 @@ while (( $# )); do
   case "$1" in
     '--skip-systemd') SKIP_SYSTEMD=1;;
     '--skip-apt-update') SKIP_APT_UPDATE=1;;
-    *) echo "ERROR: Invalid command-line argument \"$1\". Aborting..."; exit 1;;
+    *) echo "ERROR: Invalid command-line argument \"$1\". Aborting ..."; exit 1;;
   esac
   shift
 done
@@ -24,6 +26,7 @@ if command -v apt-get > /dev/null; then
   # If matching package can be found, install from motion project GitHub releases
   MOTION='motion'
   DISTRO=''
+  TMPDIR=''
   [[ -f '/etc/os-release' ]] && DISTRO=$(sed -n '/^VERSION_CODENAME=/{s/^[^=]*=//p;q}' /etc/os-release)
   if [[ $DISTRO ]]; then
     ARCH=$(dpkg --print-architecture)
@@ -31,14 +34,15 @@ if command -v apt-get > /dev/null; then
     PI=''
     [[ ${ARCH} == 'armhf' && $(uname -m) == 'armv6l' ]] && PI='pi_'
     echo "INFO: ${DISTRO^} on ${ARCH} detected, checking for latest motion package from GitHub releases"
-    command -v curl > /dev/null || DEBIAN_FRONTEND="noninteractive" apt-get -y --no-install-recommends install curl
-    URL=$(curl -sSfL 'https://api.github.com/repos/Motion-Project/motion/releases' | awk -F\" "/browser_download_url.*${PI}${DISTRO}_motion_.*_${ARCH}.deb/{print \$4}" | head -1)
+    command -v curl > /dev/null || DEBIAN_FRONTEND='noninteractive' apt-get -y --no-install-recommends install curl
+    URL=$(curl -sSfL 'https://api.github.com/repos/Motion-Project/motion/releases' | grep -Po "\"browser_download_url\": *\"\K[^\"]*\/${PI}${DISTRO}_motion_.*_${ARCH}\.deb(?=\")" | head -1)
     if [[ ${URL} ]]
     then
       echo "INFO: Matching package found, downloading: ${URL}"
-      if curl -fLo /tmp/motion.deb "${URL}"
+      TMPDIR=$(mktemp -d)
+      if curl -fLo "${TMPDIR}/motion.deb" "${URL}"
       then
-        MOTION='/tmp/motion.deb'
+        MOTION="${TMPDIR}/motion.deb"
       else
         echo 'WARNING: Download failed, installing (older) motion package from APT repository instead'
       fi
@@ -48,8 +52,8 @@ if command -v apt-get > /dev/null; then
   else
     echo 'WARNING: Distribution version could not be detected, installing motion from APT repository'
   fi
-  DEBIAN_FRONTEND="noninteractive" apt-get -y --no-install-recommends install "${MOTION}" v4l-utils ffmpeg curl
-  rm -f motion.deb
+  DEBIAN_FRONTEND='noninteractive' apt-get -y --no-install-recommends install "${MOTION}" v4l-utils ffmpeg curl
+  [[ $TMPDIR ]] && rm -R "$TMPDIR"
 elif command -v yum > /dev/null; then
   echo 'INFO: YUM-based distribution detected, installing motionEye dependencies'
   yum -y install motion v4l-utils ffmpeg curl
@@ -81,8 +85,7 @@ cp extra/motioneye.systemd /etc/systemd/system/motioneye.service
 # - Update meyectl path if expected /usr/local/bin/meyectl does not exist, found on Arch Linux: https://github.com/motioneye-project/motioneye/issues/3005
 if [[ ! -f '/usr/local/bin/meyectl' ]]
 then
-  meyectl_path=$(command -v meyectl)
-  if [[ $meyectl_path ]]
+  if meyectl_path=$(command -v meyectl)
   then
     echo "Using $meyectl_path for systemd service"
     sed -i "s|^ExecStart=/usr/local/bin/meyectl|ExecStart=$meyectl_path|" /etc/systemd/system/motioneye.service

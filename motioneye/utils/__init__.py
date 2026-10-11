@@ -14,20 +14,21 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import base64
 import hashlib
 import logging
 import os
 import subprocess
-import sys
 import time
-import urllib.error
-import urllib.parse
-import urllib.request
 from collections import namedtuple
 from dataclasses import dataclass
-from typing import Any, Awaitable, Callable, Dict, List, Optional, cast
+from http.client import HTTPResponse
+from typing import Any, Awaitable, Callable, cast
+from urllib.parse import urlparse, urlsplit
+from urllib.request import Request
+from urllib.request import urlopen as _urlopen
 
 from PIL import Image, ImageDraw
 from tornado.concurrent import Future
@@ -40,8 +41,6 @@ from motioneye.settings import CONF_PATH, VALIDATE_CERTS
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
 
 MASK_WIDTH = 32
-
-DEV_NULL = open(os.devnull, 'w')
 
 COMMON_RESOLUTIONS = [
     (320, 200),
@@ -81,8 +80,8 @@ class GetCurrentPictureResponse:
 
 @dataclass
 class ListMediaResponse:
-    media_list: Optional[list] = None
-    error: Optional[str] = None
+    media_list: list | None = None
+    error: str | None = None
 
 
 @dataclass
@@ -103,7 +102,7 @@ def spawn_callback_timeout_wrapper(
 
 def pretty_size(size):
     if size < 1024:  # less than 1kB
-        size, unit = size, 'B'
+        unit = 'B'
 
     elif size < 1024 * 1024:  # less than 1MB
         size, unit = size / 1024.0, 'kB'
@@ -148,11 +147,11 @@ def make_str(s):
     try:
         return str(s)
 
-    except:
+    except Exception:
         try:
             return str(s, encoding='utf8').encode('utf8')
 
-        except:
+        except Exception:
             return str(s).encode('utf8')
 
 
@@ -160,8 +159,11 @@ def split_semicolon(s):
     parts = s.split(';')
     merged_parts = []
     for p in parts:
-        if merged_parts and merged_parts[-1][-1] == '\\':
+        if merged_parts and merged_parts[-1].endswith('\\'):  # also for empty parts
             merged_parts[-1] = merged_parts[-1][:-1] + ';' + p
+
+        elif merged_parts and not p:  # keep ;; as in case ... esac
+            merged_parts[-1] += ';'
 
         else:
             merged_parts.append(p)
@@ -173,13 +175,13 @@ def split_semicolon(s):
 
 
 def get_disk_usage(path):
-    logging.debug(f'getting disk usage for path {path}...')
+    logging.debug(f'getting disk usage for path {path} ...')
 
     try:
         result = os.statvfs(path)
 
     except OSError as e:
-        logging.error(f'failed to execute statvfs: {str(e)}')
+        logging.error(f'failed to execute statvfs: {e}')
 
         return None
 
@@ -229,8 +231,8 @@ def is_simple_mjpeg_camera(config):
     return bool(config.get('@proto') == 'mjpeg')
 
 
-def parse_cookies(cookies_headers: List[str]) -> Dict[str, str]:
-    parsed: Dict[str, str] = {}
+def parse_cookies(cookies_headers: list[str]) -> dict[str, str]:
+    parsed: dict[str, str] = {}
 
     for cookie in cookies_headers:
         for name, value in parse_cookie(cookie).items():
@@ -265,7 +267,7 @@ def build_digest_header(method, url, username, password, state):
         def md5_utf8(x):
             if isinstance(x, str):
                 x = x.encode('utf-8')
-            return hashlib.md5(x).hexdigest()  # nosec B324
+            return hashlib.md5(x).hexdigest()  # nosec: B324
 
         hash_utf8 = md5_utf8
 
@@ -274,18 +276,14 @@ def build_digest_header(method, url, username, password, state):
         def sha_utf8(x):
             if isinstance(x, str):
                 x = x.encode('utf-8')
-            return hashlib.sha1(x).hexdigest()  # nosec B324
+            return hashlib.sha1(x).hexdigest()  # nosec: B324
 
         hash_utf8 = sha_utf8
 
     def KD(s, d):
         return hash_utf8(f"{s}:{d}")
 
-    if hash_utf8 is None:
-        return None
-
-    entdig = None
-    p_parsed = urllib.parse.urlparse(url)
+    p_parsed = urlparse(url)
     path = p_parsed.path
     if p_parsed.query:
         path += '?' + p_parsed.query
@@ -302,7 +300,7 @@ def build_digest_header(method, url, username, password, state):
     else:
         nonce_count = 1
 
-    ncvalue = '%08x' % nonce_count
+    ncvalue = f'{nonce_count:08x}'
     s = str(nonce_count).encode('utf-8')
     s += nonce.encode('utf-8')
     s += time.ctime().encode('utf-8')
@@ -324,19 +322,11 @@ def build_digest_header(method, url, username, password, state):
 
     last_nonce = nonce
 
-    base = 'username="{}", realm="{}", nonce="{}", uri="{}", response="{}"'.format(
-        username,
-        realm,
-        nonce,
-        path,
-        respdig,
-    )
+    base = f'username="{username}", realm="{realm}", nonce="{nonce}", uri="{path}", response="{respdig}"'
     if opaque:
         base += f', opaque="{opaque}"'
     if algorithm:
         base += f', algorithm="{algorithm}"'
-    if entdig:
-        base += f', digest="{entdig}"'
     if qop:
         base += f', qop=auth, nc={ncvalue}, cnonce="{cnonce}"'
 
@@ -346,11 +336,12 @@ def build_digest_header(method, url, username, password, state):
     return f'Digest {base}'
 
 
-def urlopen(*args, **kwargs):
-    if sys.version_info >= (2, 7, 9) and not VALIDATE_CERTS:
-        # ssl certs are not verified by default
-        # in versions prior to 2.7.9
+def urlopen(request: Request, **kwargs) -> HTTPResponse:
+    scheme: str = urlsplit(request.full_url).scheme
+    if scheme not in ('http', 'https'):
+        raise ValueError(f'Unsupported URL scheme: {scheme!r}')
 
+    if not VALIDATE_CERTS:
         import ssl
 
         ctx = ssl.create_default_context()
@@ -359,7 +350,7 @@ def urlopen(*args, **kwargs):
 
         kwargs.setdefault('context', ctx)
 
-    return urllib.request.urlopen(*args, **kwargs)
+    return _urlopen(request, **kwargs)  # nosec: B310
 
 
 def build_editable_mask_file(
@@ -373,8 +364,7 @@ def build_editable_mask_file(
     mask_lines = mask_lines[2:]
 
     logging.debug(
-        'building editable %s mask for camera with id %s (%sx%s)'
-        % (mask_class, camera_id, width, height)
+        f'building editable {mask_class} mask for camera with id {camera_id} ({width}x{height})'
     )
 
     # horizontal rectangles
@@ -447,8 +437,7 @@ def build_editable_mask_file(
     # resize the image if necessary
     if capture_width and capture_height and im.size != (capture_width, capture_height):
         logging.debug(
-            'editable mask needs resizing from %sx%s to %sx%s'
-            % (im.size[0], im.size[1], capture_width, capture_height)
+            f'editable mask needs resizing from {im.size[0]}x{im.size[1]} to {capture_width}x{capture_height}'
         )
 
         im = im.resize((capture_width, capture_height))
@@ -586,7 +575,7 @@ def call_subprocess(
     stdin=None,
     input=None,
     stdout=subprocess.PIPE,
-    stderr=DEV_NULL,
+    stderr=subprocess.DEVNULL,
     capture_output=False,
     shell=False,
     cwd=None,
@@ -605,7 +594,7 @@ def call_subprocess(
         stdout=stdout,
         stderr=stderr,
         capture_output=capture_output,
-        shell=shell,
+        shell=shell,  # nosec: B602
         cwd=cwd,
         timeout=timeout,
         check=check,
@@ -625,12 +614,12 @@ def remove_prefix(s: str, prefix: str) -> str:
 
 
 def validate_paths(
-    *paths: Optional[str],
-    camera_id: Optional[str] = None,
-    target_dir: Optional[str] = None,
+    *paths: str | None,
+    camera_id: str | None = None,
+    target_dir: str | None = None,
 ) -> None:
     # Obtain camera dir from optional named arguments
-    camera_dir: Optional[str] = None
+    camera_dir: str | None = None
     if target_dir is not None:
         camera_dir = os.path.realpath(target_dir) + os.sep
 
@@ -658,12 +647,11 @@ def validate_paths(
                     reason='Path traversal detected',
                 )
 
-            if camera_dir is not None:
-                if not os.path.realpath(os.path.join(camera_dir, path)).startswith(
-                    camera_dir
-                ):
-                    raise HTTPError(
-                        403,
-                        f'Path "{path}" escapes camera directory "{camera_dir}"',
-                        reason='Path escapes camera directory',
-                    )
+            if camera_dir is not None and not os.path.realpath(
+                os.path.join(camera_dir, path)
+            ).startswith(camera_dir):
+                raise HTTPError(
+                    403,
+                    f'Path "{path}" escapes camera directory "{camera_dir}"',
+                    reason='Path escapes camera directory',
+                )

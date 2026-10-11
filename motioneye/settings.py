@@ -16,6 +16,9 @@ langlist = [('en', 'English'), ('eo', 'esperanto'), ('fr', 'français')]
 # gettext translation
 traduction = None
 
+# JavaScript translations, embedded in the page
+js_translations = None
+
 # the root directory of the project
 PROJECT_PATH = os.path.dirname(motioneye.__file__)
 
@@ -29,7 +32,7 @@ STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 CONF_PATH = [sys.prefix, ''][sys.prefix == '/usr'] + '/etc/motioneye'
 
 # path to the directory where pid files go (must be writable by motionEye)
-for d in ['/run', '/var/run', '/tmp', '/var/tmp']:
+for d in ['/run', '/var/run']:
     if os.path.exists(d):
         RUN_PATH = d
         break
@@ -38,7 +41,7 @@ else:
     RUN_PATH = PROJECT_PATH
 
 # path to the directory where log files go (must be writable by motionEye)
-for d in ['/log', '/var/log', '/tmp', '/var/tmp']:
+for d in ['/log', '/var/log']:
     if os.path.exists(d):
         LOG_PATH = d
         break
@@ -52,9 +55,14 @@ MEDIA_PATH = '/var/lib/motioneye'
 # the log level (use FATAL, ERROR, WARNING, INFO or DEBUG)
 LOG_LEVEL = logging.INFO
 
+# whether to write logs to files in log_path
+# instead of standard error (motionEye) and syslog (motion, or standard
+# error where there is no syslog, e.g. in a container)
+LOG_TO_FILE = False
+
 # the IP address to listen on
 # (0.0.0.0 for all interfaces, 127.0.0.1 for localhost)
-LISTEN = '0.0.0.0'
+LISTEN = '0.0.0.0'  # nosec: B104
 
 # the TCP port to listen on
 PORT = 8765
@@ -140,3 +148,6 @@ PASSWORD_HOOK = None
 
 # provides the possibility to override the hostname
 SERVER_NAME = socket.gethostname()
+
+# lifetime in hours of the session cookie for the normal (surveillance) user, minimum 1 hour
+NORMAL_SESSION_EXPIRY_HOURS = 720
