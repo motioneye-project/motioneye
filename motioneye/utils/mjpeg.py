@@ -34,6 +34,7 @@ def test_mjpeg_url(
 ) -> Future[GetCamerasResponse]:
     url_obj = MjpegUrl.from_dict(data)
     url = str(url_obj)
+    log_url = url.split('?')[0]  # the query may hold a password
 
     called = [False]
     status_2xx = [False]
@@ -48,7 +49,7 @@ def test_mjpeg_url(
         else:
             auth = 'no'
 
-        logging.debug(f'testing (m)jpg netcam at {url} using {auth} authentication')
+        logging.debug(f'testing (m)jpg netcam at {log_url} using {auth} authentication')
 
         request = HTTPRequest(
             url,
@@ -135,8 +136,6 @@ def test_mjpeg_url(
                     if response.error
                     else 'not a supported network camera'
                 )
-                # without the query, which may hold a password
-                log_url = url.split('?')[0]
                 logging.error(f'testing (m)jpg netcam at {log_url} failed: {error}')
                 future.set_result(GetCamerasResponse(None, error=error))
 

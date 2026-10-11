@@ -133,14 +133,17 @@ class UtilsMjpegTest(WebTestCase):
         sock.close()
 
         data = {'port': port, 'path': '/video.cgi?user=u&pwd=s3cret'}
-        with self.assertLogs(level='ERROR') as logs:
+        debug = mock.patch.object(logging, 'debug')
+        with self.assertLogs(level='ERROR') as logs, debug as debug_log:
             resp = await test_mjpeg_url(data, auth_modes=['basic'], allow_jpeg=True)
         self.assertIsNone(resp.cameras)
         self.assertTrue(resp.error)
 
-        # the failure is logged, but without the query, which may hold a password
-        self.assertIn('/video.cgi failed', logs.output[0])
-        self.assertNotIn('s3cret', '\n'.join(logs.output))
+        # both log lines leave out the query, which may hold a password
+        ours = str(logs.output) + str(debug_log.call_args_list)
+        self.assertIn('/video.cgi using no authentication', ours)
+        self.assertIn('/video.cgi failed', ours)
+        self.assertNotIn('s3cret', ours)
 
     @tornado.testing.gen_test
     async def test_test_mjpeg_url_not_http(self):
