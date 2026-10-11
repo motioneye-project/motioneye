@@ -46,43 +46,43 @@ msgstr ""
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr ""
 
-#: motioneye/server.py:432
+#: motioneye/server.py:437
 msgid "The admin and/or surveillance user has no password assigned. Please login to the web interface to set both passwords."
 msgstr ""
 
-#: motioneye/server.py:449
+#: motioneye/server.py:454
 msgid "purigado komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:451
+#: motioneye/server.py:457
 msgid "wsswitch komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:454
+#: motioneye/server.py:460
 msgid "taskoj komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:458
+#: motioneye/server.py:464
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:471
+#: motioneye/server.py:477
 msgid "servilo komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:477
+#: motioneye/server.py:483
 msgid "servilo haltis"
 msgstr ""
 
-#: motioneye/server.py:479
+#: motioneye/server.py:485
 msgid "taskoj haltis"
 msgstr ""
 
-#: motioneye/server.py:487
+#: motioneye/server.py:493
 msgid "motion haltis"
 msgstr ""
 
-#: motioneye/server.py:493
+#: motioneye/server.py:499
 msgid "adiaŭ!"
 msgstr ""
 
