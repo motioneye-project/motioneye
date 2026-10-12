@@ -32,11 +32,11 @@ __all__ = ('MovieHandler',)
 
 class MovieHandler(BaseHandler):
     async def get(self, camera_id: str, op, filename: str | None = None):
-        camera_id = int(camera_id)  # type: ignore[assignment]
-        if camera_id not in config.get_camera_ids():
+        camera_id_int = int(camera_id)  # type: ignore[assignment]
+        if camera_id_int not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
 
-        camera_config: dict = config.get_camera(camera_id)
+        camera_config: dict = config.get_camera(camera_id_int)
         utils.validate_paths(
             filename,
             target_dir=(
@@ -57,11 +57,11 @@ class MovieHandler(BaseHandler):
             )
 
         if op == 'list':
-            await self.list(camera_id)
+            await self.list(camera_id_int)
             return
 
         elif op == 'preview':
-            await self.preview(camera_id, filename)
+            await self.preview(camera_id_int, filename)
             return
 
         else:
@@ -74,14 +74,14 @@ class MovieHandler(BaseHandler):
         filename: str | None = None,
         group: str | None = None,
     ):
-        camera_id = int(camera_id)  # type: ignore[assignment]
-        if camera_id not in config.get_camera_ids():
+        camera_id_int = int(camera_id)  # type: ignore[assignment]
+        if camera_id_int not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
 
         if group == '/':  # ungrouped
             group = ''
 
-        camera_config: dict = config.get_camera(camera_id)
+        camera_config: dict = config.get_camera(camera_id_int)
         utils.validate_paths(
             filename,
             group,
@@ -103,11 +103,11 @@ class MovieHandler(BaseHandler):
             )
 
         if op == 'delete':
-            await self.delete(camera_id, filename)
+            await self.delete(camera_id_int, filename)
             return
 
         elif op == 'delete_all':
-            await self.delete_all(camera_id, group)
+            await self.delete_all(camera_id_int, group)
             return
 
         else:
@@ -115,7 +115,7 @@ class MovieHandler(BaseHandler):
 
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
-    async def list(self, camera_id):
+    async def list(self, camera_id: int):
         logging.debug(f'listing movies for camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)

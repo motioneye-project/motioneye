@@ -36,7 +36,7 @@ class TestUploadMediaFileCleanup(unittest.TestCase):
 
     @patch('motioneye.mediafiles.del_media_content')
     @patch('motioneye.config.get_camera')
-    @patch('motioneye.uploadservices.get')
+    @patch('motioneye.uploadservices._get_service')
     def test_removes_local_file_on_success_when_enabled(
         self, mock_get, mock_get_camera, mock_del
     ):
@@ -57,7 +57,7 @@ class TestUploadMediaFileCleanup(unittest.TestCase):
 
     @patch('motioneye.mediafiles.del_media_content')
     @patch('motioneye.config.get_camera')
-    @patch('motioneye.uploadservices.get')
+    @patch('motioneye.uploadservices._get_service')
     def test_keeps_local_file_when_disabled(self, mock_get, mock_get_camera, mock_del):
         mock_get.return_value = MagicMock()
 
@@ -76,7 +76,7 @@ class TestUploadMediaFileCleanup(unittest.TestCase):
 
     @patch('motioneye.mediafiles.del_media_content')
     @patch('motioneye.config.get_camera')
-    @patch('motioneye.uploadservices.get')
+    @patch('motioneye.uploadservices._get_service')
     def test_keeps_local_file_when_upload_fails(
         self, mock_get, mock_get_camera, mock_del
     ):
@@ -98,7 +98,7 @@ class TestUploadMediaFileCleanup(unittest.TestCase):
         mock_del.assert_not_called()
 
     @patch('motioneye.mediafiles.del_media_content')
-    @patch('motioneye.uploadservices.get')
+    @patch('motioneye.uploadservices._get_service')
     def test_no_cleanup_when_service_missing(self, mock_get, mock_del):
         mock_get.return_value = None
 
@@ -115,7 +115,7 @@ class TestUploadMediaFileCleanup(unittest.TestCase):
 
     @patch('motioneye.mediafiles.del_media_content')
     @patch('motioneye.config.get_camera')
-    @patch('motioneye.uploadservices.get')
+    @patch('motioneye.uploadservices._get_service')
     def test_cleanup_error_does_not_propagate(
         self, mock_get, mock_get_camera, mock_del
     ):

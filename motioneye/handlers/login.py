@@ -63,7 +63,7 @@ class LoginHandler(BaseHandler):
     def get(self) -> None:
         user = self.current_user
         if user:
-            main_config = config.get_main()
+            main_config: dict = config.get_main()
             username = (
                 main_config.get('@admin_username')
                 if user == 'admin'
