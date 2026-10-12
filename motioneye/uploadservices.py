@@ -1225,7 +1225,9 @@ class S3(UploadService):
             rel_filename = os.path.basename(filename)
 
         if self._sse_c_key:
-            sse_key_md5 = b64encode(md5(b64decode(self._sse_c_key)).digest()).decode()  # nosec: B324
+            sse_key_md5 = b64encode(
+                md5(b64decode(self._sse_c_key)).digest()  # nosec: B324
+            ).decode()
             extra_args = {
                 'SSECustomerAlgorithm': 'AES256',
                 'SSECustomerKey': self._sse_c_key,

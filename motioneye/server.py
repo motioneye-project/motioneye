@@ -16,7 +16,6 @@
 from __future__ import annotations
 
 import atexit
-import datetime
 import logging
 import multiprocessing
 import os
@@ -234,8 +233,7 @@ def configure_signals():
         logging.info(_('interrompa signalo ricevita, fermanta …'))
 
         # shut down the IO loop if it has been started
-        io_loop = IOLoop.current()
-        io_loop.stop()
+        IOLoop.current().stop()
 
     def child_handler(signal, frame):
         # this is required for the multiprocessing mechanism to work
@@ -376,9 +374,7 @@ def start_motion():
             except Exception:
                 logging.error('failed to start motion')
 
-        io_loop.add_timeout(
-            datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker
-        )
+        io_loop.call_later(settings.MOTION_CHECK_INTERVAL, checker)
 
     try:
         motionctl.start()
@@ -386,9 +382,7 @@ def start_motion():
     except Exception:
         logging.exception('failed to start motion')
 
-    io_loop.add_timeout(
-        datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker
-    )
+    io_loop.call_later(settings.MOTION_CHECK_INTERVAL, checker)
 
 
 def parse_options(parser, args):
@@ -449,15 +443,9 @@ def run():
     else:
         start_motion()
 
-    if settings.CLEANUP_INTERVAL:
-        cleanup.start()
-        logging.info(_('purigado komenciĝis'))
-
     wsswitch.start()
-    logging.info(_('wsswitch komenciĝis'))
-
     tasks.start()
-    logging.info(_('taskoj komenciĝis'))
+    cleanup.start()
 
     if settings.MJPG_CLIENT_TIMEOUT:
         mjpgclient.start()
@@ -472,21 +460,19 @@ def run():
 
     # Create the Tornado application with secure cookie settings
     application = make_app(debug=False)
-
     application.listen(settings.PORT, settings.LISTEN)
     logging.info(_('servilo komenciĝis'))
+
     io_loop = IOLoop.current()
     # we need to reset the loop's PID to fix PID checks when running in daemon mode
     io_loop._pid = os.getpid()
     io_loop.start()
 
+    # shutdown sequence begins once io_loop.start() returns
     logging.info(_('servilo haltis'))
-    tasks.stop()
-    logging.info(_('taskoj haltis'))
 
-    if cleanup.running():
-        cleanup.stop()
-        logging.info('cleanup stopped')
+    cleanup.stop()
+    tasks.stop()
 
     if motionctl.running():
         motionctl.stop()
