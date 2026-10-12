@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import datetime
 import ftplib  # nosec: B402
@@ -1269,72 +1270,71 @@ def get_authorize_url(service_name):
         return None
 
 
-def get(camera_id, service_name):
+def get(camera_id: int, service_name: str) -> UploadService | None:
     global _services
 
     if _services is None:
         _services = _load()
 
-    camera_id = str(camera_id)
+    camera_id_str: str = str(camera_id)
 
-    service = _services.get(camera_id, {}).get(service_name)
+    service: UploadService | None = _services.get(camera_id_str, {}).get(service_name)
 
     if service is None:
-        cls = UploadService.get_service_classes().get(service_name)
+        cls: type | None = UploadService.get_service_classes().get(service_name)
 
-        if cls:
-            service = cls(camera_id=camera_id)
-            _services.setdefault(camera_id, {})[service_name] = service
+        if cls is not None:
+            service = cls(camera_id=camera_id_str)
+            _services.setdefault(camera_id_str, {})[service_name] = service
 
             logging.debug(
-                f'created default upload service "{service_name}" for camera with id "{camera_id}"'
+                f'created default upload service "{service_name}" for camera with id "{camera_id_str}"'
             )
 
     return service
 
 
-def test_access(camera_id, service_name, data):
+def test_access(camera_id: int, service_name: str, data: dict) -> bool | str:
     logging.debug(f'testing access to {service_name}')
 
-    service = get(camera_id, service_name)
-    service.load(data)
-    if not service:
+    cls: type | None = UploadService.get_service_classes().get(service_name)
+    if cls is None:
         return f'unknown upload service {service_name}'
 
+    service: UploadService = cls(camera_id=str(camera_id))
+    service.load(data)
     return service.test_access()
 
 
-def update(camera_id, service_name, settings):
-    service = get(camera_id, service_name)
+def update(camera_id: int, service_name: str, settings: dict) -> None:
+    service: UploadService | None = get(camera_id, service_name)
+    if service is None:
+        raise ValueError(f'unknown upload service {service_name}')
+
     service.load(settings)
     service.save()
 
 
 def upload_media_file(
-    camera_id,
-    camera_name,
-    target_dir,
-    service_name,
-    filename,
-    media_type=None,
-    clean_uploaded=False,
-):
+    camera_id: int,
+    camera_name: str,
+    target_dir: str,
+    service_name: str,
+    filename: str,
+    clean_uploaded: bool = False,
+) -> None:
     service = get(camera_id, service_name)
     if not service:
         logging.error(
             f'service "{service_name}" not initialized for camera with id {camera_id}'
         )
-
         return
 
     try:
         service.upload_file(target_dir, filename, camera_name)
 
-    except Exception as e:
-        logging.error(  # noqa: G201
-            f'failed to upload file "{filename}" with service {service}: {e}',
-            exc_info=True,
-        )
+    except Exception:
+        logging.exception(f'failed to upload file "{filename}" with service {service}')
         return  # upload failed: keep the local file
 
     # the caller passes clean_uploaded so we can skip the camera config lookup
@@ -1353,14 +1353,9 @@ def upload_media_file(
         mediafiles.del_media_content(camera_config, rel)
         logging.debug(f'removed local file "{filename}" after successful upload')
 
-    except Exception as e:
+    except Exception:
         # never let a cleanup error affect the (already successful) upload
-        logging.error(  # noqa: G201
-            f'failed to remove local file "{filename}" after upload: {e}',
-            exc_info=True,
-        )
-
-    return
+        logging.exception(f'failed to remove local file "{filename}" after upload')
 
 
 def _load():

@@ -1,3 +1,5 @@
+[![CodeFactor rating badge](https://www.codefactor.io/repository/github/motioneye-project/motioneye/badge)](https://www.codefactor.io/repository/github/motioneye-project/motioneye)
+
 # What is motionEye?
 
 **motionEye** is an online interface for the software [_motion_](https://motion-project.github.io/), a video surveillance program with motion detection.

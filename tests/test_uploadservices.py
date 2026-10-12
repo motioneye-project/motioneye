@@ -50,7 +50,6 @@ class TestUploadMediaFileCleanup(unittest.TestCase):
             self.target_dir,
             'ftp',
             self.filename,
-            'movie',
             clean_uploaded=True,
         )
 
@@ -68,7 +67,6 @@ class TestUploadMediaFileCleanup(unittest.TestCase):
             self.target_dir,
             'ftp',
             self.filename,
-            'movie',
             clean_uploaded=False,
         )
 
@@ -93,7 +91,6 @@ class TestUploadMediaFileCleanup(unittest.TestCase):
             self.target_dir,
             'ftp',
             self.filename,
-            'movie',
             clean_uploaded=True,
         )
 
@@ -111,7 +108,6 @@ class TestUploadMediaFileCleanup(unittest.TestCase):
             self.target_dir,
             'ftp',
             self.filename,
-            'movie',
             clean_uploaded=True,
         )
 
@@ -134,7 +130,6 @@ class TestUploadMediaFileCleanup(unittest.TestCase):
             self.target_dir,
             'ftp',
             self.filename,
-            'movie',
             clean_uploaded=True,
         )
 
