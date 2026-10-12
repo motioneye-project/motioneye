@@ -1239,14 +1239,21 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     elif ui['storage_device'].startswith('local-disk'):
         target_dev = ui['storage_device'][10:].replace('-', '/')
         mounted_partitions = diskctl.list_mounted_partitions()
-        partition = mounted_partitions[target_dev]
-        mount_point = partition['mount_point']
+        partition = mounted_partitions.get(target_dev)
+        if partition:
+            mount_point = partition['mount_point']
 
-        if ui['root_directory'].startswith('/'):
-            ui['root_directory'] = ui['root_directory'][1:]
-        data['target_dir'] = os.path.normpath(
-            os.path.join(mount_point, ui['root_directory'])
-        )
+            if ui['root_directory'].startswith('/'):
+                ui['root_directory'] = ui['root_directory'][1:]
+            data['target_dir'] = os.path.normpath(
+                os.path.join(mount_point, ui['root_directory'])
+            )
+
+        else:  # not mounted, root_directory cannot be resolved against it
+            data['target_dir'] = prev_config.get('target_dir', data['target_dir'])
+            logging.error(
+                f'could not find mounted partition for device "{target_dev}", keeping target dir "{data["target_dir"]}"'
+            )
 
     # try to create the target dir
     try:
