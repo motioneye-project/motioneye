@@ -1,4 +1,4 @@
-#: motioneye/cleanup.py:45
+#: motioneye/cleanup.py:47
 msgid "purigado komenciĝis"
 msgstr ""
 
