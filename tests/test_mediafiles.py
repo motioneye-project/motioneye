@@ -347,7 +347,6 @@ class TestMediaFilesPathValidation(unittest.TestCase):
     # --- make_movie_preview ---
 
     def test_make_movie_preview_rejects_traversal(self):
-        # make_movie_preview now takes a path relative to the camera dir
         for path in self._FILENAME_TRAVERSALS:
             with self.subTest(path=path):
                 self._assert_raises_traversal(
@@ -382,7 +381,6 @@ class TestMediaFilesPathValidation(unittest.TestCase):
         self.assertIn(expected_full, ' '.join(captured['cmd']))
 
     def test_make_movie_preview_rejects_dir_escape(self):
-        # make_movie_preview now takes a path relative to the camera dir
         for path in self._FILENAME_ESCAPES:
             with self.subTest(path=path):
                 self._assert_raises_dir_escape(
