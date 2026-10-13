@@ -277,8 +277,8 @@ def main(parser, args):
             )
             logging.info('email sent')
 
-        except Exception:
-            logging.exception('failed to send mail')
+        except Exception as e:
+            logging.error(f'failed to send email: {e}')
 
         logging.debug('bye!')
 

@@ -783,7 +783,7 @@ class ConfigHandler(BaseHandler):
                     return self.finish_json({'error': result})
 
             elif what == 'email':
-                import smtplib
+                from smtplib import SMTPResponseException
 
                 from motioneye import sendmail
 
@@ -823,26 +823,28 @@ class ConfigHandler(BaseHandler):
                     return self.finish_json()
 
                 except Exception as e:
-                    if isinstance(e, smtplib.SMTPResponseException):
+                    if isinstance(e, SMTPResponseException):
                         msg = e.smtp_error
+                        if isinstance(msg, bytes):
+                            msg = msg.decode(errors='replace')
 
                     else:
                         msg = str(e)
 
-                    msg_lower = msg.lower()
-                    if msg_lower.count('tls'):
+                    msg_lower: str = msg.lower()
+                    if 'tls' in msg_lower:
                         msg = 'TLS might be required'
 
-                    elif msg_lower.count('authentication'):
+                    elif 'authentication' in msg_lower:
                         msg = 'authentication error'
 
-                    elif msg_lower.count('name or service not known'):
+                    elif 'name or service not known' in msg_lower:
                         msg = 'check SMTP server name'
 
-                    elif msg_lower.count('connection refused'):
+                    elif 'connection refused' in msg_lower:
                         msg = 'check SMTP port'
 
-                    logging.exception(f'notification email test failed: {msg}')
+                    logging.error(f'notification email test failed: {msg}')
                     return self.finish_json({'error': msg})
 
             elif what == 'telegram':
