@@ -17,6 +17,10 @@ from __future__ import annotations
 
 import logging
 from concurrent.futures import ThreadPoolExecutor
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from gettext import gettext as _  # noqa: TC004
 
 from tornado.ioloop import IOLoop
 
@@ -32,6 +36,7 @@ _pending_tasks: int = 0
 def start() -> None:
     global _pool
     _pool = ThreadPoolExecutor(max_workers=_POOL_SIZE)
+    logging.info(_('taskoj komenciĝis'))
 
 
 def stop() -> None:
@@ -44,6 +49,7 @@ def stop() -> None:
 
     if pool is not None:
         pool.shutdown(wait=True)
+        logging.info(_('taskoj haltis'))
 
 
 def add(delay: int, func, tag: str | None = None, **params) -> None:

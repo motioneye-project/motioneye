@@ -15,8 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import datetime
 import logging
+from datetime import datetime
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from gettext import gettext as _  # noqa: TC004
 
 from tornado.ioloop import IOLoop
 
@@ -28,8 +32,8 @@ def _start_check_ws() -> None:
 
 
 def start() -> None:
-    io_loop = IOLoop.current()
-    io_loop.add_timeout(datetime.timedelta(seconds=1), _start_check_ws)
+    IOLoop.current().call_later(1, _start_check_ws)
+    logging.info(_('wsswitch komenciĝis'))
 
 
 def _during_working_schedule(now, working_schedule) -> bool:
@@ -101,13 +105,12 @@ async def _switch_motion_detection_status(
 
 async def _check_ws() -> None:
     # schedule the next call
-    io_loop = IOLoop.current()
-    io_loop.add_timeout(datetime.timedelta(seconds=10), _start_check_ws)
+    IOLoop.current().call_later(10, _start_check_ws)
 
     if not motionctl.running():
         return
 
-    now = datetime.datetime.now()
+    now = datetime.now()
     for camera_id in config.get_camera_ids():
         camera_config = config.get_camera(camera_id)
         if not utils.is_local_motion_camera(camera_config):
