@@ -22,6 +22,7 @@ from shutil import rmtree
 from tempfile import mkdtemp
 from time import time
 from typing import ClassVar
+from unittest.mock import patch
 
 from motioneye import mediafiles
 from motioneye.mediafiles import _list_media_files
@@ -347,10 +348,9 @@ class TestMediaFilesPathValidation(unittest.TestCase):
 
     def test_make_movie_preview_rejects_traversal(self):
         for path in self._FILENAME_TRAVERSALS:
-            full_path = os.path.join(self._camera_config['target_dir'], path)
-            with self.subTest(full_path=full_path):
+            with self.subTest(path=path):
                 self._assert_raises_traversal(
-                    mediafiles.make_movie_preview, self._camera_config, full_path
+                    mediafiles.make_movie_preview, self._camera_config, path
                 )
 
     def test_make_movie_preview_rejects_absolute_path(self):
@@ -360,12 +360,31 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                     mediafiles.make_movie_preview, self._camera_config, path
                 )
 
+    def test_make_movie_preview_reconstructs_absolute_path(self):
+        # a valid relative path is joined back onto target_dir for ffmpeg
+        rel_path = 'group/movie.mp4'
+        expected_full = os.path.join(self._camera_config['target_dir'], rel_path)
+        captured = {}
+
+        def fake_call_subprocess(cmd, **kwargs):
+            captured['cmd'] = cmd
+            return ''
+
+        with patch(
+            'motioneye.mediafiles.get_movie_duration_seconds', return_value=10.0
+        ), patch('motioneye.utils.call_subprocess', side_effect=fake_call_subprocess):
+            # the thumbnail is never actually written, so it returns None, but
+            # the ffmpeg command must reference the reconstructed absolute path
+            mediafiles.make_movie_preview(self._camera_config, rel_path)
+
+        self.assertIn('cmd', captured)
+        self.assertIn(expected_full, ' '.join(captured['cmd']))
+
     def test_make_movie_preview_rejects_dir_escape(self):
         for path in self._FILENAME_ESCAPES:
-            full_path = os.path.join(self._camera_config['target_dir'], path)
-            with self.subTest(full_path=full_path):
+            with self.subTest(path=path):
                 self._assert_raises_dir_escape(
-                    mediafiles.make_movie_preview, self._camera_config, full_path
+                    mediafiles.make_movie_preview, self._camera_config, path
                 )
 
     # --- list_media ---
