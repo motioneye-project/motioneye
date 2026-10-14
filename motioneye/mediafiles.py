@@ -203,8 +203,7 @@ def _remove_older_files(
             dir_paths.add(os.path.dirname(full_path))
 
     # remove the parent directories if empty or contain only thumb files; check
-    # each once, subfolders before their parents (listing a folder after every
-    # removed file took minutes on large day folders)
+    # each once, subfolders before their parents
     for dir_path in sorted(dir_paths, key=len, reverse=True):
         if not os.path.exists(dir_path):
             continue
