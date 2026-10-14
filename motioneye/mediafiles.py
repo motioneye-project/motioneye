@@ -183,6 +183,7 @@ def _remove_older_files(
     exts: list[str],
 ):
     removed_folder_count = 0
+    dir_paths = set()
     for full_path, st in _list_media_files(directory, exts, with_stat=True):
         file_moment = datetime.datetime.fromtimestamp(st.st_mtime)
         if file_moment < moment:
@@ -199,32 +200,34 @@ def _remove_older_files(
                 else:
                     logging.error(f'failed to remove {full_path}: {e}')
 
-            # remove the parent directories if empty or contain only thumb files
-            dir_path = os.path.dirname(full_path)
-            if not os.path.exists(dir_path):
-                continue
+            dir_paths.add(os.path.dirname(full_path))
 
-            listing = os.listdir(dir_path)
-            thumbs = [line for line in listing if line.endswith('.thumb')]
+    # remove the parent directories if empty or contain only thumb files; check
+    # each once, subfolders before their parents (listing a folder after every
+    # removed file took minutes on large day folders)
+    for dir_path in sorted(dir_paths, key=len, reverse=True):
+        if not os.path.exists(dir_path):
+            continue
 
-            if len(listing) == len(thumbs):  # only thumbs
-                for p in thumbs:
-                    try:
-                        os.remove(os.path.join(dir_path, p))
+        listing = os.listdir(dir_path)
+        thumbs = [line for line in listing if line.endswith('.thumb')]
 
-                    except Exception as e:
-                        logging.error(f'failed to remove {p}: {e}')
-
-            if not listing or len(listing) == len(thumbs):
-                # this will possibly cause following paths that are in the media files for loop
-                # to be removed in advance; the os.remove call will raise ENOENT which is silently ignored
-                logging.debug(f'removing empty directory {dir_path}...')
+        if len(listing) == len(thumbs):  # only thumbs
+            for p in thumbs:
                 try:
-                    os.removedirs(dir_path)
-                    removed_folder_count += 1
+                    os.remove(os.path.join(dir_path, p))
 
                 except Exception as e:
-                    logging.error(f'failed to remove {dir_path}: {e}')
+                    logging.error(f'failed to remove {p}: {e}')
+
+        if not listing or len(listing) == len(thumbs):
+            logging.debug(f'removing empty directory {dir_path}...')
+            try:
+                os.removedirs(dir_path)
+                removed_folder_count += 1
+
+            except Exception as e:
+                logging.error(f'failed to remove {dir_path}: {e}')
 
     if clean_cloud_info and removed_folder_count > 0:
         uploadservices.clean_cloud(directory, {}, clean_cloud_info)
