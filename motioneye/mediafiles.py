@@ -185,7 +185,13 @@ def _remove_older_files(
     removed_folder_count = 0
     dir_paths = set()
     for full_path, st in _list_media_files(directory, exts, with_stat=True):
-        file_moment = datetime.datetime.fromtimestamp(st.st_mtime)
+        try:
+            file_moment = datetime.datetime.fromtimestamp(st.st_mtime)
+
+        except Exception as e:  # e.g. a time out of range for this platform
+            logging.error(f'failed to check {full_path}: {e}')
+            continue
+
         if file_moment < moment:
             logging.debug(f'removing file {full_path}...')
 
@@ -208,7 +214,13 @@ def _remove_older_files(
         if not os.path.exists(dir_path):
             continue
 
-        listing = os.listdir(dir_path)
+        try:
+            listing = os.listdir(dir_path)
+
+        except Exception as e:
+            logging.error(f'failed to list {dir_path}: {e}')
+            continue
+
         thumbs = [line for line in listing if line.endswith('.thumb')]
 
         if len(listing) == len(thumbs):  # only thumbs

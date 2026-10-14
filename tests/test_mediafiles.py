@@ -751,6 +751,48 @@ class TestRemoveOlderFiles(unittest.TestCase):
         clean_cloud = self._remove(['.jpg'], self._CLOUD_INFO)
         clean_cloud.assert_called_once_with(self.target_dir, {}, self._CLOUD_INFO)
 
+    def test_goes_on_after_a_file_it_cannot_check(self):
+        self._file('2024-01-01/bad.jpg', 5)
+        self._file('2024-01-01/old.jpg', 4)
+        self._file('2024-01-02/old.jpg', 4)
+        bad = os.stat(os.path.join(self.target_dir, '2024-01-01', 'bad.jpg')).st_mtime
+
+        def fromtimestamp(t):
+            if t == bad:
+                raise OverflowError('timestamp out of range for platform time_t')
+
+            return datetime.datetime.fromtimestamp(t)
+
+        with patch('motioneye.mediafiles.datetime') as mock_datetime:
+            mock_datetime.datetime.fromtimestamp.side_effect = fromtimestamp
+            with self.assertLogs(level='ERROR'):
+                self._remove(['.jpg'])
+
+        self.assertEqual(
+            self._files(), ['.keep', os.path.join('2024-01-01', 'bad.jpg')]
+        )
+
+    def test_goes_on_after_a_folder_it_cannot_list(self):
+        # the deeper folder is checked first
+        self._file('a/2024-01-01/old.jpg', 4)
+        self._file('2024-01-02/old.jpg', 4)
+        locked = os.path.join(self.target_dir, 'a', '2024-01-01')
+        listdir = os.listdir
+
+        def locked_listdir(path):
+            if path == locked:
+                raise PermissionError(13, 'Permission denied', path)
+
+            return listdir(path)
+
+        with self.assertLogs(level='ERROR'), patch(
+            'motioneye.mediafiles.os.listdir', side_effect=locked_listdir
+        ):
+            self._remove(['.jpg'])
+
+        self.assertEqual(sorted(os.listdir(self.target_dir)), ['.keep', 'a'])
+        self.assertTrue(os.path.isdir(locked))
+
     def test_lists_each_folder_once(self):
         # a day folder can hold 17,280 stills at a 5 s snapshot interval
         for i in range(200):
