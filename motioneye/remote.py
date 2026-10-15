@@ -92,6 +92,11 @@ async def _send_request(request: HTTPRequest) -> HTTPResponse:
 
             elif decoded['error']:
                 response.error = Exception(decoded['error'])
+
+        elif response.headers.get('Content-Type', '').startswith('application/json'):
+            decoded = json.loads(response.body)
+            if isinstance(decoded, dict) and decoded.get('error'):
+                response.error = utils.RemoteError(decoded['error'])
     except Exception as e:
         logging.error(f"_send_request: {e}")
         response = HTTPResponse(request, 599)
@@ -229,18 +234,6 @@ async def get_config(local_config) -> utils.GetConfigResponse:
         return utils.GetConfigResponse(None, error=str(e))
 
     else:
-        # e.g. from a remote motionEye which cannot reach its own camera
-        if response.get('error'):
-            logging.error(
-                'failed to get config for remote camera {id} on {url}: {msg}'.format(
-                    id=camera_id,
-                    url=pretty_camera_url(local_config),
-                    msg=response['error'],
-                )
-            )
-
-            return utils.GetConfigResponse(None, error=response['error'])
-
         response['host'] = host
         response['port'] = port
 
