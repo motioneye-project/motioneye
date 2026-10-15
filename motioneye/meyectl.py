@@ -24,6 +24,7 @@ import logging
 import multiprocessing
 import os.path
 import sys
+from logging.handlers import SysLogHandler
 from shlex import quote
 
 import babel
@@ -237,7 +238,7 @@ def configure_logging(cmd):
     else:
         fmt = '%(levelname)8s: %(message)s'
 
-    for h in logging.getLogger().handlers:
+    for h in logging.getLogger().handlers[:]:
         logging.getLogger().removeHandler(h)
 
     try:
@@ -260,6 +261,24 @@ def configure_logging(cmd):
 
     logging.getLogger('tornado').setLevel(logging.WARNING)
     logging.getLogger('oauth2client').setLevel(logging.WARNING)
+
+    # motion runs these with its output muted where there is syslog (see
+    # motionctl.start()), so they log there too, like motion itself
+    if (
+        cmd in ('sendmail', 'telegram', 'webhook')
+        and not settings.LOG_TO_FILE
+        and os.path.exists('/dev/log')
+    ):
+        try:  # raises before Python 3.11 when nothing listens on /dev/log
+            handler = SysLogHandler('/dev/log')
+            handler.ident = f'meyectl[{os.getpid()}]: '
+            handler.setFormatter(
+                logging.Formatter(f'[{cmd}] %(levelname)s: %(message)s')
+            )
+            logging.getLogger().addHandler(handler)
+
+        except OSError as e:
+            logging.warning(f'failed to log to syslog: {e}')
 
 
 def configure_tornado():
