@@ -1007,6 +1007,15 @@ def input_sanity_check(regex, value, key, msg):
         )
 
 
+def input_required(ui, key):
+    # False and 0 are set values, a missing key, None (null) or '' is not
+    value = ui.get(key)
+    if value is None or value == '':
+        raise ValueError(f'Setting "{key}" must be set')
+
+    return value
+
+
 def motion_camera_ui_to_dict(ui, prev_config=None):
     prev_config = dict(prev_config or {})
     main_config = get_main()  # needed for surveillance password
@@ -1049,7 +1058,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         'rotate': int(ui['rotation']),
         'mask_privacy': '',
         # file storage
-        '@storage_device': ui['storage_device'],
+        '@storage_device': input_required(ui, 'storage_device'),
         '@network_server': ui['network_server'],
         '@network_share_name': ui['network_share_name'],
         '@network_smb_ver': ui['network_smb_ver'],
