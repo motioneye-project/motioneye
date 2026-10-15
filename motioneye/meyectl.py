@@ -262,8 +262,6 @@ def configure_logging(cmd):
     logging.getLogger('tornado').setLevel(logging.WARNING)
     logging.getLogger('oauth2client').setLevel(logging.WARNING)
 
-    # motion runs these with its output muted where there is syslog (see
-    # motionctl.start()), so they log there too, like motion itself
     if (
         cmd in ('sendmail', 'telegram', 'webhook')
         and not settings.LOG_TO_FILE
