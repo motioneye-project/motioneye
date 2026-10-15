@@ -855,7 +855,11 @@ class ConfigHandler(BaseHandler):
                 try:
                     message = 'This is a test of motionEye\'s telegram messaging'
                     sendtelegram.send_message(
-                        data['api'], int(data['chatid']), message=message, files=[]
+                        data['api'],
+                        str(data['chatid']).strip(),
+                        message=message,
+                        files=[],
+                        retry=False,
                     )
 
                     self.finish_json()

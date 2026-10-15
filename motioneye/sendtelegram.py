@@ -16,13 +16,16 @@
 from __future__ import annotations
 
 import datetime
+import json
 import logging
 import os
 import re
 import signal
 import socket
 import time
+from io import BytesIO
 from typing import Callable
+from urllib.parse import urlencode
 
 import pycurl
 from tornado.ioloop import IOLoop
@@ -31,31 +34,100 @@ from motioneye import config, mediafiles, meyectl, motionctl, settings, utils
 from motioneye.controls import tzctl
 
 
-def send_message(api_key, chat_id, message, files):
+class TelegramError(RuntimeError):
+    def __init__(self, code, description, retry_after):
+        super().__init__(f'telegram replied {code}: {description}')
+        self.retry_after = retry_after
+
+
+def _perform_once(c):
+    reply = BytesIO()
+    c.setopt(c.WRITEDATA, reply)
+    c.perform()
+    code = c.getinfo(c.RESPONSE_CODE)
+    try:
+        result = json.loads(reply.getvalue())
+
+    except ValueError:
+        result = {}
+
+    if code != 200 or result.get('ok') is not True:
+        raise TelegramError(
+            code,
+            result.get('description') or 'no description',
+            (result.get('parameters') or {}).get('retry_after')
+            if code == 429
+            else None,
+        )
+
+
+def _perform(c, retry):
+    try:
+        _perform_once(c)
+        return
+
+    except pycurl.error as e:
+        if not retry:
+            raise
+
+        delay = 5
+        logging.warning(f'telegram request failed, retrying in {delay}s: {e}')
+
+    except TelegramError as e:
+        if not retry or not isinstance(e.retry_after, int):
+            raise
+
+        if not 0 <= e.retry_after <= 30:
+            raise
+
+        delay = e.retry_after
+        logging.warning(f'{e}, retrying in {delay}s')
+
+    time.sleep(delay)
+    _perform_once(c)
+
+
+def send_message(api_key, chat_id, message, files, retry=True):
     telegram_message_url = f'https://api.telegram.org/bot{api_key}/sendMessage'
     telegram_photo_url = f'https://api.telegram.org/bot{api_key}/sendPhoto'
     c = pycurl.Curl()
     c.setopt(c.POST, 1)
+    c.setopt(c.CONNECTTIMEOUT, 10)
+    c.setopt(c.LOW_SPEED_LIMIT, 1)
+    c.setopt(c.LOW_SPEED_TIME, 60)
     c.setopt(c.URL, telegram_message_url)
-    if not files:
-        logging.info('no files')
-        c.setopt(c.POSTFIELDS, f"chat_id={chat_id}&text={message}")
-        c.perform()
-    else:
-        logging.info('files present')
-        for f in files:
-            c.setopt(c.URL, telegram_photo_url)
-            # Send photos
-            c.setopt(
-                c.HTTPPOST,
-                [
-                    ("chat_id", chat_id),
-                    ("caption", message),
-                    ("photo", (c.FORM_FILE, f)),
-                ],
-            )
-            c.perform()
-    c.close()
+    try:
+        if not files:
+            logging.info('no files')
+            c.setopt(c.POSTFIELDS, urlencode({'chat_id': chat_id, 'text': message}))
+            _perform(c, retry)
+        else:
+            logging.info('files present')
+            failed = 0
+            for f in files:
+                c.setopt(c.URL, telegram_photo_url)
+                # Send photos
+                c.setopt(
+                    c.HTTPPOST,
+                    [
+                        ("chat_id", chat_id),
+                        ("caption", message.encode()),
+                        ("photo", (c.FORM_FILE, os.fsencode(f))),
+                    ],
+                )
+                try:
+                    _perform(c, retry)
+
+                except RuntimeError as e:
+                    logging.error(f'failed to send "{os.path.basename(f)}": {e}')
+                    failed += 1
+
+            if failed > 0:
+                raise RuntimeError(f'{failed} of {len(files)} pictures not sent')
+
+    finally:
+        c.close()
+
     logging.debug('sending telegram')
 
 
