@@ -223,6 +223,7 @@ def netcam_use_tcp_params(v: bool, data: dict) -> dict:
 
 def netcam_params(v: str, data: dict) -> dict:
     params: dict = {}
+    others = []
     for param in v.split(','):
         split = [x.strip() for x in param.split('=')]
         if split[0] == 'keepalive':
@@ -235,6 +236,12 @@ def netcam_params(v: str, data: dict) -> dict:
 
         elif split[0] == 'rtsp_transport':
             params['netcam_use_tcp'] = split[1] != 'udp'
+
+        elif split[0]:
+            others.append(param)
+
+    if others:
+        params['netcam_params'] = ','.join(others).strip()
 
     return params
 
