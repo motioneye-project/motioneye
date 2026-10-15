@@ -781,7 +781,7 @@ def make_netcam_userpass(url, raw_username, raw_password, camera_id):
     return userpass
 
 
-def motion_resolution_support(url):
+def motion_resolution_support(url: str) -> bool:
     if url.startswith(('rtsp', 'rtmp')):
         return True
 
