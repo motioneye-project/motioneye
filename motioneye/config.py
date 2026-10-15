@@ -781,6 +781,16 @@ def make_netcam_userpass(url, raw_username, raw_password, camera_id):
     return userpass
 
 
+def motion_resolution_support(url):
+    if url.startswith(('rtsp', 'rtmp')):
+        return True
+
+    # since motion 4.4 only special prefixes mjpeg/jpeg/ftp have auto-detected resolution and are not configurable
+    return motionctl.is_motion_post43() and not url.startswith(
+        ('mjpeg', 'mjpg', 'jpeg', 'ftp')
+    )
+
+
 def add_camera(device_details):
     global _camera_ids_cache
 
@@ -847,7 +857,7 @@ def add_camera(device_details):
         if device_details.get('camera_index') == 'udp':
             camera_config['netcam_use_tcp'] = False
 
-        if match(r'^rtsp|^rtmp', camera_config['netcam_url']):
+        if motion_resolution_support(camera_config['netcam_url']):
             camera_config['width'] = 640
             camera_config['height'] = 480
 
@@ -1200,10 +1210,10 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
                 )
 
     else:  # assuming netcam
-        if match(
-            r'^rtsp|^rtmp', data.get('netcam_url', prev_config.get('netcam_url', ''))
+        if ui.get('resolution') and motion_resolution_support(
+            data.get('netcam_url', prev_config.get('netcam_url', ''))
         ):
-            # motion uses the configured width and height for RTSP/RTMP cameras
+            # motion uses the configured width and height for these cameras
             width = int(ui['resolution'].split('x')[0])
             height = int(ui['resolution'].split('x')[1])
             data['width'] = width
@@ -1701,16 +1711,17 @@ def motion_camera_dict_to_ui(data):
         ui['proto'] = 'netcam'
 
         # resolutions
-        if match(r'^rtsp|^rtmp', data['netcam_url']):
-            # motion uses the configured width and height for RTSP/RTMP cameras
+        if motion_resolution_support(data['netcam_url']):
+            # motion uses the configured width and height for these cameras
+            width, height = data.get('width', 640), data.get('height', 480)
             resolutions = utils.COMMON_RESOLUTIONS
             resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
             ui['available_resolutions'] = [
                 (str(w) + 'x' + str(h)) for (w, h) in resolutions
             ]
-            ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
+            ui['resolution'] = str(width) + 'x' + str(height)
 
-            threshold = data['threshold'] * 100.0 / (data['width'] * data['height'])
+            threshold = data['threshold'] * 100.0 / (width * height)
 
         else:  # width & height are not available for other netcams
             # we have no other choice but use something like 640x480 as reference
