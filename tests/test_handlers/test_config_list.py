@@ -142,6 +142,8 @@ class ConfigListRemoteHubTest(HandlerTestCase):
         cameras = {1: _LOCAL_CAMERA, 2: _REMOTE_CAMERA}
         # answer of a remote motionEye which cannot reach its own camera
         answer = SimpleNamespace(
+            code=200,
+            headers={'Content-Type': 'application/json; charset=UTF-8'},
             error=None,
             body=dumps(
                 {
@@ -159,7 +161,10 @@ class ConfigListRemoteHubTest(HandlerTestCase):
                 'motioneye.config.motion_camera_dict_to_ui',
                 return_value=dict(_FAKE_UI_CONFIG),
             ),
-            patch('motioneye.remote._send_request', AsyncMock(return_value=answer)),
+            patch(
+                'motioneye.remote.AsyncHTTPClient',
+                return_value=SimpleNamespace(fetch=AsyncMock(return_value=answer)),
+            ),
         ]
         for p in self._extra_patches:
             p.start()
