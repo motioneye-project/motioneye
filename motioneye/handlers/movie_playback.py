@@ -127,6 +127,12 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
     def validate_absolute_path(self, root, absolute_path):
         return absolute_path
 
+    def get_content_type(self):
+        return mediafiles.MOVIE_EXT_TYPE_MAPPING.get(
+            os.path.splitext(self.absolute_path)[1][1:].lower(),
+            'application/octet-stream',
+        )
+
 
 class MovieDownloadHandler(MoviePlaybackHandler):
     def set_extra_headers(self, filename):

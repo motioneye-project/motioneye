@@ -2170,7 +2170,7 @@ function dict2CameraUi(dict) {
     $('#resolutionSelect').html('');
     if (dict['available_resolutions']) {
         dict['available_resolutions'].forEach(function (resolution) {
-            $('#resolutionSelect').append('<option value="' + resolution + '">' + resolution + '</option>');
+            $('#resolutionSelect').append($('<option></option>').val(resolution).text(resolution));
         });
         $('#resolutionSelect').append('<option value="custom">'+i18n.gettext("Propra")+'</option>');
     }
@@ -3704,7 +3704,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
             progressImg.remove();
         });
 
-        modalContainer.find('span.modal-title:last').html(entry.name);
+        modalContainer.find('span.modal-title:last').text(entry.name);
         updateModalDialogPosition();
     }
 
@@ -4040,7 +4040,7 @@ function runAddCameraDialog() {
             isProgress = false;
 
             if (data == null || data.error) {
-                cameraMsgLabel.html(data && data.error);
+                cameraMsgLabel.text((data && data.error) || '');
 
                 return;
             }
@@ -4050,7 +4050,7 @@ function runAddCameraDialog() {
             }
 
             data.cameras.forEach(function (info) {
-                var option = $('<option value="' + info.id + '">' + info.name + '</option>');
+                var option = $('<option></option>').val(info.id).text(info.name || '');
                 option[0]._extra_attrs = {};
                 Object.keys(info).forEach(function (key) {
                     if (key == 'id' || key == 'name') {
@@ -4140,7 +4140,7 @@ function runAddCameraDialog() {
                 }
 
                 var cameraOption = $('#cameraSelect').find('option[value=add]');
-                cameraOption.before('<option value="' + data.id + '">' + data.name + '</option>');
+                cameraOption.before($('<option></option>').val(data.id).text(data.name || ''));
                 $('#cameraSelect').val(data.id).trigger('change');
                 recreateCameraFrames();
             });
@@ -4247,7 +4247,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
                 '<tr><td colspan="2" class="timelapse-warning"></td></tr>' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Grupo")+'</span></td>' +
-                    '<td class="dialog-item-value">' + groupKey + '</td>' +
+                    '<td class="dialog-item-value timelapse-group"></td>' +
                 '</tr>' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Inkluzivi foton prenitan ĉiun")+'</span></td>' +
@@ -4276,6 +4276,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
     var intervalSelect = content.find('#intervalSelect');
     var framerateSlider = content.find('#framerateSlider');
     var timelapseWarning = content.find('td.timelapse-warning');
+    content.find('td.timelapse-group').text(groupKey);
 
     if (group.length > 1440) { /* one day worth of pictures, taken 1 minute apart */
         timelapseWarning.html(i18n.gettext("Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"));
@@ -4433,7 +4434,7 @@ function runMediaDialog(cameraId, mediaType) {
                         entryDiv.append(deleteButton);
                     }
 
-                    var nameDiv = $('<div class="media-list-entry-name">' + entry.name + '</div>');
+                    var nameDiv = $('<div class="media-list-entry-name"></div>').text(entry.name);
                     entryDiv.append(nameDiv);
 
                     detailsDiv = $('<div class="media-list-entry-details"></div>');
@@ -4491,9 +4492,9 @@ function runMediaDialog(cameraId, mediaType) {
                     detailsDiv = entry.div.find('div.media-list-entry-details');
                 }
 
-                var momentSpan = $('<span class="details-moment">' + entry.momentStr + ', </span>');
-                var momentShortSpan = $('<span class="details-moment-short">' + entry.momentStrShort + '</span>');
-                var sizeSpan = $('<span class="details-size">' + entry.sizeStr + '</span>');
+                var momentSpan = $('<span class="details-moment"></span>').text((entry.momentStr || '') + ', ');
+                var momentShortSpan = $('<span class="details-moment-short"></span>').text(entry.momentStrShort || '');
+                var sizeSpan = $('<span class="details-size"></span>').text(entry.sizeStr || '');
                 detailsDiv.empty();
                 detailsDiv.append(momentSpan);
                 detailsDiv.append(momentShortSpan);
@@ -5205,7 +5206,12 @@ function addCameraFrameUi(cameraConfig) {
                         monitorInfo = monitorInfo.substring(1, monitorInfo.length - 1);
                     }
                     cameraMonitoringDiv.removeClass('hide-monitoring');
-                    cameraMonitoringSpan.html(monitorInfo);
+                    if (cameraFrameDiv[0].config['proto'] == 'motioneye') {
+                        cameraMonitoringSpan.text(monitorInfo);
+                    }
+                    else {
+                        cameraMonitoringSpan.html(monitorInfo);
+                    }
 
                 }
                 else {

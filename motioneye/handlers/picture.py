@@ -19,9 +19,10 @@ from __future__ import annotations
 
 import logging
 from asyncio import get_running_loop
-from os.path import basename, join
+from json import loads
+from os.path import basename, join, splitext
 from pathlib import Path
-from re import sub
+from re import search, sub
 
 from tornado import gen
 from tornado.web import HTTPError
@@ -37,6 +38,36 @@ from motioneye import (
     utils,
 )
 from motioneye.handlers.base import BaseHandler
+
+_ZIP_TYPES = {'application/zip': 'zip'}
+_MOVIE_TYPES = {v: k for k, v in mediafiles.MOVIE_EXT_TYPE_MAPPING.items()}
+
+
+def _remote_content_type(result):
+    return (result['content_type'] or '').partition(';')[0].strip().lower()
+
+
+def _remote_download_error(result, types):
+    content_type = _remote_content_type(result)
+    if content_type in types:
+        return None
+    if content_type == 'application/json':
+        try:
+            return loads(result['data']).get('error') or 'unexpected answer'
+        except (ValueError, AttributeError):
+            return 'unexpected answer'
+
+    return f'unexpected content type {content_type!r}'
+
+
+def _remote_download_headers(result, types, fallback_stem):
+    content_type = _remote_content_type(result)
+    match = search(r'filename="?([^";]+)', result['content_disposition'] or '')
+    stem = splitext(basename(match.group(1).strip() if match else ''))[0]
+    stem = sub('[^a-zA-Z0-9]', '_', stem or fallback_stem)
+
+    return content_type, f'attachment; filename={stem}.{types[content_type]};'
+
 
 __all__ = ('PictureHandler',)
 
@@ -441,17 +472,19 @@ class PictureHandler(BaseHandler):
                 resp = await remote.get_zipped_content(
                     camera_config, media_type='picture', key=key, group=group
                 )
-                if resp.error:
+                error = resp.error or _remote_download_error(resp.result, _ZIP_TYPES)
+                if error:
                     msg = (
                         'failed to download zip file from '
-                        f'{remote.pretty_camera_url(camera_config)}: {resp.error}'
+                        f'{remote.pretty_camera_url(camera_config)}: {error}'
                     )
                     return self.finish_json({'error': msg})
 
-                self.set_header('Content-Type', resp.result['content_type'])
-                self.set_header(
-                    'Content-Disposition', resp.result['content_disposition']
+                content_type, content_disposition = _remote_download_headers(
+                    resp.result, _ZIP_TYPES, f'Camera{camera_id}_{group}'
                 )
+                self.set_header('Content-Type', content_type)
+                self.set_header('Content-Disposition', content_disposition)
                 return self.finish(resp.result['data'])
 
             else:  # assuming simple mjpeg camera
@@ -530,17 +563,19 @@ class PictureHandler(BaseHandler):
 
             elif utils.is_remote_camera(camera_config):
                 resp = await remote.get_timelapse_movie(camera_config, key, group=group)
-                if resp.error:
+                error = resp.error or _remote_download_error(resp.result, _MOVIE_TYPES)
+                if error:
                     msg = (
                         'failed to download timelapse movie from '
-                        f'{remote.pretty_camera_url(camera_config)}: {resp.error}'
+                        f'{remote.pretty_camera_url(camera_config)}: {error}'
                     )
                     return self.finish_json({'error': msg})
 
-                self.set_header('Content-Type', resp.result['content_type'])
-                self.set_header(
-                    'Content-Disposition', resp.result['content_disposition']
+                content_type, content_disposition = _remote_download_headers(
+                    resp.result, _MOVIE_TYPES, f'Camera{camera_id}_{group}'
                 )
+                self.set_header('Content-Type', content_type)
+                self.set_header('Content-Disposition', content_disposition)
                 return self.finish(resp.result['data'])
 
             else:  # assuming simple mjpeg camera

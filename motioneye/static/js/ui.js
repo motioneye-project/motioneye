@@ -662,14 +662,19 @@ function makeModalDialogButtons(buttonsInfo) {
 
 function makeModalDialogTitleBar(options) {
     /* available options:
-     * * title: String
+     * * title: String (shown as text) or jQuery object
      * * closeButton: Boolean
      */
 
     var titleBar = $('<div class="modal-title-bar"></div>');
 
     var titleSpan = $('<span class="modal-title"></span>');
-    titleSpan.html(options.title || '');
+    if (typeof options.title === 'string') {
+        titleSpan.text(options.title);
+    }
+    else {
+        titleSpan.append(options.title || '');
+    }
     if (options.closeButton) {
         titleSpan.css('margin', '0px 2em');
     }
@@ -687,7 +692,7 @@ function makeModalDialogTitleBar(options) {
 
 function runModalDialog(options) {
     /* available options:
-     * * title: String
+     * * title: String (shown as text) or jQuery object
      * * closeButton: Boolean
      * * content: any
      * * buttons: 'ok'|'yesno'|'okcancel'|Array
@@ -829,7 +834,7 @@ function showPopupMessage(message, type) {
         clearTimeout(window._popupMessageTimeout);
     }
 
-    content.html(message);
+    content.text(message);
     content.addClass(type);
     container.html(content);
 

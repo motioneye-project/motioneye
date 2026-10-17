@@ -93,6 +93,7 @@ MOVIE_EXT_TYPE_MAPPING = {
     'swf': 'application/x-shockwave-flash',
     'flv': 'video/x-flv',
     'mkv': 'video/x-matroska',
+    'mpg': 'video/mpeg',
 }
 
 # a cache of prepared files (whose preparing time is significant)

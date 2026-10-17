@@ -15,7 +15,7 @@ from tornado.web import Application, RequestHandler, create_signed_value
 from motioneye.handlers.base import _SESSION_EXPIRY_SECONDS, _session_store
 from motioneye.server import make_app
 
-__all__ = ('HandlerTestCase',)
+__all__ = ('HandlerTestCase', 'RemoteCameraTestCase')
 
 T = TypeVar('T', bound=RequestHandler)
 
@@ -95,3 +95,34 @@ class HandlerTestCase(AsyncHTTPTestCase, Generic[T]):
             self.app.settings['cookie_secret'], 'user', session_id
         )
         return 'user=' + signed.decode()
+
+
+_FAKE_REMOTE_CAMERA_CONFIG = {
+    '@id': _FAKE_CAMERA_ID,
+    '@enabled': True,
+    '@proto': 'motioneye',
+    '@scheme': 'http',
+    '@host': 'cam.example',
+    '@port': 8765,
+    '@path': '',
+    '@remote_camera_id': 1,
+    '@remote_secret': 'secret',
+}
+
+
+class RemoteCameraTestCase(HandlerTestCase):
+    """Camera 1 is a remote motionEye camera."""
+
+    def setUp(self):
+        super().setUp()
+        self._remote_patch = patch(
+            'motioneye.config.get_camera', return_value=_FAKE_REMOTE_CAMERA_CONFIG
+        )
+        self._remote_patch.start()
+
+    def tearDown(self):
+        self._remote_patch.stop()
+        super().tearDown()
+
+    def fetch_as_admin(self, path):
+        return self.fetch(path, headers={'Cookie': self.make_session_cookie('admin')})
