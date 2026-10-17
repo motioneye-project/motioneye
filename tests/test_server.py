@@ -31,7 +31,7 @@ import signal
 import threading
 import time
 
-from tornado.ioloop import IOLoop
+from tornado.ioloop import IOLoop, PeriodicCallback
 
 from motioneye import meyectl, server
 
@@ -61,8 +61,7 @@ io_loop.start()
 print(time.monotonic() - start)
 '''
 
-# The same when the signal is handled by another thread: only the wakeup fd can
-# wake the loop up then.
+# The same when the signal is handled by another thread.
 _OTHER_THREAD = '''
 io_loop.call_later(5, timer, 'the next timer')
 
@@ -78,12 +77,16 @@ io_loop.start()
 print(time.monotonic() - start)
 '''
 
-# A timer that fell due while the loop was busy must not run after SIGTERM.
-_BUSY = '''
+# The motion checker must not run after SIGTERM, even when it fell due while
+# the loop was busy: bye_handler() stops it before the loop gets to it.
+_CHECKER = '''
+server._motion_checker = PeriodicCallback(lambda: print('the checker ran'), 100)
+server._motion_checker.start()
+
+
 def busy():
-    # like a synchronous motion restart: a timer falls due meanwhile, and
-    # SIGTERM arrives before the loop gets back to it
-    io_loop.call_later(0.1, timer, 'the overdue timer')
+    # like a synchronous motion restart, during which the checker falls due
+    # and SIGTERM arrives
     time.sleep(0.5)
     os.kill(os.getpid(), signal.SIGTERM)
 
@@ -96,8 +99,8 @@ print(time.monotonic() - start)
 '''
 
 # A SIGTERM sent to a forked process, like a zip process that timed out, must not
-# stop the IO loop of the server: before Python 3.12, forked processes share the
-# signal wakeup fd.
+# stop the IO loop of the server: before Python 3.12, forked processes inherit
+# the signal wakeup fd.
 _CHILD = '''
 child = multiprocessing.Process(target=time.sleep, args=(2,))
 child.start()
@@ -149,11 +152,12 @@ class TestServerSignals(unittest.TestCase):
         self.assertNotIn('the next timer ran', result.stdout, result.stderr)
         self.assertLess(float(result.stdout.split()[-1]), 3)
 
-    def test_sigterm_skips_timers_that_fell_due_while_busy(self):
-        result = _run(_BUSY)
+    def test_the_motion_checker_does_not_run_after_sigterm(self):
+        result = _run(_CHECKER)
 
         self._assert_clean(result)
-        self.assertNotIn('the overdue timer ran', result.stdout, result.stderr)
+        self.assertNotIn('the checker ran', result.stdout, result.stderr)
+        self.assertLess(float(result.stdout.split()[-1]), 3)
 
     def test_sigterm_to_a_forked_process_keeps_the_loop_running(self):
         result = _run(_CHILD)

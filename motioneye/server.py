@@ -26,7 +26,7 @@ import time
 from secrets import token_bytes
 from typing import Sequence
 
-from tornado.ioloop import IOLoop
+from tornado.ioloop import IOLoop, PeriodicCallback
 from tornado.web import Application
 
 from motioneye import config, migration, settings, template
@@ -228,9 +228,14 @@ handler_mapping: Sequence[tuple] = [
 ]
 
 
+_motion_checker: PeriodicCallback | None = None
+
+
 def configure_signals():
-    def bye_handler(signal, frame):
+    def bye_handler():
         logging.info(_('interrompa signalo ricevita, fermanta …'))
+
+        stop_motion_checker()
 
         # shut down the IO loop if it has been started
         IOLoop.current().stop()
@@ -239,18 +244,15 @@ def configure_signals():
         # this is required for the multiprocessing mechanism to work
         multiprocessing.active_children()
 
-    signal.signal(signal.SIGINT, bye_handler)
-    signal.signal(signal.SIGTERM, bye_handler)
+    asyncio_loop = IOLoop.current().asyncio_loop
+    asyncio_loop.add_signal_handler(signal.SIGINT, bye_handler)
+    asyncio_loop.add_signal_handler(signal.SIGTERM, bye_handler)
     signal.signal(signal.SIGCHLD, child_handler)
 
-    # make signals wake the IO loop up, or it notices the stop only at its next
-    # timer, often the motion checker, which restarts motion if systemd stopped it
-    wakeup_r, wakeup_w = os.pipe()
-    os.set_blocking(wakeup_r, False)
-    os.set_blocking(wakeup_w, False)
-    io_loop = IOLoop.current()
-    io_loop.add_handler(wakeup_r, lambda fd, events: os.read(fd, 64), io_loop.READ)
-    signal.set_wakeup_fd(wakeup_w, warn_on_full_buffer=False)
+    if sys.version_info < (3, 12):
+        # processes forked by multiprocessing inherit the signal wakeup fd of the
+        # handlers above, so a signal sent to one of them would stop this server
+        os.register_at_fork(after_in_child=lambda: signal.set_wakeup_fd(-1))
 
 
 def test_requirements():
@@ -365,11 +367,10 @@ def make_media_folders():
 
 
 def start_motion():
+    global _motion_checker
+
     from motioneye import config, motionctl
 
-    io_loop = IOLoop.current()
-
-    # add a motion running checker
     def checker():
         if (
             not motionctl.running()
@@ -383,15 +384,23 @@ def start_motion():
             except Exception:
                 logging.error('failed to start motion')
 
-        io_loop.call_later(settings.MOTION_CHECK_INTERVAL, checker)
-
     try:
         motionctl.start()
 
     except Exception:
         logging.exception('failed to start motion')
 
-    io_loop.call_later(settings.MOTION_CHECK_INTERVAL, checker)
+    stop_motion_checker()
+    _motion_checker = PeriodicCallback(checker, settings.MOTION_CHECK_INTERVAL * 1000)
+    _motion_checker.start()
+
+
+def stop_motion_checker():
+    global _motion_checker
+
+    if _motion_checker is not None:
+        _motion_checker.stop()
+        _motion_checker = None
 
 
 def parse_options(parser, args):
@@ -480,6 +489,7 @@ def run():
     # shutdown sequence begins once io_loop.start() returns
     logging.info(_('servilo haltis'))
 
+    stop_motion_checker()
     cleanup.stop()
     tasks.stop()
 
