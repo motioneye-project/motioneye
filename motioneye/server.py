@@ -243,6 +243,15 @@ def configure_signals():
     signal.signal(signal.SIGTERM, bye_handler)
     signal.signal(signal.SIGCHLD, child_handler)
 
+    # make signals wake the IO loop up, or it notices the stop only at its next
+    # timer, often the motion checker, which restarts motion if systemd stopped it
+    wakeup_r, wakeup_w = os.pipe()
+    os.set_blocking(wakeup_r, False)
+    os.set_blocking(wakeup_w, False)
+    io_loop = IOLoop.current()
+    io_loop.add_handler(wakeup_r, lambda fd, events: os.read(fd, 64), io_loop.READ)
+    signal.set_wakeup_fd(wakeup_w, warn_on_full_buffer=False)
+
 
 def test_requirements():
     if not os.access(settings.CONF_PATH, os.W_OK):
