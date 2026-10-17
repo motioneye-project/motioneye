@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import asyncio
 import datetime
 import json
 import logging
@@ -466,7 +467,7 @@ class ConfigHandler(BaseHandler):
         resp: utils.GetConfigResponse,
         cameras: list,
         length: list,
-    ) -> None:
+    ) -> bool:
         # admin_only is a local-only flag and is never synced from the remote
         local_config.setdefault('@admin_only', False)
         admin_only = bool(local_config.get('@admin_only', False))
@@ -474,8 +475,7 @@ class ConfigHandler(BaseHandler):
         # do not add this camera to the list if admin-only, but reduce the async counter so listing can finish
         if admin_only and self.current_user not in ['admin', 'peer']:
             length[0] -= 1
-            self.check_finished(cameras, length)
-            return
+            return self.check_finished(cameras, length)
 
         if resp.error:
             msg = f'Failed to get remote camera configuration for {remote.pretty_camera_url(local_config)}: {resp.error}.'
@@ -513,7 +513,7 @@ class ConfigHandler(BaseHandler):
 
             cameras.append(self._sanitize_camera_on_usertype(resp.remote_ui_config))
 
-        self.check_finished(cameras, length)
+        return self.check_finished(cameras, length)
 
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
@@ -602,6 +602,7 @@ class ConfigHandler(BaseHandler):
                 camera_ids = []
 
             length = [len(camera_ids)]
+            remote_cameras = []
 
             for camera_id in camera_ids:
                 local_config = config.get_camera(camera_id)
@@ -622,25 +623,7 @@ class ConfigHandler(BaseHandler):
                         return None
 
                 elif utils.is_remote_camera(local_config):
-                    if (
-                        local_config.get('@enabled')
-                        or self.get_argument('force', None) == 'true'
-                    ):
-                        resp = await remote.get_config(local_config)
-                        if self._handle_get_config_response(
-                            camera_id, local_config, resp, cameras, length
-                        ):
-                            return None
-
-                    else:  # don't try to reach the remote of the camera is disabled
-                        if self._handle_get_config_response(
-                            camera_id,
-                            local_config,
-                            utils.GetConfigResponse(None, error=True),
-                            cameras,
-                            length,
-                        ):
-                            return None
+                    remote_cameras.append((camera_id, local_config))
 
                 else:  # assuming simple mjpeg camera
                     ui_config = config.simple_mjpeg_camera_dict_to_ui(local_config)
@@ -648,7 +631,26 @@ class ConfigHandler(BaseHandler):
                     if self.check_finished(cameras, length):
                         return None
 
+            for (camera_id, local_config), resp in zip(
+                remote_cameras,
+                await asyncio.gather(
+                    *(self._get_remote_config(c) for _, c in remote_cameras)
+                ),
+            ):
+                if self._handle_get_config_response(
+                    camera_id, local_config, resp, cameras, length
+                ):
+                    return None
+
+            cameras.sort(key=lambda c: c['id'])
             return self.finish_json({'cameras': cameras})
+
+    async def _get_remote_config(self, local_config) -> utils.GetConfigResponse:
+        if local_config.get('@enabled') or self.get_argument('force', None) == 'true':
+            return await remote.get_config(local_config)
+
+        # don't try to reach the remote if the camera is disabled
+        return utils.GetConfigResponse(None, error=True)
 
     @BaseHandler.auth(admin=True)
     async def add_camera(self):
@@ -855,7 +857,11 @@ class ConfigHandler(BaseHandler):
                 try:
                     message = 'This is a test of motionEye\'s telegram messaging'
                     sendtelegram.send_message(
-                        data['api'], int(data['chatid']), message=message, files=[]
+                        data['api'],
+                        str(data['chatid']).strip(),
+                        message=message,
+                        files=[],
+                        retry=False,
                     )
 
                     self.finish_json()

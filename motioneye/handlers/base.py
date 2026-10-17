@@ -127,6 +127,9 @@ class BaseHandler(RequestHandler):
 
         return argument
 
+    def set_default_headers(self):
+        self.set_header('X-Content-Type-Options', 'nosniff')
+
     def finish(self, chunk=None):
         if not self._finished:
             return super().finish(chunk=chunk)

@@ -1,3 +1,4 @@
+import asyncio
 from json import dumps, loads
 from types import SimpleNamespace
 from unittest.mock import AsyncMock, patch
@@ -5,6 +6,7 @@ from unittest.mock import AsyncMock, patch
 import tornado.testing
 
 from motioneye.handlers.config import ConfigHandler
+from motioneye.utils import GetConfigResponse
 from tests.test_handlers import HandlerTestCase
 
 # a fake motion_camera_dict_to_ui() result that mixes viewer and admin-only fields
@@ -140,6 +142,8 @@ class ConfigListRemoteHubTest(HandlerTestCase):
         cameras = {1: _LOCAL_CAMERA, 2: _REMOTE_CAMERA}
         # answer of a remote motionEye which cannot reach its own camera
         answer = SimpleNamespace(
+            code=200,
+            headers={'Content-Type': 'application/json; charset=UTF-8'},
             error=None,
             body=dumps(
                 {
@@ -157,7 +161,10 @@ class ConfigListRemoteHubTest(HandlerTestCase):
                 'motioneye.config.motion_camera_dict_to_ui',
                 return_value=dict(_FAKE_UI_CONFIG),
             ),
-            patch('motioneye.remote._send_request', AsyncMock(return_value=answer)),
+            patch(
+                'motioneye.remote.AsyncHTTPClient',
+                return_value=SimpleNamespace(fetch=AsyncMock(return_value=answer)),
+            ),
         ]
         for p in self._extra_patches:
             p.start()
@@ -188,6 +195,102 @@ class ConfigListRemoteHubTest(HandlerTestCase):
 
         self.assertEqual(200, response.code)
         self.assertEqual([1], [c['id'] for c in loads(response.body)['cameras']])
+
+
+class ConfigListParallelRemoteTest(HandlerTestCase):
+    """Remote cameras are asked at the same time, not one after another."""
+
+    handler_cls = ConfigHandler
+
+    def setUp(self):
+        super().setUp()
+        self.cameras = {
+            i: dict(_REMOTE_CAMERA, **{'@id': i, '@remote_camera_id': i})
+            for i in (2, 3, 4)
+        }
+        self.asked = []
+        self.all_asked = None
+        self._extra_patches = [
+            patch('motioneye.config.get_main', return_value={'@enabled': True}),
+            patch(
+                'motioneye.config.get_camera_ids',
+                side_effect=lambda: list(self.cameras),
+            ),
+            patch('motioneye.config.get_camera', side_effect=self.cameras.get),
+            patch('motioneye.remote.get_config', side_effect=self._get_config),
+        ]
+        for p in self._extra_patches:
+            p.start()
+
+    def tearDown(self):
+        for p in self._extra_patches:
+            p.stop()
+        super().tearDown()
+
+    async def _get_config(self, local_config):
+        if self.all_asked is None:
+            self.all_asked = asyncio.Event()
+
+        self.asked.append(local_config['@remote_camera_id'])
+        if len(self.asked) == len(
+            [
+                c
+                for c in self.cameras.values()
+                if '@remote_camera_id' in c and c['@enabled']
+            ]
+        ):
+            self.all_asked.set()
+
+        try:
+            await asyncio.wait_for(self.all_asked.wait(), 1)
+
+        except asyncio.TimeoutError:
+            return GetConfigResponse(None, error='asked one after another')
+
+        name = f"camera {local_config['@remote_camera_id']}"
+        return GetConfigResponse({'enabled': True, 'name': name}, None)
+
+    def test_remote_cameras_are_asked_at_the_same_time(self):
+        cookie = self.make_session_cookie('admin')
+        response = self.fetch('/config/list/', headers={'Cookie': cookie})
+        self.assertEqual(200, response.code)
+
+        cameras = loads(response.body)['cameras']
+        self.assertEqual([2, 3, 4], [c['id'] for c in cameras])
+        self.assertEqual(
+            ['camera 2', 'camera 3', 'camera 4'], [c['name'] for c in cameras]
+        )
+
+    def test_disabled_remote_camera_is_not_asked(self):
+        self.cameras[3]['@enabled'] = False
+        del self.cameras[4]
+        cookie = self.make_session_cookie('admin')
+        response = self.fetch('/config/list/', headers={'Cookie': cookie})
+        self.assertEqual(200, response.code)
+
+        self.assertEqual([2], self.asked)
+        cameras = {c['id']: c for c in loads(response.body)['cameras']}
+        self.assertEqual('camera 2', cameras[2]['name'])
+        self.assertTrue(cameras[3]['connection_failed'])
+
+    def test_cameras_stay_in_order_when_one_is_hidden(self):
+        self.cameras.clear()
+        self.cameras.update(
+            {
+                1: dict(_LOCAL_CAMERA, **{'@id': 1, '@admin_only': True}),
+                2: dict(_REMOTE_CAMERA, **{'@id': 2, '@remote_camera_id': 2}),
+                3: dict(_LOCAL_CAMERA, **{'@id': 3}),
+            }
+        )
+        cookie = self.make_session_cookie('normal')
+        with patch(
+            'motioneye.config.motion_camera_dict_to_ui',
+            side_effect=lambda c: {'id': c['@id'], 'name': 'local', 'enabled': True},
+        ):
+            response = self.fetch('/config/list/', headers={'Cookie': cookie})
+
+        self.assertEqual(200, response.code)
+        self.assertEqual([2, 3], [c['id'] for c in loads(response.body)['cameras']])
 
 
 if __name__ == '__main__':

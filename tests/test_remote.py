@@ -151,6 +151,23 @@ class TestRemotePathTraversal(unittest.IsolatedAsyncioTestCase):
                 self._assert_raises_path_traversal(ctx.exception)
 
 
+def _http_answer(body, content_type='application/json'):
+    return patch.object(
+        remote,
+        'AsyncHTTPClient',
+        return_value=SimpleNamespace(
+            fetch=AsyncMock(
+                return_value=SimpleNamespace(
+                    code=200,
+                    body=body,
+                    headers={'Content-Type': content_type},
+                    error=None,
+                )
+            )
+        ),
+    )
+
+
 class TestRemoteGetConfig(unittest.IsolatedAsyncioTestCase):
     """Tests for get_config() answers."""
 
@@ -173,9 +190,7 @@ class TestRemoteGetConfig(unittest.IsolatedAsyncioTestCase):
             'connection_failed': True,
             'connection_url': 'http://cam.example:8765',
         }
-        with patch.object(
-            remote, '_send_request', AsyncMock(return_value=self._answer(body))
-        ):
+        with _http_answer(json.dumps(body).encode()):
             resp = await remote.get_config(self._LOCAL_CONFIG)
 
         self.assertIsNone(resp.remote_ui_config)
@@ -215,6 +230,65 @@ class TestRemoteGetConfig(unittest.IsolatedAsyncioTestCase):
 
             expected.update(streaming_username='viewer', host='hub.example', port=8765)
             self.assertEqual(expected, resp.remote_ui_config)
+
+
+class TestRemoteErrorAnswers(unittest.IsolatedAsyncioTestCase):
+    """A remote motionEye answers some failures with 200 and an error in the body."""
+
+    _LOCAL_CONFIG: ClassVar[dict[str, str | int]] = {
+        '@proto': 'motioneye',
+        '@host': 'hub.example',
+        '@port': 8765,
+        '@remote_camera_id': 2,
+    }
+
+    async def test_failed_test_is_an_error(self):
+        with _http_answer(json.dumps({'error': 'check SMTP port'}).encode()):
+            resp = await remote.test(self._LOCAL_CONFIG, {'what': 'email'})
+
+        self.assertEqual('check SMTP port', resp.error)
+
+    async def test_failed_set_is_an_error(self):
+        error = 'Failed to connect to cam.example:8765'
+        with _http_answer(
+            json.dumps({'reload': False, 'reboot': False, 'error': error}).encode(),
+            content_type='application/json; charset=UTF-8',
+        ):
+            result = await remote.set_config(self._LOCAL_CONFIG, {'name': 'cam'})
+
+        self.assertEqual(error, result)
+
+    async def test_set_with_an_empty_error_succeeds(self):
+        with _http_answer(
+            json.dumps({'reload': False, 'reboot': False, 'error': None}).encode(),
+            content_type='application/json; charset=UTF-8',
+        ):
+            result = await remote.set_config(self._LOCAL_CONFIG, {'name': 'cam'})
+
+        self.assertIsNone(result)
+
+    async def test_error_of_a_camera_further_away_is_kept_as_it_is(self):
+        error = (
+            'failed to get remote camera config for http://far.example:8765/config/1: '
+            'request timed out'
+        )
+        with _http_answer(json.dumps({'error': error}).encode()):
+            resp = await remote.get_config(self._LOCAL_CONFIG)
+
+        self.assertEqual(error, resp.error)
+
+    async def test_failed_list_is_an_error(self):
+        with _http_answer(json.dumps({'error': 'motion is not running'}).encode()):
+            resp = await remote.list_cameras(self._LOCAL_CONFIG)
+
+        self.assertIsNone(resp.cameras)
+        self.assertEqual('motion is not running', resp.error)
+
+    async def test_other_answers_are_not_parsed(self):
+        with _http_answer(b'\xff\xd8\xff\xe0', content_type='image/jpeg'):
+            response = await remote._send_request(None)
+
+        self.assertIsNone(response.error)
 
 
 if __name__ == '__main__':

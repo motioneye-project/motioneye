@@ -15,17 +15,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import annotations
 
-import datetime
-import ftplib  # nosec: B402
-import io
 import json
 import logging
-import mimetypes
-import os
 import os.path
-import time
+from abc import ABC, abstractmethod
 from base64 import b64decode, b64encode
+from datetime import datetime
+from ftplib import FTP as FTPc  # nosec: B402
 from hashlib import md5
+from inspect import isabstract
+from io import BytesIO, StringIO
+from mimetypes import guess_type
+from os import stat
+from stat import S_IMODE
+from time import time
 from urllib.error import HTTPError
 from urllib.parse import quote, urlencode
 from urllib.request import Request
@@ -35,29 +38,30 @@ import pycurl
 
 from motioneye import settings, utils
 
-_STATE_FILE_NAME = 'uploadservices.json'
-_services = None
+_STATE_FILE_NAME: str = 'uploadservices.json'
+_services: dict | None = None
 
 
-class UploadService:
+class UploadService(ABC):
+    NAME: str
     MAX_FILE_SIZE = 1024 * 1024 * 1024  # 1GB
 
-    NAME = 'base'
-
-    def __init__(self, camera_id, **kwargs):
+    def __init__(self, camera_id: str, **kwargs) -> None:
         self.camera_id = camera_id
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.NAME
 
     @classmethod
-    def get_authorize_url(cls):
+    def get_authorize_url(cls) -> str:
         return '/'
 
-    def test_access(self):
-        return True
+    @abstractmethod
+    def test_access(self) -> bool | str: ...
 
-    def upload_file(self, target_dir, filename, camera_name):
+    def upload_file(
+        self, target_dir: str | None, filename: str, camera_name: str
+    ) -> None:
         ctime = os.path.getctime(filename)
 
         if target_dir:
@@ -96,7 +100,7 @@ class UploadService:
 
         self.debug(f'size of "{filename}" is {len(data) / 1024.0 / 1024:.3f}MB')
 
-        mime_type = mimetypes.guess_type(filename)[0] or 'image/jpeg'
+        mime_type = guess_type(filename)[0] or 'image/jpeg'
         self.debug(f'mime type of "{filename}" is "{mime_type}"')
 
         self.upload_data(rel_filename, mime_type, data, ctime, camera_name)
@@ -106,59 +110,55 @@ class UploadService:
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
         pass
 
-    def dump(self):
-        return {}
+    @abstractmethod
+    def dump(self) -> dict: ...
 
-    def load(self, data):
-        pass
+    @abstractmethod
+    def load(self, data: dict) -> None: ...
 
-    def save(self):
-        services = _load()
+    def save(self) -> None:
+        services: dict[str, dict[str, UploadService]] = _load()
         camera_services = services.setdefault(self.camera_id, {})
         camera_services[self.NAME] = self
 
         _save(services)
 
-    def log(self, level, message, **kwargs):
+    def log(self, level, message: str, **kwargs) -> None:
         message = self.NAME + ': ' + message
-
         logging.log(level, message, **kwargs)
 
-    def debug(self, message, **kwargs):
+    def debug(self, message: str, **kwargs) -> None:
         self.log(logging.DEBUG, message, **kwargs)
 
-    def info(self, message, **kwargs):
+    def info(self, message: str, **kwargs) -> None:
         self.log(logging.INFO, message, **kwargs)
 
-    def error(self, message, **kwargs):
+    def error(self, message: str, **kwargs) -> None:
         self.log(logging.ERROR, message, **kwargs)
 
-    def clean_cloud(self, cloud_dir, local_folders):
+    def clean_cloud(self, cloud_dir: str, local_folders: list):
         pass
 
-    @staticmethod
-    def get_service_classes():
-        return {c.NAME: c for c in UploadService.__subclasses__()}
 
-
-class GoogleBase:
-    AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
-    TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
-
-    CLIENT_ID = (
+class GoogleBase(UploadService, ABC):
+    SCOPE: str
+    AUTH_URL: str = 'https://accounts.google.com/o/oauth2/auth'
+    TOKEN_URL: str = 'https://accounts.google.com/o/oauth2/token'
+    CLIENT_ID: str = (
         '349038943026-m16svdadjrqc0c449u4qv71v1m1niu5o.apps.googleusercontent.com'
     )
-    CLIENT_NOT_SO_SECRET = 'jjqbWmICpA0GvbhsJB3okX7s'
+    CLIENT_NOT_SO_SECRET: str = 'jjqbWmICpA0GvbhsJB3okX7s'
 
-    def _init(self):
-        self._location = None
-        self._authorization_key = None
-        self._credentials = None
-        self._folder_ids = {}
-        self._folder_id_times = {}
+    def __init__(self, camera_id: str) -> None:
+        self._location: str | None = None
+        self._authorization_key: str | None = None
+        self._credentials: dict | None = None
+        self._folder_ids: dict[str, str] = {}
+        self._folder_id_times: dict[str, float] = {}
+        super().__init__(camera_id)
 
     @classmethod
-    def _get_authorize_url(cls):
+    def get_authorize_url(cls) -> str:
         query = {
             'scope': cls.SCOPE,
             'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
@@ -169,7 +169,7 @@ class GoogleBase:
 
         return cls.AUTH_URL + '?' + urlencode(query)
 
-    def _test_access(self):
+    def test_access(self) -> bool | str:
         try:
             self._folder_ids = {}
             self._get_folder_id()
@@ -178,14 +178,14 @@ class GoogleBase:
         except Exception as e:
             return str(e)
 
-    def _dump(self):
+    def dump(self) -> dict:
         return {
             'location': self._location,
             'credentials': self._credentials,
             'authorization_key': self._authorization_key,
         }
 
-    def _load(self, data):
+    def load(self, data: dict) -> None:
         if data.get('location'):
             self._location = data['location']
             self._folder_ids = {}
@@ -195,7 +195,10 @@ class GoogleBase:
         if data.get('credentials'):
             self._credentials = data['credentials']
 
-    def _request(self, url, body=None, headers=None, retry_auth=True, method=None):
+    @abstractmethod
+    def _get_folder_id(self, path: str = '') -> str: ...
+
+    def _request(self, url: str, body=None, headers=None, retry_auth=True, method=None):
         if not self._credentials:
             if not self._authorization_key:
                 msg = 'missing authorization key'
@@ -215,16 +218,13 @@ class GoogleBase:
         headers['Authorization'] = f'Bearer {self._credentials["access_token"]}'
 
         self.debug(f'requesting {url}')
-        request = Request(url, data=body, headers=headers)
-        if method:
-            request.get_method = lambda: method
+        request = Request(url, data=body, headers=headers, method=method)
         try:
             response = utils.urlopen(request)
 
         except HTTPError as e:
-            if (
-                e.code == 401 and retry_auth
-            ):  # unauthorized, access token may have expired
+            # unauthorized, access token may have expired
+            if e.code == 401 and retry_auth:
                 try:
                     self.debug('credentials have probably expired, refreshing them')
                     self._credentials = self._refresh_credentials(
@@ -260,6 +260,7 @@ class GoogleBase:
         response = self._request(url, body, headers, retry_auth, method)
         try:
             response = json.loads(response)
+
         except Exception:
             self.error("response doesn't seem to be a valid json")
             raise
@@ -327,34 +328,21 @@ class GoogleBase:
         }
 
 
-class GoogleDrive(UploadService, GoogleBase):
-    NAME = 'gdrive'
-
-    SCOPE = 'https://www.googleapis.com/auth/drive.file'
-    CHILDREN_URL = (
+class GoogleDrive(GoogleBase):
+    NAME: str = 'gdrive'
+    SCOPE: str = 'https://www.googleapis.com/auth/drive.file'
+    CHILDREN_URL: str = (
         'https://www.googleapis.com/drive/v2/files/%(parent_id)s/children?q=%(query)s'
     )
-    CHILDREN_QUERY = (
+    CHILDREN_QUERY: str = (
         "'%(parent_id)s' in parents and title = '%(child_name)s' and trashed = false"
     )
-    UPLOAD_URL = 'https://www.googleapis.com/upload/drive/v2/files?uploadType=multipart'
-    CREATE_FOLDER_URL = 'https://www.googleapis.com/drive/v2/files'
-
-    BOUNDARY = 'motioneye_multipart_boundary'
-
-    FOLDER_ID_LIFE_TIME = 300  # 5 minutes
-
-    def __init__(self, camera_id):
-        self._init()
-
-        UploadService.__init__(self, camera_id)
-
-    @classmethod
-    def get_authorize_url(cls):
-        return cls._get_authorize_url()
-
-    def test_access(self):
-        return self._test_access()
+    UPLOAD_URL: str = (
+        'https://www.googleapis.com/upload/drive/v2/files?uploadType=multipart'
+    )
+    CREATE_FOLDER_URL: str = 'https://www.googleapis.com/drive/v2/files'
+    BOUNDARY: str = 'motioneye_multipart_boundary'
+    FOLDER_ID_LIFE_TIME: int = 300  # 5 minutes
 
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
         path = os.path.dirname(filename)
@@ -385,25 +373,19 @@ class GoogleDrive(UploadService, GoogleBase):
 
         self._request(self.UPLOAD_URL, body, headers)
 
-    def dump(self):
-        return self._dump()
-
-    def load(self, data):
-        self._load(data)
-
-    def _get_folder_id(self, path=''):
-        now = time.time()
-
-        folder_id = self._folder_ids.get(path)
-        folder_id_time = self._folder_id_times.get(path, 0)
-
-        location = self._location
-        if not location.endswith('/'):
-            location += '/'
-
-        location += path
+    def _get_folder_id(self, path: str = '') -> str:
+        now: float = time()
+        folder_id: str = self._folder_ids.get(path, '')
+        folder_id_time: float = self._folder_id_times.get(path, 0)
 
         if not folder_id or (now - folder_id_time > self.FOLDER_ID_LIFE_TIME):
+            location: str = self._location or '/'
+            if path:
+                if not location.endswith('/'):
+                    location += '/'
+
+                location += path
+
             self.debug(f'finding folder id for location "{location}"')
             folder_id = self._get_folder_id_by_path(location)
 
@@ -412,11 +394,11 @@ class GoogleDrive(UploadService, GoogleBase):
 
         return folder_id
 
-    def _get_folder_id_by_path(self, path):
-        if path and path != '/':
-            path = [p.strip() for p in path.split('/') if p.strip()]
-            parent_id = 'root'
-            for name in path:
+    def _get_folder_id_by_path(self, path: str) -> str:
+        if path != '/':
+            paths: list[str] = [p.strip() for p in path.split('/') if p.strip()]
+            parent_id: str = 'root'
+            for name in paths:
                 parent_id = self._get_folder_id_by_name(parent_id, name)
 
             return parent_id
@@ -424,7 +406,9 @@ class GoogleDrive(UploadService, GoogleBase):
         else:  # root folder
             return self._get_folder_id_by_name(None, 'root')
 
-    def _get_folder_id_by_name(self, parent_id, child_name, create=True):
+    def _get_folder_id_by_name(
+        self, parent_id: str | None, child_name: str, create: bool | None = True
+    ) -> str:
         if parent_id:
             query = self.CHILDREN_QUERY % {
                 'parent_id': parent_id,
@@ -467,7 +451,7 @@ class GoogleDrive(UploadService, GoogleBase):
 
         return items[0]['id']
 
-    def _create_folder(self, parent_id, child_name):
+    def _create_folder(self, parent_id: str, child_name: str):
         metadata = {
             'title': child_name,
             'parents': [{'id': parent_id}],
@@ -480,22 +464,22 @@ class GoogleDrive(UploadService, GoogleBase):
 
         self._request(self.CREATE_FOLDER_URL, body, headers)
 
-    def clean_cloud(self, cloud_dir, local_folders):
+    def clean_cloud(self, cloud_dir: str, local_folders: list) -> int:
         # remove old cloud folder that does not exist in local.
         # assumes 'cloud_dir' is a direct child of the 'root'.
 
-        removed_count = 0
+        removed_count: int = 0
         folder_id = self._get_folder_id_by_name('root', cloud_dir, False)
-        children = self._get_children(folder_id)
+        children: list = self._get_children(folder_id)
         self.info(
             f'found {len(local_folders)}/{len(children)} folder(s) in local/cloud'
         )
         self.debug(f'local {local_folders}')
         for child in children:
             id = child['id']
-            name = self._get_file_title(id)
+            name = self._get_file_metadata(id)['title']
             self.debug(f"cloud '{name}'")
-            to_delete = not exist_in_local(name, local_folders)
+            to_delete = not name in local_folders
             if to_delete and self._delete_file(id):
                 removed_count += 1
                 self.info(f"deleted a cloud folder '{name}'")
@@ -503,7 +487,7 @@ class GoogleDrive(UploadService, GoogleBase):
         self.info(f'deleted {removed_count} cloud folder(s)')
         return removed_count
 
-    def _get_children(self, file_id):
+    def _get_children(self, file_id) -> list:
         url = f'{self.CREATE_FOLDER_URL}/{file_id}/children'
         response = self._request(url)
 
@@ -516,13 +500,12 @@ class GoogleDrive(UploadService, GoogleBase):
 
         return response['items']
 
-    def _delete_file(self, file_id):
+    def _delete_file(self, file_id) -> bool:
         url = f'{self.CREATE_FOLDER_URL}/{file_id}'
         response = self._request(url, None, None, True, 'DELETE')
-        succeeded = response == ""
-        return succeeded
+        return response == ''
 
-    def _get_file_metadata(self, file_id):
+    def _get_file_metadata(self, file_id) -> dict:
         url = f'{self.CREATE_FOLDER_URL}/{file_id}'
         response = self._request(url)
 
@@ -535,31 +518,15 @@ class GoogleDrive(UploadService, GoogleBase):
 
         return response
 
-    def _get_file_title(self, file_id):
-        return self._get_file_metadata(file_id)['title']
 
-
-class GooglePhoto(UploadService, GoogleBase):
-    NAME = 'gphoto'
-
-    SCOPE = 'https://www.googleapis.com/auth/photoslibrary'
-    GOOGLE_PHOTO_API = 'https://photoslibrary.googleapis.com/v1/'
-
-    def __init__(self, camera_id):
-        self._init()
-
-        UploadService.__init__(self, camera_id)
-
-    @classmethod
-    def get_authorize_url(cls):
-        return cls._get_authorize_url()
-
-    def test_access(self):
-        return self._test_access()
+class GooglePhoto(GoogleBase):
+    NAME: str = 'gphoto'
+    SCOPE: str = 'https://www.googleapis.com/auth/photoslibrary'
+    GOOGLE_PHOTO_API: str = 'https://photoslibrary.googleapis.com/v1/'
 
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
         filename = os.path.basename(filename)
-        dayinfo = datetime.datetime.fromtimestamp(ctime).strftime('%Y-%m-%d')
+        dayinfo = datetime.fromtimestamp(ctime).strftime('%Y-%m-%d')
         uploadname = dayinfo + '-' + filename
 
         body = data
@@ -574,16 +541,9 @@ class GooglePhoto(UploadService, GoogleBase):
         response = self._create_media(uploadToken, camera_name)
         self.debug(f'response {response["mediaItem"]}')
 
-    def dump(self):
-        return self._dump()
-
-    def load(self, data):
-        self._load(data)
-
-    def _get_folder_id(self, path=''):
-        location = self._location
-
-        folder_id = self._folder_ids.get(location)
+    def _get_folder_id(self, path: str = '') -> str:
+        location: str = self._location or ''
+        folder_id: str = self._folder_ids.get(location, '')
 
         self.debug(f'_get_folder_id({path}, {location}, {folder_id})')
 
@@ -595,10 +555,10 @@ class GooglePhoto(UploadService, GoogleBase):
 
         return folder_id
 
-    def _get_folder_id_by_name(self, name, create=True):
+    def _get_folder_id_by_name(self, name: str, create: bool = True) -> str:
         try:
-            albums = self._get_albums()
-            albumsWithName = self._filter_albums(albums, name)
+            albums: list = self._get_albums()
+            albumsWithName: list = self._filter_albums(albums, name)
 
             if albumsWithName:
                 count = len(albumsWithName)
@@ -610,8 +570,8 @@ class GooglePhoto(UploadService, GoogleBase):
                     return albumId
 
             # create album
-            response = self._create_folder(None, name)
-            albumId = response.get('id')
+            response: dict = self._create_folder(name)
+            albumId = response.get('id') or ''
             self.info(f'Album "{name}" was created successfully with id "{albumId}"')
             return albumId
 
@@ -619,14 +579,16 @@ class GooglePhoto(UploadService, GoogleBase):
             self.error(f"_get_folder_id_by_name() failed: {e}")
             raise
 
-    def _create_folder(self, parent_id, child_name):
+    def _create_folder(self, child_name: str) -> dict:
         metadata = {'album': {'title': child_name}}
 
         body = json.dumps(metadata)
 
         headers = {'Content-Type': 'application/json'}
 
-        response = self._request_json(self.GOOGLE_PHOTO_API + 'albums', body, headers)
+        response: dict = self._request_json(
+            self.GOOGLE_PHOTO_API + 'albums', body, headers
+        )
         return response
 
     def _create_media(self, uploadToken, camera_name):
@@ -653,38 +615,34 @@ class GooglePhoto(UploadService, GoogleBase):
         )
         return response.get('newMediaItemResults')[0]
 
-    def _get_albums(self):
-        response = self._request_json(self.GOOGLE_PHOTO_API + 'albums')
+    def _get_albums(self) -> list:
+        response: dict = self._request_json(self.GOOGLE_PHOTO_API + 'albums')
 
-        albums = response.get('albums')
+        albums: list = response.get('albums') or []
         self.debug(f'got {len(albums)} album(s)')
         return albums
 
-    def _filter_albums(self, albums, title):
+    def _filter_albums(self, albums: list, title: str) -> list:
         return [a for a in albums if a.get('title') == title]
 
 
 class Dropbox(UploadService):
     NAME = 'dropbox'
-
     AUTH_URL = 'https://www.dropbox.com/oauth2/authorize'
     TOKEN_URL = 'https://api.dropboxapi.com/oauth2/token'
-
     CLIENT_ID = 'dropbox_client_id_placeholder'
     CLIENT_NOT_SO_SECRET = 'dropbox_client_secret_placeholder'
-
     LIST_FOLDER_URL = 'https://api.dropboxapi.com/2/files/list_folder'
     UPLOAD_URL = 'https://content.dropboxapi.com/2/files/upload'
 
-    def __init__(self, camera_id):
-        self._location = None
-        self._authorization_key = None
-        self._credentials = None
-
-        UploadService.__init__(self, camera_id)
+    def __init__(self, camera_id: str) -> None:
+        self._location: str | None = None
+        self._authorization_key: str | None = None
+        self._credentials: dict | None = None
+        super().__init__(camera_id)
 
     @classmethod
-    def get_authorize_url(cls):
+    def get_authorize_url(cls) -> str:
         query = {
             'response_type': 'code',
             'client_id': cls.CLIENT_ID,
@@ -734,14 +692,14 @@ class Dropbox(UploadService):
 
         self._request(self.UPLOAD_URL, data, headers)
 
-    def dump(self):
+    def dump(self) -> dict:
         return {
             'location': self._location,
             'credentials': self._credentials,
             'authorization_key': self._authorization_key,
         }
 
-    def load(self, data):
+    def load(self, data: dict) -> None:
         if data.get('location'):
             self._location = data['location']
         if data.get('authorization_key'):
@@ -879,13 +837,12 @@ class Dropbox(UploadService):
 class Webdav(UploadService):
     NAME = 'webdav'
 
-    def __init__(self, camera_id):
-        self._endpoint_url = None
-        self._username = None
-        self._password = None
-        self._location = None
-
-        UploadService.__init__(self, camera_id)
+    def __init__(self, camera_id: str) -> None:
+        self._endpoint_url: str | None = None
+        self._username: str | None = None
+        self._password: str | None = None
+        self._location: str | None = None
+        super().__init__(camera_id)
 
     def _request(self, url, method, body=None):
         base64string = b64encode(f'{self._username}:{self._password}'.encode()).decode(
@@ -915,7 +872,7 @@ class Webdav(UploadService):
 
     def test_access(self):
         try:
-            path = self._location.strip('/') + '/' + str(time.time())
+            path = self._location.strip('/') + '/' + str(time())
             self._make_dirs(path)
             self._request(self._endpoint_url.rstrip('/') + '/' + path, 'DELETE')
             return True
@@ -935,7 +892,7 @@ class Webdav(UploadService):
         )
         self.debug('upload done')
 
-    def dump(self):
+    def dump(self) -> dict:
         return {
             'endpoint_url': self._endpoint_url,
             'username': self._username,
@@ -943,7 +900,7 @@ class Webdav(UploadService):
             'location': self._location,
         }
 
-    def load(self, data):
+    def load(self, data: dict) -> None:
         if data.get('endpoint_url') is not None:
             self._endpoint_url = data['endpoint_url']
         if data.get('username') is not None:
@@ -958,17 +915,15 @@ class FTP(UploadService):
     NAME = 'ftp'
     CONN_LIFE_TIME = 60  # don't keep an FTP connection for more than 1 minute
 
-    def __init__(self, camera_id):
-        self._server = None
-        self._port = None
-        self._username = None
-        self._password = None
-        self._location = None
-
+    def __init__(self, camera_id: str) -> None:
+        self._server: str | None = None
+        self._port: int | None = None
+        self._username: str | None = None
+        self._password: str | None = None
+        self._location: str | None = None
         self._conn = None
-        self._conn_time = 0
-
-        UploadService.__init__(self, camera_id)
+        self._conn_time: float | None = 0
+        super().__init__(camera_id)
 
     def test_access(self):
         try:
@@ -977,7 +932,7 @@ class FTP(UploadService):
             path = self._make_dirs(self._location, conn=conn)
             conn.cwd(path)
 
-            d = f'{int(time.time())}'
+            d = f'{int(time())}'
             self.debug(f'creating test directory {path}/{d}')
             conn.mkd(d)
             conn.rmd(d)
@@ -998,11 +953,11 @@ class FTP(UploadService):
         conn.cwd(path)
 
         self.debug(f'uploading {filename} of {len(data)} bytes')
-        conn.storbinary(f'STOR {filename}', io.BytesIO(data))
+        conn.storbinary(f'STOR {filename}', BytesIO(data))
 
         self.debug('upload done')
 
-    def dump(self):
+    def dump(self) -> dict:
         return {
             'server': self._server,
             'port': self._port,
@@ -1011,7 +966,7 @@ class FTP(UploadService):
             'location': self._location,
         }
 
-    def load(self, data):
+    def load(self, data: dict) -> None:
         if data.get('server') is not None:
             self._server = data['server']
         if data.get('port') is not None:
@@ -1024,14 +979,14 @@ class FTP(UploadService):
             self._location = data['location']
 
     def _get_conn(self, create=False):
-        now = time.time()
+        now = time()
         if self._conn is None or now - self._conn_time > self.CONN_LIFE_TIME or create:
             self.debug(
                 'creating connection to {}@{}:{}'.format(
                     self._username or 'anonymous', self._server, self._port
                 )
             )
-            self._conn = ftplib.FTP()  # nosec: B321
+            self._conn = FTPc()  # nosec: B321
             self._conn.set_pasv(True)
             self._conn.connect(self._server, port=self._port)
             self._conn.login(self._username or 'anonymous', self._password)
@@ -1061,14 +1016,13 @@ class FTP(UploadService):
 class SFTP(UploadService):
     NAME = 'sftp'
 
-    def __init__(self, camera_id):
-        self._server = None
-        self._port = None
-        self._username = None
-        self._password = None
-        self._location = None
-
-        UploadService.__init__(self, camera_id)
+    def __init__(self, camera_id: str) -> None:
+        self._server: str | None = None
+        self._port: int | None = None
+        self._username: str | None = None
+        self._password: str | None = None
+        self._location: str | None = None
+        super().__init__(camera_id)
 
     def curl_perform_filetransfer(self, conn):
         curl_url = conn.getinfo(pycurl.EFFECTIVE_URL)
@@ -1089,7 +1043,7 @@ class SFTP(UploadService):
             conn.close()
 
     def test_access(self):
-        filename = time.time()
+        filename = time()
         test_folder = "motioneye_test"
         test_file = f"/{test_folder}/{filename}"
 
@@ -1101,7 +1055,7 @@ class SFTP(UploadService):
 
         conn = self._get_conn(test_file)
         conn.setopt(conn.POSTQUOTE, rm_operations)  # Executed after transfer.
-        conn.setopt(pycurl.READFUNCTION, io.StringIO().read)
+        conn.setopt(pycurl.READFUNCTION, StringIO().read)
 
         try:
             self.curl_perform_filetransfer(conn)
@@ -1114,11 +1068,11 @@ class SFTP(UploadService):
 
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
         conn = self._get_conn(filename)
-        conn.setopt(pycurl.READFUNCTION, io.BytesIO(data).read)
+        conn.setopt(pycurl.READFUNCTION, BytesIO(data).read)
 
         self.curl_perform_filetransfer(conn)
 
-    def dump(self):
+    def dump(self) -> dict:
         return {
             'server': self._server,
             'port': self._port,
@@ -1127,7 +1081,7 @@ class SFTP(UploadService):
             'location': self._location,
         }
 
-    def load(self, data):
+    def load(self, data: dict) -> None:
         if data.get('server') is not None:
             self._server = data['server']
         if data.get('port') is not None:
@@ -1178,15 +1132,15 @@ class SFTP(UploadService):
 class S3(UploadService):
     NAME = 's3'
 
-    def __init__(self, camera_id):
-        self._endpoint_url = None
-        self._access_key = None
-        self._secret_key = None
-        self._bucket = None
-        self._sse_c_key = None
-        UploadService.__init__(self, camera_id)
+    def __init__(self, camera_id: str) -> None:
+        self._endpoint_url: str | None = None
+        self._access_key: str | None = None
+        self._secret_key: str | None = None
+        self._bucket: str | None = None
+        self._sse_c_key: str | None = None
+        super().__init__(camera_id)
 
-    def dump(self):
+    def dump(self) -> dict:
         return {
             'endpoint_url': self._endpoint_url,
             'access_key': self._access_key,
@@ -1195,7 +1149,7 @@ class S3(UploadService):
             'sse_c_key': self._sse_c_key,
         }
 
-    def load(self, data):
+    def load(self, data: dict) -> None:
         if data.get('endpoint_url'):
             self._endpoint_url = data['endpoint_url']
         if data.get('access_key') is not None:
@@ -1207,7 +1161,9 @@ class S3(UploadService):
         if data.get('sse_c_key') is not None:
             self._sse_c_key = data['sse_c_key']
 
-    def upload_file(self, target_dir, filename, camera_name):
+    def upload_file(
+        self, target_dir: str | None, filename: str, camera_name: str
+    ) -> None:
         # Create an S3 client
         s3 = boto3.client(
             's3',
@@ -1225,7 +1181,9 @@ class S3(UploadService):
             rel_filename = os.path.basename(filename)
 
         if self._sse_c_key:
-            sse_key_md5 = b64encode(md5(b64decode(self._sse_c_key)).digest()).decode()  # nosec: B324
+            sse_key_md5 = b64encode(
+                md5(b64decode(self._sse_c_key)).digest()  # nosec: B324
+            ).decode()
             extra_args = {
                 'SSECustomerAlgorithm': 'AES256',
                 'SSECustomerKey': self._sse_c_key,
@@ -1255,24 +1213,38 @@ class S3(UploadService):
             for bucket in response['Buckets']:
                 logging.debug(f'  {bucket["Name"]}')
             return True
+
         except Exception as e:
             logging.error(f'S3 connection failed: {e}')
             return str(e)
 
 
-def get_authorize_url(service_name):
-    cls = UploadService.get_service_classes().get(service_name)
+def _get_service_classes(
+    cls: type[UploadService] = UploadService,
+) -> dict[str, type[UploadService]]:
+    services: dict[str, type[UploadService]] = {}
 
-    if cls:
-        return cls.get_authorize_url()
+    for c in cls.__subclasses__():
+        # Loop recursively through subclasses
+        services.update(_get_service_classes(c))
 
-    else:
+        # exclude abstract classes, i.e. such with at least one @abstractmethod
+        if not isabstract(c):
+            services[c.NAME] = c
+
+    return services
+
+
+def get_authorize_url(service_name: str) -> str | None:
+    cls: type[UploadService] | None = _get_service_classes().get(service_name)
+    if cls is None:
         return None
 
+    return cls.get_authorize_url()
 
-def get(camera_id: int, service_name: str) -> UploadService | None:
+
+def _get_service(camera_id: int, service_name: str) -> UploadService | None:
     global _services
-
     if _services is None:
         _services = _load()
 
@@ -1281,7 +1253,7 @@ def get(camera_id: int, service_name: str) -> UploadService | None:
     service: UploadService | None = _services.get(camera_id_str, {}).get(service_name)
 
     if service is None:
-        cls: type | None = UploadService.get_service_classes().get(service_name)
+        cls: type[UploadService] | None = _get_service_classes().get(service_name)
 
         if cls is not None:
             service = cls(camera_id=camera_id_str)
@@ -1297,7 +1269,7 @@ def get(camera_id: int, service_name: str) -> UploadService | None:
 def test_access(camera_id: int, service_name: str, data: dict) -> bool | str:
     logging.debug(f'testing access to {service_name}')
 
-    cls: type | None = UploadService.get_service_classes().get(service_name)
+    cls: type[UploadService] | None = _get_service_classes().get(service_name)
     if cls is None:
         return f'unknown upload service {service_name}'
 
@@ -1307,7 +1279,7 @@ def test_access(camera_id: int, service_name: str, data: dict) -> bool | str:
 
 
 def update(camera_id: int, service_name: str, settings: dict) -> None:
-    service: UploadService | None = get(camera_id, service_name)
+    service: UploadService | None = _get_service(camera_id, service_name)
     if service is None:
         raise ValueError(f'unknown upload service {service_name}')
 
@@ -1323,8 +1295,8 @@ def upload_media_file(
     filename: str,
     clean_uploaded: bool = False,
 ) -> None:
-    service = get(camera_id, service_name)
-    if not service:
+    service: UploadService | None = _get_service(camera_id, service_name)
+    if service is None:
         logging.error(
             f'service "{service_name}" not initialized for camera with id {camera_id}'
         )
@@ -1346,11 +1318,12 @@ def upload_media_file(
     try:
         # local imports to avoid the config/mediafiles <-> uploadservices
         # circular imports (both modules import uploadservices at module level)
-        from motioneye import config, mediafiles
+        from motioneye.config import get_camera
+        from motioneye.mediafiles import del_media_content
 
-        camera_config = config.get_camera(camera_id)
+        camera_config = get_camera(camera_id)
         rel = utils.remove_prefix(filename, camera_config['target_dir'] + os.sep)
-        mediafiles.del_media_content(camera_config, rel)
+        del_media_content(camera_config, rel)
         logging.debug(f'removed local file "{filename}" after successful upload')
 
     except Exception:
@@ -1358,110 +1331,127 @@ def upload_media_file(
         logging.exception(f'failed to remove local file "{filename}" after upload')
 
 
-def _load():
-    services = {}
+def _load() -> dict[str, dict[str, UploadService]]:
+    services: dict[str, dict[str, UploadService]] = {}
+    file_path: str = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
 
-    file_path = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
+    if not os.path.exists(file_path):
+        return {}
 
-    if os.path.exists(file_path):
-        logging.debug(f'loading upload services state from "{file_path}"...')
+    logging.debug(f'loading upload services state from "{file_path}" ...')
 
-        try:
-            f = open(file_path)  # noqa: SIM115
+    try:
+        f = open(file_path)  # noqa: SIM115
 
-        except Exception as e:
-            logging.error(
-                f'could not open upload services state file "{file_path}": {e}'
+    except Exception as e:
+        logging.error(f'could not open upload services state file "{file_path}": {e}')
+        return {}
+
+    with f:
+        if S_IMODE(stat(file_path).st_mode) != 0o600:
+            logging.warning(
+                f'upload services state file "{file_path}" has insecure mode, applying 0600 ...'
             )
+            try:
+                os.chmod(file_path, 0o600)
 
-            return services
+            except Exception as e:
+                logging.error(
+                    f'could not harden mode of upload services state file "{file_path}": {e}'
+                )
+                raise
 
         try:
             data = json.load(f)
 
         except Exception as e:
             logging.error(
-                f'could not read upload services state from file "{file_path}": {e}'
+                f'could not parse upload services state from file "{file_path}": {e}'
             )
+            return {}
 
-            return services
-
-        finally:
-            f.close()
+        service_classes: dict[str, type[UploadService]] = _get_service_classes()
 
         for camera_id, d in list(data.items()):
             for name, state in list(d.items()):
-                camera_services = services.setdefault(camera_id, {})
-                cls = UploadService.get_service_classes().get(name)
+                cls = service_classes.get(name)
+                if cls is None:
+                    logging.warning(f'unknown upload service {name!r} in {file_path!r}')
+                    continue
 
-                if cls:
-                    service = cls(camera_id=camera_id)
-                    service.load(state)
+                service: UploadService = cls(camera_id=camera_id)
+                service.load(state)
 
-                    camera_services[name] = service
-
-                    logging.debug(
-                        f'loaded upload service "{name}" for camera with id "{camera_id}"'
-                    )
+                camera_services: dict[str, UploadService] = services.setdefault(
+                    camera_id, {}
+                )
+                camera_services[name] = service
+                logging.debug(
+                    f'loaded upload service "{name}" for camera with id "{camera_id}"'
+                )
 
     return services
 
 
-def _save(services):
-    file_path = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
+def _save(services: dict[str, dict[str, UploadService]]) -> None:
+    file_path: str = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
 
-    logging.debug(f'saving upload services state to "{file_path}"...')
+    logging.debug(f'saving upload services state to "{file_path}" ...')
 
-    data = {}
+    data: dict[str, dict[str, dict]] = {}
     for camera_id, camera_services in list(services.items()):
         for name, service in list(camera_services.items()):
             data.setdefault(str(camera_id), {})[name] = service.dump()
 
     try:
-        f = open(file_path, 'w')  # noqa: SIM115
-
-    except Exception as e:
-        logging.error(f'could not open upload services state file "{file_path}": {e}')
-
-        return
-
-    try:
-        json.dump(data, f, sort_keys=True, indent=4)
+        fd = os.open(
+            file_path,
+            os.O_WRONLY | os.O_CREAT | os.O_TRUNC,
+            0o600,
+        )
 
     except Exception as e:
         logging.error(
-            f'could not save upload services state to file "{file_path}": {e}'
+            f'could not open upload services state file "{file_path}" for writing: {e}'
         )
+        raise
 
-    finally:
-        f.close()
+    try:
+        f = os.fdopen(fd, 'w')
+
+    except Exception as e:
+        os.close(fd)
+        logging.error(
+            f'could not open descriptor of upload services state file "{file_path}" for writing: {e}'
+        )
+        raise
+
+    with f:
+        try:
+            json.dump(data, f, sort_keys=True, indent=4)
+
+        except Exception as e:
+            logging.error(
+                f'could not write upload services state to file "{file_path}": {e}'
+            )
 
 
-def clean_cloud(local_dir, data, info):
-    camera_id = info['camera_id']
-    service_name = info['service_name']
-    cloud_dir_user = info['cloud_dir']
-    cloud_dir = next(p.strip() for p in cloud_dir_user.split('/') if p.strip())
+def clean_cloud(local_dir: str, data: dict, info: dict) -> None:
+    camera_id: int = info['camera_id']
+    service_name: str = info['service_name']
+    cloud_dir_user: str = info['cloud_dir']
+    cloud_dir: str = next(p.strip() for p in cloud_dir_user.split('/') if p.strip())
 
     logging.debug(f'clean_cloud({camera_id}, {service_name}, {local_dir}, {cloud_dir})')
 
     if service_name and local_dir and cloud_dir:
-        local_folders = get_local_folders(local_dir)
-        service = get(camera_id, service_name)
+        local_folders: list = next(os.walk(local_dir))[1]
+        service: UploadService | None = _get_service(camera_id, service_name)
+        if service is None:
+            logging.error(
+                f'service "{service_name}" not initialized for camera with id {camera_id}'
+            )
+            return
+
         service.load(data)
         service.clean_cloud(cloud_dir, local_folders)
-
-
-def exist_in_local(folder, local_folders):
-    if not local_folders:
-        local_folders = []
-
-    if not folder:
-        return False
-
-    return folder in local_folders
-
-
-def get_local_folders(dirpath):
-    folders = next(os.walk(dirpath))[1]
-    return folders

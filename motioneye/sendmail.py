@@ -158,8 +158,8 @@ def make_message(
     time.sleep(timespan)  # give motion some time to create motion pictures
 
     prefix = None
-    picture_filename = camera_config.get('picture_filename')
-    snapshot_filename = camera_config.get('snapshot_filename')
+    picture_filename: str = camera_config.get('picture_filename', '')
+    snapshot_filename: str = camera_config.get('snapshot_filename', '')
 
     if (
         (picture_filename or snapshot_filename)

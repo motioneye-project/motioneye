@@ -18,7 +18,7 @@
 from __future__ import annotations
 
 import logging
-from os import sep
+import os
 
 from motioneye import config, mediafiles, motionctl, tasks, uploadservices, utils
 from motioneye.handlers.base import BaseHandler
@@ -74,10 +74,10 @@ class RelayEventHandler(BaseHandler):
         filename: str | None = self.get_argument('filename')
         if filename is not None:
             target_dir: str = camera_config['target_dir']
-            utils.validate_paths(
-                utils.remove_prefix(filename, target_dir + sep),
-                target_dir=target_dir,
-            )
+            # motion sends an absolute path, motionEye passes it on relative to
+            # the camera dir and joins it again only for file operations
+            filename = utils.remove_prefix(filename, target_dir + os.sep)
+            utils.validate_paths(filename, target_dir=target_dir)
 
         if event == 'start':
             if not camera_config['@motion_detection']:
@@ -99,7 +99,7 @@ class RelayEventHandler(BaseHandler):
                 mediafiles.make_movie_preview,
                 tag=f'make_movie_preview({filename})',
                 camera_config=camera_config,
-                full_path=filename,
+                rel_path=filename,
             )
 
             # upload to external service
@@ -130,6 +130,7 @@ class RelayEventHandler(BaseHandler):
             camera_name=camera_config['camera_name'],
             target_dir=camera_config['@upload_subfolders']
             and camera_config['target_dir'],
-            filename=filename,
+            # the upload subsystem still works with the absolute path
+            filename=os.path.join(camera_config['target_dir'], filename),
             clean_uploaded=camera_config['@clean_uploaded'],
         )

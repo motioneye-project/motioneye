@@ -116,5 +116,93 @@ class LoadSettingsLogToFileTest(unittest.TestCase):
         self.assertEqual(True, settings.LOG_TO_FILE)
 
 
+class _FakeSysLogHandler(logging.Handler):
+    ident = ''
+
+    def __init__(self, address):
+        super().__init__()
+        self.address = address
+        self.messages = []
+
+    def emit(self, record):
+        self.messages.append(self.ident + self.format(record))
+
+
+class ConfigureLoggingSyslogTest(unittest.TestCase):
+    # configure_logging() replaces the root logger's handlers, restore them
+    def setUp(self):
+        root = logging.getLogger()
+        self.saved_handlers = root.handlers[:]
+        self.saved_level = root.level
+        self.log_dir = mkdtemp()
+        self.addCleanup(rmtree, self.log_dir)
+
+    def tearDown(self):
+        self._reset_logging()
+
+    def _reset_logging(self):
+        root = logging.getLogger()
+        for h in root.handlers[:]:
+            if h not in self.saved_handlers:
+                root.removeHandler(h)
+                h.close()
+
+        for h in self.saved_handlers:
+            if h not in root.handlers:
+                root.addHandler(h)
+
+        root.setLevel(self.saved_level)
+
+    def _configure(self, cmd, log_to_file=False, dev_log=True, syslog_handler=None):
+        self._reset_logging()
+        handlers = []
+
+        def fake_syslog_handler(address):
+            handlers.append(_FakeSysLogHandler(address))
+            return handlers[-1]
+
+        exists = os.path.exists
+        with patch.multiple(
+            settings, LOG_TO_FILE=log_to_file, LOG_PATH=self.log_dir
+        ), patch(
+            'motioneye.meyectl.SysLogHandler', syslog_handler or fake_syslog_handler
+        ), patch(
+            'motioneye.meyectl.os.path.exists',
+            side_effect=lambda p: dev_log if p == '/dev/log' else exists(p),
+        ):
+            meyectl.configure_logging(cmd)
+
+        return handlers
+
+    def test_event_commands_also_log_to_syslog(self):
+        for cmd in ('sendmail', 'telegram', 'webhook'):
+            with self.subTest(cmd=cmd):
+                handlers = self._configure(cmd)
+                logging.error('failed to send')
+
+                self.assertEqual(['/dev/log'], [h.address for h in handlers])
+                self.assertEqual(
+                    [f'meyectl[{os.getpid()}]: [{cmd}] ERROR: failed to send'],
+                    handlers[0].messages,
+                )
+
+    def test_no_syslog_where_the_output_is_not_muted(self):
+        for cmd, log_to_file, dev_log in (
+            ('motioneye', False, True),
+            ('shell', False, True),
+            ('sendmail', True, True),
+            ('sendmail', False, False),
+        ):
+            with self.subTest(cmd=cmd, log_to_file=log_to_file, dev_log=dev_log):
+                self.assertEqual([], self._configure(cmd, log_to_file, dev_log))
+
+    def test_a_syslog_failure_does_not_stop_the_command(self):
+        def broken_syslog_handler(address):
+            raise FileNotFoundError(2, 'No such file or directory', address)
+
+        # neither raises nor exits, as before Python 3.11 when nothing listens
+        self._configure('sendmail', syslog_handler=broken_syslog_handler)
+
+
 if __name__ == '__main__':
     unittest.main()

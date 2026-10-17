@@ -116,12 +116,19 @@ def pretty_size(size):
     return f'{size:.1f} {unit}'
 
 
+class RemoteError(Exception):
+    pass
+
+
 def pretty_http_error(response):
     if response.code == 401:
         return 'authentication failed'
 
     if response.error is None:
         return 'ok'
+
+    if isinstance(response.error, RemoteError):
+        return str(response.error)
 
     msg = str(response.error)
 

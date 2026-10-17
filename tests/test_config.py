@@ -241,3 +241,43 @@ class TestRestore(unittest.TestCase):
     def test_restore_invalid_data_returns_none(self):
         result = config.restore(b'not a tarball')
         self.assertIsNone(result)
+
+
+class TestNetcamParams(unittest.TestCase):
+    def test_keeps_other_entries_as_an_extra_option(self):
+        data = {
+            'netcam_params': 'decoder = drm,keepalive = off, capture_rate = 5,tolerant_check = on'
+        }
+        config.adapt_config_directives(data, config._MOTION_44_TO_43_OPTIONS_MAPPING)
+
+        self.assertEqual(
+            {
+                'netcam_keepalive': False,
+                'netcam_tolerant_check': True,
+                'netcam_params': 'decoder = drm, capture_rate = 5',
+            },
+            data,
+        )
+
+    def test_writes_other_entries_back_with_the_known_ones(self):
+        line = 'decoder = drm,keepalive = off,tolerant_check = on,rtsp_transport = tcp'
+        data = {'netcam_params': line}
+        config.adapt_config_directives(data, config._MOTION_44_TO_43_OPTIONS_MAPPING)
+        config.adapt_config_directives(data, config._MOTION_43_TO_44_OPTIONS_MAPPING)
+
+        self.assertEqual({'netcam_params': line}, data)
+
+    def test_adds_no_extra_option_without_other_entries(self):
+        data = {
+            'netcam_params': 'keepalive = on,tolerant_check = off,rtsp_transport = udp'
+        }
+        config.adapt_config_directives(data, config._MOTION_44_TO_43_OPTIONS_MAPPING)
+
+        self.assertEqual(
+            {
+                'netcam_keepalive': True,
+                'netcam_tolerant_check': False,
+                'netcam_use_tcp': False,
+            },
+            data,
+        )
