@@ -83,14 +83,14 @@ class PictureHandler(BaseHandler):
         filename: str | None = None,
         group: str | None = None,
     ):
-        camera_id = int(camera_id)  # type: ignore[assignment]
-        if camera_id not in config.get_camera_ids():
+        camera_id_int: int = int(camera_id)  # type: ignore[assignment]
+        if camera_id_int not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
 
         if group == '/':  # ungrouped
             group = ''
 
-        camera_config: dict = config.get_camera(camera_id)
+        camera_config: dict = config.get_camera(camera_id_int)
         utils.validate_paths(
             filename,
             group,
@@ -114,25 +114,25 @@ class PictureHandler(BaseHandler):
             )
 
         if op == 'current':
-            await self.current(camera_id)
+            await self.current(camera_id_int)
 
         elif op == 'list':
-            await self.list(camera_id)
+            await self.list(camera_id_int)
 
         elif op == 'frame':
-            await self.frame(camera_id)
+            await self.frame(camera_id_int)
 
         elif op == 'download':
-            await self.download(camera_id, filename)
+            await self.download(camera_id_int, filename)
 
         elif op == 'preview':
-            await self.preview(camera_id, filename)
+            await self.preview(camera_id_int, filename)
 
         elif op == 'zipped':
-            await self.zipped(camera_id, group)
+            await self.zipped(camera_id_int, group)
 
         elif op == 'timelapse':
-            await self.timelapse(camera_id, group)
+            await self.timelapse(camera_id_int, group)
 
         else:
             raise HTTPError(400, 'unknown operation')
@@ -144,14 +144,14 @@ class PictureHandler(BaseHandler):
         filename: str | None = None,
         group: str | None = None,
     ):
-        camera_id = int(camera_id)  # type: ignore[assignment]
-        if camera_id not in config.get_camera_ids():
+        camera_id_int: int = int(camera_id)  # type: ignore[assignment]
+        if camera_id_int not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
 
         if group == '/':  # ungrouped
             group = ''
 
-        camera_config: dict = config.get_camera(camera_id)
+        camera_config: dict = config.get_camera(camera_id_int)
         utils.validate_paths(
             filename,
             group,
@@ -173,10 +173,10 @@ class PictureHandler(BaseHandler):
             )
 
         if op == 'delete':
-            await self.delete(camera_id, filename)
+            await self.delete(camera_id_int, filename)
 
         elif op == 'delete_all':
-            await self.delete_all(camera_id, group)
+            await self.delete_all(camera_id_int, group)
 
         else:
             raise HTTPError(400, 'unknown operation')

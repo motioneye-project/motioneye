@@ -44,11 +44,11 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
     async def get(self, camera_id: str, filename: str, include_body=True):
-        camera_id = int(camera_id)  # type: ignore[assignment]
-        if camera_id not in config.get_camera_ids():
+        camera_id_int = int(camera_id)  # type: ignore[assignment]
+        if camera_id_int not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
 
-        camera_config: dict = config.get_camera(camera_id)
+        camera_config: dict = config.get_camera(camera_id_int)
         utils.validate_paths(
             filename,
             target_dir=(
