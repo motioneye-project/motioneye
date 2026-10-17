@@ -339,8 +339,8 @@ msgstr ""
 msgid "Ensaluti"
 msgstr ""
 
-#: motioneye/static/js/main.js:3525 motioneye/static/js/ui.js:732
-#: motioneye/static/js/ui.js:739
+#: motioneye/static/js/main.js:3525 motioneye/static/js/ui.js:737
+#: motioneye/static/js/ui.js:744
 msgid "Nuligi"
 msgstr ""
 
@@ -400,11 +400,11 @@ msgstr ""
 msgid "Fermi"
 msgstr ""
 
-#: motioneye/static/js/main.js:3779 motioneye/static/js/main.js:4428
+#: motioneye/static/js/main.js:3779 motioneye/static/js/main.js:4429
 msgid "Elŝuti"
 msgstr ""
 
-#: motioneye/static/js/main.js:3787 motioneye/static/js/main.js:4431
+#: motioneye/static/js/main.js:3787 motioneye/static/js/main.js:4432
 msgid "Forigi"
 msgstr ""
 
@@ -576,71 +576,71 @@ msgstr ""
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
 msgstr ""
 
-#: motioneye/static/js/main.js:4281
+#: motioneye/static/js/main.js:4282
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
 msgstr ""
 
-#: motioneye/static/js/main.js:4298
+#: motioneye/static/js/main.js:4299
 msgid "Krei akselita video"
 msgstr ""
 
-#: motioneye/static/js/main.js:4307
+#: motioneye/static/js/main.js:4308
 msgid "Filmo kreanta en progreso..."
 msgstr ""
 
-#: motioneye/static/js/main.js:4555
+#: motioneye/static/js/main.js:4556
 msgid "Zipitaj"
 msgstr ""
 
-#: motioneye/static/js/main.js:4564
+#: motioneye/static/js/main.js:4565
 msgid "Akselita video"
 msgstr ""
 
-#: motioneye/static/js/main.js:4575
+#: motioneye/static/js/main.js:4576
 msgid "Forigi ĉiujn"
 msgstr ""
 
-#: motioneye/static/js/main.js:4717
+#: motioneye/static/js/main.js:4718
 msgid "Bildoj prenitaj de "
 msgstr ""
 
-#: motioneye/static/js/main.js:4720
+#: motioneye/static/js/main.js:4721
 msgid "Filmoj registritaj de "
 msgstr ""
 
-#: motioneye/static/js/main.js:4778
+#: motioneye/static/js/main.js:4779
 msgid "drag to move around"
 msgstr ""
 
-#: motioneye/static/js/main.js:4789
+#: motioneye/static/js/main.js:4790
 msgid "montru ĉi tiun fotilon plenekranan"
 msgstr ""
 
-#: motioneye/static/js/main.js:4790
+#: motioneye/static/js/main.js:4791
 msgid "montri ĉiujn fotilojn"
 msgstr ""
 
-#: motioneye/static/js/main.js:4791
+#: motioneye/static/js/main.js:4792
 msgid "montru nur ĉi tiun fotilon"
 msgstr ""
 
-#: motioneye/static/js/main.js:4792
+#: motioneye/static/js/main.js:4793
 msgid "malfermaj bildoj retumilo"
 msgstr ""
 
-#: motioneye/static/js/main.js:4793
+#: motioneye/static/js/main.js:4794
 msgid "malferma videoj retumilo"
 msgstr ""
 
-#: motioneye/static/js/main.js:4794
+#: motioneye/static/js/main.js:4795
 msgid "agordi ĉi tiun kameraon"
 msgstr ""
 
-#: motioneye/static/js/main.js:4810
+#: motioneye/static/js/main.js:4811
 msgid "preni instantaron"
 msgstr ""
 
-#: motioneye/static/js/main.js:5300
+#: motioneye/static/js/main.js:5306
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr ""
 
@@ -680,18 +680,18 @@ msgstr ""
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
 msgstr ""
 
-#: motioneye/static/js/ui.js:680
+#: motioneye/static/js/ui.js:685
 msgid "fermi"
 msgstr ""
 
-#: motioneye/static/js/ui.js:726 motioneye/static/js/ui.js:733
+#: motioneye/static/js/ui.js:731 motioneye/static/js/ui.js:738
 msgid "Ne"
 msgstr ""
 
-#: motioneye/static/js/ui.js:727 motioneye/static/js/ui.js:734
+#: motioneye/static/js/ui.js:732 motioneye/static/js/ui.js:739
 msgid "Jes"
 msgstr ""
 
-#: motioneye/static/js/ui.js:740 motioneye/static/js/ui.js:745
+#: motioneye/static/js/ui.js:745 motioneye/static/js/ui.js:750
 msgid "Bone"
 msgstr ""
