@@ -123,8 +123,9 @@ def _too_many_requests(retry_after):
 class SendMessageTest(unittest.TestCase):
     def _send(self, curl, message='message', files=(), chat_id=42, retry=True):
         self.sleeps = []
-        with patch('pycurl.Curl', return_value=curl), patch(
-            'motioneye.sendtelegram.time.sleep', side_effect=self.sleeps.append
+        with (
+            patch('pycurl.Curl', return_value=curl),
+            patch('motioneye.sendtelegram.time.sleep', side_effect=self.sleeps.append),
         ):
             sendtelegram.send_message(_TOKEN, chat_id, message, list(files), retry)
 
@@ -175,8 +176,9 @@ class SendMessageTest(unittest.TestCase):
                 _OK,
             ]
         )
-        with self.assertLogs(level='ERROR') as logs, self.assertRaisesRegex(
-            RuntimeError, '^1 of 3 pictures not sent$'
+        with (
+            self.assertLogs(level='ERROR') as logs,
+            self.assertRaisesRegex(RuntimeError, '^1 of 3 pictures not sent$'),
         ):
             self._send(curl, message='Küche', files=_PICTURES, chat_id='42')
 

@@ -371,9 +371,10 @@ class TestMediaFilesPathValidation(unittest.TestCase):
             captured['cmd'] = cmd
             return ''
 
-        with patch(
-            'motioneye.mediafiles.get_movie_duration_seconds', return_value=10.0
-        ), patch('motioneye.utils.call_subprocess', side_effect=fake_call_subprocess):
+        with (
+            patch('motioneye.mediafiles.get_movie_duration_seconds', return_value=10.0),
+            patch('motioneye.utils.call_subprocess', side_effect=fake_call_subprocess),
+        ):
             # the thumbnail is never actually written, so it returns None, but
             # the ffmpeg command must reference the reconstructed absolute path
             mediafiles.make_movie_preview(self._camera_config, rel_path)
@@ -785,8 +786,9 @@ class TestRemoveOlderFiles(unittest.TestCase):
 
             return listdir(path)
 
-        with self.assertLogs(level='ERROR'), patch(
-            'motioneye.mediafiles.os.listdir', side_effect=locked_listdir
+        with (
+            self.assertLogs(level='ERROR'),
+            patch('motioneye.mediafiles.os.listdir', side_effect=locked_listdir),
         ):
             self._remove(['.jpg'])
 

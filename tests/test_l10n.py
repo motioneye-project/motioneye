@@ -49,9 +49,10 @@ class L10nTest(unittest.TestCase):
         self.assertIsNone(settings.js_translations)
 
     def test_unreadable_translations_are_logged(self):
-        with patch(
-            'motioneye.meyectl.open', side_effect=OSError('gone'), create=True
-        ), self.assertLogs(level='ERROR'):
+        with (
+            patch('motioneye.meyectl.open', side_effect=OSError('gone'), create=True),
+            self.assertLogs(level='ERROR'),
+        ):
             self.load('en')
         self.assertIsNone(settings.js_translations)
 

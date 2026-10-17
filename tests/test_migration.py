@@ -349,8 +349,9 @@ class StartupTest(_ConfigCase):
         handler.get_argument.return_value = None
         handler.request.files = {'files': [{'body': b''}]}
         for result in ({'reboot': True}, None):
-            with self.subTest(result=result), patch(
-                'motioneye.config.restore', return_value=result
+            with (
+                self.subTest(result=result),
+                patch('motioneye.config.restore', return_value=result),
             ):
                 ConfigHandler.restore(handler)
 

@@ -5,7 +5,7 @@
 
 src=eo
 
-#FIC=locale/en/LC_MESSAGES/motioneye.po
+#FIC=motioneye/locale/en/LC_MESSAGES/motioneye.po
 FIC=$1
 dst=$(grep '^"Language: .*\n"$' "$FIC" | sed 's/^"Language: //;s/.n"$//')
 

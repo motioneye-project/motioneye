@@ -76,7 +76,7 @@ class RelayEventHandler(BaseHandler):
             target_dir: str = camera_config['target_dir']
             # motion sends an absolute path, motionEye passes it on relative to
             # the camera dir and joins it again only for file operations
-            filename = utils.remove_prefix(filename, target_dir + os.sep)
+            filename = filename.removeprefix(target_dir + os.sep)
             utils.validate_paths(filename, target_dir=target_dir)
 
         if event == 'start':

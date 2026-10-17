@@ -162,13 +162,15 @@ class ConfigureLoggingSyslogTest(unittest.TestCase):
             return handlers[-1]
 
         exists = os.path.exists
-        with patch.multiple(
-            settings, LOG_TO_FILE=log_to_file, LOG_PATH=self.log_dir
-        ), patch(
-            'motioneye.meyectl.SysLogHandler', syslog_handler or fake_syslog_handler
-        ), patch(
-            'motioneye.meyectl.os.path.exists',
-            side_effect=lambda p: dev_log if p == '/dev/log' else exists(p),
+        with (
+            patch.multiple(settings, LOG_TO_FILE=log_to_file, LOG_PATH=self.log_dir),
+            patch(
+                'motioneye.meyectl.SysLogHandler', syslog_handler or fake_syslog_handler
+            ),
+            patch(
+                'motioneye.meyectl.os.path.exists',
+                side_effect=lambda p: dev_log if p == '/dev/log' else exists(p),
+            ),
         ):
             meyectl.configure_logging(cmd)
 

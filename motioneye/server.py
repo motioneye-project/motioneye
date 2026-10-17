@@ -23,8 +23,8 @@ import re
 import signal
 import sys
 import time
+from collections.abc import Sequence
 from secrets import token_bytes
-from typing import Sequence
 
 from tornado.ioloop import IOLoop, PeriodicCallback
 from tornado.web import Application

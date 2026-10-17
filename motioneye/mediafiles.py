@@ -23,12 +23,13 @@ import multiprocessing
 import os.path
 import re
 import subprocess
+from collections.abc import Awaitable
 from errno import EAGAIN, ENOENT
 from hashlib import sha1
 from io import BytesIO
 from signal import SIGKILL, SIGTERM
 from time import time
-from typing import Any, Awaitable
+from typing import Any
 from zipfile import ZipFile
 
 from PIL import Image
@@ -302,11 +303,7 @@ def _do_zip(pipe, target_dir, exts, sub_path, working):
     mf = _list_media_files(target_dir, exts, sub_path, with_stat=False)
     paths = []
     for p, st in mf:  # st will be None when with_stat=False
-        path = p[len(target_dir) :]
-        if path.startswith('/'):
-            path = path[1:]
-
-        paths.append(path)
+        paths.append(p[len(target_dir) :].removeprefix('/'))
 
     zip_filename = os.path.join(settings.MEDIA_PATH, f'.zip-{int(time())}')
     logging.debug(f'adding {len(paths)} files to zip file "{zip_filename}"')

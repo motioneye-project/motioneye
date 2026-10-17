@@ -45,4 +45,9 @@ repos:
     rev: v3.22.0
     hooks:
       - id: pyupgrade
-        args: [--py37-plus]
+        args: [--py39-plus]
+  - repo: https://github.com/pypa/pip-audit
+    rev: v2.10.1
+    hooks:
+      - id: pip-audit
+        args: [-Sv, .]

@@ -1,6 +1,8 @@
 name: update_locales
 
-on: pull_request
+on:
+  push:
+    branches: [weblate]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -10,15 +12,12 @@ permissions: {}
 
 jobs:
   update_locales:
-    # Skip for forks which have no access to secrets (PAT)
-    if: github.event.pull_request.head.repo.fork == false
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
 
     - uses: actions/setup-python@v7
       with:
         python-version: '3.x'
-        check-latest: true
 
     - name: Install dependencies
       run: |
@@ -27,10 +26,6 @@ jobs:
         sudo DEBIAN_FRONTEND='noninteractive' apt-get -qq --no-install-recommends install gettext
 
     - uses: actions/checkout@v7
-      with:
-        ref: ${{ github.head_ref }}
-        # https://github.com/peter-evans/create-pull-request/issues/48
-        token: ${{ secrets.GH_PAT }}
 
     - name: Generate backend template
       run: |

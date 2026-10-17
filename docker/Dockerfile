@@ -1,38 +1,50 @@
 FROM debian:trixie-slim
 LABEL maintainer="Marcus Klein <himself@kleini.org>"
 
-# By default, run as root
+# Set UID/GID for running motionEye to match the user which shall have access to its volumes on the host
 ARG RUN_UID=0
 ARG RUN_GID=0
 
 COPY . /tmp/motioneye
 COPY docker/entrypoint.sh /entrypoint.sh
 
-RUN printf '%s\n' '[global]' 'break-system-packages=true' > /etc/pip.conf && \
-    case "$(dpkg --print-architecture)" in \
-      'armhf'|'riscv64') PACKAGES='python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev libffi-dev';; \
-      *) PACKAGES='';; \
-    esac && \
-    apt-get -q update && \
-    DEBIAN_FRONTEND='noninteractive' apt-get -qq --option 'Dpkg::Options::=--force-confnew' --no-install-recommends install \
-      ca-certificates curl python3 fdisk $PACKAGES && \
-    curl -sSfO 'https://bootstrap.pypa.io/get-pip.py' && \
-    python3 get-pip.py && \
-    python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel && \
-    python3 -m pip install --no-cache-dir /tmp/motioneye && \
-    motioneye_init --skip-systemd --skip-apt-update && \
-    # Change uid/gid of user/group motion to match our desired IDs. This will
-    # make it easier to use execute motion as our desired user later.
-    sed -i "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:/\1:${RUN_UID}:${RUN_GID}:/" /etc/passwd && \
-    sed -i "s/^\(motion:[^:]*\):[0-9]*:/\1:${RUN_GID}:/" /etc/group && \
-    mv /etc/motioneye/motioneye.conf /etc/motioneye.conf.sample && \
-    mkdir /var/log/motioneye /var/lib/motioneye && \
-    chown motion:motion /var/log/motioneye /var/lib/motioneye && \
-    # Cleanup
-    python3 -m pip uninstall -y pip setuptools wheel && \
-    DEBIAN_FRONTEND='noninteractive' apt-get -qq autopurge $PACKAGES && \
-    apt-get clean && \
-    rm -r /var/lib/apt/lists /var/cache/apt /tmp/motioneye get-pip.py /root/.cache
+RUN << _EOF_
+# Install DEB dependencies
+case "$(dpkg --print-architecture)" in
+	'amd64'|'arm64') PACKAGES='';;
+	# Pillow, PycURL
+	'ppc64el'|'s390x') PACKAGES='python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev';;
+	# Pillow, PycURL, CFFI, cmake (Python module)
+	'armel') PACKAGES='python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev libffi-dev make g++';;
+	# Pillow, PycURL, CFFI
+	*) PACKAGES='python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev libffi-dev';;
+esac
+apt-get -q update
+DEBIAN_FRONTEND='noninteractive' apt-get -qq -o 'Dpkg::Options::=--force-confnew' --no-install-recommends install ca-certificates curl python3 fdisk $PACKAGES
+
+# Install pip
+printf '%s\n' '[global]' 'break-system-packages=true' 'no-cache-dir=true' 'root-user-action=ignore' > /etc/pip.conf
+curl -sSfO 'https://bootstrap.pypa.io/get-pip.py'
+python3 get-pip.py
+
+# Install motionEye
+python3 -m pip install -U /tmp/motioneye
+motioneye_init --skip-systemd --skip-apt-update
+
+# Adjust UID/GID of user/group "motion" to match input args
+sed -i "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:/\1:${RUN_UID}:${RUN_GID}:/" /etc/passwd
+sed -i "s/^\(motion:[^:]*\):[0-9]*:/\1:${RUN_GID}:/" /etc/group
+
+# Setup default config and data dir
+mv /etc/motioneye/motioneye.conf /etc/motioneye.conf.sample
+install -o motion -g motion -d /var/lib/motioneye
+
+# Cleanup
+python3 -m pip uninstall -y pip
+DEBIAN_FRONTEND='noninteractive' apt-get -qq autopurge $PACKAGES
+apt-get clean
+rm -r /var/lib/apt/lists /var/cache/apt /tmp/motioneye get-pip.py
+_EOF_
 
 # R/W needed for motionEye to update configurations
 VOLUME /etc/motioneye

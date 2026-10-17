@@ -1,5 +1,3 @@
-
-
 Ni uzas por ĉiu lingvo json-dosieron, kiu enhavas la tradukojn.
 meyectl.load_l10n() ŝarĝas ĉi tiun dosieron en settings.js_translations, kaj "templates/main.html" enmetas ĝin en la JSON-blokon <script type="application/json" id="pageData">, kiun "static/js/main.js" legas:
 
@@ -18,7 +16,7 @@ Tradukoj povas esti ĝisdatigitaj per teksta redaktilo aŭ per poedit.
 La dosiero "json" estas ĝisdatigita per la komando scripts/po2json, ekz. :
 	l10n/po2json motioneye/locale/en/LC_MESSAGES/motioneye.js.po motioneye/static/js/motioneye.en.json
 
-La dosiero "Makefile" permesas aŭtomate administri xgettext, msgmerge kaj po2json. Simple enigu "make" post modifi dosieron "js" aŭ "po".
+La dosiero "Makefile" permesas aŭtomate administri xgettext, msgmerge kaj po2json. Simple enigu "make -C l10n" post modifi dosieron "js" aŭ "po".
 
 "Makefile" havas regulo "init%" por krei novan tradukon
-    ekz. : uzi "make initro" por krei la rumana traduko.
+    ekz. : uzi "make -C l10n initro" por krei la rumana traduko.

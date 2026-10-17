@@ -23,8 +23,8 @@ import re
 import signal
 import socket
 import time
+from collections.abc import Callable
 from io import BytesIO
-from typing import Callable
 from urllib.parse import urlencode
 
 import pycurl
