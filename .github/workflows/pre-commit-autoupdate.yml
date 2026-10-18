@@ -24,7 +24,6 @@ jobs:
     - uses: actions/setup-python@v7
       with:
         python-version: 3.x
-        check-latest: true
     - run: |
         branch_exists=0
         git fetch origin pre-commit-autoupdate && branch_exists=1

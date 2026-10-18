@@ -12,26 +12,21 @@ permissions:
 jobs:
   shellcheck:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
-      - name: Install xz-utils
-        run: |
-          command -v xz && exit 0
-          sudo apt-get -q update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends install xz-utils
       - uses: actions/checkout@v7
       - name: Download shellcheck
         run: |
-          curl -sSfLo shellcheck.tar.xz "$(curl -sSfH 'Authorization: Bearer ${{ github.token }}' 'https://api.github.com/repos/koalaman/shellcheck/releases/latest' | mawk -F\" '/"browser_download_url.*\.linux\.x86_64\.tar\.xz"/{print $4;exit}')"
+          curl -sSfLo shellcheck.tar.xz "$(curl -sSfH 'Authorization: Bearer ${{ github.token }}' 'https://api.github.com/repos/koalaman/shellcheck/releases/latest' | grep -Po '"browser_download_url": *"\K[^"]*\.linux\.x86_64\.tar\.xz(?=")')"
           tar --wildcards --strip-components=1 -xf shellcheck.tar.xz '*/shellcheck'
           rm shellcheck.tar.xz
       - name: Run shellcheck
         run: |
-          mapfile -t FILES < <(find . -not \( -path './.git' -prune \) -type f)  # read all files to array
+          mapfile -t FILES < <(find . -not \( -path './.git' -prune \) -type f) # read all files to array
           for i in "${!FILES[@]}"
           do
-              [[ ${FILES[$i]##*/} =~ '.'[^.]*'sh'$ ]] && continue  # file has shell extension
-              [[ $(mawk '/^#!.*sh([[:blank:]]|$)/;{exit}' "${FILES[$i]}") ]] && continue  # file has shell shebang
-              unset -v "FILES[$i]"  # else remove from array
+              [[ ${FILES[$i]##*/} =~ '.'[^.]*'sh'$ ]] && continue # file has shell extension
+              [[ $(mawk '/^#!.*sh([[:blank:]]|$)/;{exit}' "${FILES[$i]}") ]] && continue # file has shell shebang
+              unset -v "FILES[$i]" # else remove from array
           done
           ./shellcheck -xC -o all -e SC2244,SC2250,SC2312 "${FILES[@]}"

@@ -18,12 +18,12 @@ from __future__ import annotations
 import json
 import logging
 import os.path
-from typing import Dict, List, Union, cast
+from typing import Union, cast
 
 from motioneye import settings
 
-PrefsValue = Union[int, float, bool, List[int]]
-PrefsDict = Dict[str, PrefsValue]
+PrefsValue = Union[int, float, bool, list[int]]
+PrefsDict = dict[str, PrefsValue]
 
 _PREFS_FILE_NAME: str = 'prefs.json'
 _DEFAULT_PREFS: PrefsDict = {

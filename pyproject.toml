@@ -5,6 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "motioneye"
 dynamic = ["version"]
+# sync with .github/workflows/test_python.yml
 dependencies = [
   "tornado>=6.5.8",
   "jinja2",
@@ -13,9 +14,8 @@ dependencies = [
   "babel",
   "boto3",
   "argon2-cffi",
-  "typing_extensions",
 ]
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 authors = [
   {name = "Calin Crisan", email = "ccrisan@gmail.com"},
   {name = "Jean Michault"},
@@ -60,7 +60,7 @@ skips = ["B105", "B324", "B404", "B603"]
 
 [tool.black]
 skip-string-normalization = true
-target-version = ["py37", "py38", "py39", "py310", "py311", "py312", "py313", "py314", "py315"]
+target-version = ["py39", "py310", "py311", "py312", "py313", "py314", "py315"]
 
 [tool.codespell]
 ignore-words-list = "ot"
@@ -81,11 +81,11 @@ statistics = true
 profile = "black"
 
 [tool.pyupgrade]
-py37-plus = true
+py39-plus = true
 
 [tool.ruff]
 builtins = ["_"]
-target-version = "py37"
+target-version = "py39"
 
 [tool.ruff.format]
 quote-style = "preserve"

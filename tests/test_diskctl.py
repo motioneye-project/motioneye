@@ -30,9 +30,13 @@ class ListMountsTest(unittest.TestCase):
     def test_includes_mounts_without_write_access(self):
         # a drive the motion user cannot write to used to be filtered out on a
         # missing os.W_OK, so it never appeared as a storage device (#3024)
-        with patch(
-            'motioneye.controls.diskctl.open', mock_open(read_data=self._PROC_MOUNTS)
-        ), patch('motioneye.controls.diskctl.os.access', return_value=False):
+        with (
+            patch(
+                'motioneye.controls.diskctl.open',
+                mock_open(read_data=self._PROC_MOUNTS),
+            ),
+            patch('motioneye.controls.diskctl.os.access', return_value=False),
+        ):
             mounts = diskctl._list_mounts()
 
         targets = [m['target'] for m in mounts]
@@ -42,9 +46,13 @@ class ListMountsTest(unittest.TestCase):
         self.assertTrue(all(m['writable'] is False for m in mounts))
 
     def test_deduplicates_bind_mounts(self):
-        with patch(
-            'motioneye.controls.diskctl.open', mock_open(read_data=self._PROC_MOUNTS)
-        ), patch('motioneye.controls.diskctl.os.access', return_value=True):
+        with (
+            patch(
+                'motioneye.controls.diskctl.open',
+                mock_open(read_data=self._PROC_MOUNTS),
+            ),
+            patch('motioneye.controls.diskctl.os.access', return_value=True),
+        ):
             mounts = diskctl._list_mounts()
 
         # the second /dev/sdb1 entry (a bind mount) is collapsed

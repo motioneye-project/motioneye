@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   release:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
     - uses: actions/checkout@v7
     - uses: actions/setup-python@v7
@@ -19,7 +19,7 @@ jobs:
         python-version: '3.x'
         check-latest: true
     - name: Install dependencies
-      run: python -m pip install --upgrade setuptools build twine
+      run: pip install -U setuptools build twine
     - name: Build package
       run: python -m build
     - name: Publish package

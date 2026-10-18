@@ -29,7 +29,7 @@ from secrets import token_hex
 from shlex import split
 from stat import S_IMODE
 from subprocess import STDOUT
-from typing import TYPE_CHECKING, cast, overload
+from typing import TYPE_CHECKING, Literal, cast, overload
 from urllib.parse import quote, urlunparse
 
 if TYPE_CHECKING:
@@ -37,7 +37,6 @@ if TYPE_CHECKING:
 
 from argon2 import PasswordHasher
 from tornado.ioloop import IOLoop
-from typing_extensions import Literal
 
 from motioneye import meyectl, motionctl, settings, tasks, uploadservices, utils
 from motioneye.controls import diskctl, smbctl, v4l2ctl
@@ -1281,8 +1280,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         mount_point = smbctl.make_mount_point(
             ui['network_server'], ui['network_share_name'], ui['network_username']
         )
-        if ui['root_directory'].startswith('/'):
-            ui['root_directory'] = ui['root_directory'][1:]
+        ui['root_directory'] = ui['root_directory'].removeprefix('/')
         data['target_dir'] = os.path.normpath(
             os.path.join(mount_point, ui['root_directory'])
         )
@@ -1294,8 +1292,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         if partition:
             mount_point = partition['mount_point']
 
-            if ui['root_directory'].startswith('/'):
-                ui['root_directory'] = ui['root_directory'][1:]
+            ui['root_directory'] = ui['root_directory'].removeprefix('/')
             data['target_dir'] = os.path.normpath(
                 os.path.join(mount_point, ui['root_directory'])
             )

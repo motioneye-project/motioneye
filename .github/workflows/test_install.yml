@@ -1,0 +1,29 @@
+name: test_install
+
+on: [pull_request, push]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  install:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
+    env:
+      HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+    strategy:
+      matrix:
+        dist: [ubuntu-22.04, ubuntu-24.04, ubuntu-26.04, ubuntu-22.04-arm, ubuntu-24.04-arm, ubuntu-26.04-arm]
+    runs-on: ${{ matrix.dist }}
+    name: ${{ matrix.dist }}
+    steps:
+      # ERROR: Cannot uninstall pip 24.0, RECORD file not found. Hint: The package was installed by debian.
+      - run: sudo DEBIAN_FRONTEND=noninteractive apt-get -qq autopurge python3-pip python3-setuptools python3-wheel python3-dev
+      - run: curl -sSfO 'https://bootstrap.pypa.io/get-pip.py'
+      - run: sudo python3 get-pip.py
+      - run: sudo python3 -m pip install "https://github.com/${HEAD_REPO:-$GITHUB_REPOSITORY}/archive/${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}.tar.gz"
+      - run: sudo motioneye_init
+      - run: i=0; until ss -tlpn | grep 8765; do [ $i -le 10 ] || { sudo journalctl -u motioneye; exit 1; }; sleep 1; i=$(( $i + 1 )); done
+      - run: sudo systemctl status motioneye

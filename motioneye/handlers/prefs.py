@@ -14,19 +14,18 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 from __future__ import annotations
 
 import json
 import logging
-from typing import List, Union
+from typing import Union
 
 from motioneye import prefs
 from motioneye.handlers.base import BaseHandler
 
 __all__ = ('PrefsHandler',)
 
-PrefsValue = Union[int, float, bool, List[int]]
+PrefsValue = Union[int, float, bool, list[int]]
 
 
 class PrefsHandler(BaseHandler):

@@ -118,8 +118,7 @@ def pretty_camera_url(local_config, camera=True):
     if path:
         url += path
 
-    if url.endswith('/'):
-        url = url[:-1]
+    url = url.removesuffix('/')
 
     if camera:
         if camera is True:

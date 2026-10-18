@@ -14,33 +14,23 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
     strategy:
       matrix:
-        include:
-          # Tests with oldest Python version able to build the project on oldest available runner images
-          - { dist: 'ubuntu-22.04', python: '3.9' }
-          - { dist: 'ubuntu-22.04-arm', python: '3.9' }
-          # https://packages.ubuntu.com/search?suite=all&arch=any&searchon=names&keywords=python3
-          - { dist: 'ubuntu-22.04', python: '3.10.6' }
-          - { dist: 'ubuntu-24.04', python: '3.12.3' }
-          # No Python 3.14 supported for ubuntu-26.04 runners yet: https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
-          - { dist: 'ubuntu-24.04', python: '3.14.3' }
-          - { dist: 'ubuntu-22.04-arm', python: '3.10.6' }
-          - { dist: 'ubuntu-24.04-arm', python: '3.12.3' }
-          - { dist: 'ubuntu-24.04-arm', python: '3.14.3' }
-      fail-fast: false
-    runs-on: ${{ matrix.dist }}
-    name: "Test on ${{ matrix.dist }}"
+        python: ['3.9', '3.10', '3.11', '3.12', '3.13', '3.14', '3.15']
+    runs-on: ${{ matrix.python == '3.9' && 'ubuntu-24.04' || 'ubuntu-26.04' }}
+    name: ${{ matrix.python }}
     steps:
-      # ERROR: Cannot uninstall pip 24.0, RECORD file not found. Hint: The package was installed by debian.
-      - run: sudo DEBIAN_FRONTEND='noninteractive' apt-get -qq autopurge python3-pip python3-setuptools python3-wheel
-      - run: sudo apt-get -q update
-      - run: sudo DEBIAN_FRONTEND='noninteractive' apt-get -qq --no-install-recommends install curl ffmpeg motion v4l-utils
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python }}
-      - run: python3 -m pip install --upgrade pip setuptools build mypy pytest
-      - run: python3 -m build
-      - run: python3 -m pip install .
-      - run: mkdir --parents --verbose .mypy_cache
-      - run: mypy --ignore-missing-imports --install-types --non-interactive --exclude build/ .
+          check-latest: true
+      # --only-deps is supported from pip 26.2 on, which requires Python >=3.10
+      - run: pip install -U mypy pytest setuptools build 'tornado>=6.5.8' jinja2 pillow pycurl babel boto3 boto3-stubs argon2-cffi
+        id: deps
+      - run: mypy --install-types --non-interactive --enable-error-code import-untyped .
       - run: pytest
+        if: always() && steps.deps.outcome == 'success'
+      - run: python3 -m build
+        if: always() && steps.deps.outcome == 'success'
+        id: build
+      - run: pip install -U dist/*.whl
+        if: always() && steps.build.outcome == 'success'

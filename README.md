@@ -15,7 +15,7 @@ You can contribute to translations on [__Weblate__](https://hosted.weblate.org/p
 
 # Installation
 
-1. Install **Python 3.7 or later** and build dependencies
+1. Install **Python 3.9 or later** and build dependencies
 
     _Here the commands for APT-based Linux distributions are given._
 

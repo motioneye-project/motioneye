@@ -23,12 +23,12 @@ import signal
 import smtplib
 import socket
 import time
+from collections.abc import Callable
 from email.encoders import encode_base64
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import formatdate, make_msgid
-from typing import Callable
 
 from tornado.ioloop import IOLoop
 

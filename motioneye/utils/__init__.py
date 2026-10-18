@@ -23,9 +23,10 @@ import os
 import subprocess
 import time
 from collections import namedtuple
+from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from http.client import HTTPResponse
-from typing import Any, Awaitable, Callable, cast
+from typing import Any, cast
 from urllib.parse import urlparse, urlsplit
 from urllib.request import Request
 from urllib.request import urlopen as _urlopen
@@ -610,14 +611,6 @@ def call_subprocess(
         text=text,
         env=env,
     ).stdout.strip()
-
-
-def remove_prefix(s: str, prefix: str) -> str:
-    # str.removeprefix backport for Python < 3.9 (motionEye targets 3.7).
-    # Like str.removeprefix, the string is returned unchanged when it does not
-    # start with prefix - which is what lets validate_paths() still reject an
-    # absolute/foreign path that is not under target_dir.
-    return s[len(prefix) :] if s.startswith(prefix) else s
 
 
 def validate_paths(
