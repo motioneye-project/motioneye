@@ -16,7 +16,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import annotations
 
-import datetime
 import functools
 import logging
 import re
@@ -68,8 +67,8 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
         f = stream.connect((url_obj.host, int(url_obj.port)))
         f.add_done_callback(on_connect)
 
-        timeout[0] = io_loop.add_timeout(
-            datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
+        timeout[0] = io_loop.call_later(
+            settings.MJPG_CLIENT_TIMEOUT,
             functools.partial(on_connect, f, _timeout=True),
         )
 
@@ -114,8 +113,8 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
 
             r_future = cast_future(stream.read_until_regex(rb'RTSP/1.0 \d+ '))
             r_future.add_done_callback(on_rtsp)
-            timeout[0] = io_loop.add_timeout(
-                datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
+            timeout[0] = io_loop.call_later(
+                settings.MJPG_CLIENT_TIMEOUT,
                 functools.partial(on_rtsp, r_future),
             )
 
@@ -157,7 +156,7 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
 
         future.add_done_callback(f)
 
-        timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_server)
+        timeout[0] = io_loop.call_later(1, on_server)
 
     def on_server(data=None):
         io_loop.remove_timeout(timeout[0])
@@ -178,9 +177,7 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
         f = cast_future(stream.read_until_regex(b'WWW-Authenticate: .*'))
         f.add_done_callback(on_www_authenticate)
 
-        timeout[0] = io_loop.add_timeout(
-            datetime.timedelta(seconds=1), functools.partial(on_www_authenticate, f)
-        )
+        timeout[0] = io_loop.call_later(1, functools.partial(on_www_authenticate, f))
 
     def on_www_authenticate(f: Future):
         auth_timeout_msg = 'timeout waiting for rtsp netcam response'

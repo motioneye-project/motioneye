@@ -15,9 +15,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import annotations
 
-import datetime
 import os
 import unittest
+from datetime import datetime
 from pathlib import Path
 from shutil import rmtree
 from tempfile import mkdtemp
@@ -652,7 +652,7 @@ class TestRemoveOlderFiles(unittest.TestCase):
         # cleanup_media() creates this, so the target dir itself is never removed
         Path(self.target_dir, '.keep').touch()
         self.now = time()
-        self.moment = datetime.datetime.fromtimestamp(self.now - 3 * 86400)
+        self.moment = datetime.fromtimestamp(self.now - 3 * 86400)
 
     def tearDown(self):
         rmtree(self.target_dir, ignore_errors=True)
@@ -762,10 +762,10 @@ class TestRemoveOlderFiles(unittest.TestCase):
             if t == bad:
                 raise OverflowError('timestamp out of range for platform time_t')
 
-            return datetime.datetime.fromtimestamp(t)
+            return datetime.fromtimestamp(t)
 
         with patch('motioneye.mediafiles.datetime') as mock_datetime:
-            mock_datetime.datetime.fromtimestamp.side_effect = fromtimestamp
+            mock_datetime.fromtimestamp.side_effect = fromtimestamp
             with self.assertLogs(level='ERROR'):
                 self._remove(['.jpg'])
 

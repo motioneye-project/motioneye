@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import annotations
 
-import datetime
 import logging
 import os
 import re
@@ -24,6 +23,7 @@ import smtplib
 import socket
 import time
 from collections.abc import Callable
+from datetime import datetime
 from email.encoders import encode_base64
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
@@ -33,7 +33,6 @@ from email.utils import formatdate, make_msgid
 from tornado.ioloop import IOLoop
 
 from motioneye import config, mediafiles, motionctl, settings, utils
-from motioneye.controls import tzctl
 
 messages = {
     'motion_start': 'Motion has been detected by camera "%(camera)s/%(hostname)s" at %(moment)s (%(timezone)s).'
@@ -89,7 +88,7 @@ def make_message(
     subject: str,
     message: str,
     camera_id: int,
-    moment: datetime.datetime,
+    moment: datetime,
     timespan: int,
     callback: Callable,
 ) -> None:
@@ -132,11 +131,7 @@ def make_message(
             'moment': moment.strftime('%Y-%m-%d %H:%M:%S'),
         }
 
-        if settings.LOCAL_TIME_FILE:
-            format_dict['timezone'] = tzctl.get_time_zone()
-
-        else:
-            format_dict['timezone'] = 'local time'
+        format_dict['timezone'] = datetime.now().astimezone().tzname() or 'local time'
 
         logging.debug('creating email message')
 
@@ -236,7 +231,7 @@ def main(parser, args):
     options.timespan = int(options.timespan)
     message = messages.get(options.msg_id)
     subject = subjects.get(options.msg_id)
-    options.moment = datetime.datetime.strptime(options.moment, '%Y-%m-%dT%H:%M:%S')
+    options.moment = datetime.strptime(options.moment, '%Y-%m-%dT%H:%M:%S')
 
     # do not wait too long for media list,
     # email notifications are critical

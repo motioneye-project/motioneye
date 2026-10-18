@@ -23,12 +23,12 @@ from motioneye.config import additional_config
 from motioneye.settings import LOCAL_TIME_FILE
 
 
-def get_time_zone() -> str | None:
+def _get_time_zone() -> str:
     return _get_time_zone_symlink() or _get_time_zone_md5() or 'UTC'
 
 
 def _get_time_zone_symlink() -> str | None:
-    if not LOCAL_TIME_FILE:
+    if LOCAL_TIME_FILE is None:
         return None
 
     f: str = os.path.realpath(LOCAL_TIME_FILE)
@@ -41,7 +41,7 @@ def _get_time_zone_symlink() -> str | None:
 
 
 def _get_time_zone_md5() -> str | None:
-    if not LOCAL_TIME_FILE:
+    if LOCAL_TIME_FILE is None:
         return None
 
     try:
@@ -81,7 +81,7 @@ def _get_time_zone_md5() -> str | None:
 
 
 def _set_time_zone(time_zone: str | None) -> bool:
-    if not LOCAL_TIME_FILE:
+    if LOCAL_TIME_FILE is None:
         return False
 
     time_zone = time_zone or 'UTC'
@@ -116,12 +116,12 @@ def _set_time_zone(time_zone: str | None) -> bool:
 
 @additional_config
 def timeZone() -> dict | None:
-    if not LOCAL_TIME_FILE:
+    if LOCAL_TIME_FILE is None:
         return None
 
-    import pytz
+    from zoneinfo import available_timezones
 
-    timezones = pytz.common_timezones
+    timezones = available_timezones()
 
     return {
         'label': 'Time Zone',
@@ -130,6 +130,6 @@ def timeZone() -> dict | None:
         'choices': [(t, t) for t in timezones],
         'section': 'general',
         'reboot': True,
-        'get': get_time_zone,
+        'get': _get_time_zone,
         'set': _set_time_zone,
     }

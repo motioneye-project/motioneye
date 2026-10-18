@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import annotations
 
-import datetime
 import json
 import logging
 import os
@@ -24,6 +23,7 @@ import signal
 import socket
 import time
 from collections.abc import Callable
+from datetime import datetime
 from io import BytesIO
 from urllib.parse import urlencode
 
@@ -31,7 +31,6 @@ import pycurl
 from tornado.ioloop import IOLoop
 
 from motioneye import config, mediafiles, meyectl, motionctl, settings, utils
-from motioneye.controls import tzctl
 
 
 class TelegramError(RuntimeError):
@@ -134,7 +133,7 @@ def send_message(api_key, chat_id, message, files, retry=True):
 def make_message(
     message: str,
     camera_id: int,
-    moment: datetime.datetime,
+    moment: datetime,
     timespan: int,
     callback: Callable,
 ) -> None:
@@ -173,10 +172,7 @@ def make_message(
             'moment': moment.strftime('%Y-%m-%d %H:%M:%S'),
         }
 
-        if settings.LOCAL_TIME_FILE:
-            format_dict['timezone'] = tzctl.get_time_zone()
-        else:
-            format_dict['timezone'] = 'local time'
+        format_dict['timezone'] = datetime.now().astimezone().tzname() or 'local time'
 
         logging.debug('creating telegram message')
 
@@ -236,7 +232,7 @@ def parse_options(parser, args):
         )
 
     try:  # not a type=, older commands have the chat id here
-        options.moment = datetime.datetime.fromisoformat(options.moment)
+        options.moment = datetime.fromisoformat(options.moment)
 
     except ValueError:
         parser.error('moment must be in ISO-8601 format')

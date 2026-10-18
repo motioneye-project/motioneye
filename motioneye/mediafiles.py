@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import annotations
 
-import datetime
 import fcntl
 import functools
 import logging
@@ -24,6 +23,7 @@ import os.path
 import re
 import subprocess
 from collections.abc import Awaitable
+from datetime import datetime, timedelta
 from errno import EAGAIN, ENOENT
 from hashlib import sha1
 from io import BytesIO
@@ -180,7 +180,7 @@ def _list_media_files(
 
 def _remove_older_files(
     directory: str,
-    moment: datetime.datetime,
+    moment: datetime,
     clean_cloud_info: dict,
     exts: list[str],
 ):
@@ -188,7 +188,7 @@ def _remove_older_files(
     dir_paths = set()
     for full_path, st in _list_media_files(directory, exts, with_stat=True):
         try:
-            file_moment = datetime.datetime.fromtimestamp(st.st_mtime)
+            file_moment = datetime.fromtimestamp(st.st_mtime)
 
         except Exception as e:  # e.g. a time out of range for this platform
             logging.error(f'failed to check {full_path}: {e}')
@@ -282,11 +282,9 @@ def _do_list_media(
                         if guess_type(path)[0] is not None
                         else 'video/mpeg'
                     ),
-                    'momentStr': pretty_date_time(
-                        datetime.datetime.fromtimestamp(timestamp)
-                    ),
+                    'momentStr': pretty_date_time(datetime.fromtimestamp(timestamp)),
                     'momentStrShort': pretty_date_time(
-                        datetime.datetime.fromtimestamp(timestamp), short=True
+                        datetime.fromtimestamp(timestamp), short=True
                     ),
                     'sizeStr': utils.pretty_size(size),
                     'timestamp': timestamp,
@@ -441,9 +439,7 @@ def cleanup_media(media_type: str) -> None:
         elif media_type == 'movie' and not movies_enabled:
             continue  # only cleanup movies for cameras with movies enabled
 
-        preserve_moment = datetime.datetime.now() - datetime.timedelta(
-            days=preserve_media
-        )
+        preserve_moment = datetime.now() - timedelta(days=preserve_media)
 
         target_dir: str = camera_config['target_dir']
         cloud_enabled = camera_config.get('@upload_enabled')
@@ -637,7 +633,7 @@ def list_media(
     child_pipe.close()
 
     # poll the subprocess to see when it has finished
-    started = datetime.datetime.now()
+    started = datetime.now()
     media_list = []
 
     def read_media_list():
@@ -649,12 +645,11 @@ def list_media(
                 break
 
     def poll_process():
-        io_loop = IOLoop.current()
         if process.is_alive():  # not finished yet
-            now = datetime.datetime.now()
+            now = datetime.now()
             delta = now - started
             if delta.seconds < settings.LIST_MEDIA_TIMEOUT:
-                io_loop.add_timeout(datetime.timedelta(seconds=0.5), poll_process)
+                IOLoop.current().call_later(0.5, poll_process)
                 read_media_list()
 
             else:  # process did not finish in time
@@ -721,15 +716,14 @@ def get_zipped_content(camera_config: dict, media_type: str, group: str) -> Awai
     child_pipe.close()
 
     # poll the subprocess to see when it has finished
-    started = datetime.datetime.now()
+    started = datetime.now()
 
     def poll_process():
-        io_loop = IOLoop.current()
         if working.value:
-            now = datetime.datetime.now()
+            now = datetime.now()
             delta = now - started
             if delta.seconds < settings.ZIP_TIMEOUT:
-                io_loop.add_timeout(datetime.timedelta(seconds=0.5), poll_process)
+                IOLoop.current().call_later(0.5, poll_process)
 
             else:  # process did not finish in time
                 logging.error('timeout waiting for the zip process to finish')
@@ -781,7 +775,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
 
     child_pipe.close()
 
-    started = [datetime.datetime.now()]
+    started = [datetime.now()]
     media_list = []
 
     # use correct extension for the movie_codec
@@ -798,16 +792,12 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                 break
 
     def poll_media_list_process():
-        io_loop = IOLoop.current()
         if _timelapse_process.is_alive():  # not finished yet
-            now = datetime.datetime.now()
+            now = datetime.now()
             delta = now - started[0]
-            if (
-                delta.seconds < settings.TIMELAPSE_TIMEOUT
-            ):  # the subprocess has limited time to complete its job
-                io_loop.add_timeout(
-                    datetime.timedelta(seconds=0.5), poll_media_list_process
-                )
+            # the subprocess has limited time to complete its job
+            if delta.seconds < settings.TIMELAPSE_TIMEOUT:
+                IOLoop.current().call_later(0.5, poll_media_list_process)
                 read_media_list()
 
             else:  # process did not finish in time
@@ -912,7 +902,6 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
         global _timelapse_data
         output_chunk: bytes = b''
 
-        io_loop = IOLoop.current()
         if _timelapse_process.poll() is None:  # not finished yet
             # Read output chunk from process pipe
             try:
@@ -938,8 +927,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                     )
 
             # Schedule next iteration
-            io_loop.add_timeout(
-                datetime.timedelta(seconds=0.5),
+            IOLoop.current().call_later(
+                0.5,
                 functools.partial(_poll_movie_process, pictures, output),
             )
 
@@ -1218,7 +1207,6 @@ def set_prepared_cache(data):
 
     timeout = 3600  # the user has 1 hour to download the file after creation
 
-    io_loop = IOLoop.current()
-    io_loop.add_timeout(datetime.timedelta(seconds=timeout), clear)
+    IOLoop.current().call_later(timeout, clear)
 
     return key

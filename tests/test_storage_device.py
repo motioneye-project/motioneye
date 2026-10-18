@@ -25,7 +25,7 @@ class StorageDeviceTest(_ConfigCase):
         super().setUp()
         self.camera['target_dir'] = '/var/lib/motioneye/Camera1'
 
-    def _post(self, **ui_changes):
+    def _post(self, ui_changes):
         # POST /config/1/set/, see handlers/config.py
         ui = config.motion_camera_dict_to_ui(self.camera)
         ui.update(ui_changes)
@@ -35,7 +35,7 @@ class StorageDeviceTest(_ConfigCase):
         for ui_changes in ({'storage_device': None}, {'storage_device': ''}):
             refused = self.assertRaisesRegex(ValueError, 'storage_device')
             with self.subTest(**ui_changes), refused:
-                self._post(**ui_changes)
+                self._post(ui_changes)
 
     def test_missing_is_refused(self):
         ui = config.motion_camera_dict_to_ui(self.camera)
@@ -45,7 +45,7 @@ class StorageDeviceTest(_ConfigCase):
 
     def test_a_given_storage_device_is_used(self):
         self.camera['@storage_device'] = 'network-share'
-        data = self._post(storage_device='custom-path')
+        data = self._post({'storage_device': 'custom-path'})
         self.assertEqual('custom-path', data['@storage_device'])
 
 

@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import annotations
 
-import datetime
 import logging
 import os
 import re
@@ -31,10 +30,7 @@ _umount_path_cache: str | None = None
 
 
 def start():
-    io_loop = IOLoop.current()
-    io_loop.add_timeout(
-        datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts
-    )
+    IOLoop.current().call_later(settings.MOUNT_CHECK_INTERVAL, _check_mounts)
 
 
 def stop():
@@ -366,7 +362,4 @@ def _check_mounts():
     if start:
         motionctl.start()
 
-    io_loop = IOLoop.current()
-    io_loop.add_timeout(
-        datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts
-    )
+    IOLoop.current().call_later(settings.MOUNT_CHECK_INTERVAL, _check_mounts)
