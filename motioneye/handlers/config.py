@@ -22,7 +22,6 @@ from datetime import datetime
 from socket import gethostname
 from urllib.parse import urlparse
 
-from tornado.ioloop import IOLoop
 from tornado.web import HTTPError
 
 from motioneye import (
@@ -37,7 +36,6 @@ from motioneye import (
     utils,
 )
 from motioneye.controls import mmalctl, smbctl, v4l2ctl
-from motioneye.controls.powerctl import PowerControl
 from motioneye.handlers.base import BaseHandler
 from motioneye.utils.mjpeg import test_mjpeg_url
 from motioneye.utils.rtmp import test_rtmp_url
@@ -329,28 +327,15 @@ class ConfigHandler(BaseHandler):
             if normal_username != old_normal_username or normal_password is not None:
                 logging.debug('surveillance credentials changed')
 
-            return {'reload': reload, 'reboot': False, 'restart': restart}
+            return {'reload': reload, 'restart': restart}
 
         reload = False  # indicates that browser should reload the page
-        reboot = [False]  # indicates that the server will reboot immediately
         restart = [
             False
         ]  # indicates that the local motion instance was modified and needs to be restarted
         error = [None]
 
         def finish():
-            if reboot[0]:
-                if settings.ENABLE_REBOOT:
-
-                    def call_reboot():
-                        PowerControl.reboot()
-
-                    IOLoop.current().call_later(2, call_reboot)
-                    return self.finish({'reload': False, 'reboot': True, 'error': None})
-
-                else:
-                    reboot[0] = False
-
             if restart[0]:
                 logging.debug('motion needs to be restarted')
 
@@ -366,7 +351,7 @@ class ConfigHandler(BaseHandler):
                 else:
                     motionctl.start()
 
-            self.finish({'reload': reload, 'reboot': reboot[0], 'error': error[0]})
+            self.finish({'reload': reload, 'error': error[0]})
 
             return None
 
@@ -398,7 +383,6 @@ class ConfigHandler(BaseHandler):
                     if key == 'main':
                         result = set_main_config(cfg)
                         reload = result['reload'] or reload
-                        reboot[0] = result['reboot'] or reboot[0]
                         restart[0] = result['restart'] or restart[0]
                         check_finished(None, False)
 
@@ -417,7 +401,6 @@ class ConfigHandler(BaseHandler):
         else:  # main config
             result = set_main_config(ui_config)
             reload = result['reload']
-            reboot[0] = result['reboot']
             restart[0] = result['restart']
 
         return None

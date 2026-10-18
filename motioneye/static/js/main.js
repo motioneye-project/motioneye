@@ -2504,30 +2504,6 @@ function doApply() {
 
             forcePasswordChange = false;
 
-            if (data.reboot) {
-                var count = 0;
-                function checkServerReboot() {
-                    ajax('GET', basePath + 'config/0/get/', null,
-                        function () {
-                            window.location.reload(true);
-                        },
-                        function () {
-                            if (count < 25) {
-                                count += 1;
-                                setTimeout(checkServerReboot, 2000);
-                            }
-                            else {
-                                window.location.reload(true);
-                            }
-                        }
-                    );
-                }
-
-                setTimeout(checkServerReboot, 15000);
-
-                return;
-            }
-
             if (data.reload) {
                 window.location.reload(true);
                 return;
