@@ -309,20 +309,6 @@ class ConfigHandler(BaseHandler):
             normal_password = main_config.get('@normal_password')
             lang = main_config.get('@lang')
 
-            additional_configs = config.get_additional_structure(camera=False)[1]
-            reboot_config_names = [
-                ('@_' + c['name'])
-                for c in list(additional_configs.values())
-                if c.get('reboot')
-            ]
-            reboot = bool(
-                [
-                    k
-                    for k in reboot_config_names
-                    if old_main_config.get(k) != main_config.get(k)
-                ]
-            )
-
             config.set_main(main_config)
 
             reload = False
@@ -343,13 +329,7 @@ class ConfigHandler(BaseHandler):
             if normal_username != old_normal_username or normal_password is not None:
                 logging.debug('surveillance credentials changed')
 
-            if reboot and settings.ENABLE_REBOOT:
-                logging.debug('system settings changed, reboot needed')
-
-            else:
-                reboot = False
-
-            return {'reload': reload, 'reboot': reboot, 'restart': restart}
+            return {'reload': reload, 'reboot': False, 'restart': restart}
 
         reload = False  # indicates that browser should reload the page
         reboot = [False]  # indicates that the server will reboot immediately

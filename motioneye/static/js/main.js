@@ -796,10 +796,10 @@ function initUI() {
         }
     });
     $('input.main-config, select.main-config, textarea.main-config').on('change', function () {
-        pushMainConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
+        pushMainConfig(false);
     });
     $('input.camera-config, select.camera-config, textarea.camera-config').on('change', function () {
-        pushCameraConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
+        pushCameraConfig(false);
     });
 
     /* whenever the window is resized,
@@ -1422,8 +1422,6 @@ function updateConfigUI() {
         $('#generalSectionDiv').each(markHideLogic);
         $('#generalSectionDiv').next().each(markHideLogic);
 
-        $('div.settings-section-title.additional-section').each(markHideLogic);
-        $('div.settings-section-title.additional-section').next().each(markHideLogic);
     }
 
     var query = splitUrl().params;
@@ -1720,48 +1718,6 @@ function mainUi2Dict() {
         dict['normal_password'] = $('#normalPasswordEntry').val();
     }
 
-    /* additional sections */
-    $('input[type=checkbox].additional-section.main-config').each(function () {
-        dict['_' + this.id.substring(0, this.id.length - 6)] = this.checked;
-    });
-
-    /* additional configs */
-    $('tr.additional-config').each(function () {
-        var $this = $(this);
-        var control = $this.find('input, select');
-
-        if (!control.hasClass('main-config')) {
-            return;
-        }
-
-        var id = control.attr('id');
-        var name, value;
-        if (id.endsWith('Entry')) {
-            name = id.substring(0, id.length - 5);
-            value = control.val();
-            if (control.hasClass('number')) {
-                value = Number(value);
-            }
-            if (control.attr('type') === 'password' && value === '*****') {
-                return;
-            }
-        }
-        else if (id.endsWith('Select')) {
-            name = id.substring(0, id.length - 6);
-            value = control.val();
-        }
-        else if (id.endsWith('Slider')) {
-            name = id.substring(0, id.length - 6);
-            value = Number(control.val());
-        }
-        else if (id.endsWith('Switch')) {
-            name = id.substring(0, id.length - 6);
-            value = control[0].checked;
-        }
-
-        dict['_' + name] = value;
-    });
-
     return dict;
 }
 
@@ -1789,48 +1745,6 @@ function dict2MainUi(dict) {
     $('#normalPasswordEntry').val('normal_password' in dict ? dict['normal_password'] : '*****');
 
     $('#clientSecretEntry').val(dict['_client_secret'] || '');
-
-    /* additional sections */
-    $('input[type=checkbox].additional-section.main-config').each(function () {
-        var name = this.id.substring(0, this.id.length - 6);
-        this.checked = dict[name];
-        markHideIfNull(name, this.id);
-    });
-
-    /* additional configs */
-    $('tr.additional-config').each(function () {
-        var $this = $(this);
-        var control = $this.find('input, select, textarea, div.html');
-
-        if (!control.hasClass('main-config')) {
-            return;
-        }
-
-        var id = control.attr('id');
-        var name;
-        if (id.endsWith('Entry')) {
-            name = id.substring(0, id.length - 5);
-            control.val(dict['_' + name]);
-        }
-        else if (id.endsWith('Select')) {
-            name = id.substring(0, id.length - 6);
-            control.val(dict['_' + name]);
-        }
-        else if (id.endsWith('Slider')) {
-            name = id.substring(0, id.length - 6);
-            control.val(dict['_' + name]);
-        }
-        else if (id.endsWith('Switch')) {
-            name = id.substring(0, id.length - 6);
-            control[0].checked = dict['_' + name];
-        }
-        else if (id.endsWith('Html')) {
-            name = id.substring(0, id.length - 4);
-            control.html(dict['_' + name]);
-        }
-
-        markHideIfNull('_' + name, id);
-    });
 
     updateConfigUI();
 }
@@ -2051,45 +1965,6 @@ function cameraUi2Dict() {
     else {
         dict.resolution = $('#resolutionSelect').val();
     }
-
-    /* additional sections */
-    $('input[type=checkbox].additional-section.camera-config').each(function () {
-        dict['_' + this.id.substring(0, this.id.length - 6)] = this.checked;
-    });
-
-    /* additional configs */
-    $('tr.additional-config').each(function () {
-        var $this = $(this);
-        var control = $this.find('input, select');
-
-        if (!control.hasClass('camera-config')) {
-            return;
-        }
-
-        var id = control.attr('id');
-        var name, value;
-        if (id.endsWith('Entry')) {
-            name = id.substring(0, id.length - 5);
-            value = control.val();
-            if (control.hasClass('number')) {
-                value = Number(value);
-            }
-        }
-        else if (id.endsWith('Select')) {
-            name = id.substring(0, id.length - 6);
-            value = control.val();
-        }
-        else if (id.endsWith('Slider')) {
-            name = id.substring(0, id.length - 6);
-            value = Number(control.val());
-        }
-        else if (id.endsWith('Switch')) {
-            name = id.substring(0, id.length - 6);
-            value = control[0].checked;
-        }
-
-        dict['_' + name] = value;
-    });
 
     return dict;
 }
@@ -2449,48 +2324,6 @@ function dict2CameraUi(dict) {
             });
         });
     }
-
-    /* additional sections */
-    $('input[type=checkbox].additional-section.main-config').each(function () {
-        var name = this.id.substring(0, this.id.length - 6);
-        this.checked = dict[name];
-        markHideIfNull(name, this.id);
-    });
-
-    /* additional configs */
-    $('tr.additional-config').each(function () {
-        var $this = $(this);
-        var control = $this.find('input, select, textarea, div.html');
-
-        if (!control.hasClass('camera-config')) {
-            return;
-        }
-
-        var id = control.attr('id');
-        var name;
-        if (id.endsWith('Entry')) {
-            name = id.substring(0, id.length - 5);
-            control.val(dict['_' + name]);
-        }
-        else if (id.endsWith('Select')) {
-            name = id.substring(0, id.length - 6);
-            control.val(dict['_' + name]);
-        }
-        else if (id.endsWith('Slider')) {
-            name = id.substring(0, id.length - 6);
-            control.val(dict['_' + name]);
-        }
-        else if (id.endsWith('Switch')) {
-            name = id.substring(0, id.length - 6);
-            control[0].checked = dict['_' + name];
-        }
-        else if (id.endsWith('Html')) {
-            name = id.substring(0, id.length - 4);
-            control.html(dict['_' + name]);
-        }
-
-        markHideIfNull('_' + name, id);
-    });
 
     updateConfigUI();
 }

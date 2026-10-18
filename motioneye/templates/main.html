@@ -1,54 +1,5 @@
 {% extends "base.html" %}
 
-{% macro config_item(config, depends="") -%}
-    <tr class="settings-item additional-config"
-            {% if config.get('reboot') and enable_reboot %}reboot="true"{% endif %}
-            {% if config.get('required') %}required="true"{% endif %}
-            {% if config.get('strip') %}strip="true"{% endif %}
-            {% if config.get('depends') %}depends="{{' '.join(config['depends'])}}{% if depends %} {{depends}}{% endif %}"{% endif %}
-            {% if config.get('min') is not none %}min="{{config['min']}}"{% endif %}
-            {% if config.get('max') is not none %}max="{{config['max']}}"{% endif %}
-            {% if config.get('floating') %}floating="true"{% endif %}
-            {% if config.get('sign') %}sign="true"{% endif %}
-            {% if config.get('snap') is not none %}snap="{{config['snap']}}"{% endif %}
-            {% if config.get('ticks') %}ticks="{{config['ticks']}}"{% endif %}
-            {% if config.get('ticksnum') is not none %}ticksnum="{{config['ticksnum']}}"{% endif %}
-            {% if config.get('decimals') is not none %}decimals="{{config['decimals']}}"{% endif %}
-            {% if config.get('unit') %}unit="{{config['unit']}}"{% endif %}
-            {% if config.get('validate') %}validate="{{config['validate']}}"{% endif %}>
-        {% if config['type'] == 'separator' %}
-        <td colspan="100"><div class="settings-item-separator"></div></td>
-        {% else %}
-        <td class="settings-item-label"><span class="settings-item-label">{{config['label']}}</span></td>
-        <td class="settings-item-value">
-            {% if config['type'] == 'str' %}
-                <input type="text" class="styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Entry">
-                {% if config['unit'] %}<span class="settings-item-unit">{{config['unit']}}</span>{% endif %}
-            {% elif config['type'] == 'pwd' %}
-                <input type="password" autocomplete="new-password" class="styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Entry">
-            {% elif config['type'] == 'number' %}
-                <input type="text" class="number styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Entry">
-                {% if config['unit'] %}<span class="settings-item-unit">{{config['unit']}}</span>{% endif %}
-            {% elif config['type'] == 'range' %}
-                <input type="text" class="range styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Slider">
-            {% elif config['type'] == 'bool' %}
-                <input type="checkbox" class="styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Switch">
-            {% elif config['type'] == 'choices' %}
-                <select class="styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Select">
-                    {% for choice in config['choices'] %}
-                    <option value="{{choice[0]}}">{{choice[1]}}</option>
-                    {% endfor %}
-                </select>
-                {% if config['unit'] %}<span class="settings-item-unit">{{config['unit']}}</span>{% endif %}
-            {% elif config['type'] == 'html' %}
-                <div class="html styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Html"></div>
-            {% endif %}
-        </td>
-        <td>{% if config.get('description') %}<span class="help-mark" title="{{config['description']}}">?</span>{% endif %}</td>
-        {% endif %}
-    </tr>
-{%- endmacro %}
-
 {% block title %}{% if title %}{{title}}{% else %}{{hostname}}{% endif %}{% endblock %}
 
 {% block style %}
@@ -186,9 +137,6 @@
                             </td>
                             <td><span class="help-mark" title="{{ _("Auto-generated secret for this motionEye server. Copy this value into the Remote Secret field when adding this server as a remote camera on another motionEye server.") }}">?</span></td>
                         </tr>
-                        {% for config in main_sections.get('general', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
                         <tr class="settings-item">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
@@ -228,23 +176,6 @@
                             <td><span class="help-mark" title="{{ _("restarigas la agordon el antaŭe konservita rezerva dosiero") }}">?</span></td>
                         </tr>
                     </table>
-
-                    <!-- Additional Main Sections -->
-                    {% for section in main_sections.values() %}
-                    {% if section.get('label') and section.get('configs') %}
-                    <div class="settings-section-title additional-section">
-                        {% if section.get('onoff') %}<input type="checkbox" class="styled section additional-section {{section['name']}} main-config" id="{{section['name']}}Switch">{% endif %}
-                        {% if section.get('description') %}<span class="help-mark" title="{{section['description']}}">?</span>{% endif %}
-                        <a class="settings-section-title">{{section['label']}}</a>
-                        <span class="minimize {% if section.get('open') %}open{% endif %}"></span>
-                    </div>
-                    <table class="settings">
-                        {% for config in section['configs'] %}
-                            {{config_item(config)}}
-                        {% endfor %}
-                    </table>
-                    {% endif %}
-                    {% endfor %}
 
                     <!-- Video Device -->
                     <div class="settings-section-title" id="deviceSectionDiv">
@@ -359,9 +290,6 @@
                             <td class="settings-item-value"><textarea class="styled device camera-config" id="extraOptionsEntry" rows="3"></textarea></td>
                             <td><span class="help-mark" title="{{ _("vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('device', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
                     </table>
 
                     <!-- File Storage -->
@@ -599,9 +527,6 @@
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="commandStorageEntry" placeholder="{{ _("ordono…") }}"></td>
                             <td><span class="help-mark" title="{{ _("Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadra numero , %v = okaza numero, %f = dosiera vojo") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('storage', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
                     </table>
 
                     <!-- Text Overlay -->
@@ -651,9 +576,6 @@
                             <td class="settings-item-value"><input type="text" class="range styled text-overlay camera-config" id="textScaleSlider"></td>
                             <td><span class="help-mark" title="{{ _("Difinas la grandecon de la superkovrita teksto") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('text-overlay', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
                     </table>
 
                     <!-- Video Streaming -->
@@ -745,9 +667,6 @@
                             </td>
                             <td><span class="help-mark" title="{{ _("URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('streaming', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
                     </table>
 
                     <!-- Still Images -->
@@ -814,9 +733,6 @@
                             <td class="settings-item-value"><input type="checkbox" class="styled still-images camera-config" id="manualSnapshotsSwitch"></td>
                             <td><span class="help-mark" title="{{ _("Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn.") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('still-images', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
                     </table>
 
                     <!-- Movies -->
@@ -922,9 +838,6 @@
                             <td class="settings-item-value"><input type="text" class="styled number movies camera-config" id="moviesLifetimeEntry"><span class="settings-item-unit">{{ _("tagoj") }}</span></td>
                             <td><span class="help-mark" title="{{ _("Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate.") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('movies', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
                     </table>
 
                     <!-- Motion Detection -->
@@ -1043,9 +956,6 @@
                             <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="createDebugMediaSwitch"></td>
                             <td><span class="help-mark" title="{{ _("Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto.") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('motion-detection', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
                     </table>
 
                     <!-- Motion Notifications -->
@@ -1222,9 +1132,6 @@
                             <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandEndNotificationsEntry" placeholder="{{ _("komando…") }}"></td>
                             <td><span class="help-mark" title="{{ _("Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = dato, %H = horo, %M = minuto, %S = sekundo, %q = kadra nombro.") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('notifications', {}).get('configs', []) %}
-                            {{config_item(config, "motionDetectionEnabled")}}
-                        {% endfor %}
                     </table>
 
                     <!-- Working Schedule -->
@@ -1308,27 +1215,8 @@
                             </td>
                             <td><span class="help-mark" title="{{ _("Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro.") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('working-schedule', {}).get('configs', []) %}
-                            {{config_item(config, "motionDetectionEnabled")}}
-                        {% endfor %}
                     </table>
 
-                    <!-- Additional Camera Sections -->
-                    {% for section in camera_sections.values() %}
-                    {% if section.get('label') and section.get('configs') %}
-                    <div class="settings-section-title">
-                        {% if section.get('onoff') %}<input type="checkbox" class="styled section additional-section {{section['name']}} camera-config" id="{{section['name']}}Switch">{% endif %}
-                        {% if section.get('description') %}<span class="help-mark" title="{{section['description']}}">?</span>{% endif %}
-                        <a class="settings-section-title">{{section['label']}}</a>
-                        <span class="minimize {% if section.get('open') %}open{% endif %}"></span>
-                    </div>
-                    <table class="settings">
-                        {% for config in section['configs'] %}
-                            {{config_item(config)}}
-                        {% endfor %}
-                    </table>
-                    {% endif %}
-                    {% endfor %}
                     <div class="settings-progress"></div>
                 </form>
             </div>

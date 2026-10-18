@@ -23,14 +23,6 @@ __all__ = ('MainHandler',)
 
 class MainHandler(BaseHandler):
     def get(self):
-        # additional config
-        main_sections = config.get_additional_structure(camera=False, separators=True)[
-            0
-        ]
-        camera_sections = config.get_additional_structure(camera=True, separators=True)[
-            0
-        ]
-
         motion_info = motionctl.find_motion()
         os_version = update.get_os_version()
 
@@ -41,8 +33,6 @@ class MainHandler(BaseHandler):
             os_version=' '.join(os_version),
             enable_reboot=settings.ENABLE_REBOOT,
             add_remove_cameras=settings.ADD_REMOVE_CAMERAS,
-            main_sections=main_sections,
-            camera_sections=camera_sections,
             hostname=settings.SERVER_NAME,
             title=self.get_argument('title', None),
             has_h264_omx_support=motionctl.has_h264_omx_support(),

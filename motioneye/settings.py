@@ -106,16 +106,7 @@ SMB_SHARES = False
 # the directory where the SMB mount points will be created
 SMB_MOUNT_ROOT = '/media'
 
-# path to the wpa_supplicant.conf file
-# (enable this to configure wifi settings from the UI)
-WPA_SUPPLICANT_CONF = None
-
-# path to the localtime file
-# (enable this to configure the system time zone from the UI)
-LOCAL_TIME_FILE = None
-
 # enables shutdown and rebooting after changing system settings
-# (such as wifi settings or time zone)
 ENABLE_REBOOT = False
 
 # timeout in seconds to use when talking to the SMTP server
