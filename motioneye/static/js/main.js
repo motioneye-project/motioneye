@@ -2677,7 +2677,7 @@ function doRestore() {
                     if (data && data.ok) {
                         var count = 0;
                         function checkServer() {
-                            ajax('GET', basePath + 'config/0/get/', null,
+                            ajax('GET', basePath + 'manifest.json', null,
                                 function () {
                                     runAlertDialog(i18n.gettext("La agordo restaŭrigis!"), function () {
                                         window.location.reload(true);
