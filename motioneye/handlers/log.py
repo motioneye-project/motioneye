@@ -14,37 +14,41 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import logging
-import os
+from os.path import exists, join
 from typing import ClassVar
 
 from tornado.web import HTTPError
 
-from motioneye import settings, utils
 from motioneye.handlers.base import BaseHandler
+from motioneye.settings import LOG_PATH, LOG_TO_FILE
+from motioneye.utils import call_subprocess
 
 __all__ = ('LogHandler',)
 
 
 class LogHandler(BaseHandler):
-    LOGS: ClassVar[dict] = {
-        'motion': (os.path.join(settings.LOG_PATH, 'motion.log'), 'motion.log'),
+    LOGS: ClassVar[dict[str, tuple[str, str]]] = {
+        'motion': (join(LOG_PATH, 'motion.log'), 'motion.log'),
     }
 
     @BaseHandler.auth(admin=True)
-    def get(self, name):
-        log = self.LOGS.get(name)
+    def get(self, name: str) -> None:
+        log: tuple[str, str] | None = self.LOGS.get(name)
         if log is None:
             raise HTTPError(404, f'log file name "{name}" is undefined')
 
         path, filename = log
+        if path.startswith('/') and not exists(path):
+            if LOG_TO_FILE:
+                raise HTTPError(404, f'{name} log path "{path}" not found')
 
-        if path.startswith('/') and not os.path.exists(path):
-            raise HTTPError(404, f'{name} log path "{path}" not found')
+            raise HTTPError(404, 'file logging is disabled on this motionEye server')
 
         self.set_header('Content-Type', 'text/plain')
-        self.set_header('Content-Disposition', 'attachment; filename=' + filename + ';')
+        self.set_header('Content-Disposition', f'attachment; filename={filename};')
 
         if path.startswith('/'):  # an actual path
             logging.debug(f'serving log file "{filename}" from "{path}"')
@@ -56,7 +60,7 @@ class LogHandler(BaseHandler):
             logging.debug(f'serving log file "{filename}" from command "{path}"')
 
             try:
-                output = utils.call_subprocess(path.split())
+                output = call_subprocess(path.split())
 
             except Exception as e:
                 output = f'failed to execute command: {e}'

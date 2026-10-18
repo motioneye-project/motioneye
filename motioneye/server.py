@@ -268,7 +268,7 @@ def test_requirements():
         )
         sys.exit(-1)
 
-    if not os.access(settings.LOG_PATH, os.W_OK):
+    if settings.LOG_TO_FILE and not os.access(settings.LOG_PATH, os.W_OK):
         logging.fatal(
             f'log directory "{settings.LOG_PATH}" does not exist or is not writable'
         )
