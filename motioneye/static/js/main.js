@@ -1419,7 +1419,6 @@ function updateConfigUI() {
     if (!isAdmin()) {
         $('#generalSectionDiv').each(markHideLogic);
         $('#generalSectionDiv').next().each(markHideLogic);
-
     }
 
     var query = splitUrl().params;

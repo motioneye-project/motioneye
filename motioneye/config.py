@@ -607,14 +607,12 @@ def get_camera(camera_id: int, as_lines: bool = False) -> dict | list:
         adapt_config_directives(camera_config, _MOTION_41_TO_43_OPTIONS_MAPPING)
         adapt_config_directives(camera_config, _MOTION_44_TO_43_OPTIONS_MAPPING)
 
-
         _set_default_motion_camera(camera_id, camera_config)
 
     elif utils.is_remote_camera(camera_config):
         pass
 
     elif utils.is_simple_mjpeg_camera(camera_config):
-
         _set_default_simple_mjpeg_camera(camera_id, camera_config)
 
     else:  # incomplete configuration
@@ -657,12 +655,6 @@ def set_camera(camera_id: int, camera_config: dict) -> None:
         main_config['camera'] = cameras
 
         set_main(main_config)
-
-    elif utils.is_remote_camera(camera_config):
-        pass
-
-    elif utils.is_simple_mjpeg_camera(camera_config):
-        pass
 
     # read the actual configuration from file
     config_file_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {
@@ -2369,7 +2361,6 @@ def _dict_to_conf(lines: list, data: dict, list_names: list | None = None) -> li
         conf_lines.append('')  # add a blank line
 
     for name, value in list(remaining.items()):
-
         if name in list_names:
             for v in value:
                 if v is None:

@@ -65,7 +65,7 @@ smb_shares false
 # the directory where the SMB mount points will be created
 smb_mount_root /media
 
-# enables shutdown and rebooting after changing system settings
+# enables shutdown and reboot buttons in the UI
 enable_reboot false
 
 # timeout in seconds to use when talking to the SMTP server

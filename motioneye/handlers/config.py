@@ -353,8 +353,6 @@ class ConfigHandler(BaseHandler):
 
             self.finish({'reload': reload, 'error': error[0]})
 
-            return None
-
         if camera_id is not None:
             if camera_id == 0:  # multiple camera configs
                 if len(ui_config) > 1:

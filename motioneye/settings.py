@@ -106,7 +106,7 @@ SMB_SHARES = False
 # the directory where the SMB mount points will be created
 SMB_MOUNT_ROOT = '/media'
 
-# enables shutdown and rebooting after changing system settings
+# enables shutdown and reboot buttons in the UI
 ENABLE_REBOOT = False
 
 # timeout in seconds to use when talking to the SMTP server
