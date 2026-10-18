@@ -17,7 +17,6 @@ from __future__ import annotations
 
 import logging
 import socket
-from datetime import timedelta
 from errno import ECONNREFUSED
 from re import findall, match
 from time import time
@@ -304,10 +303,7 @@ class MjpgClient(IOStream):
 
 def start():
     # schedule the garbage collector
-    io_loop = IOLoop.current()
-    io_loop.add_timeout(
-        timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector
-    )
+    IOLoop.current().call_later(settings.MJPG_CLIENT_TIMEOUT, _garbage_collector)
 
 
 def get_jpg(camera_id):
@@ -365,10 +361,7 @@ def close_all(invalidate=False):
 
 
 def _garbage_collector():
-    io_loop = IOLoop.current()
-    io_loop.add_timeout(
-        timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector
-    )
+    IOLoop.current().call_later(settings.MJPG_CLIENT_TIMEOUT, _garbage_collector)
 
     now = time()
     for camera_id, client in list(MjpgClient.clients.items()):

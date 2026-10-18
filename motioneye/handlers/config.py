@@ -16,10 +16,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import asyncio
-import datetime
 import json
 import logging
-import socket
+from datetime import datetime
+from socket import gethostname
 from urllib.parse import urlparse
 
 from tornado.ioloop import IOLoop
@@ -365,8 +365,7 @@ class ConfigHandler(BaseHandler):
                     def call_reboot():
                         PowerControl.reboot()
 
-                    io_loop = IOLoop.current()
-                    io_loop.add_timeout(datetime.timedelta(seconds=2), call_reboot)
+                    IOLoop.current().call_later(2, call_reboot)
                     return self.finish({'reload': False, 'reboot': True, 'error': None})
 
                 else:
@@ -794,10 +793,10 @@ class ConfigHandler(BaseHandler):
                 try:
                     subject = sendmail.subjects['motion_start']
                     message = sendmail.messages['motion_start']
-                    now = datetime.datetime.now().astimezone()
+                    now = datetime.now().astimezone()
                     format_dict = {
                         'camera': camera_config['camera_name'],
-                        'hostname': socket.gethostname(),
+                        'hostname': gethostname(),
                         'moment': now.strftime('%Y-%m-%d %H:%M:%S'),
                         'timezone': now.tzname() or 'local time',
                     }

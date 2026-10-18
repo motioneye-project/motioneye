@@ -1,15 +1,13 @@
-import asyncio
-import importlib.util
 import logging
-import unittest
-from unittest import mock
+from asyncio import sleep
+from importlib.util import find_spec
+from unittest import mock, skipUnless
 
-import tornado.testing
 from tornado.concurrent import Future
 from tornado.httpclient import AsyncHTTPClient
 from tornado.iostream import StreamClosedError
 from tornado.tcpserver import TCPServer
-from tornado.testing import bind_unused_port
+from tornado.testing import bind_unused_port, gen_test, main
 from tornado.web import RequestHandler
 
 from motioneye import settings
@@ -49,7 +47,7 @@ class UtilsMjpegTest(WebTestCase):
                     while True:
                         self.write(b'--frame\r\n\r\n' + b'\xff' * 1000)
                         await self.flush()
-                        await asyncio.sleep(0.05)
+                        await sleep(0.05)
                 except StreamClosedError:
                     pass
 
@@ -127,7 +125,7 @@ class UtilsMjpegTest(WebTestCase):
             {'id': 1, 'name': 'MJPEG Network Camera', 'keep_alive': True}, cam
         )
 
-    @tornado.testing.gen_test
+    @gen_test
     async def test_test_mjpeg_url_connection_refused(self):
         sock, port = bind_unused_port()
         sock.close()
@@ -145,7 +143,7 @@ class UtilsMjpegTest(WebTestCase):
         self.assertIn('/video.cgi failed', ours)
         self.assertNotIn('s3cret', ours)
 
-    @tornado.testing.gen_test
+    @gen_test
     async def test_test_mjpeg_url_not_http(self):
         sock, port = bind_unused_port()
         server = RawStreamServer()
@@ -160,7 +158,7 @@ class UtilsMjpegTest(WebTestCase):
         self.assertIsNone(resp.cameras)
         self.assertTrue(resp.error)
 
-    @tornado.testing.gen_test(timeout=10)
+    @gen_test(timeout=10)
     async def test_test_mjpeg_url_stream_timeout_after_detection(self):
         asyncio_log = logging.getLogger('asyncio')
         short_timeout = mock.patch.object(settings, 'REMOTE_REQUEST_TIMEOUT', 1)
@@ -174,12 +172,12 @@ class UtilsMjpegTest(WebTestCase):
             self.assertEqual('MJPEG Network Camera', resp.cameras[0]['name'])
 
             # the stream never ends, so its request still runs into the timeout
-            await asyncio.sleep(2)
+            await sleep(2)
 
         log_error.assert_not_called()
 
 
-@unittest.skipUnless(importlib.util.find_spec('pycurl'), 'pycurl is not installed')
+@skipUnless(find_spec('pycurl'), 'pycurl is not installed')
 class UtilsMjpegCurlTest(UtilsMjpegTest):
     # the same tests with the curl client that motionEye's server uses
     def setUp(self) -> None:
@@ -189,4 +187,4 @@ class UtilsMjpegCurlTest(UtilsMjpegTest):
 
 
 if __name__ == '__main__':
-    tornado.testing.main()
+    main()

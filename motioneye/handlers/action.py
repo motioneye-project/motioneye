@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import datetime
 import logging
 import os
 import subprocess
@@ -100,9 +99,7 @@ class ActionHandler(BaseHandler):
         self.command = command
 
         self.io_loop = IOLoop.current()
-        self.io_loop.add_timeout(
-            datetime.timedelta(milliseconds=100), self.check_command
-        )
+        self.io_loop.call_later(0.1, self.check_command)
 
     def check_command(self):
         exit_status = self.p.poll()
@@ -127,10 +124,7 @@ class ActionHandler(BaseHandler):
             return self.finish_json({'status': exit_status})
 
         else:
-            self.io_loop.add_timeout(
-                datetime.timedelta(milliseconds=100), self.check_command
-            )
-
+            self.io_loop.call_later(0.1, self.check_command)
             return None
 
     async def snapshot(self, camera_id):

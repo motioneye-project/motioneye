@@ -13,18 +13,20 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import logging
 import re
 
-from motioneye import settings
 from motioneye.config import additional_config, additional_section
+from motioneye.settings import WPA_SUPPLICANT_CONF
 
-WPA_SUPPLICANT_CONF = settings.WPA_SUPPLICANT_CONF  # @UndefinedVariable
 
-
-def _get_wifi_settings():
+def _get_wifi_settings() -> dict[str, bool | str] | None:
     # will return the first configured network
+
+    if WPA_SUPPLICANT_CONF is None:
+        return None
 
     logging.debug(f'reading wifi settings from {WPA_SUPPLICANT_CONF}')
 
@@ -36,7 +38,8 @@ def _get_wifi_settings():
         logging.error(f'failed to read wifi settings file {WPA_SUPPLICANT_CONF}: {e}')
         return {'wifiEnabled': False, 'wifiNetworkName': '', 'wifiNetworkKey': ''}
 
-    ssid = psk = ''
+    ssid: str = ''
+    psk: str = ''
     in_section = False
     for line in lines:
         line = line.strip()
@@ -67,15 +70,16 @@ def _get_wifi_settings():
         return {'wifiEnabled': False, 'wifiNetworkName': ssid, 'wifiNetworkKey': psk}
 
 
-def _set_wifi_settings(s):
+def _set_wifi_settings(s: dict[str, bool | str]) -> None:
+    if WPA_SUPPLICANT_CONF is None:
+        return
+
     s.setdefault('wifiEnabled', False)
     s.setdefault('wifiNetworkName', '')
     s.setdefault('wifiNetworkKey', '')
 
     logging.debug(
-        'writing wifi settings to {}: enabled={}, ssid="{}"'.format(
-            WPA_SUPPLICANT_CONF, s['wifiEnabled'], s['wifiNetworkName']
-        )
+        f'writing wifi settings to {WPA_SUPPLICANT_CONF}: enabled={s["wifiEnabled"]}, ssid="{s["wifiNetworkName"]}"'
     )
 
     enabled = s['wifiEnabled']
@@ -178,13 +182,13 @@ def _set_wifi_settings(s):
 
 
 @additional_section
-def network():
+def network() -> dict[str, str]:
     return {'label': 'Network', 'description': 'configure the network connection'}
 
 
 @additional_config
-def wifi_enabled():
-    if not WPA_SUPPLICANT_CONF:
+def wifi_enabled() -> dict | None:
+    if WPA_SUPPLICANT_CONF is None:
         return None
 
     return {
@@ -200,8 +204,8 @@ def wifi_enabled():
 
 
 @additional_config
-def wifi_network_name():
-    if not WPA_SUPPLICANT_CONF:
+def wifi_network_name() -> dict | None:
+    if WPA_SUPPLICANT_CONF is None:
         return None
 
     return {
@@ -219,8 +223,8 @@ def wifi_network_name():
 
 
 @additional_config
-def wifi_network_key():
-    if not WPA_SUPPLICANT_CONF:
+def wifi_network_key() -> dict | None:
+    if WPA_SUPPLICANT_CONF is None:
         return None
 
     return {
