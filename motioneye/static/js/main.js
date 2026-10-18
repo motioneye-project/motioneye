@@ -2,7 +2,6 @@
 var CAMERA_FRAMES_CACHE_LIFETIME = 1000;
 
 var pushConfigs = {};
-var pushConfigReboot = false;
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var singleViewCameraId = null;
 var fullScreenMode = false;
@@ -796,10 +795,10 @@ function initUI() {
         }
     });
     $('input.main-config, select.main-config, textarea.main-config').on('change', function () {
-        pushMainConfig(false);
+        pushMainConfig();
     });
     $('input.camera-config, select.camera-config, textarea.camera-config').on('change', function () {
-        pushCameraConfig(false);
+        pushCameraConfig();
     });
 
     /* whenever the window is resized,
@@ -1365,7 +1364,6 @@ function closeSettings() {
     }
     hideApply();
     pushConfigs = {};
-    pushConfigReboot = false;
 
     $('div.settings').removeClass('open').addClass('closed');
     var pageContainer = getPageContainer();
@@ -2320,7 +2318,7 @@ function dict2CameraUi(dict) {
             controlInput.val(c.value);
             controlInput[0].checked = Boolean(c.value);
             controlInput.on('change', function () {
-                pushCameraConfig(/* reboot = */ false);
+                pushCameraConfig();
             });
         });
     }
@@ -2547,20 +2545,12 @@ function doApply() {
             });
 
             pushConfigs = {};
-            pushConfigReboot = false;
             endProgress();
             recreateCameraFrames(); /* a camera could have been disabled */
         });
     }
 
-    if (pushConfigReboot) {
-        runConfirmDialog(i18n.gettext("Ĉi tio rekomencos la sistemon. Daŭrigi?"), function () {
-            actualApply();
-        });
-    }
-    else {
-        actualApply();
-    }
+    actualApply();
 }
 
 function doShutDown() {
@@ -3191,21 +3181,20 @@ function fetchCurrentCameraConfig(onFetch) {
     }
 }
 
-function pushMainConfig(reboot) {
+function pushMainConfig() {
     if (!initialConfigFetched) {
         return;
     }
 
     var mainConfig = mainUi2Dict();
 
-    pushConfigReboot = pushConfigReboot || reboot;
     pushConfigs['main'] = mainConfig;
     if (!isApplyVisible()) {
         showApply();
     }
 }
 
-function pushCameraConfig(reboot) {
+function pushCameraConfig() {
     if (!initialConfigFetched) {
         return;
     }
@@ -3217,7 +3206,6 @@ function pushCameraConfig(reboot) {
 
     var cameraConfig = cameraUi2Dict();
 
-    pushConfigReboot = pushConfigReboot || reboot;
     pushConfigs[cameraId] = cameraConfig;
     if (!isApplyVisible()) {
         showApply();
@@ -5166,7 +5154,6 @@ function doConfigureCamera(cameraId) {
 
     hideApply();
     pushConfigs = {};
-    pushConfigReboot = false;
 
     openSettings(cameraId);
 }
