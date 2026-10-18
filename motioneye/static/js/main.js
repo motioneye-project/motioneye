@@ -642,7 +642,7 @@ function initUI() {
         $(this).parent().find('span.minimize').trigger('click');
     });
 
-    /* additional configs */
+    /* html dependencies */
     var seenDependNames = {};
     $('tr[depends]').each(function () {
         var $tr = $(this);
