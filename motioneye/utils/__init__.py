@@ -20,6 +20,7 @@ import base64
 import hashlib
 import logging
 import os
+import re
 import subprocess
 import time
 from collections import namedtuple
@@ -121,6 +122,10 @@ class RemoteError(Exception):
     pass
 
 
+def pretty_error_message(msg) -> str:
+    return re.sub(r'[\x00-\x1f\x7f-\x9f]+', ' ', str(msg))[:200].strip()
+
+
 def pretty_http_error(response):
     if response.code == 401:
         return 'authentication failed'
@@ -129,7 +134,7 @@ def pretty_http_error(response):
         return 'ok'
 
     if isinstance(response.error, RemoteError):
-        return str(response.error)
+        return pretty_error_message(str(response.error))
 
     msg = str(response.error)
 
@@ -145,7 +150,7 @@ def pretty_http_error(response):
     if 'timeout' in msg.lower() or 'timed out' in msg.lower():
         msg = 'request timed out'
 
-    return msg
+    return pretty_error_message(msg)
 
 
 def make_str(s):

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from shutil import rmtree
 from tempfile import mkdtemp
 from unittest.mock import AsyncMock, patch
@@ -45,6 +46,17 @@ class RemoteMoviePlaybackTest(RemoteCameraTestCase):
         self.assertEqual(200, response.code)
         self.assertEqual('video/mp4', response.headers['Content-Type'])
         self.assertEqual('nosniff', response.headers['X-Content-Type-Options'])
+
+    def test_the_cache_file_is_named_after_the_camera_and_the_path(self):
+        self.fetch_playback('f29test.mp4', b'mp4')
+        self.fetch_playback('other/f29test.mp4', b'mp4')
+
+        cached = sorted(os.listdir(self._tmpdir))
+        self.assertEqual(2, len(cached))
+        for name in cached:
+            self.assertTrue(name.startswith('1_'), name)
+            self.assertTrue(name.endswith('.mp4'), name)
+        self.assertNotIn('f29test.mp4', cached)
 
     def test_an_mpg_movie_is_video_mpeg(self):
         response = self.fetch_playback('f29test.mpg', b'mpg')

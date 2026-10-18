@@ -219,6 +219,13 @@ class ConfigTest(_ConfigCase):
                     for value in _HIDDEN:
                         self.assertNotIn(value, line)
 
+    def test_a_storage_webhook_url_with_a_quote_is_refused(self):
+        ui = config.motion_camera_dict_to_ui(self.camera)
+        ui.update(_UI, web_hook_storage_url="http://hooks.example/a'b")
+
+        with self.assertRaises(ValueError):
+            config.motion_camera_ui_to_dict(dict(ui), self.camera)
+
     def test_settings_round_trip_through_the_camera_file(self):
         numbers = {  # must stay text
             'email_notifications_smtp_server': 'on',

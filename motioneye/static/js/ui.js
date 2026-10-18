@@ -669,11 +669,11 @@ function makeModalDialogTitleBar(options) {
     var titleBar = $('<div class="modal-title-bar"></div>');
 
     var titleSpan = $('<span class="modal-title"></span>');
-    if (typeof options.title === 'string') {
-        titleSpan.text(options.title);
+    if (options.title instanceof jQuery || options.title instanceof Node) {
+        titleSpan.append(options.title);
     }
     else {
-        titleSpan.append(options.title || '');
+        titleSpan.text(options.title == null ? '' : String(options.title));
     }
     if (options.closeButton) {
         titleSpan.css('margin', '0px 2em');

@@ -855,7 +855,12 @@ def add_camera(device_details: dict) -> dict:
         camera_config['@host'] = device_details['host']
         camera_config['@port'] = device_details['port']
         camera_config['@path'] = device_details['path']
-        camera_config['@remote_camera_id'] = device_details['remote_camera_id']
+        try:
+            camera_config['@remote_camera_id'] = int(device_details['remote_camera_id'])
+
+        except (KeyError, TypeError, ValueError):
+            raise ValueError('invalid remote camera id') from None
+
         if device_details.get('remote_secret'):
             camera_config['@remote_secret'] = device_details['remote_secret']
 
@@ -1552,7 +1557,16 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
     on_movie_end = [f"{meyectl.find_command('relayevent')} movie_end %t %f"]
 
     if ui['web_hook_storage_enabled']:
-        url = sub('\\s', '+', ui['web_hook_storage_url'])
+        url = sub(
+            '\\s',
+            '+',
+            input_sanity_check(
+                webHookUrlValidRegExp,
+                ui['web_hook_storage_url'],
+                'web_hook_storage_url',
+                webHookUrlFailMessage,
+            ),
+        )
 
         on_movie_end.append(
             "{script} '{method}' '{url}'".format(
@@ -1571,7 +1585,16 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
     on_picture_save = [f"{meyectl.find_command('relayevent')} picture_save %t %f"]
 
     if ui['web_hook_storage_enabled']:
-        url = sub('\\s', '+', ui['web_hook_storage_url'])
+        url = sub(
+            '\\s',
+            '+',
+            input_sanity_check(
+                webHookUrlValidRegExp,
+                ui['web_hook_storage_url'],
+                'web_hook_storage_url',
+                webHookUrlFailMessage,
+            ),
+        )
 
         on_picture_save.append(
             "{script} '{method}' '{url}'".format(
@@ -2292,6 +2315,9 @@ def _python_to_value(value: bool | float | str) -> str:
 
     elif isinstance(value, (int, float)):
         return str(value)
+
+    elif isinstance(value, str):
+        return value.replace('\r', ' ').replace('\n', ' ')
 
     else:
         return value

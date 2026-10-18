@@ -18,6 +18,7 @@ from __future__ import annotations
 import json
 import logging
 import re
+from math import isfinite
 from time import time
 from urllib.parse import urlencode
 
@@ -76,6 +77,7 @@ def _make_request(
         request_timeout=timeout,
         headers=headers,
         validate_cert=settings.VALIDATE_CERTS,
+        follow_redirects=False,
     )
 
 
@@ -157,7 +159,7 @@ def _remote_params(local_config):
 
 
 def make_camera_response(c):
-    return {'id': c['id'], 'name': c['name']}
+    return {'id': c.get('id'), 'name': c.get('name')}
 
 
 async def list_cameras(local_config) -> utils.GetCamerasResponse:
@@ -190,13 +192,21 @@ async def list_cameras(local_config) -> utils.GetCamerasResponse:
         return utils.GetCamerasResponse(None, str(e))
 
     else:
-        cameras = response['cameras']
+        cameras = response.get('cameras') if isinstance(response, dict) else None
+        if not isinstance(cameras, list) or not all(
+            isinstance(c, dict) for c in cameras
+        ):
+            logging.error(
+                f'unexpected answer from {pretty_camera_url(local_config, camera=False)}'
+            )
+
+            return utils.GetCamerasResponse(None, 'unexpected answer')
 
         # filter out simple mjpeg cameras
         cameras = [
             make_camera_response(c)
             for c in cameras
-            if c['proto'] != 'mjpeg' and c.get('enabled')
+            if c.get('proto') != 'mjpeg' and c.get('enabled')
         ]
 
         return utils.GetCamerasResponse(cameras, None)
@@ -233,6 +243,11 @@ async def get_config(local_config) -> utils.GetConfigResponse:
         return utils.GetConfigResponse(None, error=str(e))
 
     else:
+        if not isinstance(response, dict):
+            logging.error(f'unexpected answer from {pretty_camera_url(local_config)}')
+
+            return utils.GetConfigResponse(None, error='unexpected answer')
+
         response['host'] = host
         response['port'] = port
 
@@ -348,12 +363,6 @@ async def get_current_picture(
     request = _make_request(scheme, host, port, remote_secret, p, query=query)
     response = await _send_request(request)
 
-    cookies = utils.parse_cookies(response.headers.get_list('Set-Cookie'))
-    motion_detected = cookies.get('motion_detected_' + str(camera_id)) == 'true'
-    capture_fps_cookie = cookies.get('capture_fps_' + str(camera_id))
-    capture_fps = float(capture_fps_cookie) if capture_fps_cookie else 0.0
-    monitor_info = cookies.get('monitor_info_' + str(camera_id))
-
     if response.error:
         logging.error(
             'failed to get current picture for remote camera '
@@ -361,6 +370,19 @@ async def get_current_picture(
         )
 
         return utils.GetCurrentPictureResponse(error=utils.pretty_http_error(response))
+
+    cookies = utils.parse_cookies(response.headers.get_list('Set-Cookie'))
+    motion_detected = cookies.get('motion_detected_' + str(camera_id)) == 'true'
+    try:
+        capture_fps = float(cookies.get('capture_fps_' + str(camera_id)) or 0.0)
+
+    except ValueError:
+        capture_fps = 0.0
+
+    if not isfinite(capture_fps) or capture_fps < 0:
+        capture_fps = 0.0
+
+    monitor_info = cookies.get('monitor_info_' + str(camera_id))
 
     return utils.GetCurrentPictureResponse(
         motion_detected=motion_detected,
@@ -605,6 +627,9 @@ async def make_timelapse_movie(
         return utils.CommonExternalResponse(error=str(e))
 
     else:
+        if not isinstance(response, dict):
+            return utils.CommonExternalResponse(error='unexpected answer')
+
         return utils.CommonExternalResponse(result=response)
 
 
@@ -642,6 +667,9 @@ async def check_timelapse_movie(
         return utils.CommonExternalResponse(error=str(e))
 
     else:
+        if not isinstance(response, dict):
+            return utils.CommonExternalResponse(error='unexpected answer')
+
         return utils.CommonExternalResponse(result=response)
 
 

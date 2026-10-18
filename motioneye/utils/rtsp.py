@@ -26,7 +26,12 @@ from tornado.ioloop import IOLoop
 from tornado.iostream import IOStream
 
 from motioneye import settings
-from motioneye.utils import GetCamerasResponse, build_basic_header, cast_future
+from motioneye.utils import (
+    GetCamerasResponse,
+    build_basic_header,
+    cast_future,
+    pretty_error_message,
+)
 from motioneye.utils.http import RtspUrl
 
 __all__ = ('test_rtsp_url',)
@@ -161,7 +166,9 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
     def on_server(data=None):
         io_loop.remove_timeout(timeout[0])
         if data:
-            identifier = re.findall('Server: (.*)', data.decode())[0].strip()
+            identifier = pretty_error_message(
+                re.findall('Server: (.*)', data.decode(errors='replace'))[0]
+            )
             logging.debug(f'rtsp netcam identifier is "{identifier}"')
 
         else:
@@ -190,7 +197,8 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
             handle_error(f'{auth_timeout_msg}')
         else:
             if data:
-                scheme = re.findall(rb'WWW-Authenticate: ([^\s]+)', data)[0].decode()
+                schemes = re.findall(rb'WWW-Authenticate: ([^\s]+)', data)
+                scheme = schemes[0].decode(errors='replace') if schemes else ''
                 logging.debug(f'rtsp netcam auth scheme: {scheme}')
                 if scheme.lower() == 'basic':
                     send_auth[0] = True

@@ -23,6 +23,7 @@ from json import loads
 from os.path import basename, join, splitext
 from pathlib import Path
 from re import search, sub
+from urllib.parse import quote, unquote
 
 from tornado import gen
 from tornado.web import HTTPError
@@ -234,7 +235,10 @@ class PictureHandler(BaseHandler):
                 'motion_detected_' + camera_id_str, str(resp.motion_detected).lower()
             )
             self.set_cookie('capture_fps_' + camera_id_str, f'{resp.capture_fps:.1f}')
-            self.set_cookie('monitor_info_' + camera_id_str, resp.monitor_info or '')
+            self.set_cookie(
+                'monitor_info_' + camera_id_str,
+                quote(unquote(resp.monitor_info or ''), safe=''),
+            )
 
             return self.try_finish(resp.picture)
 
@@ -315,9 +319,22 @@ class PictureHandler(BaseHandler):
                     current_user=self.current_user,
                 )
 
-            # issue a fake motion_camera_ui_to_dict() call to transform
-            # the remote UI values into motion config directives
-            remote_config = config.motion_camera_ui_to_dict(resp.remote_ui_config)
+            try:
+                stream_maxrate = int(
+                    resp.remote_ui_config.get('streaming_framerate') or 0
+                )
+
+            except (TypeError, ValueError):
+                stream_maxrate = 0
+
+            remote_config = {
+                'camera_name': str(resp.remote_ui_config.get('name') or ''),
+                'stream_maxrate': stream_maxrate,
+                '@webcam_server_resize': bool(
+                    resp.remote_ui_config.get('streaming_server_resize')
+                ),
+                '@proto': 'motioneye',
+            }
 
             return self.render(
                 'main.html',
@@ -607,7 +624,7 @@ class PictureHandler(BaseHandler):
                     )
                     return self.finish_json({'error': msg})
 
-                if resp.result['progress'] == -1 and resp.result.get('key'):
+                if resp.result.get('progress') == -1 and resp.result.get('key'):
                     return self.finish_json({'key': resp.result['key'], 'progress': -1})
 
                 else:
@@ -649,10 +666,10 @@ class PictureHandler(BaseHandler):
                     )
                     return self.finish_json({'error': msg})
 
-                if check_timelapse_resp.result['progress'] != -1:
+                if check_timelapse_resp.result.get('progress') != -1:
                     # timelapse already active
                     return self.finish_json(
-                        {'progress': check_timelapse_resp.result['progress']}
+                        {'progress': check_timelapse_resp.result.get('progress')}
                     )
 
                 make_timelapse_resp = await remote.make_timelapse_movie(

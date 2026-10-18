@@ -376,24 +376,15 @@ function ajax(method, url, data, callback, error, timeout) {
 }
 
 function getCookie(name) {
-    var cookie = document.cookie + '';
+    var cookies = (document.cookie + '').split('; ');
 
-    if (cookie.length <= 0) {
-        return null;
+    for (var i = 0; i < cookies.length; i++) {
+        if (cookies[i].indexOf(name + '=') == 0) {
+            return cookies[i].substring(name.length + 1);
+        }
     }
 
-    var start = cookie.indexOf(name + '=');
-    if (start == -1) {
-        return null;
-    }
-
-    var start = start + name.length + 1;
-    var end = cookie.indexOf(';', start);
-    if (end == -1) {
-        end = cookie.length;
-    }
-
-    return cookie.substring(start, end);
+    return null;
 }
 
 function showErrorMessage(message) {
@@ -552,7 +543,7 @@ function initUI() {
 
         return true;
     });
-    makeCustomValidator($('#webHookNotificationsUrlEntry, #webHookEndNotificationsUrlEntry'), function (value) {
+    makeCustomValidator($('#webHookStorageUrlEntry, #webHookNotificationsUrlEntry, #webHookEndNotificationsUrlEntry'), function (value) {
         if (!value.match(webHookUrlValidRegExp)) {
             return "use of semicolon (;) or single quote (') is not allowed in web hook URL";
         }
@@ -3192,7 +3183,7 @@ function doAction(cameraId, action, callback) {
 
 function showUrl(url) {
     var span = $('<span class="url-message-span"></span>');
-    span.html(url);
+    span.text(url);
     runAlertDialog(span);
 
     var selection = window.getSelection();
@@ -3537,7 +3528,7 @@ function runLoginDialog(retry) {
                     success: function(data) {
                         if (data.error) {
                             errorTd.css('display', 'table-cell');
-                            errorTd.html(data.error);
+                            errorTd.text(data.error);
                             return false;
                         }
 
@@ -3587,7 +3578,7 @@ function runLoginDialog(retry) {
                         }
 
                         errorTd.css('display', 'table-cell');
-                        errorTd.html(message);
+                        errorTd.text(message);
                         return false;
                     }
                 });

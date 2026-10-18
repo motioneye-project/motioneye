@@ -20,6 +20,7 @@ from __future__ import annotations
 import logging
 import os
 from asyncio import Lock, get_running_loop
+from hashlib import sha256
 from pathlib import Path
 from tempfile import gettempdir
 from time import time
@@ -33,6 +34,11 @@ __all__ = ('MovieDownloadHandler', 'MoviePlaybackHandler')
 
 # prevent concurrent remote fetching and movie cache writes
 _remote_movie_cache_locks: dict[str, Lock] = {}
+
+
+def _write_cache_file(tmpfile: str, data: bytes) -> None:
+    Path(tmpfile + '.part').write_bytes(data)
+    os.replace(tmpfile + '.part', tmpfile)
 
 
 # support fetching movies with authentication
@@ -83,7 +89,11 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
         elif utils.is_remote_camera(camera_config):
             # we will cache the movie since it takes a while to fetch from the remote camera
             # and we may be going to play it back in the browser, which will fetch the video in chunks
-            tmpfile: str = self.tmpdir + '/' + self.pretty_filename
+            tmpfile: str = os.path.join(
+                self.tmpdir,
+                f'{camera_id}_{sha256(filename.encode()).hexdigest()}'
+                + os.path.splitext(filename)[1].lower(),
+            )
             lock: Lock = _remote_movie_cache_locks.setdefault(tmpfile, Lock())
             async with lock:
                 if not os.path.isfile(tmpfile):
@@ -98,7 +108,7 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
                         return self.finish_json({'error': msg})
 
                     await get_running_loop().run_in_executor(
-                        None, Path(tmpfile).write_bytes, resp.result
+                        None, _write_cache_file, tmpfile, resp.result
                     )
 
             # cached movie is complete, update the timestamp so it's not flushed

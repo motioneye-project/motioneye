@@ -496,12 +496,12 @@ class ConfigHandler(BaseHandler):
         else:
             resp.remote_ui_config['id'] = camera_id
 
-            if not resp.remote_ui_config['enabled'] and local_config['@enabled']:
+            if not resp.remote_ui_config.get('enabled') and local_config['@enabled']:
                 # if a remote camera is disabled, make sure it's disabled locally as well
                 local_config['@enabled'] = False
                 config.set_camera(camera_id, local_config)
 
-            elif resp.remote_ui_config['enabled'] and not local_config['@enabled']:
+            elif resp.remote_ui_config.get('enabled') and not local_config['@enabled']:
                 # if a remote camera is locally disabled, make sure the remote config says the same thing
                 resp.remote_ui_config['enabled'] = False
 
@@ -663,7 +663,11 @@ class ConfigHandler(BaseHandler):
 
             raise
 
-        camera_config = config.add_camera(device_details)
+        try:
+            camera_config = config.add_camera(device_details)
+
+        except ValueError as e:
+            return self.finish_json_with_error(str(e))
 
         if utils.is_local_motion_camera(camera_config):
             motionctl.stop()
