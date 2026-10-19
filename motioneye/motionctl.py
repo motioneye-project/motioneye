@@ -24,7 +24,7 @@ from signal import SIGKILL, SIGTERM
 from subprocess import DEVNULL, CalledProcessError, Popen
 from time import sleep
 
-from tornado.httpclient import AsyncHTTPClient, HTTPRequest
+from tornado.httpclient import AsyncHTTPClient, HTTPClientError, HTTPRequest
 from tornado.ioloop import IOLoop
 
 from motioneye import mediafiles, settings, update, utils
@@ -332,9 +332,19 @@ async def trigger_action(camera_id: int, action: str) -> str | None:
         connect_timeout=_MOTION_CONTROL_TIMEOUT,
         request_timeout=_MOTION_CONTROL_TIMEOUT,
     )
-    resp = await AsyncHTTPClient().fetch(request)
-    if resp.error:
-        error = f'failed to trigger {action!r} action for camera {camera_id}: {utils.pretty_http_error(resp)}'
+    try:
+        resp = await AsyncHTTPClient().fetch(request, raise_error=False)
+        if resp.error:
+            error = utils.pretty_http_error(resp)
+
+        elif resp.body.startswith(b'Bad Request'):
+            error = resp.body.decode(errors='replace')
+
+    except HTTPClientError as e:
+        error = str(e)
+
+    if error is not None:
+        error = f'failed to trigger {action!r} action for camera {camera_id}: {error}'
         logging.error(error)
         return error
 
