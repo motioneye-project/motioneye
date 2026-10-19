@@ -2,7 +2,6 @@
 var CAMERA_FRAMES_CACHE_LIFETIME = 1000;
 
 var pushConfigs = {};
-var pushConfigReboot = false;
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var singleViewCameraId = null;
 var fullScreenMode = false;
@@ -643,7 +642,7 @@ function initUI() {
         $(this).parent().find('span.minimize').trigger('click');
     });
 
-    /* additional configs */
+    /* html dependencies */
     var seenDependNames = {};
     $('tr[depends]').each(function () {
         var $tr = $(this);
@@ -796,10 +795,10 @@ function initUI() {
         }
     });
     $('input.main-config, select.main-config, textarea.main-config').on('change', function () {
-        pushMainConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
+        pushMainConfig();
     });
     $('input.camera-config, select.camera-config, textarea.camera-config').on('change', function () {
-        pushCameraConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
+        pushCameraConfig();
     });
 
     /* whenever the window is resized,
@@ -1365,7 +1364,6 @@ function closeSettings() {
     }
     hideApply();
     pushConfigs = {};
-    pushConfigReboot = false;
 
     $('div.settings').removeClass('open').addClass('closed');
     var pageContainer = getPageContainer();
@@ -1421,9 +1419,6 @@ function updateConfigUI() {
     if (!isAdmin()) {
         $('#generalSectionDiv').each(markHideLogic);
         $('#generalSectionDiv').next().each(markHideLogic);
-
-        $('div.settings-section-title.additional-section').each(markHideLogic);
-        $('div.settings-section-title.additional-section').next().each(markHideLogic);
     }
 
     var query = splitUrl().params;
@@ -1720,48 +1715,6 @@ function mainUi2Dict() {
         dict['normal_password'] = $('#normalPasswordEntry').val();
     }
 
-    /* additional sections */
-    $('input[type=checkbox].additional-section.main-config').each(function () {
-        dict['_' + this.id.substring(0, this.id.length - 6)] = this.checked;
-    });
-
-    /* additional configs */
-    $('tr.additional-config').each(function () {
-        var $this = $(this);
-        var control = $this.find('input, select');
-
-        if (!control.hasClass('main-config')) {
-            return;
-        }
-
-        var id = control.attr('id');
-        var name, value;
-        if (id.endsWith('Entry')) {
-            name = id.substring(0, id.length - 5);
-            value = control.val();
-            if (control.hasClass('number')) {
-                value = Number(value);
-            }
-            if (control.attr('type') === 'password' && value === '*****') {
-                return;
-            }
-        }
-        else if (id.endsWith('Select')) {
-            name = id.substring(0, id.length - 6);
-            value = control.val();
-        }
-        else if (id.endsWith('Slider')) {
-            name = id.substring(0, id.length - 6);
-            value = Number(control.val());
-        }
-        else if (id.endsWith('Switch')) {
-            name = id.substring(0, id.length - 6);
-            value = control[0].checked;
-        }
-
-        dict['_' + name] = value;
-    });
-
     return dict;
 }
 
@@ -1789,48 +1742,6 @@ function dict2MainUi(dict) {
     $('#normalPasswordEntry').val('normal_password' in dict ? dict['normal_password'] : '*****');
 
     $('#clientSecretEntry').val(dict['_client_secret'] || '');
-
-    /* additional sections */
-    $('input[type=checkbox].additional-section.main-config').each(function () {
-        var name = this.id.substring(0, this.id.length - 6);
-        this.checked = dict[name];
-        markHideIfNull(name, this.id);
-    });
-
-    /* additional configs */
-    $('tr.additional-config').each(function () {
-        var $this = $(this);
-        var control = $this.find('input, select, textarea, div.html');
-
-        if (!control.hasClass('main-config')) {
-            return;
-        }
-
-        var id = control.attr('id');
-        var name;
-        if (id.endsWith('Entry')) {
-            name = id.substring(0, id.length - 5);
-            control.val(dict['_' + name]);
-        }
-        else if (id.endsWith('Select')) {
-            name = id.substring(0, id.length - 6);
-            control.val(dict['_' + name]);
-        }
-        else if (id.endsWith('Slider')) {
-            name = id.substring(0, id.length - 6);
-            control.val(dict['_' + name]);
-        }
-        else if (id.endsWith('Switch')) {
-            name = id.substring(0, id.length - 6);
-            control[0].checked = dict['_' + name];
-        }
-        else if (id.endsWith('Html')) {
-            name = id.substring(0, id.length - 4);
-            control.html(dict['_' + name]);
-        }
-
-        markHideIfNull('_' + name, id);
-    });
 
     updateConfigUI();
 }
@@ -2051,45 +1962,6 @@ function cameraUi2Dict() {
     else {
         dict.resolution = $('#resolutionSelect').val();
     }
-
-    /* additional sections */
-    $('input[type=checkbox].additional-section.camera-config').each(function () {
-        dict['_' + this.id.substring(0, this.id.length - 6)] = this.checked;
-    });
-
-    /* additional configs */
-    $('tr.additional-config').each(function () {
-        var $this = $(this);
-        var control = $this.find('input, select');
-
-        if (!control.hasClass('camera-config')) {
-            return;
-        }
-
-        var id = control.attr('id');
-        var name, value;
-        if (id.endsWith('Entry')) {
-            name = id.substring(0, id.length - 5);
-            value = control.val();
-            if (control.hasClass('number')) {
-                value = Number(value);
-            }
-        }
-        else if (id.endsWith('Select')) {
-            name = id.substring(0, id.length - 6);
-            value = control.val();
-        }
-        else if (id.endsWith('Slider')) {
-            name = id.substring(0, id.length - 6);
-            value = Number(control.val());
-        }
-        else if (id.endsWith('Switch')) {
-            name = id.substring(0, id.length - 6);
-            value = control[0].checked;
-        }
-
-        dict['_' + name] = value;
-    });
 
     return dict;
 }
@@ -2445,52 +2317,10 @@ function dict2CameraUi(dict) {
             controlInput.val(c.value);
             controlInput[0].checked = Boolean(c.value);
             controlInput.on('change', function () {
-                pushCameraConfig(/* reboot = */ false);
+                pushCameraConfig();
             });
         });
     }
-
-    /* additional sections */
-    $('input[type=checkbox].additional-section.main-config').each(function () {
-        var name = this.id.substring(0, this.id.length - 6);
-        this.checked = dict[name];
-        markHideIfNull(name, this.id);
-    });
-
-    /* additional configs */
-    $('tr.additional-config').each(function () {
-        var $this = $(this);
-        var control = $this.find('input, select, textarea, div.html');
-
-        if (!control.hasClass('camera-config')) {
-            return;
-        }
-
-        var id = control.attr('id');
-        var name;
-        if (id.endsWith('Entry')) {
-            name = id.substring(0, id.length - 5);
-            control.val(dict['_' + name]);
-        }
-        else if (id.endsWith('Select')) {
-            name = id.substring(0, id.length - 6);
-            control.val(dict['_' + name]);
-        }
-        else if (id.endsWith('Slider')) {
-            name = id.substring(0, id.length - 6);
-            control.val(dict['_' + name]);
-        }
-        else if (id.endsWith('Switch')) {
-            name = id.substring(0, id.length - 6);
-            control[0].checked = dict['_' + name];
-        }
-        else if (id.endsWith('Html')) {
-            name = id.substring(0, id.length - 4);
-            control.html(dict['_' + name]);
-        }
-
-        markHideIfNull('_' + name, id);
-    });
 
     updateConfigUI();
 }
@@ -2673,30 +2503,6 @@ function doApply() {
 
             forcePasswordChange = false;
 
-            if (data.reboot) {
-                var count = 0;
-                function checkServerReboot() {
-                    ajax('GET', basePath + 'config/0/get/', null,
-                        function () {
-                            window.location.reload(true);
-                        },
-                        function () {
-                            if (count < 25) {
-                                count += 1;
-                                setTimeout(checkServerReboot, 2000);
-                            }
-                            else {
-                                window.location.reload(true);
-                            }
-                        }
-                    );
-                }
-
-                setTimeout(checkServerReboot, 15000);
-
-                return;
-            }
-
             if (data.reload) {
                 window.location.reload(true);
                 return;
@@ -2714,20 +2520,12 @@ function doApply() {
             });
 
             pushConfigs = {};
-            pushConfigReboot = false;
             endProgress();
             recreateCameraFrames(); /* a camera could have been disabled */
         });
     }
 
-    if (pushConfigReboot) {
-        runConfirmDialog(i18n.gettext("Ĉi tio rekomencos la sistemon. Daŭrigi?"), function () {
-            actualApply();
-        });
-    }
-    else {
-        actualApply();
-    }
+    actualApply();
 }
 
 function doShutDown() {
@@ -2879,7 +2677,7 @@ function doRestore() {
                     if (data && data.ok) {
                         var count = 0;
                         function checkServer() {
-                            ajax('GET', basePath + 'config/0/get/', null,
+                            ajax('GET', basePath + 'manifest.json', null,
                                 function () {
                                     runAlertDialog(i18n.gettext("La agordo restaŭrigis!"), function () {
                                         window.location.reload(true);
@@ -3358,21 +3156,20 @@ function fetchCurrentCameraConfig(onFetch) {
     }
 }
 
-function pushMainConfig(reboot) {
+function pushMainConfig() {
     if (!initialConfigFetched) {
         return;
     }
 
     var mainConfig = mainUi2Dict();
 
-    pushConfigReboot = pushConfigReboot || reboot;
     pushConfigs['main'] = mainConfig;
     if (!isApplyVisible()) {
         showApply();
     }
 }
 
-function pushCameraConfig(reboot) {
+function pushCameraConfig() {
     if (!initialConfigFetched) {
         return;
     }
@@ -3384,7 +3181,6 @@ function pushCameraConfig(reboot) {
 
     var cameraConfig = cameraUi2Dict();
 
-    pushConfigReboot = pushConfigReboot || reboot;
     pushConfigs[cameraId] = cameraConfig;
     if (!isApplyVisible()) {
         showApply();
@@ -5333,7 +5129,6 @@ function doConfigureCamera(cameraId) {
 
     hideApply();
     pushConfigs = {};
-    pushConfigReboot = false;
 
     openSettings(cameraId);
 }
