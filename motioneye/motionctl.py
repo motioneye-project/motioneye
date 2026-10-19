@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import logging
 import re
@@ -317,56 +318,28 @@ async def take_snapshot(camera_id):
     return
 
 
-async def start_event(camera_id):
-    motion_camera_id = camera_id_to_motion_camera_id(camera_id)
+async def trigger_action(camera_id: int, action: str) -> str | None:
+    motion_camera_id: int | None = camera_id_to_motion_camera_id(camera_id)
     if motion_camera_id is None:
-        return logging.error(
-            f'could not find motion camera id for camera with id {camera_id}'
-        )
+        error = f'could not find motion camera id for camera {camera_id}'
+        logging.error(error)
+        return error
 
-    logging.debug(f'starting event for camera with id {camera_id}')
-
-    url = f'http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/action/eventstart'
+    logging.debug(f'triggering {action!r} action for camera {camera_id}')
 
     request = HTTPRequest(
-        url,
+        f'http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/action/{action}',
         connect_timeout=_MOTION_CONTROL_TIMEOUT,
         request_timeout=_MOTION_CONTROL_TIMEOUT,
     )
     resp = await AsyncHTTPClient().fetch(request)
     if resp.error:
-        logging.error(
-            f'failed to start event for camera with id {camera_id}: {utils.pretty_http_error(resp)}'
-        )
+        error = f'failed to trigger {action!r} action for camera {camera_id}: {utils.pretty_http_error(resp)}'
+        logging.error(error)
+        return error
 
-    else:
-        logging.debug(f'successfully start event for camera with id {camera_id}')
-
-
-async def end_event(camera_id):
-    motion_camera_id = camera_id_to_motion_camera_id(camera_id)
-    if motion_camera_id is None:
-        return logging.error(
-            f'could not find motion camera id for camera with id {camera_id}'
-        )
-
-    logging.debug(f'ending event for camera with id {camera_id}')
-
-    url = f'http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/action/eventend'
-
-    request = HTTPRequest(
-        url,
-        connect_timeout=_MOTION_CONTROL_TIMEOUT,
-        request_timeout=_MOTION_CONTROL_TIMEOUT,
-    )
-    resp = await AsyncHTTPClient().fetch(request)
-    if resp.error:
-        logging.error(
-            f'failed to end event for camera with id {camera_id}: {utils.pretty_http_error(resp)}'
-        )
-
-    else:
-        logging.debug(f'successfully end event for camera with id {camera_id}')
+    logging.debug(f'successfully triggered {action!r} action for camera {camera_id}')
+    return None
 
 
 def is_motion_detected(camera_id):
