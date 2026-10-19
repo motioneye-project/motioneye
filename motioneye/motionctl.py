@@ -319,6 +319,7 @@ async def take_snapshot(camera_id):
 
 
 async def trigger_action(camera_id: int, action: str) -> str | None:
+    error: str | None = None
     motion_camera_id: int | None = camera_id_to_motion_camera_id(camera_id)
     if motion_camera_id is None:
         error = f'could not find motion camera id for camera {camera_id}'
