@@ -290,34 +290,6 @@ async def set_motion_detection(camera_id, enabled):
     return
 
 
-async def take_snapshot(camera_id):
-    motion_camera_id = camera_id_to_motion_camera_id(camera_id)
-    if motion_camera_id is None:
-        logging.error(f'could not find motion camera id for camera with id {camera_id}')
-
-        return
-
-    logging.debug(f'taking snapshot for camera with id {camera_id}')
-
-    url = f'http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/action/snapshot'
-
-    request = HTTPRequest(
-        url,
-        connect_timeout=_MOTION_CONTROL_TIMEOUT,
-        request_timeout=_MOTION_CONTROL_TIMEOUT,
-    )
-    resp = await AsyncHTTPClient().fetch(request)
-    if resp.error:
-        logging.error(
-            f'failed to take snapshot for camera with id {camera_id}: {utils.pretty_http_error(resp)}'
-        )
-
-    else:
-        logging.debug(f'successfully took snapshot for camera with id {camera_id}')
-
-    return
-
-
 async def trigger_action(camera_id: int, action: str) -> str | None:
     error: str | None = None
     motion_camera_id: int | None = camera_id_to_motion_camera_id(camera_id)

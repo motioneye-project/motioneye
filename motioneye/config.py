@@ -2118,9 +2118,6 @@ def get_action_commands(camera_config: dict) -> dict:
     ):
         action_commands['snapshot'] = True
 
-    if camera_config.get('@manual_record'):
-        action_commands['record'] = True
-
     return action_commands
 
 
@@ -2517,7 +2514,6 @@ def _set_default_motion_camera(camera_id: int, data: dict) -> None:
     data.setdefault('movie_quality', 75)  # 75%
 
     data.setdefault('@preserve_movies', 0)
-    data.setdefault('@manual_record', False)
 
     data.setdefault('@working_schedule', '')
     data.setdefault('@working_schedule_type', 'outside')

@@ -61,42 +61,21 @@ class ActionHandler(BaseHandler):
             else:
                 self.finish_json()
 
-            return
-
-        if action == 'snapshot':
-            logging.debug(f'executing snapshot action for camera with id {camera_id}')
-            await self.snapshot(camera_id)
-            return
-
-        elif action == 'record_start':
-            logging.debug(
-                f'executing record_start action for camera with id {camera_id}'
-            )
-            self.record_start(camera_id)
-            return
-
-        elif action == 'record_stop':
-            logging.debug(
-                f'executing record_stop action for camera with id {camera_id}'
-            )
-            self.record_stop(camera_id)
-            return
-
-        elif action in ('eventstart', 'eventend'):
+        elif action in ('snapshot', 'eventstart', 'eventend'):
             logging.debug(f'received {action} action call for camera {camera_id}')
             error = await motionctl.trigger_action(camera_id, action)
             self.finish_json({'error': error})
-            return
 
-        action_commands = config.get_action_commands(local_config)
-        command = action_commands.get(action)
-        if not command:
-            raise HTTPError(400, 'unknown action')
+        else:
+            action_commands = config.get_action_commands(local_config)
+            command = action_commands.get(action)
+            if not command:
+                raise HTTPError(400, 'unknown action')
 
-        logging.debug(
-            f'executing {action} action for camera with id {camera_id}: "{command}"'
-        )
-        self.run_command_bg(command)
+            logging.debug(
+                f'executing {action} action for camera with id {camera_id}: "{command}"'
+            )
+            self.run_command_bg(command)
 
     def run_command_bg(self, command):
         self.p = subprocess.Popen(
@@ -132,13 +111,3 @@ class ActionHandler(BaseHandler):
         else:
             self.io_loop.call_later(0.1, self.check_command)
             return None
-
-    async def snapshot(self, camera_id):
-        await motionctl.take_snapshot(camera_id)
-        return self.finish_json({})
-
-    def record_start(self, camera_id):
-        return self.finish_json({})
-
-    def record_stop(self, camera_id):
-        return self.finish_json({})
