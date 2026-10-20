@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import logging
 import re
@@ -23,7 +24,7 @@ from signal import SIGKILL, SIGTERM
 from subprocess import DEVNULL, CalledProcessError, Popen
 from time import sleep
 
-from tornado.httpclient import AsyncHTTPClient, HTTPRequest
+from tornado.httpclient import AsyncHTTPClient, HTTPClientError, HTTPRequest
 from tornado.ioloop import IOLoop
 
 from motioneye import mediafiles, settings, update, utils
@@ -315,6 +316,41 @@ async def take_snapshot(camera_id):
         logging.debug(f'successfully took snapshot for camera with id {camera_id}')
 
     return
+
+
+async def trigger_action(camera_id: int, action: str) -> str | None:
+    error: str | None = None
+    motion_camera_id: int | None = camera_id_to_motion_camera_id(camera_id)
+    if motion_camera_id is None:
+        error = f'could not find motion camera id for camera {camera_id}'
+        logging.error(error)
+        return error
+
+    logging.debug(f'triggering {action!r} action for camera {camera_id}')
+
+    request = HTTPRequest(
+        f'http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/action/{action}',
+        connect_timeout=_MOTION_CONTROL_TIMEOUT,
+        request_timeout=_MOTION_CONTROL_TIMEOUT,
+    )
+    try:
+        resp = await AsyncHTTPClient().fetch(request, raise_error=False)
+        if resp.error:
+            error = utils.pretty_http_error(resp)
+
+        elif resp.body.startswith(b'Bad Request'):
+            error = resp.body.decode(errors='replace')
+
+    except HTTPClientError as e:
+        error = str(e)
+
+    if error is not None:
+        error = f'failed to trigger {action!r} action for camera {camera_id}: {error}'
+        logging.error(error)
+        return error
+
+    logging.debug(f'successfully triggered {action!r} action for camera {camera_id}')
+    return None
 
 
 def is_motion_detected(camera_id):

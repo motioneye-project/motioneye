@@ -82,6 +82,12 @@ class ActionHandler(BaseHandler):
             self.record_stop(camera_id)
             return
 
+        elif action in ('eventstart', 'eventend'):
+            logging.debug(f'received {action} action call for camera {camera_id}')
+            error = await motionctl.trigger_action(camera_id, action)
+            self.finish_json({'error': error})
+            return
+
         action_commands = config.get_action_commands(local_config)
         command = action_commands.get(action)
         if not command:
