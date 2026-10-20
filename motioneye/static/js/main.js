@@ -4702,7 +4702,6 @@ function addCameraFrameUi(cameraConfig) {
                             '<div class="button icon camera-action-button mouse-effect alarm-on" title="turn alarm on"></div>' +
                             '<div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div>' +
                             '<div class="button icon camera-action-button mouse-effect snapshot" title="' + i18n.gettext("preni instantaron") + '"></div>' +
-                            '<div class="button icon camera-action-button mouse-effect record-start" title="toggle continuous recording mode"></div>' +
                             '<div class="button icon camera-action-button mouse-effect up" title="up"></div>' +
                             '<div class="button icon camera-action-button mouse-effect down" title="down"></div>' +
                             '<div class="button icon camera-action-button mouse-effect left" title="left"></div>' +
@@ -4743,7 +4742,6 @@ function addCameraFrameUi(cameraConfig) {
     var alarmOnButton = cameraFrameDiv.find('div.camera-action-button.alarm-on');
     var alarmOffButton = cameraFrameDiv.find('div.camera-action-button.alarm-off');
     var snapshotButton = cameraFrameDiv.find('div.camera-action-button.snapshot');
-    var recordButton = cameraFrameDiv.find('div.camera-action-button.record-start');
     var upButton = cameraFrameDiv.find('div.camera-action-button.up');
     var rightButton = cameraFrameDiv.find('div.camera-action-button.right');
     var downButton = cameraFrameDiv.find('div.camera-action-button.down');
@@ -4973,7 +4971,6 @@ function addCameraFrameUi(cameraConfig) {
         'alarm_on': alarmOnButton,
         'alarm_off': alarmOffButton,
         'snapshot': snapshotButton,
-        'record': recordButton,
         'up': upButton,
         'right': rightButton,
         'down': downButton,
@@ -5004,15 +5001,6 @@ function addCameraFrameUi(cameraConfig) {
             }
 
             button.addClass('pending');
-
-            if (action == 'record') {
-                if (button.hasClass('record-start')) {
-                    action = 'record_start';
-                }
-                else {
-                    action = 'record_stop';
-                }
-            }
 
             doAction(cameraId, action, function () {
                 button.removeClass('pending');
@@ -5076,13 +5064,6 @@ function addCameraFrameUi(cameraConfig) {
             }
             else {
                 cameraFrameDiv.removeClass('motion-detected');
-            }
-
-            if (getCookie('record_active_' + cameraId) == 'true') {
-                recordButton.removeClass('record-start').addClass('record-stop');
-            }
-            else {
-                recordButton.removeClass('record-stop').addClass('record-start');
             }
 
             var captureFps = getCookie('capture_fps_' + cameraId);

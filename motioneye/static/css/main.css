@@ -1225,14 +1225,6 @@ div.camera-action-button.snapshot {
     background-image: url(../img/camera-action-button-snapshot.svg);
 }
 
-div.camera-action-button.record-start {
-    background-image: url(../img/camera-action-button-record-start.svg);
-}
-
-div.camera-action-button.record-stop {
-    background-image: url(../img/camera-action-button-record-stop.svg);
-}
-
 div.camera-action-button.up {
     background-image: url(../img/camera-action-button-up.svg);
 }
