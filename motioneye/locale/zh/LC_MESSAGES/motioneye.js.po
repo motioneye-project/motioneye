@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-10-09 23:21+0000\n"
+"PO-Revision-Date: 2026-10-13 14:51+0000\n"
 "Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/zh_Hans/>\n"
 "Language: zh\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.10.1.dev0\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 
 #: l10n/v4l2.js:4
 msgid "Auto Exposure"
@@ -131,7 +131,7 @@ msgid "video streaming authentication mode must be Basic or Digest when admin-on
 msgstr "当启用了\"仅管理员访问\"模式时，视频流的认证方式必须设置为 Basic 或 Digest"
 
 #: motioneye/static/js/main.js:496 motioneye/static/js/main.js:507
-#: motioneye/static/js/main.js:566 motioneye/static/js/ui.js:393
+#: motioneye/static/js/main.js:573 motioneye/static/js/ui.js:393
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "必填项"
 
@@ -152,524 +152,534 @@ msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
 msgstr "不能在系统根目录中创建文件"
 
 #: motioneye/static/js/main.js:529
+#, fuzzy
+msgid "The configured storage device is not writable. Recordings cannot be saved until write access is restored."
+msgstr "混淆不清。 记录爱者,以读取互联网."
+
+#: motioneye/static/js/main.js:536
 msgid "enigu validan retpoŝtadreson"
 msgstr "输入有效的电子邮箱"
 
-#: motioneye/static/js/main.js:536
+#: motioneye/static/js/main.js:543
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
 msgstr "输入以逗号分隔的有效电子邮件地址列表"
 
-#: motioneye/static/js/main.js:543
+#: motioneye/static/js/main.js:550
 msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "文件名中不允许使用特殊字符"
 
-#: motioneye/static/js/main.js:570
+#: motioneye/static/js/main.js:577
 msgid "enigu validan valoron"
 msgstr "输入一个有效值"
 
-#: motioneye/static/js/main.js:719
+#: motioneye/static/js/main.js:726
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
 msgstr "将递归删除云文件夹中的所有文件”"
 
-#: motioneye/static/js/main.js:720
+#: motioneye/static/js/main.js:727
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
 msgstr "”，不只是由motionEye上传的！"
 
-#: motioneye/static/js/main.js:729
+#: motioneye/static/js/main.js:736
 #, fuzzy
 msgid "\"Purigi la nubon\" estis malŝaltita ĉar ĝi konfliktas kun \"Forigi Dosierojn Post Alŝuto\"."
 msgstr "“云层”已经倒塌,因为它与“Strengaging documentations after upload”相冲突."
 
-#: motioneye/static/js/main.js:820
+#: motioneye/static/js/main.js:827
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
 msgstr "将递归删除文件夹中所有过期的媒体文件”"
 
-#: motioneye/static/js/main.js:821
+#: motioneye/static/js/main.js:828
 msgid "\", ne nur tiuj kreitaj de motionEye!"
 msgstr "”，不只是由motionEye创建的！"
 
-#: motioneye/static/js/main.js:901
+#: motioneye/static/js/main.js:908
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
 msgstr "无法在摄像头无效的情况下编辑蒙版！"
 
-#: motioneye/static/js/main.js:2168
+#: motioneye/static/js/main.js:2175
 msgid "Propra"
 msgstr "自定义"
 
-#: motioneye/static/js/main.js:2206
+#: motioneye/static/js/main.js:2208
+#, fuzzy
+msgid "No write access"
+msgstr "没有机会"
+
+#: motioneye/static/js/main.js:2222
 msgid "Propra dosierindiko"
 msgstr "自定义路径"
 
-#: motioneye/static/js/main.js:2208
+#: motioneye/static/js/main.js:2224
 msgid "Retan kunlokon"
 msgstr "在线连接"
 
-#: motioneye/static/js/main.js:2566
+#: motioneye/static/js/main.js:2582
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
 msgstr "您的浏览器不支持此功能！"
 
-#: motioneye/static/js/main.js:2582
+#: motioneye/static/js/main.js:2598
 msgid "Apliki"
 msgstr "应用修改"
 
-#: motioneye/static/js/main.js:2609 motioneye/static/js/main.js:2925
-#: motioneye/static/js/main.js:2981 motioneye/static/js/main.js:3056
+#: motioneye/static/js/main.js:2625 motioneye/static/js/main.js:2941
+#: motioneye/static/js/main.js:2997 motioneye/static/js/main.js:3072
 msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
 msgstr "请检查所有配置项是否有效！"
 
-#: motioneye/static/js/main.js:2663
+#: motioneye/static/js/main.js:2679
 #, fuzzy
 msgid "Admin password updated. Please log in again."
 msgstr "管理。 请再次发言."
 
-#: motioneye/static/js/main.js:2717
+#: motioneye/static/js/main.js:2733
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
 msgstr "是否重新启动系统？"
 
-#: motioneye/static/js/main.js:2727
+#: motioneye/static/js/main.js:2743
 msgid "Vere fermiti sistemon?"
 msgstr "确认关机？"
 
-#: motioneye/static/js/main.js:2739
+#: motioneye/static/js/main.js:2755
 msgid "Malŝaltita"
 msgstr "关机"
 
-#: motioneye/static/js/main.js:2754
+#: motioneye/static/js/main.js:2770
 msgid "Ĉu vere restartigi ?"
 msgstr "是否重启？"
 
-#: motioneye/static/js/main.js:2768
+#: motioneye/static/js/main.js:2784
 msgid "La sistemo rekomencis!"
 msgstr "系统已重启！"
 
-#: motioneye/static/js/main.js:2788 motioneye/static/js/main.js:3809
-#: motioneye/static/js/main.js:4139
+#: motioneye/static/js/main.js:2804 motioneye/static/js/main.js:3825
+#: motioneye/static/js/main.js:4155
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
 msgstr "请先应用设置更改！"
 
-#: motioneye/static/js/main.js:2793
+#: motioneye/static/js/main.js:2809
 msgid "Neniu fotilo por forigi!"
 msgstr "无摄像头可移除！"
 
-#: motioneye/static/js/main.js:2799
+#: motioneye/static/js/main.js:2815
 msgid "Ĉu forigi kameraon "
 msgstr "移除摄像头 "
 
-#: motioneye/static/js/main.js:2827
+#: motioneye/static/js/main.js:2843
 msgid "Rezerva dosiero"
 msgstr "备份文件"
 
-#: motioneye/static/js/main.js:2829
+#: motioneye/static/js/main.js:2845
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
 msgstr "您先前下载的备份文件。"
 
-#: motioneye/static/js/main.js:2858
+#: motioneye/static/js/main.js:2874
 msgid "Restaŭrigi Agordon"
 msgstr "配置加载"
 
-#: motioneye/static/js/main.js:2870
+#: motioneye/static/js/main.js:2886
 msgid "Restaŭriganta agordon ..."
 msgstr "配置加载中..."
 
-#: motioneye/static/js/main.js:2877
+#: motioneye/static/js/main.js:2893
 msgid "La agordo restaŭrigis!"
 msgstr "配置已加载！"
 
-#: motioneye/static/js/main.js:2887 motioneye/static/js/main.js:2906
+#: motioneye/static/js/main.js:2903 motioneye/static/js/main.js:2922
 msgid "Malsukcesis restaŭri la agordon!"
 msgstr "配置加载失败！"
 
-#: motioneye/static/js/main.js:2962
+#: motioneye/static/js/main.js:2978
 msgid "Aliri la alŝutan servon malsukcesis: "
 msgstr "连接上传服务失败： "
 
-#: motioneye/static/js/main.js:2965
+#: motioneye/static/js/main.js:2981
 msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "连接上传服务成功！"
 
-#: motioneye/static/js/main.js:3002
+#: motioneye/static/js/main.js:3018
 msgid "Sciiga retpoŝto fiaskis:"
 msgstr "通知邮件失败："
 
-#: motioneye/static/js/main.js:3005
+#: motioneye/static/js/main.js:3021
 msgid "Notification email succeeded!"
 msgstr "通知邮件发送成功！"
 
-#: motioneye/static/js/main.js:3021
+#: motioneye/static/js/main.js:3037
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
 msgstr "请确认所有配置项都有效！"
 
-#: motioneye/static/js/main.js:3037
+#: motioneye/static/js/main.js:3053
 msgid "Sciiga Telegramo fiaskis:"
 msgstr "通知Telegram失败："
 
-#: motioneye/static/js/main.js:3040
+#: motioneye/static/js/main.js:3056
 msgid "Sciiga Telegramo sukcesis!"
 msgstr "通知Telegram成功！"
 
-#: motioneye/static/js/main.js:3076
+#: motioneye/static/js/main.js:3092
 msgid "Aliro al retdividado fiaskis: "
 msgstr "访问网络共享失败： "
 
-#: motioneye/static/js/main.js:3079
+#: motioneye/static/js/main.js:3095
 msgid "Aliro al retdividado sukcesis!"
 msgstr "访问网络共享成功！"
 
-#: motioneye/static/js/main.js:3103
+#: motioneye/static/js/main.js:3119
 msgid "Ĉu vere forigi ĉi tiun dosieron?"
 msgstr "是否删除此文件？"
 
-#: motioneye/static/js/main.js:3127
+#: motioneye/static/js/main.js:3143
 msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
 msgstr "是否删除\"%(group)s\"组中的所有图片？"
 
-#: motioneye/static/js/main.js:3130
+#: motioneye/static/js/main.js:3146
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
 msgstr "是否删除\"%(group)s\"中的所有录像？"
 
-#: motioneye/static/js/main.js:3135
+#: motioneye/static/js/main.js:3151
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
 msgstr "是否删除所有未分组的图像？"
 
-#: motioneye/static/js/main.js:3138
+#: motioneye/static/js/main.js:3154
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
 msgstr "是否删除所有未分组的录像？"
 
-#: motioneye/static/js/main.js:3233
+#: motioneye/static/js/main.js:3249
 msgid "aldonadi kameraon..."
 msgstr "添加摄像头..."
 
-#: motioneye/static/js/main.js:3485 motioneye/static/js/main.js:3831
-#: motioneye/static/js/main.js:4152
+#: motioneye/static/js/main.js:3501 motioneye/static/js/main.js:3847
+#: motioneye/static/js/main.js:4168
 msgid "Uzantnomo"
 msgstr "用户名"
 
-#: motioneye/static/js/main.js:3490 motioneye/static/js/main.js:3836
-#: motioneye/static/js/main.js:4157
+#: motioneye/static/js/main.js:3506 motioneye/static/js/main.js:3852
+#: motioneye/static/js/main.js:4173
 msgid "Pasvorto"
 msgstr "密码"
 
-#: motioneye/static/js/main.js:3502
+#: motioneye/static/js/main.js:3518
 #, fuzzy
 msgid "Please login to continue."
 msgstr "请继续发言."
 
-#: motioneye/static/js/main.js:3506 motioneye/static/js/main.js:3510
+#: motioneye/static/js/main.js:3522 motioneye/static/js/main.js:3526
 msgid "Ensaluti"
 msgstr "登入"
 
-#: motioneye/static/js/main.js:3509 motioneye/static/js/ui.js:732
+#: motioneye/static/js/main.js:3525 motioneye/static/js/ui.js:732
 #: motioneye/static/js/ui.js:739
 msgid "Nuligi"
 msgstr "取消"
 
-#: motioneye/static/js/main.js:3537
+#: motioneye/static/js/main.js:3553
 #, fuzzy
 msgid "Your account requires a password to be set. Please contact the administrator to set a password for your account."
 msgstr "你的发言是有待确定的口号。 请联系您的发言."
 
-#: motioneye/static/js/main.js:3550
+#: motioneye/static/js/main.js:3566
 #, fuzzy
 msgid "Please set a password for your account."
 msgstr "请为您的发言写一个密码."
 
-#: motioneye/static/js/main.js:3567
+#: motioneye/static/js/main.js:3583
 #, fuzzy
 msgid "Login failed."
 msgstr "日志."
 
-#: motioneye/static/js/main.js:3601
+#: motioneye/static/js/main.js:3617
 msgid "Vi abortis la filmeton."
 msgstr "您中止了视频。"
 
-#: motioneye/static/js/main.js:3604
+#: motioneye/static/js/main.js:3620
 msgid "Reto eraro okazis."
 msgstr "发生网络错误。"
 
-#: motioneye/static/js/main.js:3607
+#: motioneye/static/js/main.js:3623
 msgid "Malkodado-eraro aŭ neprogresinta funkcio."
 msgstr "解码错误或不支持的媒体特性。"
 
-#: motioneye/static/js/main.js:3610
+#: motioneye/static/js/main.js:3626
 msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
 msgstr "格式不支持或无权限回放/回放不可用。"
 
-#: motioneye/static/js/main.js:3613
+#: motioneye/static/js/main.js:3629
 msgid "Nekonata eraro okazis."
 msgstr "发生未知错误。"
 
-#: motioneye/static/js/main.js:3616
+#: motioneye/static/js/main.js:3632
 msgid "Eraro : "
 msgstr "错误： "
 
-#: motioneye/static/js/main.js:3621
+#: motioneye/static/js/main.js:3637
 msgid "antaŭa bildo"
 msgstr "上一张图像"
 
-#: motioneye/static/js/main.js:3626
+#: motioneye/static/js/main.js:3642
 msgid "ludi"
 msgstr "播放"
 
-#: motioneye/static/js/main.js:3629
+#: motioneye/static/js/main.js:3645
 msgid "ludi * 5 kaj enĉenigi"
 msgstr "顺序5倍速播放"
 
-#: motioneye/static/js/main.js:3634
+#: motioneye/static/js/main.js:3650
 msgid "sekva bildo"
 msgstr "下一张图像"
 
-#: motioneye/static/js/main.js:3762
+#: motioneye/static/js/main.js:3778
 msgid "Fermi"
 msgstr "关闭"
 
-#: motioneye/static/js/main.js:3763 motioneye/static/js/main.js:4412
+#: motioneye/static/js/main.js:3779 motioneye/static/js/main.js:4428
 msgid "Elŝuti"
 msgstr "下载"
 
-#: motioneye/static/js/main.js:3771 motioneye/static/js/main.js:4415
+#: motioneye/static/js/main.js:3787 motioneye/static/js/main.js:4431
 msgid "Forigi"
 msgstr "删除"
 
-#: motioneye/static/js/main.js:3815
+#: motioneye/static/js/main.js:3831
 msgid "Kamerao tipo"
 msgstr "摄像头类型"
 
-#: motioneye/static/js/main.js:3817
+#: motioneye/static/js/main.js:3833
 msgid "Loka V4L2-kamerao"
 msgstr "本地V4L2摄像头"
 
-#: motioneye/static/js/main.js:3818
+#: motioneye/static/js/main.js:3834
 msgid "Loka MMAL-kamerao"
 msgstr "本地MMAL摄像头"
 
-#: motioneye/static/js/main.js:3819
+#: motioneye/static/js/main.js:3835
 msgid "Reta kamerao"
 msgstr "网路摄影头"
 
-#: motioneye/static/js/main.js:3820
+#: motioneye/static/js/main.js:3836
 msgid "Fora motionEye kamerao"
 msgstr "远程motionEye摄像头"
 
-#: motioneye/static/js/main.js:3821
+#: motioneye/static/js/main.js:3837
 msgid "Simpla MJPEG-kamerao"
 msgstr "普通MJPEG摄像头"
 
-#: motioneye/static/js/main.js:3823
+#: motioneye/static/js/main.js:3839
 msgid "la speco de kamerao, kiun vi volas aldoni"
 msgstr "您要添加的摄像头类型"
 
-#: motioneye/static/js/main.js:3826 motioneye/static/js/main.js:4144
+#: motioneye/static/js/main.js:3842 motioneye/static/js/main.js:4160
 msgid "URL"
 msgstr "URL"
 
-#: motioneye/static/js/main.js:3827 motioneye/static/js/main.js:4145
+#: motioneye/static/js/main.js:3843 motioneye/static/js/main.js:4161
 msgid "http://ekzemplo.com:8765/cams/..."
 msgstr "http://ekzemplo.com:8765/cams/..."
 
-#: motioneye/static/js/main.js:3828 motioneye/static/js/main.js:4146
+#: motioneye/static/js/main.js:3844 motioneye/static/js/main.js:4162
 msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
 msgstr "摄像头网址（例如：http://example.com:8080/cam/）"
 
-#: motioneye/static/js/main.js:3832 motioneye/static/js/main.js:4153
+#: motioneye/static/js/main.js:3848 motioneye/static/js/main.js:4169
 msgid "uzantnomo..."
 msgstr "用户名..."
 
-#: motioneye/static/js/main.js:3833
+#: motioneye/static/js/main.js:3849
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
 msgstr "URL的用户名（选填，例如：admin）"
 
-#: motioneye/static/js/main.js:3837 motioneye/static/js/main.js:4158
+#: motioneye/static/js/main.js:3853 motioneye/static/js/main.js:4174
 msgid "pasvorto..."
 msgstr "密码..."
 
-#: motioneye/static/js/main.js:3838
+#: motioneye/static/js/main.js:3854
 msgid "la pasvorto por la URL, se bezonata"
 msgstr "URL的密码（选填）"
 
-#: motioneye/static/js/main.js:3841 motioneye/static/js/main.js:4165
+#: motioneye/static/js/main.js:3857 motioneye/static/js/main.js:4181
 #, fuzzy
 msgid "Remote Secret"
 msgstr "遥控"
 
-#: motioneye/static/js/main.js:3842 motioneye/static/js/main.js:4166
+#: motioneye/static/js/main.js:3858 motioneye/static/js/main.js:4182
 #, fuzzy
 msgid "remote secret..."
 msgstr "far secret..."
 
-#: motioneye/static/js/main.js:3843
+#: motioneye/static/js/main.js:3859
 #, fuzzy
 msgid "the client secret of the remote motionEye server. Find this value in the Client Secret field of the remote server's general settings."
 msgstr "遥感卫星的客户秘密:在遥远的现有一般领域的客户保密领域得出这一价值."
 
-#: motioneye/static/js/main.js:3846
+#: motioneye/static/js/main.js:3862
 msgid "Kamerao"
 msgstr "摄像头"
 
-#: motioneye/static/js/main.js:3848
+#: motioneye/static/js/main.js:3864
 msgid "la kameraon, kiun vi volas aldoni"
 msgstr "您要添加的摄像头"
 
-#: motioneye/static/js/main.js:3882
+#: motioneye/static/js/main.js:3898
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
 msgstr "远程MotionEye摄像头是安装在另一台MotionEye服务器下摄像头。在此处添加将使您可以远程查看和管理它们。"
 
-#: motioneye/static/js/main.js:3895
+#: motioneye/static/js/main.js:3911
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
 msgstr "网络摄像头（或IP摄像头）是指传输原生RTSP / RTMP流或MJPEG视频流或普通MJPEG图像流的设备。请查阅您的设备手册，以找到正确的RTSP，RTMP，MJPEG或JPEG的URL地址。"
 
-#: motioneye/static/js/main.js:3900
+#: motioneye/static/js/main.js:3916
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
 msgstr "本地MMAL摄像头是指直接连接到motionEye系统的设备。这些通常是硬件提供接口兼容的摄像头。"
 
-#: motioneye/static/js/main.js:3913
+#: motioneye/static/js/main.js:3929
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
 msgstr "将设备添加为简单的MJPEG摄像头而不是网络摄像头可以改善摄影效果，但是无法进行运动检测，图像捕获或动画录制。您的服务器和浏览器必须可以访问该相机。这类相机与Internet Explorer不匹配。"
 
-#: motioneye/static/js/main.js:3918
+#: motioneye/static/js/main.js:3934
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
 msgstr "本地V4L2摄像头通常通过USB直接连接到motionEye系统。"
 
-#: motioneye/static/js/main.js:4071
+#: motioneye/static/js/main.js:4087
 msgid "Aldonadi kameraon..."
 msgstr "添加摄像头..."
 
-#: motioneye/static/js/main.js:4154 motioneye/static/js/main.js:4159
+#: motioneye/static/js/main.js:4170 motioneye/static/js/main.js:4175
 #, fuzzy
 msgid "leave both empty to keep the current username and password"
 msgstr "允许双方保持用户名和密码"
 
-#: motioneye/static/js/main.js:4167
+#: motioneye/static/js/main.js:4183
 #, fuzzy
 msgid "leave empty to keep the current remote secret"
 msgstr "保留现有偏远秘密的许可"
 
-#: motioneye/static/js/main.js:4182
+#: motioneye/static/js/main.js:4198
 #, fuzzy
 msgid "Edit connection information"
 msgstr "纽约总部"
 
-#: motioneye/static/js/main.js:4233
+#: motioneye/static/js/main.js:4249
 msgid "Grupo"
 msgstr "分组"
 
-#: motioneye/static/js/main.js:4237
+#: motioneye/static/js/main.js:4253
 msgid "Inkluzivi foton prenitan ĉiun"
 msgstr "包括每张图像"
 
-#: motioneye/static/js/main.js:4240
+#: motioneye/static/js/main.js:4256
 msgid "sekundo"
 msgstr "第二"
 
-#: motioneye/static/js/main.js:4241
+#: motioneye/static/js/main.js:4257
 msgid "5 sekundoj"
 msgstr "5秒"
 
-#: motioneye/static/js/main.js:4242
+#: motioneye/static/js/main.js:4258
 msgid "10 sekundoj"
 msgstr "10秒"
 
-#: motioneye/static/js/main.js:4243
+#: motioneye/static/js/main.js:4259
 msgid "30 sekundoj"
 msgstr "30秒"
 
-#: motioneye/static/js/main.js:4244
+#: motioneye/static/js/main.js:4260
 msgid "minuto"
 msgstr "分钟"
 
-#: motioneye/static/js/main.js:4245
+#: motioneye/static/js/main.js:4261
 msgid "5 minutoj"
 msgstr "5分钟"
 
-#: motioneye/static/js/main.js:4246
+#: motioneye/static/js/main.js:4262
 msgid "10 minutoj"
 msgstr "10分钟"
 
-#: motioneye/static/js/main.js:4247
+#: motioneye/static/js/main.js:4263
 msgid "30 minutoj"
 msgstr "30分钟"
 
-#: motioneye/static/js/main.js:4248
+#: motioneye/static/js/main.js:4264
 msgid "horo"
 msgstr "小时"
 
-#: motioneye/static/js/main.js:4251
+#: motioneye/static/js/main.js:4267
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
 msgstr "选择两个选定图像之间的时间间隔。"
 
-#: motioneye/static/js/main.js:4254
+#: motioneye/static/js/main.js:4270
 msgid "Filmo framfrekvenco"
 msgstr "视频帧率"
 
-#: motioneye/static/js/main.js:4256
+#: motioneye/static/js/main.js:4272
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
 msgstr "选择您想要视频减缓的速度。"
 
-#: motioneye/static/js/main.js:4265
+#: motioneye/static/js/main.js:4281
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
 msgstr "图片太多会导致创建视频需要一些时间！"
 
-#: motioneye/static/js/main.js:4282
+#: motioneye/static/js/main.js:4298
 msgid "Krei akselita video"
 msgstr "创建延时视频"
 
-#: motioneye/static/js/main.js:4291
+#: motioneye/static/js/main.js:4307
 msgid "Filmo kreanta en progreso..."
 msgstr "延时视频创建中..."
 
-#: motioneye/static/js/main.js:4539
+#: motioneye/static/js/main.js:4555
 msgid "Zipitaj"
 msgstr "链式"
 
-#: motioneye/static/js/main.js:4548
+#: motioneye/static/js/main.js:4564
 msgid "Akselita video"
 msgstr "回看"
 
-#: motioneye/static/js/main.js:4559
+#: motioneye/static/js/main.js:4575
 msgid "Forigi ĉiujn"
 msgstr "全部删除"
 
-#: motioneye/static/js/main.js:4701
+#: motioneye/static/js/main.js:4717
 msgid "Bildoj prenitaj de "
 msgstr "图像拍摄自 "
 
-#: motioneye/static/js/main.js:4704
+#: motioneye/static/js/main.js:4720
 msgid "Filmoj registritaj de "
 msgstr "视频录像自 "
 
-#: motioneye/static/js/main.js:4762
+#: motioneye/static/js/main.js:4778
 #, fuzzy
 msgid "drag to move around"
 msgstr "干"
 
-#: motioneye/static/js/main.js:4773
+#: motioneye/static/js/main.js:4789
 msgid "montru ĉi tiun fotilon plenekranan"
 msgstr "全屏展示此摄像头"
 
-#: motioneye/static/js/main.js:4774
+#: motioneye/static/js/main.js:4790
 msgid "montri ĉiujn fotilojn"
 msgstr "显示所有摄像头"
 
-#: motioneye/static/js/main.js:4775
+#: motioneye/static/js/main.js:4791
 msgid "montru nur ĉi tiun fotilon"
 msgstr "只显示此摄像头"
 
-#: motioneye/static/js/main.js:4776
+#: motioneye/static/js/main.js:4792
 msgid "malfermaj bildoj retumilo"
 msgstr "打开图像浏览器"
 
-#: motioneye/static/js/main.js:4777
+#: motioneye/static/js/main.js:4793
 msgid "malferma videoj retumilo"
 msgstr "打开视频浏览器"
 
-#: motioneye/static/js/main.js:4778
+#: motioneye/static/js/main.js:4794
 msgid "agordi ĉi tiun kameraon"
 msgstr "配置此摄像头"
 
-#: motioneye/static/js/main.js:4794
+#: motioneye/static/js/main.js:4810
 msgid "preni instantaron"
 msgstr "快照"
 
-#: motioneye/static/js/main.js:5284
+#: motioneye/static/js/main.js:5300
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "您尚未配置任何摄像头。点击这里添加一个..."
 
