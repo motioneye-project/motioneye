@@ -14,15 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import errno
 import os
 import subprocess
 import sys
 import unittest
-from unittest import mock
 
 import motioneye
-from motioneye import server, settings
 
 # The checks run in their own interpreter, so that the signal handlers do not
 # leak into the rest of the run. Each prints how long the IO loop ran, last.
@@ -167,34 +164,3 @@ class TestServerSignals(unittest.TestCase):
 
         self._assert_clean(result)
         self.assertGreater(float(result.stdout.split()[-1]), 1.9, result.stderr)
-
-
-class TestServerListen(unittest.TestCase):
-    def listen(self, address, loopback_error=None):
-        application = mock.Mock()
-        application.listen.side_effect = [None, loopback_error]
-        with mock.patch.multiple(settings, PORT=8765, LISTEN=address):
-            server.listen(application)
-        return [c.args for c in application.listen.call_args_list]
-
-    def test_all_addresses(self):
-        self.assertEqual([(8765, '0.0.0.0')], self.listen('0.0.0.0'))  # nosec: B104
-        self.assertEqual([(8765, '')], self.listen(''))
-
-    def test_loopback(self):
-        self.assertEqual([(8765, '127.0.0.1')], self.listen('127.0.0.1'))
-        self.assertEqual([(8765, 'localhost')], self.listen('localhost'))
-
-    def test_specific_address_adds_loopback(self):
-        self.assertEqual(
-            [(8765, '192.0.2.10'), (8765, '127.0.0.1')], self.listen('192.0.2.10')
-        )
-        # Tornado binds :: and ::1 as IPv6 only
-        self.assertEqual([(8765, '::'), (8765, '127.0.0.1')], self.listen('::'))
-        self.assertEqual([(8765, '::1'), (8765, '127.0.0.1')], self.listen('::1'))
-
-    def test_loopback_in_use(self):
-        error = OSError(errno.EADDRINUSE, os.strerror(errno.EADDRINUSE))
-        with self.assertLogs(level='WARNING'):
-            calls = self.listen('myhost', loopback_error=error)
-        self.assertEqual([(8765, 'myhost'), (8765, '127.0.0.1')], calls)

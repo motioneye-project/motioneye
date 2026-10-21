@@ -29,7 +29,7 @@ __all__ = ('RelayEventHandler',)
 class RelayEventHandler(BaseHandler):
     def post(self) -> None:
         # Only motion on this host relays events, through loopback (see
-        # server.listen()), so reject any other client
+        # relayevent.sh and server.run()), so reject any other client
         if self.request.remote_ip not in ('127.0.0.1', '::1'):
             logging.warning(
                 f'relay event request from non-local address {self.request.remote_ip}'
