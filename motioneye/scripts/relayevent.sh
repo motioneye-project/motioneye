@@ -9,7 +9,6 @@ timeout=5
 
 motioneye_conf=$1
 if [ -f "$motioneye_conf" ]; then
-    listen=$(grep '^listen' "$motioneye_conf" | cut -d ' ' -f 2)
     port=$(grep '^port' "$motioneye_conf" | cut -d ' ' -f 2)
     conf_path=$(grep '^conf_path' "$motioneye_conf" | cut -d ' ' -f 2)
     if [ "$conf_path" ]; then
@@ -22,14 +21,6 @@ fi
 
 [ "$port" ] || port='8765'
 
-# Connect to the address motionEye listens on, or to loopback if it listens on all addresses
-case $listen in
-    ''|'0.0.0.0') host='127.0.0.1';;
-    '::') host='[::1]';;
-    *:*) host="[$listen]";;
-    *) host=$listen;;
-esac
-
 event=$2
 motion_camera_id=$3
 filename=$4
@@ -38,4 +29,4 @@ uri="/_relay_event/?event=$event&motion_camera_id=$motion_camera_id"
 data="{\"filename\": \"$filename\"}"
 
 # Call relay endpoint with secret header for authentication
-curl -sSfm "$timeout" -H 'Content-Type: application/json' -H "X-Relay-Secret: $relay_secret" -X POST "http://$host:$port$uri" -d "$data" -o /dev/null
+curl -sSfm "$timeout" -H 'Content-Type: application/json' -H "X-Relay-Secret: $relay_secret" -X POST "http://127.0.0.1:$port$uri" -d "$data" -o /dev/null

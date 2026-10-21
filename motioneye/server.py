@@ -426,6 +426,22 @@ def make_app(debug: bool = False) -> Application:
     )
 
 
+def listen(application: Application) -> None:
+    application.listen(settings.PORT, settings.LISTEN)
+
+    # motion relays its events to 127.0.0.1 (see relayevent.sh), and the relay
+    # event API only accepts local requests, so listen there as well when the
+    # configured address does not include it
+    if settings.LISTEN not in ('', '0.0.0.0', '127.0.0.1', 'localhost'):  # nosec: B104
+        try:
+            application.listen(settings.PORT, '127.0.0.1')
+
+        except OSError as e:
+            logging.warning(
+                f'could not also listen on 127.0.0.1:{settings.PORT} for motion event relays: {e}'
+            )
+
+
 def run():
     from motioneye import VERSION, cleanup, mjpgclient, motionctl, tasks, wsswitch
     from motioneye.controls import smbctl
@@ -478,7 +494,7 @@ def run():
 
     # Create the Tornado application with secure cookie settings
     application = make_app(debug=False)
-    application.listen(settings.PORT, settings.LISTEN)
+    listen(application)
     logging.info(_('servilo komenciĝis'))
 
     io_loop = IOLoop.current()

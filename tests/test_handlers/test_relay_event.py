@@ -33,16 +33,19 @@ class RelayEventHandlerTest(HandlerTestCase):
             p.stop()
         super().tearDown()
 
-    def relay_event(self, client_ip, relay_secret=_RELAY_SECRET):
+    def relay_event(self, client_ip, relay_secret=_RELAY_SECRET, cookie=None):
+        headers = {
+            'Content-Type': 'application/json',
+            'X-Relay-Secret': relay_secret,
+            'X-Real-Ip': client_ip,
+        }
+        if cookie:
+            headers['Cookie'] = cookie
         return self.fetch(
             '/_relay_event/?event=start&motion_camera_id=1',
             method='POST',
             body='{}',
-            headers={
-                'Content-Type': 'application/json',
-                'X-Relay-Secret': relay_secret,
-                'X-Real-Ip': client_ip,
-            },
+            headers=headers,
         )
 
     def test_loopback_allowed(self):
@@ -54,24 +57,16 @@ class RelayEventHandlerTest(HandlerTestCase):
         self.assertEqual(403, response.code)
         self.assertEqual('invalid_secret', loads(response.body)['error'])
 
-    def test_other_address_denied(self):
-        # The default `listen` setting (all interfaces) is not in the allowlist.
+    def test_non_local_denied(self):
         response = self.relay_event('192.0.2.10')
         self.assertEqual(403, response.code)
         self.assertEqual('unauthorized', loads(response.body)['error'])
 
-    def test_listen_address_allowed(self):
-        with patch('motioneye.settings.LISTEN', '192.0.2.10'):
-            self.assertEqual(200, self.relay_event('192.0.2.10').code)
-            response = self.relay_event('192.0.2.11')
+    def test_non_local_admin_denied(self):
+        cookie = self.make_session_cookie('admin')
+        response = self.relay_event('192.0.2.10', cookie=cookie)
         self.assertEqual(403, response.code)
         self.assertEqual('unauthorized', loads(response.body)['error'])
-
-    def test_listen_address_requires_secret(self):
-        with patch('motioneye.settings.LISTEN', '192.0.2.10'):
-            response = self.relay_event('192.0.2.10', 'wrong')
-        self.assertEqual(403, response.code)
-        self.assertEqual('invalid_secret', loads(response.body)['error'])
 
 
 if __name__ == '__main__':
