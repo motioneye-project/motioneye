@@ -20,7 +20,15 @@ from __future__ import annotations
 import logging
 import os
 
-from motioneye import config, mediafiles, motionctl, tasks, uploadservices, utils
+from motioneye import (
+    config,
+    mediafiles,
+    motionctl,
+    settings,
+    tasks,
+    uploadservices,
+    utils,
+)
 from motioneye.handlers.base import BaseHandler
 
 __all__ = ('RelayEventHandler',)
@@ -40,9 +48,10 @@ class RelayEventHandler(BaseHandler):
             return self.finish_json({'error': 'invalid_secret'})
 
         # Allow localhost/127.0.0.1 to call this endpoint without additional authentication
-        # (internal relay from Motion daemon only)
+        # (internal relay from Motion daemon only). If motionEye listens on a specific
+        # address, the relay script connects to that one instead.
         client_ip = self.request.remote_ip
-        if client_ip not in ('127.0.0.1', 'localhost', '::1'):
+        if client_ip not in ('127.0.0.1', 'localhost', '::1', settings.LISTEN):
             # Not localhost, require authentication
             user = self.current_user
             if user != 'admin':
