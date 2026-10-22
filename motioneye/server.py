@@ -479,6 +479,11 @@ def run():
     # Create the Tornado application with secure cookie settings
     application = make_app(debug=False)
     application.listen(settings.PORT, settings.LISTEN)
+    # motion relays its events to 127.0.0.1 (see relayevent.sh), and the relay
+    # event API only accepts local requests, so listen there as well when the
+    # configured address does not include it
+    if settings.LISTEN not in ('', '0.0.0.0', '127.0.0.1', 'localhost'):  # nosec: B104
+        application.listen(settings.PORT, '127.0.0.1')
     logging.info(_('servilo komenciĝis'))
 
     io_loop = IOLoop.current()

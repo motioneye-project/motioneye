@@ -28,6 +28,15 @@ __all__ = ('RelayEventHandler',)
 
 class RelayEventHandler(BaseHandler):
     def post(self) -> None:
+        # Only motion on this host relays events, through loopback (see
+        # relayevent.sh and server.run()), so reject any other client
+        if self.request.remote_ip not in ('127.0.0.1', '::1'):
+            logging.warning(
+                f'relay event request from non-local address {self.request.remote_ip}'
+            )
+            self.set_status(403)
+            return self.finish_json({'error': 'unauthorized'})
+
         # Validate relay secret from header
         relay_secret = self.request.headers.get('X-Relay-Secret', '')
         expected_secret = config.get_relay_secret()
@@ -38,16 +47,6 @@ class RelayEventHandler(BaseHandler):
             )
             self.set_status(403)
             return self.finish_json({'error': 'invalid_secret'})
-
-        # Allow localhost/127.0.0.1 to call this endpoint without additional authentication
-        # (internal relay from Motion daemon only)
-        client_ip = self.request.remote_ip
-        if client_ip not in ('127.0.0.1', 'localhost', '::1'):
-            # Not localhost, require authentication
-            user = self.current_user
-            if user != 'admin':
-                self.set_status(403)
-                return self.finish_json({'error': 'unauthorized'})
 
         event = self.get_argument('event')
         motion_camera_id = int(self.get_argument('motion_camera_id'))
