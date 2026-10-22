@@ -389,7 +389,7 @@ def build_editable_mask_file(
     else:
         rx = 0
 
-    rw = width / nx  # rectangle width
+    rw = width // nx  # rectangle width
 
     # vertical rectangles
     ny = mask_height = height * MASK_WIDTH // width  # number of rectangles
@@ -416,7 +416,7 @@ def build_editable_mask_file(
         def line_index_func(y):
             return (len(mask_lines) - 1) * y / ny
 
-    rh = height / ny  # rectangle height
+    rh = height // ny  # rectangle height
 
     # draw the actual mask image content
     im = Image.new('L', (width, height), 255)  # all white
