@@ -1806,6 +1806,7 @@ function cameraUi2Dict() {
         'upload_subfolders': $('#uploadSubfoldersSwitch')[0].checked,
         'upload_username': $('#uploadUsernameEntry').val(),
         'upload_password': $('#uploadPasswordEntry').val(),
+        'upload_verify': $('#uploadVerifySwitch')[0].checked,
         'upload_authorization_key': $('#uploadAuthorizationKeyEntry').val(),
         'upload_endpoint_url': $('#uploadEndpointUrlEntry').val(),
         'upload_access_key': $('#uploadAccessKeyEntry').val(),
@@ -2121,6 +2122,7 @@ function dict2CameraUi(dict) {
     $('#uploadSubfoldersSwitch')[0].checked = dict['upload_subfolders']; markHideIfNull('upload_subfolders', 'uploadSubfoldersSwitch');
     $('#uploadUsernameEntry').val(dict['upload_username']); markHideIfNull('upload_username', 'uploadUsernameEntry');
     $('#uploadPasswordEntry').val(dict['upload_password']); markHideIfNull('upload_password', 'uploadPasswordEntry');
+    $('#uploadVerifySwitch')[0].checked = dict['upload_verify']; markHideIfNull('upload_verify', 'uploadVerifySwitch');
     $('#uploadAuthorizationKeyEntry').val(dict['upload_authorization_key']); markHideIfNull('upload_authorization_key', 'uploadAuthorizationKeyEntry');
     $('#uploadEndpointUrlEntry').val(dict['upload_endpoint_url']); markHideIfNull('upload_endpoint_url', 'uploadEndpointUrlEntry');
     $('#uploadAccessKeyEntry').val(dict['upload_access_key']); markHideIfNull('upload_access_key', 'uploadAccessKeyEntry');
@@ -2742,6 +2744,7 @@ function doTestUpload() {
         subfolders: $('#uploadSubfoldersSwitch')[0].checked,
         username: $('#uploadUsernameEntry').val(),
         password: $('#uploadPasswordEntry').val(),
+        verify: $('#uploadVerifySwitch')[0].checked,
         authorization_key: $('#uploadAuthorizationKeyEntry').val(),
         endpoint_url: $('#uploadEndpointUrlEntry').val(),
         access_key: $('#uploadAccessKeyEntry').val(),

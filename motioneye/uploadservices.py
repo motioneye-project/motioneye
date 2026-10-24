@@ -18,10 +18,12 @@ from __future__ import annotations
 import json
 import logging
 import os.path
+import ssl
 from abc import ABC, abstractmethod
 from base64 import b64decode, b64encode
 from datetime import datetime
 from ftplib import FTP as FTPc  # nosec: B402
+from ftplib import FTP_TLS as FTPTLSc  # nosec: B402
 from hashlib import md5
 from inspect import isabstract
 from io import BytesIO, StringIO
@@ -1011,6 +1013,71 @@ class FTP(UploadService):
             conn.cwd(p)
 
         return '/' + '/'.join(path)
+
+
+class _FTPTLSSessionReuse(FTPTLSc):
+    """FTP_TLS that resumes the control connection's TLS session on the data
+    connections. vsftpd, ProFTPD and FileZilla Server require that by default
+    and refuse the transfer otherwise; ftplib does not do it (python/cpython#63699)."""
+
+    def ntransfercmd(self, cmd, rest=None):
+        conn, size = FTPc.ntransfercmd(self, cmd, rest)
+        if self._prot_p:
+            conn = self.context.wrap_socket(
+                conn, server_hostname=self.host, session=self.sock.session
+            )
+
+        return conn, size
+
+
+class FTPS(FTP):
+    NAME = 'ftps'
+    # seconds; without a timeout a server that never answers hangs the "Test" button
+    SOCKET_TIMEOUT = 30
+
+    def __init__(self, camera_id: str) -> None:
+        self._verify: bool = True
+        super().__init__(camera_id)
+
+    def dump(self) -> dict:
+        data = super().dump()
+        data['verify'] = self._verify
+
+        return data
+
+    def load(self, data: dict) -> None:
+        super().load(data)
+        verify = data.get('verify')
+        if isinstance(verify, str):
+            verify = verify.lower() in ('true', 'on', '1', 'yes')
+        if verify is not None:
+            self._verify = bool(verify)
+
+    def _get_conn(self, create=False):
+        now = time()
+        if self._conn is None or now - self._conn_time > self.CONN_LIFE_TIME or create:
+            self.debug(
+                'creating TLS connection to {}@{}:{} (certificate check {})'.format(
+                    self._username or 'anonymous',
+                    self._server,
+                    self._port,
+                    'on' if self._verify else 'off',
+                )
+            )
+            context = ssl.create_default_context()
+            if not self._verify:
+                context.check_hostname = False
+                context.verify_mode = ssl.CERT_NONE
+            self._conn = _FTPTLSSessionReuse(
+                context=context, timeout=self.SOCKET_TIMEOUT
+            )
+            self._conn.set_pasv(True)
+            self._conn.connect(self._server, port=self._port)
+            self._conn.login(self._username or 'anonymous', self._password)
+            self._conn.prot_p()
+            self._conn_time = now
+
+        return self._conn
 
 
 class SFTP(UploadService):
