@@ -1074,6 +1074,8 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         '@upload_subfolders': ui['upload_subfolders'],
         '@upload_username': ui['upload_username'],
         '@upload_password': ui['upload_password'],
+        '@upload_tls': ui['upload_tls'],
+        '@upload_verify': ui['upload_verify'],
         '@upload_endpoint_url': ui['upload_endpoint_url'],
         '@upload_access_key': ui['upload_access_key'],
         '@upload_secret_key': ui['upload_secret_key'],
@@ -1617,6 +1619,8 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
         'upload_subfolders': data['@upload_subfolders'],
         'upload_username': data['@upload_username'],
         'upload_password': data['@upload_password'],
+        'upload_tls': data['@upload_tls'],
+        'upload_verify': data['@upload_verify'],
         'upload_authorization_key': '',  # needed, otherwise the field is hidden
         'upload_endpoint_url': data['@upload_endpoint_url'],
         'upload_access_key': data['@upload_access_key'],
@@ -2446,6 +2450,8 @@ def _set_default_motion_camera(camera_id: int, data: dict) -> None:
     data.setdefault('@upload_subfolders', True)
     data.setdefault('@upload_username', '')
     data.setdefault('@upload_password', '')
+    data.setdefault('@upload_tls', False)
+    data.setdefault('@upload_verify', True)
     data.setdefault('@upload_endpoint_url', '')
     data.setdefault('@upload_access_key', '')
     data.setdefault('@upload_secret_key', '')
