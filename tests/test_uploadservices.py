@@ -137,12 +137,13 @@ class TestUploadMediaFileCleanup(unittest.TestCase):
         mock_del.assert_called_once()
 
 
-class TestFTPS(unittest.TestCase):
-    """The FTPS upload service: FTP over TLS, with the server's certificate
-    checked by default and a setting to turn that check off."""
+class TestFTPWithTLS(unittest.TestCase):
+    """The FTP upload service's TLS switch: plain FTP by default, FTP over TLS
+    with the server's certificate checked when the switch is on, and a setting
+    to turn that check off."""
 
     def _service(self, **settings):
-        service = uploadservices.FTPS('1')
+        service = uploadservices.FTP('1')
         service.load(
             {
                 'server': 'ftp.example',
@@ -156,43 +157,75 @@ class TestFTPS(unittest.TestCase):
 
         return service
 
-    def test_is_registered_under_its_own_name(self):
-        self.assertIs(
-            uploadservices.FTPS, uploadservices._get_service_classes()['ftps']
-        )
-
     @patch('motioneye.uploadservices._FTPTLSSessionReuse')
-    def test_connects_over_tls_checking_the_certificate_and_protecting_the_data(
-        self, ftp_tls
-    ):
+    @patch('motioneye.uploadservices.FTPc')
+    def test_connects_in_plain_ftp_by_default(self, ftp, ftp_tls):
         conn = self._service()._get_conn(create=True)
 
+        ftp.assert_called_once_with(timeout=uploadservices.FTP.SOCKET_TIMEOUT)
+        ftp_tls.assert_not_called()
+        conn.connect.assert_called_once_with('ftp.example', port=21)
+        conn.login.assert_called_once_with('cam', 'pw')
+        conn.prot_p.assert_not_called()
+
+    @patch('motioneye.uploadservices.FTPc')
+    @patch('motioneye.uploadservices._FTPTLSSessionReuse')
+    def test_with_tls_on_it_checks_the_certificate_and_protects_the_data(
+        self, ftp_tls, ftp
+    ):
+        conn = self._service(tls=True)._get_conn(create=True)
+
+        ftp.assert_not_called()
         context = ftp_tls.call_args.kwargs['context']
         self.assertTrue(context.check_hostname)
         self.assertEqual(ssl.CERT_REQUIRED, context.verify_mode)
         self.assertEqual(
-            uploadservices.FTPS.SOCKET_TIMEOUT, ftp_tls.call_args.kwargs['timeout']
+            uploadservices.FTP.SOCKET_TIMEOUT, ftp_tls.call_args.kwargs['timeout']
         )
-        self.assertGreater(uploadservices.FTPS.SOCKET_TIMEOUT, 0)
+        self.assertGreater(uploadservices.FTP.SOCKET_TIMEOUT, 0)
         conn.connect.assert_called_once_with('ftp.example', port=21)
         conn.login.assert_called_once_with('cam', 'pw')
         conn.prot_p.assert_called_once_with()
 
     @patch('motioneye.uploadservices._FTPTLSSessionReuse')
     def test_the_certificate_check_can_be_turned_off(self, ftp_tls):
-        self._service(verify=False)._get_conn(create=True)
+        self._service(tls=True, verify=False)._get_conn(create=True)
 
         context = ftp_tls.call_args.kwargs['context']
         self.assertFalse(context.check_hostname)
         self.assertEqual(ssl.CERT_NONE, context.verify_mode)
 
-    def test_the_certificate_check_is_on_by_default_and_survives_a_round_trip(self):
-        self.assertTrue(uploadservices.FTPS('1').dump()['verify'])
+    def test_tls_is_off_and_the_check_on_by_default_and_both_survive_a_round_trip(
+        self,
+    ):
+        defaults = uploadservices.FTP('1').dump()
+        self.assertFalse(defaults['tls'])
+        self.assertTrue(defaults['verify'])
 
-        other = uploadservices.FTPS('1')
-        other.load(self._service(verify=False).dump())
+        other = uploadservices.FTP('1')
+        other.load(self._service(tls=True, verify=False).dump())
 
+        self.assertTrue(other.dump()['tls'])
         self.assertFalse(other.dump()['verify'])
+
+    @patch('motioneye.uploadservices._FTPTLSSessionReuse')
+    @patch('motioneye.uploadservices.FTPc')
+    def test_new_settings_drop_the_cached_connection(self, ftp, ftp_tls):
+        service = self._service()
+        plain = service._get_conn()
+
+        service.load({'tls': True})
+        conn = service._get_conn()
+
+        self.assertIs(ftp.return_value, plain)
+        self.assertIs(ftp_tls.return_value, conn)
+        conn.prot_p.assert_called_once_with()
+
+    def test_settings_from_a_config_file_arrive_as_strings(self):
+        service = self._service(tls='on', verify='off')
+
+        self.assertTrue(service.dump()['tls'])
+        self.assertFalse(service.dump()['verify'])
 
     def test_data_connections_resume_the_control_connection_tls_session(self):
         client = uploadservices._FTPTLSSessionReuse(
