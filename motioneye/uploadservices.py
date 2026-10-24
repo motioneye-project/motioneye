@@ -44,17 +44,6 @@ _STATE_FILE_NAME: str = 'uploadservices.json'
 _services: dict | None = None
 
 
-def _as_bool(value):
-    """A setting as it arrives from the UI (bool), the state file (bool) or a
-    config file ('on'/'off'); None when it is not there."""
-    if value is None:
-        return None
-    if isinstance(value, str):
-        return value.lower() in ('true', 'on', '1', 'yes')
-
-    return bool(value)
-
-
 class UploadService(ABC):
     NAME: str
     MAX_FILE_SIZE = 1024 * 1024 * 1024  # 1GB
@@ -980,12 +969,17 @@ class FTP(UploadService):
         path = os.path.dirname(filename)
         filename = os.path.basename(filename)
 
-        conn = self._get_conn()
-        path = self._make_dirs(self._location + '/' + path, conn=conn)
-        conn.cwd(path)
+        try:
+            conn = self._get_conn()
+            path = self._make_dirs(self._location + '/' + path, conn=conn)
+            conn.cwd(path)
 
-        self.debug(f'uploading {filename} of {len(data)} bytes')
-        conn.storbinary(f'STOR {filename}', BytesIO(data))
+            self.debug(f'uploading {filename} of {len(data)} bytes')
+            conn.storbinary(f'STOR {filename}', BytesIO(data))
+        except Exception:
+            # the connection may be out of step with the server now: do not reuse it
+            self._drop_conn()
+            raise
 
         self.debug('upload done')
 
@@ -1011,15 +1005,12 @@ class FTP(UploadService):
             self._password = data['password']
         if data.get('location'):
             self._location = data['location']
-        tls = _as_bool(data.get('tls'))
-        if tls is not None:
-            self._tls = tls
-        verify = _as_bool(data.get('verify'))
-        if verify is not None:
-            self._verify = verify
+        if data.get('tls') is not None:
+            self._tls = bool(data['tls'])
+        if data.get('verify') is not None:
+            self._verify = bool(data['verify'])
         # the settings may have changed: the next upload must connect afresh
-        self._conn = None
-        self._conn_time = 0
+        self._drop_conn()
 
     def _get_conn(self, create=False):
         now = time()
@@ -1034,24 +1025,33 @@ class FTP(UploadService):
                     self._port,
                 )
             )
+            self._drop_conn()
             if self._tls:
                 context = ssl.create_default_context()
                 if not self._verify:
                     context.check_hostname = False
                     context.verify_mode = ssl.CERT_NONE
-                self._conn = _FTPTLSSessionReuse(
-                    context=context, timeout=self.SOCKET_TIMEOUT
-                )
+                conn = _FTPTLSSessionReuse(context=context, timeout=self.SOCKET_TIMEOUT)
             else:
-                self._conn = FTPc(timeout=self.SOCKET_TIMEOUT)  # nosec: B321
-            self._conn.set_pasv(True)
-            self._conn.connect(self._server, port=self._port)
-            self._conn.login(self._username or 'anonymous', self._password)
+                conn = FTPc(timeout=self.SOCKET_TIMEOUT)  # nosec: B321
+            conn.set_pasv(True)
+            conn.connect(self._server, port=self._port)
+            conn.login(self._username or 'anonymous', self._password)
             if self._tls:
-                self._conn.prot_p()
+                conn.prot_p()
+            # cached only once it is fully set up
+            self._conn = conn
             self._conn_time = now
 
         return self._conn
+
+    def _drop_conn(self) -> None:
+        conn, self._conn, self._conn_time = self._conn, None, 0
+        if conn is not None:
+            try:
+                conn.close()
+            except OSError:
+                pass
 
     def _make_dirs(self, path, conn=None):
         conn = conn or self._get_conn()

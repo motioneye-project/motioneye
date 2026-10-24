@@ -401,7 +401,7 @@
                         <tr class="settings-item" depends="uploadEnabled uploadService=(ftp) uploadTls">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Verify certificate") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadVerifySwitch"></td>
-                            <td><span class="help-mark" title="{{ _("check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="uploadEnabled uploadService=(ftp|sftp|http|https)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Servila Adreso") }}</span></td>

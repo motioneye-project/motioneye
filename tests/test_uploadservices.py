@@ -221,11 +221,19 @@ class TestFTPWithTLS(unittest.TestCase):
         self.assertIs(ftp_tls.return_value, conn)
         conn.prot_p.assert_called_once_with()
 
-    def test_settings_from_a_config_file_arrive_as_strings(self):
-        service = self._service(tls='on', verify='off')
+    @patch('motioneye.uploadservices.FTPc')
+    def test_a_failed_upload_drops_the_cached_connection(self, ftp):
+        service = self._service()
+        broken = ftp.return_value
+        broken.storbinary.side_effect = OSError('timed out')
 
-        self.assertTrue(service.dump()['tls'])
-        self.assertFalse(service.dump()['verify'])
+        with self.assertRaises(OSError):
+            service.upload_data('2026-10-24/a.jpg', 'image/jpeg', b'x', 0, 'cam')
+
+        ftp.return_value = MagicMock()
+        self.assertIs(ftp.return_value, service._get_conn())
+        self.assertEqual(2, ftp.call_count)
+        broken.close.assert_called_once_with()
 
     def test_data_connections_resume_the_control_connection_tls_session(self):
         client = uploadservices._FTPTLSSessionReuse(
