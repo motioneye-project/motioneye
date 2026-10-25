@@ -2767,7 +2767,7 @@ function doTestUpload() {
             showErrorMessage(i18n.gettext("Aliri la alŝutan servon malsukcesis: ") + data.error + '!');
         }
         else {
-            showPopupMessage(i18n.gettext("Aliri la alŝutan servon sukcesis!")+data, 'info');
+            showPopupMessage(i18n.gettext("Aliri la alŝutan servon sukcesis!"), 'info');
         }
     });
 }
