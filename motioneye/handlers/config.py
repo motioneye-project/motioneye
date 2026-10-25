@@ -149,6 +149,8 @@ class ConfigHandler(BaseHandler):
             local_config['@path'] = parsed.path or '/'
             if data.get('remote_secret'):
                 local_config['@remote_secret'] = data['remote_secret']
+            if data.get('remote_verify') is not None:
+                local_config['@remote_verify'] = bool(data['remote_verify'])
             config.set_camera(camera_id, local_config)
             return self.finish_json()
 
@@ -201,6 +203,7 @@ class ConfigHandler(BaseHandler):
                             'connection_url': remote.pretty_camera_url(
                                 local_config, camera=False
                             ),
+                            'remote_verify': local_config.get('@remote_verify', True),
                         }
                     )
 
@@ -261,6 +264,8 @@ class ConfigHandler(BaseHandler):
                 local_config['@enabled'] = ui_config['enabled']
                 if ui_config.get('admin_only') is not None:
                     local_config['@admin_only'] = bool(ui_config.get('admin_only'))
+                if ui_config.get('remote_verify') is not None:
+                    local_config['@remote_verify'] = bool(ui_config['remote_verify'])
                 config.set_camera(camera_id, local_config)
 
                 if 'name' in ui_config:
@@ -268,6 +273,7 @@ class ConfigHandler(BaseHandler):
                     ui_config.pop(
                         'admin_only', None
                     )  # local-only setting do not send to remote
+                    ui_config.pop('remote_verify', None)
                     result = await remote.set_config(local_config, ui_config)
                     on_finish(result, False)
 
@@ -439,20 +445,19 @@ class ConfigHandler(BaseHandler):
 
         if resp.error:
             msg = f'Failed to get remote camera configuration for {remote.pretty_camera_url(local_config)}: {resp.error}.'
-            cameras.append(
-                {
-                    'id': camera_id,
-                    'name': f'Camera {camera_id} - Connection failed',
-                    'enabled': False,
-                    'connection_failed': True,
-                    'connection_error': msg,
-                    'connection_url': remote.pretty_camera_url(
-                        local_config, camera=False
-                    ),
-                    'streaming_framerate': 1,
-                    'framerate': 1,
-                }
-            )
+            entry = {
+                'id': camera_id,
+                'name': f'Camera {camera_id} - Connection failed',
+                'enabled': False,
+                'connection_failed': True,
+                'connection_error': msg,
+                'connection_url': remote.pretty_camera_url(local_config, camera=False),
+                'streaming_framerate': 1,
+                'framerate': 1,
+            }
+            if self.current_user in ['admin', 'peer']:
+                entry['remote_verify'] = local_config.get('@remote_verify', True)
+            cameras.append(entry)
 
         else:
             resp.remote_ui_config['id'] = camera_id

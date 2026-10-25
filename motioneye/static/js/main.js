@@ -784,7 +784,8 @@ function initUI() {
             dict2CameraUi(null);
             runEditCredentialsDialog($(this).val(), {
                 proto: 'motioneye',
-                url: selectedOption.attr('data-connection-url') || ''
+                url: selectedOption.attr('data-connection-url') || '',
+                remote_verify: selectedOption.attr('data-connection-verify') != 'false'
             });
         }
         else {
@@ -874,7 +875,11 @@ function initUI() {
             url = url.replace(/config\/\d+$/, '');
         }
 
-        runEditCredentialsDialog(cameraId, {proto: proto, url: url});
+        runEditCredentialsDialog(cameraId, {
+            proto: proto,
+            url: url,
+            remote_verify: $('#remoteVerifySwitch')[0].checked
+        });
     });
 
     /* logout button */
@@ -1758,6 +1763,7 @@ function cameraUi2Dict() {
         'name': $('#deviceNameEntry').val(),
         'admin_only': $('#adminOnlySwitch')[0].checked,
         'proto': $('#deviceTypeEntry')[0].proto,
+        'remote_verify': $('#remoteVerifySwitch')[0].checked,
 
         /* video device */
         'auto_brightness': $('#autoBrightnessSwitch')[0].checked,
@@ -2029,6 +2035,7 @@ function dict2CameraUi(dict) {
     $('#deviceTypeEntry').val(prettyType); markHideIfNull(!prettyType, 'deviceTypeEntry');
     $('#deviceTypeEntry')[0].proto = dict['proto'];
     markHideIfNull(!['netcam', 'mjpeg', 'motioneye'].includes(dict['proto']), 'editCredentialsButton');
+    $('#remoteVerifySwitch')[0].checked = dict['remote_verify'] !== false; markHideIfNull(dict['remote_verify'] == null || dict['scheme'] != 'https', 'remoteVerifySwitch');
     $('#adminOnlySwitch')[0].checked = dict['admin_only']; markHideIfNull('admin_only', 'adminOnlySwitch');
     $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness']; markHideIfNull('auto_brightness', 'autoBrightnessSwitch');
 
@@ -3036,6 +3043,7 @@ function fetchCurrentConfig(onFetch) {
                         option.attr('data-connection-failed', 'true');
                         option.attr('data-connection-error', camera['connection_error'] || '');
                         option.attr('data-connection-url', camera['connection_url'] || '');
+                        option.attr('data-connection-verify', String(camera['remote_verify'] !== false));
                     }
                     cameraSelect.append(option);
                 }
@@ -3138,7 +3146,8 @@ function fetchCurrentCameraConfig(onFetch) {
                 if (data && data.connection_failed && isAdmin()) {
                     runEditCredentialsDialog(cameraId, {
                         proto: 'motioneye',
-                        url: data.connection_url || ''
+                        url: data.connection_url || '',
+                        remote_verify: data.remote_verify !== false
                     });
                 }
                 if (onFetch) {
@@ -3654,6 +3663,11 @@ function runAddCameraDialog() {
                     '<td class="dialog-item-value"><input type="password" class="styled" id="remoteSecretDialogEntry" placeholder="'+i18n.gettext("remote secret...")+'"></td>' +
                     '<td><span class="help-mark" title="'+i18n.gettext("the client secret of the remote motionEye server. Find this value in the Client Secret field of the remote server\'s general settings.")+'">?</span></td>' +
                 '</tr>' +
+                '<tr class="motioneye remote-verify">' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Verify certificate")+'</span></td>' +
+                    '<td class="dialog-item-value"><input type="checkbox" class="styled" id="remoteVerifyDialogSwitch"></td>' +
+                    '<td><span class="help-mark" title="'+i18n.gettext("check the remote motionEye\'s TLS certificate against the trusted authorities of this system; turn this off only for a remote with a self-signed certificate that you trust; the connection is then still encrypted, but the remote is not authenticated")+'">?</span></td>' +
+                '</tr>' +
                 '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Kamerao")+'</span></td>' +
                     '<td class="dialog-item-value"><select class="styled" id="addCameraSelect"></select><span id="cameraMsgLabel"></span></td>' +
@@ -3676,6 +3690,7 @@ function runAddCameraDialog() {
     var addCameraInfo = content.find('#addCameraInfo');
     var cameraMsgLabel = content.find('#cameraMsgLabel');
     var remoteSecretDialogEntry = content.find('#remoteSecretDialogEntry');
+    var remoteVerifyDialogSwitch = content.find('#remoteVerifyDialogSwitch');
 
     var isProgress = false;
 
@@ -3684,12 +3699,18 @@ function runAddCameraDialog() {
     makeRequiredValidator(addCameraSelect);
     makeRequiredValidator(remoteSecretDialogEntry);
 
+    remoteVerifyDialogSwitch[0].checked = true;
+    makeCheckBox(remoteVerifyDialogSwitch);
+
     /* ui interaction */
     function updateUi() {
         content.find('tr.v4l2, tr.motioneye, tr.netcam, tr.mjpeg, tr.mmal').css('display', 'none');
 
         if (typeSelect.val() == 'motioneye') {
             content.find('tr.motioneye').css('display', 'table-row');
+            if (!/^https:\/\//i.test(urlEntry.val().trim())) {
+                content.find('tr.remote-verify').css('display', 'none');
+            }
             addCameraInfo.html(
                 i18n.gettext("Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."));
         }
@@ -3823,6 +3844,7 @@ function runAddCameraDialog() {
 
         if (data.proto == 'motioneye') {
             data.remote_secret = remoteSecretDialogEntry.val();
+            data.remote_verify = remoteVerifyDialogSwitch[0].checked;
         } else {
             data.username = usernameEntry.val();
             data.password = passwordEntry.val();
@@ -3878,6 +3900,7 @@ function runAddCameraDialog() {
     usernameEntry.on('change', updateUi);
     passwordEntry.on('change', updateUi);
     remoteSecretDialogEntry.on('change', updateUi);
+    remoteVerifyDialogSwitch.on('change', updateUi);
 
     runModalDialog({
         title: i18n.gettext('Aldonadi kameraon...'),
@@ -3925,6 +3948,10 @@ function runAddCameraDialog() {
                 var value = option._extra_attrs[key];
                 data[key] = value;
             });
+
+            if (typeSelect.val() == 'motioneye') {
+                data.remote_verify = remoteVerifyDialogSwitch[0].checked;
+            }
 
             beginProgress();
             ajax('POST', basePath + 'config/add/', data, function (data) {
@@ -3977,6 +4004,11 @@ function runEditCredentialsDialog(cameraId, data) {
                 '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Remote Secret")+'</span></td>' +
                 '<td class="dialog-item-value"><input type="password" class="styled" id="remoteSecretDialogEntry" placeholder="'+i18n.gettext("remote secret...")+'"></td>' +
                 '<td><span class="help-mark" title="'+i18n.gettext("leave empty to keep the current remote secret")+'">?</span></td>' +
+            '</tr>' +
+            '<tr class="remote-verify">' +
+                '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Verify certificate")+'</span></td>' +
+                '<td class="dialog-item-value"><input type="checkbox" class="styled" id="remoteVerifyDialogSwitch"></td>' +
+                '<td><span class="help-mark" title="'+i18n.gettext("check the remote motionEye\'s TLS certificate against the trusted authorities of this system; turn this off only for a remote with a self-signed certificate that you trust; the connection is then still encrypted, but the remote is not authenticated")+'">?</span></td>' +
             '</tr>';
     }
 
@@ -3985,8 +4017,22 @@ function runEditCredentialsDialog(cameraId, data) {
     var usernameEntry = content.find('#usernameEntry');
     var passwordEntry = content.find('#passwordEntry');
     var remoteSecretDialogEntry = content.find('#remoteSecretDialogEntry');
+    var remoteVerifyDialogSwitch = content.find('#remoteVerifyDialogSwitch');
+
+    function updateVerifyRow() {
+        var secure = /^https:\/\//i.test(urlEntry.val().trim());
+        content.find('tr.remote-verify').css('display', secure ? 'table-row' : 'none');
+        updateModalDialogPosition();
+    }
 
     urlEntry.val(data.url || '');
+
+    if (data.proto == 'motioneye') {
+        remoteVerifyDialogSwitch[0].checked = data.remote_verify !== false;
+        makeCheckBox(remoteVerifyDialogSwitch);
+        urlEntry.on('change input', updateVerifyRow);
+        updateVerifyRow();
+    }
 
     makeUrlValidator(urlEntry);
 
@@ -4010,8 +4056,11 @@ function runEditCredentialsDialog(cameraId, data) {
                     payload.password = passwordEntry.val();
                 }
             }
-            else if (data.proto == 'motioneye' && remoteSecretDialogEntry.val()) {
-                payload.remote_secret = remoteSecretDialogEntry.val();
+            else if (data.proto == 'motioneye') {
+                if (remoteSecretDialogEntry.val()) {
+                    payload.remote_secret = remoteSecretDialogEntry.val();
+                }
+                payload.remote_verify = remoteVerifyDialogSwitch[0].checked;
             }
 
             beginProgress();

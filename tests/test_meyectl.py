@@ -28,6 +28,14 @@ from motioneye import meyectl, settings
 _PATHS = ('CONF_PATH', 'RUN_PATH', 'LOG_PATH', 'MEDIA_PATH')
 
 
+def _removed_warning(name):
+    return (
+        f'WARNING:root:{name} was removed and is ignored: HTTPS certificates are '
+        'always verified now; turn the check off per remote camera (Verify '
+        'certificate) or per upload service instead'
+    )
+
+
 class LogLevelTest(unittest.TestCase):
     def _load(self, *log_levels):
         conf_dir = mkdtemp()
@@ -114,6 +122,26 @@ class LoadSettingsLogToFileTest(unittest.TestCase):
     def test_l_argument_overrides_config(self):
         self._load_settings('log_to_file false\n', argv=('-l',))
         self.assertEqual(True, settings.LOG_TO_FILE)
+
+    def test_validate_certs_is_gone_and_only_warns(self):
+        with self.assertLogs(level='WARNING') as logs:
+            self._load_settings('validate_certs false\n')
+
+        self.assertEqual([_removed_warning('validate_certs')], logs.output)
+        self.assertFalse(hasattr(settings, 'VALIDATE_CERTS'))
+
+    def test_validate_certs_with_a_dash_warns_the_same_way(self):
+        with self.assertLogs(level='WARNING') as logs:
+            self._load_settings('validate-certs true\n')
+
+        self.assertEqual([_removed_warning('validate-certs')], logs.output)
+
+    def test_an_unknown_option_is_only_reported(self):
+        with self.assertLogs(level='WARNING') as logs:
+            self._load_settings('no_such_option 1\n')
+
+        warning = 'WARNING:root:unknown configuration option: no_such_option'
+        self.assertEqual([warning], logs.output)
 
 
 class _FakeSysLogHandler(logging.Handler):

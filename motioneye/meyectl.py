@@ -149,6 +149,14 @@ def load_settings():
         name, value = parts
         upper_name = name.upper().replace('-', '_')
 
+        if upper_name == 'VALIDATE_CERTS':
+            logging.warning(
+                f'{name} was removed and is ignored: HTTPS certificates are always '
+                'verified now; turn the check off per remote camera '
+                '(Verify certificate) or per upload service instead'
+            )
+            return
+
         if hasattr(settings, upper_name):
             curr_value = getattr(settings, upper_name)
 
