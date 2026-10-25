@@ -27,6 +27,7 @@ import os.path
 import sys
 from logging.handlers import SysLogHandler
 from shlex import quote
+from stat import S_IMODE
 
 import babel
 
@@ -205,6 +206,8 @@ def load_settings():
             logging.fatal(f'failed to read settings from "{config_file}": {e}')
             sys.exit(-1)
 
+        _harden_config_file_mode(config_file)
+
         # use the config file directory as base dir
         # if not specified otherwise in the config file
         base_dir = os.path.dirname(config_file)
@@ -230,6 +233,24 @@ def load_settings():
 
     if log_to_file:
         settings.LOG_TO_FILE = True
+
+
+def _harden_config_file_mode(config_file):
+    # the settings may hold credentials (motion_control_authentication), hence
+    # restrict the file like motion.conf and the camera config files
+    try:
+        if S_IMODE(os.stat(config_file).st_mode) == 0o600:
+            return
+
+        logging.warning(
+            f'config file {config_file} has insecure mode, applying 0600 ...'
+        )
+        os.chmod(config_file, 0o600)
+
+    except OSError as e:
+        # e.g. a root-owned file in a container running as non-root user,
+        # which is no reason to refuse starting
+        logging.warning(f'could not harden mode of config file {config_file}: {e}')
 
 
 def configure_logging(cmd):

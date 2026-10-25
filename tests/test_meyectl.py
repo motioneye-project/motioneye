@@ -16,6 +16,7 @@
 
 import logging
 import os
+import stat
 import sys
 import unittest
 from shutil import rmtree
@@ -114,6 +115,59 @@ class LoadSettingsLogToFileTest(unittest.TestCase):
     def test_l_argument_overrides_config(self):
         self._load_settings('log_to_file false\n', argv=('-l',))
         self.assertEqual(True, settings.LOG_TO_FILE)
+
+
+class ConfigFileModeTest(unittest.TestCase):
+    # the settings may hold credentials (motion_control_authentication)
+    _SETTINGS = LoadSettingsLogToFileTest._SETTINGS + ('MOTION_CONTROL_AUTHENTICATION',)
+
+    def setUp(self):
+        self.conf_dir = mkdtemp()
+        self.conf_file = os.path.join(self.conf_dir, 'motioneye.conf')
+        with open(self.conf_file, 'w') as f:
+            f.write('motion_control_authentication user:pass\n')
+
+        self.saved = {name: getattr(settings, name) for name in self._SETTINGS}
+
+    def tearDown(self):
+        for name, value in self.saved.items():
+            setattr(settings, name, value)
+
+        rmtree(self.conf_dir)
+
+    def _load_settings(self):
+        with patch.object(
+            sys, 'argv', ['meyectl', 'startserver', '-c', self.conf_file]
+        ):
+            meyectl.load_settings()
+
+        return stat.S_IMODE(os.stat(self.conf_file).st_mode)
+
+    def test_insecure_mode_is_restricted(self):
+        os.chmod(self.conf_file, 0o644)
+        with self.assertLogs(level='WARNING') as logs:
+            self.assertEqual(0o600, self._load_settings())
+
+        self.assertIn('insecure mode', '\n'.join(logs.output))
+
+    def test_secure_mode_is_kept_silently(self):
+        os.chmod(self.conf_file, 0o600)
+        with patch('motioneye.meyectl.logging.warning') as warning:
+            self.assertEqual(0o600, self._load_settings())
+
+        warning.assert_not_called()
+
+    def test_failing_chmod_does_not_prevent_starting(self):
+        # e.g. a root-owned file in a container running as non-root user
+        os.chmod(self.conf_file, 0o644)
+        with (
+            patch('motioneye.meyectl.os.chmod', side_effect=PermissionError('denied')),
+            self.assertLogs(level='WARNING') as logs,
+        ):
+            self.assertEqual(0o644, self._load_settings())
+
+        self.assertIn('could not harden mode', '\n'.join(logs.output))
+        self.assertEqual('user:pass', settings.MOTION_CONTROL_AUTHENTICATION)
 
 
 class _FakeSysLogHandler(logging.Handler):
