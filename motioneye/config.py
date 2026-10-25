@@ -2416,8 +2416,7 @@ def _set_default_motion(data: dict) -> None:
     data.setdefault('webcontrol_port', settings.MOTION_CONTROL_PORT)
     data.setdefault('webcontrol_interface', 1)
     data.setdefault('webcontrol_localhost', settings.MOTION_CONTROL_LOCALHOST)
-    # the advanced list of parameters will be available
-    data.setdefault('webcontrol_parms', 2)
+    data.setdefault('webcontrol_parms', 0)
 
 
 def _set_motion_control_auth(data: dict) -> bool:

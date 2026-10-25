@@ -77,6 +77,8 @@ else
   cp extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
 fi
 chown -R motion:motion /etc/motioneye
+# The settings may contain credentials (motion_control_authentication)
+chmod 0600 /etc/motioneye/motioneye.conf
 
 (( SKIP_SYSTEMD )) && exit 0
 
