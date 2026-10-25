@@ -1017,7 +1017,7 @@ class FTP(UploadService):
         if self._conn is None or now - self._conn_time > self.CONN_LIFE_TIME or create:
             self.debug(
                 'creating {} connection to {}@{}:{}'.format(
-                    'TLS (certificate check {})'.format('on' if self._verify else 'off')
+                    f'TLS (certificate check {"on" if self._verify else "off"})'
                     if self._tls
                     else 'plain',
                     self._username or 'anonymous',
