@@ -281,3 +281,18 @@ class TestNetcamParams(unittest.TestCase):
             },
             data,
         )
+
+
+class TestDefaultMotion(unittest.TestCase):
+    def test_control_interface_cannot_change_parameters_by_default(self):
+        data = {}
+        config._set_default_motion(data)
+
+        self.assertEqual(0, data['webcontrol_parms'])
+
+    def test_keeps_stored_control_interface_parameters(self):
+        # existing installations keep what is stored in motion.conf
+        data = {'webcontrol_parms': 2}
+        config._set_default_motion(data)
+
+        self.assertEqual(2, data['webcontrol_parms'])

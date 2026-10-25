@@ -1,3 +1,7 @@
+# this file may contain credentials (see motion_control_authentication), hence
+# it should be readable by the motionEye user only (mode 0600), which
+# motioneye_init and motionEye itself take care of
+
 # path to the configuration directory (must be writable by motionEye)
 conf_path /etc/motioneye
 
@@ -41,6 +45,12 @@ motion_control_localhost true
 
 # the TCP port that motion HTTP control interface listens on
 motion_control_port 7999
+
+# the credentials (username:password) required by motion HTTP control interface
+# (basic authentication), disabled if commented; recommended when
+# motion_control_localhost is false, as the interface is otherwise open to the
+# network
+#motion_control_authentication username:password
 
 # interval in seconds at which motionEye checks if motion is running
 motion_check_interval 10

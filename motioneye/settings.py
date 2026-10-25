@@ -80,6 +80,10 @@ MOTION_CONTROL_LOCALHOST = True
 # the TCP port that motion HTTP control interface listens on
 MOTION_CONTROL_PORT = 7999
 
+# the credentials (username:password) required by motion HTTP control interface
+# (basic authentication), empty to disable authentication
+MOTION_CONTROL_AUTHENTICATION = ''
+
 # interval in seconds at which motionEye checks if motion is running
 MOTION_CHECK_INTERVAL = 10
 
