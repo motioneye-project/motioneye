@@ -3375,7 +3375,10 @@ function runLoginDialog(retry) {
                     error: function(xhr) {
                         var message = i18n.gettext('Login failed.');
 
-                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                        if (xhr.status === 429 && xhr.responseJSON && xhr.responseJSON.retry_after) {
+                            message = i18n.gettext('Too many failed login attempts. Try again in %(seconds)s s.').format({seconds: xhr.responseJSON.retry_after});
+                        }
+                        else if (xhr.responseJSON && xhr.responseJSON.error) {
                             message = xhr.responseJSON.error;
                         }
 

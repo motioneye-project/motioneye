@@ -67,6 +67,9 @@ LISTEN = '0.0.0.0'  # nosec: B104
 # the TCP port to listen on
 PORT = 8765
 
+# comma-separated proxy IPs or networks trusted by the login rate limiter
+TRUSTED_PROXIES: str = ''
+
 # path to the motion binary to use (automatically detected by default)
 MOTION_BINARY = None
 
