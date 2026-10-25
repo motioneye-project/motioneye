@@ -18,10 +18,12 @@ from __future__ import annotations
 import json
 import logging
 import os.path
+import ssl
 from abc import ABC, abstractmethod
 from base64 import b64decode, b64encode
 from datetime import datetime
 from ftplib import FTP as FTPc  # nosec: B402
+from ftplib import FTP_TLS as FTPTLSc  # nosec: B402
 from hashlib import md5
 from inspect import isabstract
 from io import BytesIO, StringIO
@@ -911,9 +913,26 @@ class Webdav(UploadService):
             self._location = data['location']
 
 
+class _FTPTLSSessionReuse(FTPTLSc):
+    """FTP_TLS that resumes the control connection's TLS session on the data
+    connections. vsftpd, ProFTPD and FileZilla Server require that by default
+    and refuse the transfer otherwise; ftplib does not do it (python/cpython#63699)."""
+
+    def ntransfercmd(self, cmd, rest=None):
+        conn, size = FTPc.ntransfercmd(self, cmd, rest)
+        if self._prot_p:
+            conn = self.context.wrap_socket(
+                conn, server_hostname=self.host, session=self.sock.session
+            )
+
+        return conn, size
+
+
 class FTP(UploadService):
     NAME = 'ftp'
     CONN_LIFE_TIME = 60  # don't keep an FTP connection for more than 1 minute
+    # seconds; without a timeout a server that never answers hangs the "Test" button
+    SOCKET_TIMEOUT = 30
 
     def __init__(self, camera_id: str) -> None:
         self._server: str | None = None
@@ -921,6 +940,8 @@ class FTP(UploadService):
         self._username: str | None = None
         self._password: str | None = None
         self._location: str | None = None
+        self._tls: bool = False
+        self._verify: bool = True
         self._conn = None
         self._conn_time: float | None = 0
         super().__init__(camera_id)
@@ -948,12 +969,17 @@ class FTP(UploadService):
         path = os.path.dirname(filename)
         filename = os.path.basename(filename)
 
-        conn = self._get_conn()
-        path = self._make_dirs(self._location + '/' + path, conn=conn)
-        conn.cwd(path)
+        try:
+            conn = self._get_conn()
+            path = self._make_dirs(self._location + '/' + path, conn=conn)
+            conn.cwd(path)
 
-        self.debug(f'uploading {filename} of {len(data)} bytes')
-        conn.storbinary(f'STOR {filename}', BytesIO(data))
+            self.debug(f'uploading {filename} of {len(data)} bytes')
+            conn.storbinary(f'STOR {filename}', BytesIO(data))
+        except Exception:
+            # the connection may be out of step with the server now: do not reuse it
+            self._drop_conn()
+            raise
 
         self.debug('upload done')
 
@@ -964,6 +990,8 @@ class FTP(UploadService):
             'username': self._username,
             'password': self._password,
             'location': self._location,
+            'tls': self._tls,
+            'verify': self._verify,
         }
 
     def load(self, data: dict) -> None:
@@ -977,22 +1005,53 @@ class FTP(UploadService):
             self._password = data['password']
         if data.get('location'):
             self._location = data['location']
+        if data.get('tls') is not None:
+            self._tls = bool(data['tls'])
+        if data.get('verify') is not None:
+            self._verify = bool(data['verify'])
+        # the settings may have changed: the next upload must connect afresh
+        self._drop_conn()
 
     def _get_conn(self, create=False):
         now = time()
         if self._conn is None or now - self._conn_time > self.CONN_LIFE_TIME or create:
             self.debug(
-                'creating connection to {}@{}:{}'.format(
-                    self._username or 'anonymous', self._server, self._port
+                'creating {} connection to {}@{}:{}'.format(
+                    f'TLS (certificate check {"on" if self._verify else "off"})'
+                    if self._tls
+                    else 'plain',
+                    self._username or 'anonymous',
+                    self._server,
+                    self._port,
                 )
             )
-            self._conn = FTPc()  # nosec: B321
-            self._conn.set_pasv(True)
-            self._conn.connect(self._server, port=self._port)
-            self._conn.login(self._username or 'anonymous', self._password)
+            self._drop_conn()
+            if self._tls:
+                context = ssl.create_default_context()
+                if not self._verify:
+                    context.check_hostname = False
+                    context.verify_mode = ssl.CERT_NONE
+                conn = _FTPTLSSessionReuse(context=context, timeout=self.SOCKET_TIMEOUT)
+            else:
+                conn = FTPc(timeout=self.SOCKET_TIMEOUT)  # nosec: B321
+            conn.set_pasv(True)
+            conn.connect(self._server, port=self._port)
+            conn.login(self._username or 'anonymous', self._password)
+            if self._tls:
+                conn.prot_p()
+            # cached only once it is fully set up
+            self._conn = conn
             self._conn_time = now
 
         return self._conn
+
+    def _drop_conn(self) -> None:
+        conn, self._conn, self._conn_time = self._conn, None, 0
+        if conn is not None:
+            try:
+                conn.close()
+            except OSError:
+                pass
 
     def _make_dirs(self, path, conn=None):
         conn = conn or self._get_conn()
