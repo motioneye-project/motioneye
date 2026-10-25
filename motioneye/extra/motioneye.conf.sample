@@ -42,6 +42,12 @@ motion_control_localhost true
 # the TCP port that motion HTTP control interface listens on
 motion_control_port 7999
 
+# the credentials (username:password) required by motion HTTP control interface
+# (basic authentication), disabled if commented; recommended when
+# motion_control_localhost is false, as the interface is otherwise open to the
+# network
+#motion_control_authentication username:password
+
 # interval in seconds at which motionEye checks if motion is running
 motion_check_interval 10
 
