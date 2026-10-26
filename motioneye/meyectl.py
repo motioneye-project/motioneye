@@ -241,35 +241,39 @@ def _harden_config_file_mode(config_file):
     # with mode 0640 is recommended, so that motionEye cannot change them
     try:
         st = os.stat(config_file)
-        if st.st_uid not in (0, os.geteuid()):
+        uid = os.geteuid()
+        if st.st_uid not in (0, uid):
             logging.warning(
                 f'config file {config_file} is owned by another user '
-                f'(UID {st.st_uid}), please change its owner to root'
+                f'(UID {st.st_uid}), please change its owner:group to'
+                f' root:{os.getegid()} and mode to 0640, for optimal security.'
             )
             return
 
         mode = S_IMODE(st.st_mode)
         insecure = 0o007
-        if st.st_gid not in (0, os.getegid()):
+        if st.st_uid == uid or st.st_gid not in (0, os.getegid()):
             insecure |= 0o070
+
+        else:
+            insecure |= 0o030
 
         if not mode & insecure:
             return
 
-        secure_mode = mode & ~insecure
-        if st.st_uid != os.geteuid():
-            # only the owner can change the mode
+        if st.st_uid != uid:
+            # only the owner (root) can change the mode
             logging.warning(
                 f'config file {config_file} has insecure mode {mode:04o}, '
-                f'please apply {secure_mode:04o} as root'
+                f'please apply 0640 with root:{os.getegid()} as owner:group'
+                ', for optimal security.'
             )
             return
 
         logging.warning(
-            f'config file {config_file} has insecure mode {mode:04o}, '
-            f'applying {secure_mode:04o} ...'
+            f'config file {config_file} has insecure mode {mode:04o}, applying 0600 ...'
         )
-        os.chmod(config_file, secure_mode)
+        os.chmod(config_file, 0o600)
 
     except OSError as e:
         # no reason to refuse starting
