@@ -27,6 +27,7 @@ import os.path
 import sys
 from logging.handlers import SysLogHandler
 from shlex import quote
+from stat import S_IMODE
 
 import babel
 
@@ -214,6 +215,8 @@ def load_settings():
             logging.fatal(f'failed to read settings from "{config_file}": {e}')
             sys.exit(-1)
 
+        _harden_config_file_mode(config_file)
+
         # use the config file directory as base dir
         # if not specified otherwise in the config file
         base_dir = os.path.dirname(config_file)
@@ -239,6 +242,52 @@ def load_settings():
 
     if log_to_file:
         settings.LOG_TO_FILE = True
+
+
+def _harden_config_file_mode(config_file):
+    # the settings may hold credentials (motion_control_authentication), hence
+    # nobody but motionEye itself and root may access the file; root:motion
+    # with mode 0640 is recommended, so that motionEye cannot change them
+    try:
+        st = os.stat(config_file)
+        uid = os.geteuid()
+        gid = os.getegid()
+        if st.st_uid not in (0, uid):
+            logging.warning(
+                f'config file {config_file} is owned by another user '
+                f'(UID {st.st_uid}), please change its owner:group to'
+                f' root:{gid} and mode to 0640, for optimal security.'
+            )
+            return
+
+        mode = S_IMODE(st.st_mode)
+        insecure = 0o007
+        if st.st_uid == uid or st.st_gid not in (0, gid):
+            insecure |= 0o070
+
+        else:
+            insecure |= 0o030
+
+        if not mode & insecure:
+            return
+
+        if st.st_uid != uid:
+            # only the owner (root) can change the mode
+            logging.warning(
+                f'config file {config_file} has insecure mode {mode:04o}, '
+                f'please apply 0640 with root:{gid} as owner:group'
+                ', for optimal security.'
+            )
+            return
+
+        logging.warning(
+            f'config file {config_file} has insecure mode {mode:04o}, applying 0600 ...'
+        )
+        os.chmod(config_file, 0o600)
+
+    except OSError as e:
+        # no reason to refuse starting
+        logging.warning(f'could not harden mode of config file {config_file}: {e}')
 
 
 def configure_logging(cmd):

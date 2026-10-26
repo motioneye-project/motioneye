@@ -223,6 +223,19 @@ def started():
     return _started
 
 
+def _control_request(path: str) -> HTTPRequest:
+    username, _, password = settings.MOTION_CONTROL_AUTHENTICATION.partition(':')
+
+    return HTTPRequest(
+        f'http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{path}',
+        connect_timeout=_MOTION_CONTROL_TIMEOUT,
+        request_timeout=_MOTION_CONTROL_TIMEOUT,
+        auth_username=username or None,
+        auth_password=password or None,
+        auth_mode='basic',
+    )
+
+
 async def get_motion_detection(camera_id) -> utils.GetMotionDetectionResult:
     motion_camera_id = camera_id_to_motion_camera_id(camera_id)
     if motion_camera_id is None:
@@ -230,13 +243,7 @@ async def get_motion_detection(camera_id) -> utils.GetMotionDetectionResult:
         logging.error(error)
         return utils.GetMotionDetectionResult(None, error=error)
 
-    url = f'http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/detection/status'
-
-    request = HTTPRequest(
-        url,
-        connect_timeout=_MOTION_CONTROL_TIMEOUT,
-        request_timeout=_MOTION_CONTROL_TIMEOUT,
-    )
+    request = _control_request(f'{motion_camera_id}/detection/status')
     resp = await AsyncHTTPClient().fetch(request)
     if resp.error:
         return utils.GetMotionDetectionResult(None, error=utils.pretty_http_error(resp))
@@ -265,12 +272,8 @@ async def set_motion_detection(camera_id, enabled):
         f"{['disabling', 'enabling'][enabled]} motion detection for camera with id {camera_id}"
     )
 
-    url = f"http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/detection/{['pause', 'start'][enabled]}"
-
-    request = HTTPRequest(
-        url,
-        connect_timeout=_MOTION_CONTROL_TIMEOUT,
-        request_timeout=_MOTION_CONTROL_TIMEOUT,
+    request = _control_request(
+        f"{motion_camera_id}/detection/{['pause', 'start'][enabled]}"
     )
     resp = await AsyncHTTPClient().fetch(request)
     if resp.error:
@@ -299,13 +302,7 @@ async def take_snapshot(camera_id):
 
     logging.debug(f'taking snapshot for camera with id {camera_id}')
 
-    url = f'http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/action/snapshot'
-
-    request = HTTPRequest(
-        url,
-        connect_timeout=_MOTION_CONTROL_TIMEOUT,
-        request_timeout=_MOTION_CONTROL_TIMEOUT,
-    )
+    request = _control_request(f'{motion_camera_id}/action/snapshot')
     resp = await AsyncHTTPClient().fetch(request)
     if resp.error:
         logging.error(
@@ -328,11 +325,7 @@ async def trigger_action(camera_id: int, action: str) -> str | None:
 
     logging.debug(f'triggering {action!r} action for camera {camera_id}')
 
-    request = HTTPRequest(
-        f'http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/action/{action}',
-        connect_timeout=_MOTION_CONTROL_TIMEOUT,
-        request_timeout=_MOTION_CONTROL_TIMEOUT,
-    )
+    request = _control_request(f'{motion_camera_id}/action/{action}')
     try:
         resp = await AsyncHTTPClient().fetch(request, raise_error=False)
         if resp.error:

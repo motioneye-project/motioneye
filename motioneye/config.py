@@ -135,6 +135,8 @@ _USED_MOTION_OPTIONS = {
     'threshold_tune',
     'videodevice',
     'vid_control_params',
+    'webcontrol_auth_method',
+    'webcontrol_authentication',
     'webcontrol_interface',
     'webcontrol_localhost',
     'webcontrol_parms',
@@ -363,6 +365,10 @@ def get_main(as_lines: bool = False) -> dict | list:
         logging.info('Generating new client secret for remote HMAC authentication')
         client_secret = token_hex(32)  # 64-character hex string
         main_config['@client_secret'] = client_secret
+        save_needed = True
+
+    if _set_motion_control_auth(main_config):
+        logging.info('Applying motion control interface authentication to config file')
         save_needed = True
 
     if save_needed:
@@ -2430,8 +2436,26 @@ def _set_default_motion(data: dict) -> None:
     data.setdefault('webcontrol_port', settings.MOTION_CONTROL_PORT)
     data.setdefault('webcontrol_interface', 1)
     data.setdefault('webcontrol_localhost', settings.MOTION_CONTROL_LOCALHOST)
-    # the advanced list of parameters will be available
-    data.setdefault('webcontrol_parms', 2)
+    data.setdefault('webcontrol_parms', 0)
+
+
+def _set_motion_control_auth(data: dict) -> bool:
+    # motionEye sends the credentials from motioneye.conf with each request to
+    # the control interface, hence they always override those in motion.conf
+    old = (data.get('webcontrol_authentication'), data.get('webcontrol_auth_method'))
+
+    if settings.MOTION_CONTROL_AUTHENTICATION:
+        data['webcontrol_authentication'] = settings.MOTION_CONTROL_AUTHENTICATION
+        data['webcontrol_auth_method'] = 1  # basic
+
+    else:
+        data.pop('webcontrol_authentication', None)
+        data.pop('webcontrol_auth_method', None)
+
+    return old != (
+        data.get('webcontrol_authentication'),
+        data.get('webcontrol_auth_method'),
+    )
 
 
 def _set_default_motion_camera(camera_id: int, data: dict) -> None:

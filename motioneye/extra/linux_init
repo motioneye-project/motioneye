@@ -77,6 +77,9 @@ else
   cp extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
 fi
 chown -R motion:motion /etc/motioneye
+# The settings may contain credentials (motion_control_authentication), and motionEye is not supposed to write to this file
+chown root:motion /etc/motioneye/motioneye.conf
+chmod 0640 /etc/motioneye/motioneye.conf
 
 (( SKIP_SYSTEMD )) && exit 0
 
