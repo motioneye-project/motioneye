@@ -100,6 +100,8 @@ class LoadSettingsLogToFileTest(unittest.TestCase):
         conf_file = os.path.join(self.conf_dir, 'motioneye.conf')
         with open(conf_file, 'w') as f:
             f.write(conf)
+        # a world-readable file adds an "insecure mode" warning that depends on the umask
+        os.chmod(conf_file, 0o600)
 
         with patch.object(
             sys, 'argv', ['meyectl', 'startserver', '-c', conf_file, *argv]
