@@ -4,7 +4,7 @@ from importlib.util import find_spec
 from unittest import mock, skipUnless
 
 from tornado.concurrent import Future
-from tornado.httpclient import AsyncHTTPClient
+from tornado.httpclient import AsyncHTTPClient, HTTPResponse
 from tornado.iostream import StreamClosedError
 from tornado.tcpserver import TCPServer
 from tornado.testing import bind_unused_port, gen_test, main
@@ -175,6 +175,27 @@ class UtilsMjpegTest(WebTestCase):
             await sleep(2)
 
         log_error.assert_not_called()
+
+    @gen_test
+    async def test_the_certificate_of_an_https_camera_is_verified(self):
+        def fetch(request, **kwargs):
+            fetch_future: Future = Future()
+            fetch_future.set_result(HTTPResponse(request, 200))
+            return fetch_future
+
+        client = mock.Mock(fetch=mock.Mock(side_effect=fetch))
+        client_patch = mock.patch(
+            'motioneye.utils.mjpeg.AsyncHTTPClient', return_value=client
+        )
+        camera = {'scheme': 'https', 'host': 'cam.example', 'port': '443'}
+        with client_patch, self.assertLogs(level='ERROR'):
+            resp = await test_mjpeg_url(camera, auth_modes=['basic'], allow_jpeg=True)
+
+        request = client.fetch.call_args.args[0]
+        self.assertEqual('https://cam.example:443', request.url)
+        # None is Tornado's default here, which verifies
+        self.assertIsNot(False, request.validate_cert)
+        self.assertEqual('not a supported network camera', resp.error)
 
 
 @skipUnless(find_spec('pycurl'), 'pycurl is not installed')

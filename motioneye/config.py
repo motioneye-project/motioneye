@@ -616,7 +616,9 @@ def get_camera(camera_id: int, as_lines: bool = False) -> dict | list:
         _set_default_motion_camera(camera_id, camera_config)
 
     elif utils.is_remote_camera(camera_config):
-        pass
+        camera_config['@remote_verify'] = utils.verify_setting(
+            camera_config.get('@remote_verify')
+        )
 
     elif utils.is_simple_mjpeg_camera(camera_config):
         _set_default_simple_mjpeg_camera(camera_id, camera_config)
@@ -843,6 +845,10 @@ def add_camera(device_details: dict) -> dict:
 
         if device_details.get('remote_secret'):
             camera_config['@remote_secret'] = device_details['remote_secret']
+
+        camera_config['@remote_verify'] = utils.verify_setting(
+            device_details.get('remote_verify')
+        )
 
     elif proto == 'mmal':
         camera_config['mmalcam_name'] = device_details['path']

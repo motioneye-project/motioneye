@@ -41,6 +41,7 @@ def _make_request(
     query=None,
     timeout=None,
     content_type=None,
+    validate_cert=True,
 ):
     path = _DOUBLE_SLASH_REGEX.sub('/', path)
     query = dict(query or {})
@@ -76,7 +77,7 @@ def _make_request(
         connect_timeout=timeout,
         request_timeout=timeout,
         headers=headers,
-        validate_cert=settings.VALIDATE_CERTS,
+        validate_cert=validate_cert,
         follow_redirects=False,
     )
 
@@ -136,6 +137,12 @@ def pretty_camera_url(local_config, camera=True):
     return url
 
 
+def _verify_flag(local_config) -> bool:
+    value = local_config.get('@remote_verify', local_config.get('remote_verify'))
+
+    return utils.verify_setting(value)
+
+
 def _remote_params(local_config):
     params = [
         local_config.get('@scheme', local_config.get('scheme')) or 'http',
@@ -144,6 +151,7 @@ def _remote_params(local_config):
         local_config.get('@remote_secret', local_config.get('remote_secret')),
         local_config.get('@path', local_config.get('path')) or '',
         local_config.get('@remote_camera_id', local_config.get('remote_camera_id')),
+        _verify_flag(local_config),
     ]
 
     if params[3] is not None:
@@ -163,13 +171,17 @@ def make_camera_response(c):
 
 
 async def list_cameras(local_config) -> utils.GetCamerasResponse:
-    scheme, host, port, remote_secret, path, _camera_id = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, _camera_id, verify = _remote_params(
+        local_config
+    )
 
     logging.debug(
         f'listing remote cameras on {pretty_camera_url(local_config, camera=False)}'
     )
 
-    request = _make_request(scheme, host, port, remote_secret, path + '/config/list/')
+    request = _make_request(
+        scheme, host, port, remote_secret, path + '/config/list/', validate_cert=verify
+    )
 
     response = await _send_request(request)
 
@@ -213,14 +225,21 @@ async def list_cameras(local_config) -> utils.GetCamerasResponse:
 
 
 async def get_config(local_config) -> utils.GetConfigResponse:
-    scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
+    )
 
     logging.debug(
         f'getting config for remote camera {camera_id} on {pretty_camera_url(local_config)}'
     )
 
     request = _make_request(
-        scheme, host, port, remote_secret, path + f'/config/{camera_id}/get/'
+        scheme,
+        host,
+        port,
+        remote_secret,
+        path + f'/config/{camera_id}/get/',
+        validate_cert=verify,
     )
     response = await _send_request(request)
 
@@ -264,13 +283,8 @@ async def get_config(local_config) -> utils.GetConfigResponse:
 
 
 async def set_config(local_config, ui_config) -> str | None:
-    scheme = local_config.get('@scheme', local_config.get('scheme'))
-    host = local_config.get('@host', local_config.get('host'))
-    port = local_config.get('@port', local_config.get('port'))
-    remote_secret = local_config.get('@remote_secret')
-    path = local_config.get('@path', local_config.get('path')) or ''
-    camera_id = local_config.get(
-        '@remote_camera_id', local_config.get('remote_camera_id')
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
     )
 
     logging.debug(
@@ -289,6 +303,7 @@ async def set_config(local_config, ui_config) -> str | None:
         method='POST',
         data=ui_config.encode(),
         content_type='application/json',
+        validate_cert=verify,
     )
     response = await _send_request(request)
 
@@ -306,7 +321,9 @@ async def set_config(local_config, ui_config) -> str | None:
 
 
 async def test(local_config, data) -> utils.CommonExternalResponse:
-    scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
+    )
     what = data['what']
     logging.debug(
         f'testing {what} on remote camera {camera_id}, on {pretty_camera_url(local_config)}'
@@ -324,6 +341,7 @@ async def test(local_config, data) -> utils.CommonExternalResponse:
         method='POST',
         data=data,
         content_type='application/json',
+        validate_cert=verify,
     )
     response = await _send_request(request)
     if response.error:
@@ -344,7 +362,9 @@ async def test(local_config, data) -> utils.CommonExternalResponse:
 async def get_current_picture(
     local_config, width, height
 ) -> utils.GetCurrentPictureResponse:
-    scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
+    )
 
     logging.debug(
         f'getting current picture for remote camera {camera_id} on {pretty_camera_url(local_config)}'
@@ -360,7 +380,9 @@ async def get_current_picture(
 
     p = path + f'/picture/{camera_id}/current/'
 
-    request = _make_request(scheme, host, port, remote_secret, p, query=query)
+    request = _make_request(
+        scheme, host, port, remote_secret, p, query=query, validate_cert=verify
+    )
     response = await _send_request(request)
 
     if response.error:
@@ -397,7 +419,9 @@ async def list_media(
 ) -> utils.ListMediaResponse:
     utils.validate_paths(prefix)
 
-    scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
+    )
 
     logging.debug(
         f'getting media list for remote camera {camera_id} on {pretty_camera_url(local_config)}'
@@ -417,6 +441,7 @@ async def list_media(
         p,
         query=query,
         timeout=10 * settings.REMOTE_REQUEST_TIMEOUT,
+        validate_cert=verify,
     )
     response = await _send_request(request)
     if response.error:
@@ -445,7 +470,9 @@ async def get_media_content(
 ) -> utils.CommonExternalResponse:
     utils.validate_paths(filename)
 
-    scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
+    )
 
     logging.debug(
         f'downloading file {filename} of remote camera {camera_id} on {pretty_camera_url(local_config)}'
@@ -461,6 +488,7 @@ async def get_media_content(
         remote_secret,
         path,
         timeout=10 * settings.REMOTE_REQUEST_TIMEOUT,
+        validate_cert=verify,
     )
     response = await _send_request(request)
     if response.error:
@@ -479,7 +507,9 @@ async def make_zipped_content(
 ) -> utils.CommonExternalResponse:
     utils.validate_paths(group)
 
-    scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
+    )
 
     logging.debug(
         'preparing zip file for group "{group}" of remote camera {id} on {url}'.format(
@@ -499,6 +529,7 @@ async def make_zipped_content(
         remote_secret,
         prepare_path,
         timeout=100 * settings.REMOTE_REQUEST_TIMEOUT,
+        validate_cert=verify,
     )
     response = await _send_request(request)
     if response.error:
@@ -534,7 +565,9 @@ async def get_zipped_content(
 ) -> utils.CommonExternalResponse:
     utils.validate_paths(group)
 
-    scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
+    )
 
     logging.debug(
         f'downloading zip file for remote camera {camera_id} on {pretty_camera_url(local_config)}'
@@ -549,6 +582,7 @@ async def get_zipped_content(
         remote_secret,
         p,
         timeout=10 * settings.REMOTE_REQUEST_TIMEOUT,
+        validate_cert=verify,
     )
     response = await _send_request(request)
     if response.error:
@@ -573,7 +607,9 @@ async def make_timelapse_movie(
 ) -> utils.CommonExternalResponse:
     utils.validate_paths(group)
 
-    scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
+    )
 
     msg = (
         'making timelapse movie for group "{group}" of remote camera {id} '
@@ -597,6 +633,7 @@ async def make_timelapse_movie(
         remote_secret,
         path,
         timeout=100 * settings.REMOTE_REQUEST_TIMEOUT,
+        validate_cert=verify,
     )
     response = await _send_request(request)
     if response.error:
@@ -638,14 +675,16 @@ async def check_timelapse_movie(
 ) -> utils.CommonExternalResponse:
     utils.validate_paths(group)
 
-    scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
+    )
 
     logging.debug(
         f'checking timelapse movie status for remote camera {camera_id} on {pretty_camera_url(local_config)}'
     )
 
     p = path + f'/picture/{camera_id}/timelapse/{group}/?check=true'
-    request = _make_request(scheme, host, port, remote_secret, p)
+    request = _make_request(scheme, host, port, remote_secret, p, validate_cert=verify)
     response = await _send_request(request)
 
     if response.error:
@@ -678,7 +717,9 @@ async def get_timelapse_movie(
 ) -> utils.CommonExternalResponse:
     utils.validate_paths(group)
 
-    scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
+    )
 
     logging.debug(
         f'downloading timelapse movie for remote camera {camera_id} on {pretty_camera_url(local_config)}'
@@ -693,6 +734,7 @@ async def get_timelapse_movie(
         remote_secret,
         p,
         timeout=10 * settings.REMOTE_REQUEST_TIMEOUT,
+        validate_cert=verify,
     )
     response = await _send_request(request)
     if response.error:
@@ -721,7 +763,9 @@ async def get_media_preview(
 ) -> utils.CommonExternalResponse:
     utils.validate_paths(filename)
 
-    scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
+    )
 
     logging.debug(
         f'getting file preview for {filename} of remote camera {camera_id} on {pretty_camera_url(local_config)}'
@@ -737,7 +781,9 @@ async def get_media_preview(
     if height:
         query['height'] = str(height)
 
-    request = _make_request(scheme, host, port, remote_secret, path, query=query)
+    request = _make_request(
+        scheme, host, port, remote_secret, path, query=query, validate_cert=verify
+    )
     response = await _send_request(request)
     if response.error:
         logging.error(
@@ -755,7 +801,9 @@ async def del_media_content(
 ) -> utils.CommonExternalResponse:
     utils.validate_paths(filename)
 
-    scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
+    )
 
     logging.debug(
         f'deleting file {filename} of remote camera {camera_id} on {pretty_camera_url(local_config)}'
@@ -773,6 +821,7 @@ async def del_media_content(
         data='{}',
         timeout=settings.REMOTE_REQUEST_TIMEOUT,
         content_type='application/json',
+        validate_cert=verify,
     )
     response = await _send_request(request)
     if response.error:
@@ -792,7 +841,9 @@ async def del_media_group(
     if '..' in group.split('/'):
         raise ValueError(f'Path traversal detected in group "{group}"')
 
-    scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
+    )
 
     logging.debug(
         'deleting group "{group}" of remote camera {id} on {url}'.format(
@@ -814,6 +865,7 @@ async def del_media_group(
         data='{}',
         timeout=settings.REMOTE_REQUEST_TIMEOUT,
         content_type='application/json',
+        validate_cert=verify,
     )
     response = await _send_request(request)
     if response.error:
@@ -832,7 +884,9 @@ async def del_media_group(
 
 
 async def exec_action(local_config, action) -> utils.CommonExternalResponse:
-    scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
+    )
 
     logging.debug(
         f'executing action "{action}" of remote camera {camera_id} on {pretty_camera_url(local_config)}'
@@ -850,6 +904,7 @@ async def exec_action(local_config, action) -> utils.CommonExternalResponse:
         data='{}',
         timeout=settings.REMOTE_REQUEST_TIMEOUT,
         content_type='application/json',
+        validate_cert=verify,
     )
     response = await _send_request(request)
     if response.error:

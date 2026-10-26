@@ -59,7 +59,6 @@ def test_mjpeg_url(
             connect_timeout=settings.REMOTE_REQUEST_TIMEOUT,
             request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
             header_callback=on_header,
-            validate_cert=settings.VALIDATE_CERTS,
         )
 
         fetch_future = cast_future(

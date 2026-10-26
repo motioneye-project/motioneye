@@ -38,7 +38,7 @@ from tornado.httputil import parse_cookie
 from tornado.ioloop import IOLoop
 from tornado.web import HTTPError
 
-from motioneye.settings import CONF_PATH, VALIDATE_CERTS
+from motioneye.settings import CONF_PATH
 
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
 
@@ -349,19 +349,22 @@ def build_digest_header(method, url, username, password, state):
     return f'Digest {base}'
 
 
+def verify_setting(value) -> bool:
+    """A "verify certificate" setting as stored in a config file or sent by
+    the UI: only an explicit off value turns the check off; a missing, empty
+    or unknown value keeps it on."""
+    if value is None:
+        return True
+    if isinstance(value, str):
+        return value.strip().lower() not in ('false', 'off', '0', 'no')
+
+    return bool(value)
+
+
 def urlopen(request: Request, **kwargs) -> HTTPResponse:
     scheme: str = urlsplit(request.full_url).scheme
     if scheme not in ('http', 'https'):
         raise ValueError(f'Unsupported URL scheme: {scheme!r}')
-
-    if not VALIDATE_CERTS:
-        import ssl
-
-        ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-
-        kwargs.setdefault('context', ctx)
 
     return _urlopen(request, **kwargs)  # nosec: B310
 

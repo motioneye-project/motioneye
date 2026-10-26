@@ -137,9 +137,6 @@ TIMELAPSE_TIMEOUT = 500
 # enable adding and removing cameras from UI
 ADD_REMOVE_CAMERAS = True
 
-# enable HTTPS certificate validation
-VALIDATE_CERTS = True
-
 # an external program to be executed whenever a password changes;
 # the program will be invoked with environment variables MEYE_USERNAME and MEYE_PASSWORD
 PASSWORD_HOOK = None
