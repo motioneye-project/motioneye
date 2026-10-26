@@ -840,8 +840,8 @@ def add_camera(device_details: dict) -> dict:
         if device_details.get('remote_secret'):
             camera_config['@remote_secret'] = device_details['remote_secret']
 
-        camera_config['@remote_verify'] = bool(
-            device_details.get('remote_verify', True)
+        camera_config['@remote_verify'] = utils.verify_setting(
+            device_details.get('remote_verify')
         )
 
     elif proto == 'mmal':

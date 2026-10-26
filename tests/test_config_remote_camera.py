@@ -61,10 +61,12 @@ class TestAddRemoteCamera(unittest.TestCase):
         self.assertIs(True, camera_config['@remote_verify'])
 
     def test_the_certificate_check_can_be_turned_off(self):
-        config.add_camera(dict(_REMOTE_DETAILS, remote_verify=False))
+        for value in (False, 'false'):
+            with self.subTest(remote_verify=value):
+                config.add_camera(dict(_REMOTE_DETAILS, remote_verify=value))
 
-        camera_config = self.set_camera.call_args.args[1]
-        self.assertIs(False, camera_config['@remote_verify'])
+                camera_config = self.set_camera.call_args.args[1]
+                self.assertIs(False, camera_config['@remote_verify'])
 
 
 class TestConfValues(unittest.TestCase):

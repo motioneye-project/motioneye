@@ -150,7 +150,9 @@ class ConfigHandler(BaseHandler):
             if data.get('remote_secret'):
                 local_config['@remote_secret'] = data['remote_secret']
             if data.get('remote_verify') is not None:
-                local_config['@remote_verify'] = bool(data['remote_verify'])
+                local_config['@remote_verify'] = utils.verify_setting(
+                    data['remote_verify']
+                )
             config.set_camera(camera_id, local_config)
             return self.finish_json()
 
@@ -265,7 +267,9 @@ class ConfigHandler(BaseHandler):
                 if ui_config.get('admin_only') is not None:
                     local_config['@admin_only'] = bool(ui_config.get('admin_only'))
                 if ui_config.get('remote_verify') is not None:
-                    local_config['@remote_verify'] = bool(ui_config['remote_verify'])
+                    local_config['@remote_verify'] = utils.verify_setting(
+                        ui_config['remote_verify']
+                    )
                 config.set_camera(camera_id, local_config)
 
                 if 'name' in ui_config:
