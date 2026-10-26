@@ -242,17 +242,18 @@ def _harden_config_file_mode(config_file):
     try:
         st = os.stat(config_file)
         uid = os.geteuid()
+        gid = os.getegid()
         if st.st_uid not in (0, uid):
             logging.warning(
                 f'config file {config_file} is owned by another user '
                 f'(UID {st.st_uid}), please change its owner:group to'
-                f' root:{os.getegid()} and mode to 0640, for optimal security.'
+                f' root:{gid} and mode to 0640, for optimal security.'
             )
             return
 
         mode = S_IMODE(st.st_mode)
         insecure = 0o007
-        if st.st_uid == uid or st.st_gid not in (0, os.getegid()):
+        if st.st_uid == uid or st.st_gid not in (0, gid):
             insecure |= 0o070
 
         else:
@@ -265,7 +266,7 @@ def _harden_config_file_mode(config_file):
             # only the owner (root) can change the mode
             logging.warning(
                 f'config file {config_file} has insecure mode {mode:04o}, '
-                f'please apply 0640 with root:{os.getegid()} as owner:group'
+                f'please apply 0640 with root:{gid} as owner:group'
                 ', for optimal security.'
             )
             return
