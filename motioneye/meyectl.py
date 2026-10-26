@@ -151,9 +151,10 @@ def load_settings():
 
         if upper_name == 'VALIDATE_CERTS':
             logging.warning(
-                f'{name} was removed and is ignored: HTTPS certificates are always '
-                'verified now; turn the check off per remote camera '
-                '(Verify certificate) or per upload service instead'
+                f'{name} in {config_file} was removed and is ignored: HTTPS '
+                'certificates are always verified now; remove that line, and turn '
+                'the check off per remote camera (Verify certificate) or per '
+                'upload service where needed'
             )
             return
 
