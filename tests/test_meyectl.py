@@ -31,8 +31,8 @@ _PATHS = ('CONF_PATH', 'RUN_PATH', 'LOG_PATH', 'MEDIA_PATH')
 def _removed_warning(name):
     return (
         f'WARNING:root:{name} was removed and is ignored: HTTPS certificates are '
-        'always verified now; turn the check off per remote camera (Verify '
-        'certificate) or per upload service instead'
+        'always verified now; turn the check off per remote camera, upload '
+        'service or webhook (Verify certificate) instead'
     )
 
 
