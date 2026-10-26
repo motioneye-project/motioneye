@@ -28,11 +28,12 @@ from motioneye import meyectl, settings
 _PATHS = ('CONF_PATH', 'RUN_PATH', 'LOG_PATH', 'MEDIA_PATH')
 
 
-def _removed_warning(name):
+def _removed_warning(name, path):
     return (
-        f'WARNING:root:{name} was removed and is ignored: HTTPS certificates are '
-        'always verified now; turn the check off per remote camera, upload '
-        'service or webhook (Verify certificate) instead'
+        f'WARNING:root:{name} in {path} was removed and is ignored: HTTPS '
+        'certificates are always verified now; remove that line, and turn the '
+        'check off per remote camera, upload service or webhook (Verify '
+        'certificate) where needed'
     )
 
 
@@ -129,14 +130,16 @@ class LoadSettingsLogToFileTest(unittest.TestCase):
         with self.assertLogs(level='WARNING') as logs:
             self._load_settings('validate_certs false\n')
 
-        self.assertEqual([_removed_warning('validate_certs')], logs.output)
+        path = os.path.join(self.conf_dir, 'motioneye.conf')
+        self.assertEqual([_removed_warning('validate_certs', path)], logs.output)
         self.assertFalse(hasattr(settings, 'VALIDATE_CERTS'))
 
     def test_validate_certs_with_a_dash_warns_the_same_way(self):
         with self.assertLogs(level='WARNING') as logs:
             self._load_settings('validate-certs true\n')
 
-        self.assertEqual([_removed_warning('validate-certs')], logs.output)
+        path = os.path.join(self.conf_dir, 'motioneye.conf')
+        self.assertEqual([_removed_warning('validate-certs', path)], logs.output)
 
     def test_an_unknown_option_is_only_reported(self):
         with self.assertLogs(level='WARNING') as logs:
