@@ -143,22 +143,15 @@ class ConfigFileModeTest(unittest.TestCase):
 
         return stat.S_IMODE(os.stat(self.conf_file).st_mode)
 
-    def test_insecure_mode_is_restricted(self):
+    def test_access_for_others_is_removed(self):
         os.chmod(self.conf_file, 0o644)
         with self.assertLogs(level='WARNING') as logs:
             self.assertEqual(0o600, self._load_settings())
 
-        self.assertIn('insecure mode', '\n'.join(logs.output))
-
-    def test_secure_mode_is_kept_silently(self):
-        os.chmod(self.conf_file, 0o600)
-        with patch('motioneye.meyectl.logging.warning') as warning:
-            self.assertEqual(0o600, self._load_settings())
-
-        warning.assert_not_called()
+        self.assertIn('insecure mode 0644, applying 0600', '\n'.join(logs.output))
+        self.assertEqual('user:pass', settings.MOTION_CONTROL_AUTHENTICATION)
 
     def test_failing_chmod_does_not_prevent_starting(self):
-        # e.g. a root-owned file in a container running as non-root user
         os.chmod(self.conf_file, 0o644)
         with (
             patch('motioneye.meyectl.os.chmod', side_effect=PermissionError('denied')),
@@ -168,6 +161,62 @@ class ConfigFileModeTest(unittest.TestCase):
 
         self.assertIn('could not harden mode', '\n'.join(logs.output))
         self.assertEqual('user:pass', settings.MOTION_CONTROL_AUTHENTICATION)
+
+
+class HardenConfigFileModeTest(unittest.TestCase):
+    # motionEye runs as motion (UID/GID 1000)
+    def _harden(self, mode, uid, gid):
+        st = os.stat_result((stat.S_IFREG | mode, 0, 0, 1, uid, gid, 0, 0, 0, 0))
+        with (
+            patch('motioneye.meyectl.os.stat', return_value=st),
+            patch('motioneye.meyectl.os.geteuid', return_value=1000),
+            patch('motioneye.meyectl.os.getegid', return_value=1000),
+            patch('motioneye.meyectl.os.chmod') as chmod,
+            patch('motioneye.meyectl.logging.warning') as warning,
+        ):
+            meyectl._harden_config_file_mode('/etc/motioneye/motioneye.conf')
+
+        return chmod, ' '.join(str(c.args[0]) for c in warning.call_args_list)
+
+    def test_secure_modes_are_kept_silently(self):
+        for mode, uid, gid in (
+            (0o640, 0, 1000),  # root:motion, as applied by motioneye_init
+            (0o600, 1000, 1000),  # motion:motion
+            (0o600, 1000, 0),
+            (0o440, 0, 1000),
+            (0o400, 1000, 1000),
+            (0o400, 1000, 0),
+        ):
+            with self.subTest(mode=f'{mode:04o}', uid=uid, gid=gid):
+                chmod, warnings = self._harden(mode, uid, gid)
+                chmod.assert_not_called()
+                self.assertEqual('', warnings)
+
+    def test_access_for_others_is_removed(self):
+        chmod, warnings = self._harden(0o644, 1000, 1000)
+        chmod.assert_called_once_with('/etc/motioneye/motioneye.conf', 0o600)
+        self.assertIn('applying 0600', warnings)
+
+    def test_access_for_another_group_is_removed(self):
+        chmod, warnings = self._harden(0o640, 1000, 2000)
+        chmod.assert_called_once_with('/etc/motioneye/motioneye.conf', 0o600)
+        self.assertIn('applying 0600', warnings)
+
+    def test_root_owned_file_is_left_to_the_admin(self):
+        chmod, warnings = self._harden(0o644, 0, 1000)
+        chmod.assert_not_called()
+        self.assertIn('insecure mode 0644, please apply 0640 with root:1000', warnings)
+
+    def test_root_owned_file_with_another_group_is_left_to_the_admin(self):
+        chmod, warnings = self._harden(0o640, 0, 2000)
+        chmod.assert_not_called()
+        self.assertIn('insecure mode 0640, please apply 0640 with root:1000', warnings)
+
+    def test_file_owned_by_another_user_is_reported(self):
+        chmod, warnings = self._harden(0o600, 2000, 1000)
+        chmod.assert_not_called()
+        self.assertIn('owned by another user (UID 2000)', warnings)
+        self.assertIn('owner:group to root:1000 and mode to 0640', warnings)
 
 
 class _FakeSysLogHandler(logging.Handler):
