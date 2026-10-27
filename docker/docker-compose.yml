@@ -4,6 +4,9 @@ services:
   motioneye:
     # ToDo: Change from unstable dev/edge to stable GitHub registry release and Docker registry release, once available
     image: ghcr.io/motioneye-project/motioneye:edge  # https://github.com/motioneye-project/motioneye/pkgs/container/motioneye
+    # user: "1000:1000"  # run as this UID:GID instead of root, see README.md
+    # group_add:
+    #   - video
     ports:
       - "8081:8081"
       - "8765:8765"

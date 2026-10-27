@@ -1,10 +1,6 @@
 FROM debian:trixie-slim
 LABEL maintainer="Marcus Klein <himself@kleini.org>"
 
-# Set UID/GID for running motionEye to match the user which shall have access to its volumes on the host
-ARG RUN_UID=0
-ARG RUN_GID=0
-
 COPY . /tmp/motioneye
 COPY docker/entrypoint.sh /entrypoint.sh
 
@@ -31,13 +27,12 @@ python3 get-pip.py
 python3 -m pip install -U /tmp/motioneye
 motioneye_init --skip-systemd --skip-apt-update
 
-# Adjust UID/GID of user/group "motion" to match input args
-sed -i "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:/\1:${RUN_UID}:${RUN_GID}:/" /etc/passwd
-sed -i "s/^\(motion:[^:]*\):[0-9]*:/\1:${RUN_GID}:/" /etc/group
-
 # Setup default config and data dir
 mv /etc/motioneye/motioneye.conf /etc/motioneye.conf.sample
-install -o motion -g motion -d /var/lib/motioneye
+# readable by any user given with "docker run --user", it does not contain credentials
+chmod 0644 /etc/motioneye.conf.sample
+# no config and data dir in the image, so that empty volumes keep the owner they are given (see README.md)
+rmdir /etc/motioneye
 
 # Cleanup
 python3 -m pip uninstall -y pip
