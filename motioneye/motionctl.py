@@ -78,8 +78,7 @@ def start(deferred=False):
     from motioneye import config, mjpgclient
 
     if deferred:
-        io_loop = IOLoop.current()
-        io_loop.add_callback(start, deferred=False)
+        IOLoop.current().add_callback(start, deferred=False)
 
     global _started, _process
 
