@@ -33,8 +33,8 @@ def _removed_warning(name, path):
     return (
         f'WARNING:root:{name} in {path} was removed and is ignored: HTTPS '
         'certificates are always verified now; remove that line, and turn the '
-        'check off per remote camera (Verify certificate) or per upload service '
-        'where needed'
+        'check off per remote camera, upload service or webhook (Verify '
+        'certificate) where needed'
     )
 
 

@@ -1033,6 +1033,11 @@ def input_required(ui, key):
     return value
 
 
+def _hook_verified(prev_config: dict, option: str) -> bool:
+    # what the stored hook line says, for a client that does not send the key
+    return '--no-verify' not in str(prev_config.get(option, ''))
+
+
 def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
     prev_config = dict(prev_config or {})
     main_config = get_main()  # needed for surveillance password
@@ -1491,10 +1496,17 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
                 webHookUrlFailMessage,
             ),
         )
+        verify = utils.verify_setting(
+            ui.get(
+                'web_hook_notifications_verify',
+                _hook_verified(prev_config, 'on_event_start'),
+            )
+        )
 
         on_event_start.append(
-            "{script} '{method}' '{url}'".format(
+            "{script}{flag} '{method}' '{url}'".format(
                 script=meyectl.find_command('webhook'),
+                flag='' if verify else ' --no-verify',
                 method=ui['web_hook_notifications_http_method'],
                 url=url,
             )
@@ -1519,10 +1531,17 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
                 webHookUrlFailMessage,
             ),
         )
+        verify = utils.verify_setting(
+            ui.get(
+                'web_hook_end_notifications_verify',
+                _hook_verified(prev_config, 'on_event_end'),
+            )
+        )
 
         on_event_end.append(
-            "{script} '{method}' '{url}'".format(
+            "{script}{flag} '{method}' '{url}'".format(
                 script=meyectl.find_command('webhook'),
+                flag='' if verify else ' --no-verify',
                 method=ui['web_hook_end_notifications_http_method'],
                 url=url,
             )
@@ -1547,10 +1566,16 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
                 webHookUrlFailMessage,
             ),
         )
+        verify = utils.verify_setting(
+            ui.get(
+                'web_hook_storage_verify', _hook_verified(prev_config, 'on_movie_end')
+            )
+        )
 
         on_movie_end.append(
-            "{script} '{method}' '{url}'".format(
+            "{script}{flag} '{method}' '{url}'".format(
                 script=meyectl.find_command('webhook'),
+                flag='' if verify else ' --no-verify',
                 method=ui['web_hook_storage_http_method'],
                 url=url,
             )
@@ -1575,10 +1600,16 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
                 webHookUrlFailMessage,
             ),
         )
+        verify = utils.verify_setting(
+            ui.get(
+                'web_hook_storage_verify', _hook_verified(prev_config, 'on_movie_end')
+            )
+        )
 
         on_picture_save.append(
-            "{script} '{method}' '{url}'".format(
+            "{script}{flag} '{method}' '{url}'".format(
                 script=meyectl.find_command('webhook'),
+                flag='' if verify else ' --no-verify',
                 method=ui['web_hook_storage_http_method'],
                 url=url,
             )
@@ -1648,6 +1679,7 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
         'clean_cloud_enabled': data['@clean_cloud_enabled'],
         'clean_uploaded': data['@clean_uploaded'],
         'web_hook_storage_enabled': False,
+        'web_hook_storage_verify': True,
         'command_storage_enabled': False,
         # text overlay
         'text_overlay': False,
@@ -1704,7 +1736,9 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
         'email_notifications_enabled': False,
         'telegram_notifications_enabled': False,
         'web_hook_notifications_enabled': False,
+        'web_hook_notifications_verify': True,
         'web_hook_end_notifications_enabled': False,
+        'web_hook_end_notifications_verify': True,
         'command_notifications_enabled': False,
         'command_end_notifications_enabled': False,
         # working schedule
@@ -2010,6 +2044,7 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
             ui['web_hook_notifications_enabled'] = True
             ui['web_hook_notifications_http_method'] = e[-2]
             ui['web_hook_notifications_url'] = e[-1]
+            ui['web_hook_notifications_verify'] = '--no-verify' not in e[:-2]
 
         elif 'relayevent' in e:
             continue  # ignore internal relay script
@@ -2037,6 +2072,7 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
             ui['web_hook_end_notifications_enabled'] = True
             ui['web_hook_end_notifications_http_method'] = e[-2]
             ui['web_hook_end_notifications_url'] = e[-1]
+            ui['web_hook_end_notifications_verify'] = '--no-verify' not in e[:-2]
 
         elif 'relayevent' in e or 'eventrelay.py' in e:
             continue  # ignore internal relay script
@@ -2064,6 +2100,7 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
             ui['web_hook_storage_enabled'] = True
             ui['web_hook_storage_http_method'] = e[-2]
             ui['web_hook_storage_url'] = e[-1]
+            ui['web_hook_storage_verify'] = '--no-verify' not in e[:-2]
 
         elif 'relayevent' in e:
             continue  # ignore internal relay script

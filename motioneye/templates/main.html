@@ -403,11 +403,6 @@
                             <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadTlsSwitch"></td>
                             <td><span class="help-mark" title="{{ _("encrypt the connection with explicit TLS on the normal FTP port (usually 21), the way most servers offer it; implicit TLS on port 990 is not supported") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" depends="uploadEnabled uploadService=(ftp) uploadTls">
-                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Verify certificate") }}</span></td>
-                            <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadVerifySwitch"></td>
-                            <td><span class="help-mark" title="{{ _("check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated") }}">?</span></td>
-                        </tr>
                         <tr class="settings-item" required="true" depends="uploadEnabled uploadService=(ftp|sftp|http|https)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Servila Adreso") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadServerEntry"></td>
@@ -434,6 +429,11 @@
                             <td><span class="help-mark" title="{{ _("La kompleta URL al la alŝuta servila finpunkto:") }}
       {{ _("Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!") }}
       {{ _("Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item" depends="uploadEnabled uploadService=(ftp|s3|webdav)">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Verify certificate") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadVerifySwitch"></td>
+                            <td><span class="help-mark" title="{{ _("check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="uploadEnabled uploadService!=(s3)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Loko") }}</span></td>
@@ -528,6 +528,11 @@
                                 </select>
                             </td>
                             <td><span class="help-mark" title="{{ _("la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item" depends="webHookStorageEnabled">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Verify certificate") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="webHookStorageVerifySwitch"></td>
+                            <td><span class="help-mark" title="{{ _("check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
@@ -1089,6 +1094,11 @@
                             </td>
                             <td><span class="help-mark" title="{{ _("La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie).") }}">?</span></td>
                         </tr>
+                        <tr class="settings-item" depends="webHookNotificationsEnabled motionDetectionEnabled">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Verify certificate") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="webHookNotificationsVerifySwitch"></td>
+                            <td><span class="help-mark" title="{{ _("check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated") }}">?</span></td>
+                        </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
@@ -1133,6 +1143,11 @@
                                 </select>
                             </td>
                             <td><span class="help-mark" title="{{ _("La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie).") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item" depends="webHookEndNotificationsEnabled motionDetectionEnabled">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Verify certificate") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="webHookEndNotificationsVerifySwitch"></td>
+                            <td><span class="help-mark" title="{{ _("check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
                             <td colspan="100"><div class="settings-item-separator"></div></td>

@@ -31,7 +31,8 @@ STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 # path to the configuration directory (must be writable by motionEye)
 CONF_PATH = [sys.prefix, ''][sys.prefix == '/usr'] + '/etc/motioneye'
 
-# path to the directory where pid files go (must be writable by motionEye)
+# path to the directory where the pid file goes, only used in background mode (-b)
+# (must be writable by motionEye then)
 for d in ['/run', '/var/run']:
     if os.path.exists(d):
         RUN_PATH = d

@@ -262,12 +262,6 @@ def test_requirements():
         )
         sys.exit(-1)
 
-    if not os.access(settings.RUN_PATH, os.W_OK):
-        logging.fatal(
-            f'pid directory "{settings.RUN_PATH}" does not exist or is not writable'
-        )
-        sys.exit(-1)
-
     if settings.LOG_TO_FILE and not os.access(settings.LOG_PATH, os.W_OK):
         logging.fatal(
             f'log directory "{settings.LOG_PATH}" does not exist or is not writable'
@@ -524,6 +518,13 @@ def main(parser, args, command):
 
     if command == 'start':
         if options.background:
+            # only the background mode needs a pid file, to be stopped by "stopserver"
+            if not os.access(settings.RUN_PATH, os.W_OK):
+                logging.fatal(
+                    f'pid directory "{settings.RUN_PATH}" does not exist or is not writable'
+                )
+                sys.exit(-1)
+
             daemon = Daemon(
                 pid_file=os.path.join(settings.RUN_PATH, _PID_FILE), run_callback=run
             )
