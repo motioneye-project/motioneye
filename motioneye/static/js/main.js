@@ -905,7 +905,8 @@ function initUI() {
         }
 
         var maskClass = event.target.id.substring(0, event.target.id.indexOf('MaskEditButton'));
-        enableMaskEdit(cameraId, maskClass, img._naturalWidth, img._naturalHeight);
+        var size = getMaskSize(maskClass, img);
+        enableMaskEdit(cameraId, maskClass, size[0], size[1]);
     });
     $('div#motionMaskSaveButton, div#privacyMaskSaveButton').on('click', function () {
         disableMaskEdit();
@@ -1121,6 +1122,27 @@ function hideCameraOverlay() {
     overlayVisible = false;
 
     disableMaskEdit();
+}
+
+function getMaskSize(maskClass, img) {
+    /* the mask grid depends on the size, so use the one the server parses and builds
+     * the mask with, not that of the preview, which the resolution dimmer scales down */
+    var maskLines = $('#'+maskClass+'MaskLinesEntry').val().split(',').map(function (v) {return parseInt(v);});
+    if (maskLines[0] > 0 && maskLines[1] > 0) {
+        return [maskLines[0], maskLines[1]]; /* the size of the current mask lines */
+    }
+
+    var resolution = $('#resolutionSelect').val();
+    if (resolution == 'custom') {
+        resolution = $('#customWidthEntry').val() + 'x' + $('#customHeightEntry').val();
+    }
+    var size = $('#resolutionSelect option').length && resolution ? resolution.split('x').map(function (v) {return parseInt(v);}) : [];
+    if (size[0] > 0 && size[1] > 0) {
+        var rotation = parseInt($('#rotationSelect').val());
+        return rotation == 90 || rotation == 270 ? [size[1], size[0]] : size;
+    }
+
+    return [img._naturalWidth, img._naturalHeight]; /* the capture size is not known */
 }
 
 function enableMaskEdit(cameraId, maskClass, width, height) {
