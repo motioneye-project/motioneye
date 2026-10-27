@@ -24,8 +24,7 @@ var overlayVisible = false;
 var layoutColumns = 1;
 var fitFramesVertically = false;
 var cameraOrder = []; /* camera IDs in layout order */
-// Was removed 5 years ago, needs cleanup, a25dec205b70fbf0f75f8c2f424d4920a875f399
-// var layoutRows = 1;
+var layoutRows = 1;
 var modalContainer = null;
 var cameraFramesCached = null;
 var cameraFramesTime = 0;
@@ -1045,6 +1044,11 @@ function updateLayout() {
             columns = 1; /* always 1 column when in full screen or mobile */
         }
 
+        var rows = layoutRows;
+        if (isSingleView() || fullScreenMode) {
+            rows = 1; /* a single camera fills the screen */
+        }
+
         var heightOffset = 5; /* some padding */
         if (!fullScreenMode && !isSingleView()) {
             heightOffset += 50; /* top bar */
@@ -1053,7 +1057,14 @@ function updateLayout() {
         var windowHeight = $(window).height() - heightOffset;
         var maxWidth = windowWidth;
 
-        var width = windowHeight / maxRatio * columns;
+        /* the border and padding of a frame around its image, the same for all frames,
+         * whatever the aspect ratio of their image, but in em, hence measured */
+        var frame = frames.filter(':visible').first();
+        var image = frame.find('img.camera');
+        var paddingHeight = (frame.outerHeight(true) - image.height()) || 0;
+        var paddingWidth = (frame.outerWidth(true) - image.width()) || 0;
+
+        var width = ((windowHeight / rows - paddingHeight) / maxRatio + paddingWidth) * columns;
         if (pageContainer.hasClass('stretched') && windowWidth > 1200) {
             maxWidth *= 0.6; /* opened settings panel occupies 40% of the window width */
         }
@@ -5002,10 +5013,16 @@ function addCameraFrameUi(cameraConfig) {
 
     /* error and load handlers */
     cameraImg[0].onerror = function () {
+        var wasError = this.error;
         this.error = true;
         this.loading_count = 0;
 
         cameraImg.addClass('error').removeClass('initializing');
+        if (!wasError) {
+            /* the ratio of the placeholder, until an image loads again */
+            cameraFrameRatios[cameraId] = 0.75;
+            updateLayout(); /* before sizing the placeholder to the new width */
+        }
         cameraImg.height(Math.round(cameraImg.width() * 0.75));
         cameraPlaceholder.css('opacity', 1);
         cameraProgress.removeClass('visible');
@@ -5013,6 +5030,7 @@ function addCameraFrameUi(cameraConfig) {
         cameraFpsSpan.html('');
     };
     cameraImg[0].onload = function () {
+        var wasError = this.error;
         if (this.error) {
             cameraImg.removeClass('error');
             cameraPlaceholder.css('opacity', 0);
@@ -5027,6 +5045,10 @@ function addCameraFrameUi(cameraConfig) {
         if (this.naturalHeight) {
             this._naturalHeight = this.naturalHeight;
         }
+        if (this.naturalWidth > 0) {
+            /* known before the layout below is updated */
+            cameraFrameRatios[cameraId] = this.naturalHeight / this.naturalWidth;
+        }
 
         if (this.initializing) {
             cameraProgress.removeClass('visible');
@@ -5035,6 +5057,9 @@ function addCameraFrameUi(cameraConfig) {
             this.initializing = false;
 
             updateLayout();
+        }
+        else if (wasError) {
+            updateLayout(); /* the image replaces the placeholder */
         }
 
         /* there's no point in looking for a cookie update more often than once every second */
@@ -5471,8 +5496,6 @@ function refreshCameraFrames() {
             refreshCameraFrame(cameraId, this.img, serverSideResize);
             this.refreshDivider = 0;
         }
-
-        cameraFrameRatios[cameraId] = this.img.naturalWidth > 0 ? this.img.naturalHeight / this.img.naturalWidth : 1;
     });
 
     setTimeout(refreshCameraFrames, refreshInterval);
