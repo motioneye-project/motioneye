@@ -1018,6 +1018,12 @@ def input_sanity_check(regex: str, value: str, key: str, msg: str) -> str:
         )
 
 
+def input_or_stored(ui: dict, key: str, prev_config: dict, default):
+    # for a setting added after 0.44.0: a client that does not send it, such as
+    # a hub running an older release, keeps what the camera has
+    return ui.get(key, prev_config.get(f'@{key}', default))
+
+
 def input_required(ui, key):
     # False and 0 are set values, a missing key, None (null) or '' is not
     value = ui.get(key)
@@ -1086,15 +1092,15 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         '@upload_subfolders': ui['upload_subfolders'],
         '@upload_username': ui['upload_username'],
         '@upload_password': ui['upload_password'],
-        '@upload_tls': ui['upload_tls'],
-        '@upload_verify': ui['upload_verify'],
+        '@upload_tls': input_or_stored(ui, 'upload_tls', prev_config, False),
+        '@upload_verify': input_or_stored(ui, 'upload_verify', prev_config, True),
         '@upload_endpoint_url': ui['upload_endpoint_url'],
         '@upload_access_key': ui['upload_access_key'],
         '@upload_secret_key': ui['upload_secret_key'],
         '@upload_bucket': ui['upload_bucket'],
         '@upload_sse_c_key': ui['upload_sse_c_key'],
         '@clean_cloud_enabled': ui['clean_cloud_enabled'],
-        '@clean_uploaded': ui['clean_uploaded'],
+        '@clean_uploaded': input_or_stored(ui, 'clean_uploaded', prev_config, False),
         # text overlay
         'text_left': '',
         'text_right': '',
