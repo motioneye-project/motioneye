@@ -1025,8 +1025,8 @@ def input_sanity_check(regex: str, value: str, key: str, msg: str) -> str:
 
 
 def input_or_stored(ui: dict, key: str, prev_config: dict, default):
-    # for a setting added after 0.44.0: a client that does not send it, such as
-    # a hub running an older release, keeps what the camera has
+    # keep the stored setting if the client does not send it, e.g. in case of
+    # a hub running an older release and for keys not shared, like admin-only
     return ui.get(key, prev_config.get(f'@{key}', default))
 
 
@@ -1080,7 +1080,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
             deviceNameValidRegExp, ui['name'], 'camera_name', deviceNameFailMessage
         ),
         '@enabled': ui['enabled'],
-        '@admin_only': ui.get('admin_only', False),
+        '@admin_only': input_or_stored(ui, 'admin_only', prev_config, False),
         'auto_brightness': ui['auto_brightness'],
         'framerate': int(ui['framerate']),
         'rotate': int(ui['rotation']),
@@ -2153,7 +2153,7 @@ def simple_mjpeg_camera_ui_to_dict(ui: dict, prev_config: dict | None = None):
         # device
         'camera_name': ui['name'],
         '@enabled': ui['enabled'],
-        '@admin_only': ui.get('admin_only', False),
+        '@admin_only': input_or_stored(ui, 'admin_only', prev_config, False),
     }
 
     prev_config.update(data)
