@@ -108,6 +108,7 @@ def _old_sendmail(e: list) -> dict | None:
         keys['account']: e[-9],
         keys['password']: e[-8].replace('\\;', ';').replace('%%', '%'),
         keys['tls']: e[-7].lower() == 'true',
+        keys['verify']: True,
         keys['sender']: e[-6],
         keys['to']: e[-5],
         keys['timespan']: _time_span(e[-1]),

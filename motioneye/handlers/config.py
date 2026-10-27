@@ -18,6 +18,7 @@
 import asyncio
 import json
 import logging
+import ssl
 from datetime import datetime
 from socket import gethostname
 from urllib.parse import urlparse
@@ -780,20 +781,24 @@ class ConfigHandler(BaseHandler):
 
                     old_timeout = settings.SMTP_TIMEOUT
                     settings.SMTP_TIMEOUT = 10
-                    sendmail.send_mail(
-                        data['smtp_server'],
-                        int(data['smtp_port']),
-                        data['smtp_account'],
-                        data['smtp_password'],
-                        data['smtp_tls'],
-                        data['from'],
-                        data['addresses'].split(','),
-                        subject=subject,
-                        message=message,
-                        files=[],
-                    )
+                    try:
+                        sendmail.send_mail(
+                            data['smtp_server'],
+                            int(data['smtp_port']),
+                            data['smtp_account'],
+                            data['smtp_password'],
+                            data['smtp_tls'],
+                            data['from'],
+                            data['addresses'].split(','),
+                            subject=subject,
+                            message=message,
+                            files=[],
+                            verify=utils.verify_setting(data.get('smtp_verify')),
+                        )
 
-                    settings.SMTP_TIMEOUT = old_timeout
+                    finally:
+                        settings.SMTP_TIMEOUT = old_timeout
+
                     logging.debug('notification email test succeeded')
                     return self.finish_json()
 
@@ -807,7 +812,15 @@ class ConfigHandler(BaseHandler):
                         msg = str(e)
 
                     msg_lower: str = msg.lower()
-                    if 'tls' in msg_lower:
+                    if isinstance(e, ssl.SSLCertVerificationError):
+                        reason = getattr(e, 'verify_message', e)
+                        msg = (
+                            f'certificate check failed ({reason}); turn off Verify '
+                            'certificate only for a server with a self-signed '
+                            'certificate that you trust'
+                        )
+
+                    elif 'tls' in msg_lower:
                         msg = 'TLS might be required'
 
                     elif 'authentication' in msg_lower:

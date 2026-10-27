@@ -21,6 +21,7 @@ import re
 import signal
 import smtplib
 import socket
+import ssl
 import time
 from collections.abc import Callable
 from datetime import datetime
@@ -41,10 +42,27 @@ messages = {
 subjects = {'motion_start': 'motionEye: motion detected by "%(camera)s"'}
 
 
-def send_mail(server, port, account, password, tls, _from, to, subject, message, files):
+def send_mail(
+    server,
+    port,
+    account,
+    password,
+    tls,
+    _from,
+    to,
+    subject,
+    message,
+    files,
+    *,
+    verify: bool = True,
+):
     conn = smtplib.SMTP(server, port, timeout=settings.SMTP_TIMEOUT)
     if tls:
-        conn.starttls()
+        context = ssl.create_default_context()
+        if not verify:
+            context.check_hostname = False
+            context.verify_mode = ssl.CERT_NONE
+        conn.starttls(context=context)
 
     if account and password:
         conn.login(account, password)
@@ -228,6 +246,7 @@ def main(parser, args):
 
     options.port = int(options.port)
     options.tls = options.tls.lower() == 'true'
+    options.verify = utils.verify_setting(options.verify)
     options.timespan = int(options.timespan)
     message = messages.get(options.msg_id)
     subject = subjects.get(options.msg_id)
@@ -243,6 +262,7 @@ def main(parser, args):
     logging.debug('password = ******')
     logging.debug(f'server = {options.server}')
     logging.debug(f'tls = {str(options.tls).lower()}')
+    logging.debug(f'verify = {str(options.verify).lower()}')
     logging.debug(f'from = {options.sender}')
     logging.debug(f'to = {options.to}')
     logging.debug(f'msg_id = {options.msg_id}')
@@ -269,6 +289,7 @@ def main(parser, args):
                 subject,
                 message,
                 files or [],
+                verify=options.verify,
             )
             logging.info('email sent')
 
