@@ -21,6 +21,7 @@ import hashlib
 import logging
 import os
 import re
+import ssl
 import subprocess
 import time
 from collections import namedtuple
@@ -361,10 +362,17 @@ def verify_setting(value) -> bool:
     return bool(value)
 
 
-def urlopen(request: Request, **kwargs) -> HTTPResponse:
+def urlopen(request: Request, *, verify: bool = True, **kwargs) -> HTTPResponse:
     scheme: str = urlsplit(request.full_url).scheme
     if scheme not in ('http', 'https'):
         raise ValueError(f'Unsupported URL scheme: {scheme!r}')
+
+    if not verify:
+        # the caller's switch: no certificate or host-name check for this connection
+        context = ssl.create_default_context()
+        context.check_hostname = False
+        context.verify_mode = ssl.CERT_NONE
+        kwargs['context'] = context
 
     return _urlopen(request, **kwargs)  # nosec: B310
 

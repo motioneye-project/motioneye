@@ -19,6 +19,7 @@ import json
 import logging
 import os.path
 import ssl
+import warnings
 from abc import ABC, abstractmethod
 from base64 import b64decode, b64encode
 from datetime import datetime
@@ -844,6 +845,7 @@ class Webdav(UploadService):
         self._username: str | None = None
         self._password: str | None = None
         self._location: str | None = None
+        self._verify: bool = True
         super().__init__(camera_id)
 
     def _request(self, url, method, body=None):
@@ -853,11 +855,14 @@ class Webdav(UploadService):
         headers = {'Authorization': f'Basic {base64string}'}
         if body is not None:
             headers.update({'Content-Length': len(body)})
-        self.debug(f'request: {method} {url}')
+        self.debug(
+            f'request: {method} {url}'
+            f'{"" if self._verify else " (certificate check off)"}'
+        )
         request = Request(url, data=body, headers=headers)
         request.get_method = lambda: method
         try:
-            utils.urlopen(request)
+            utils.urlopen(request, verify=self._verify)
         except HTTPError as e:
             if method == 'MKCOL' and e.code == 405:
                 self.debug(
@@ -900,6 +905,7 @@ class Webdav(UploadService):
             'username': self._username,
             'password': self._password,
             'location': self._location,
+            'verify': self._verify,
         }
 
     def load(self, data: dict) -> None:
@@ -911,6 +917,8 @@ class Webdav(UploadService):
             self._password = data['password']
         if data.get('location'):
             self._location = data['location']
+        if data.get('verify') is not None:
+            self._verify = utils.verify_setting(data['verify'])
 
 
 class _FTPTLSSessionReuse(FTPTLSc):
@@ -1008,7 +1016,7 @@ class FTP(UploadService):
         if data.get('tls') is not None:
             self._tls = bool(data['tls'])
         if data.get('verify') is not None:
-            self._verify = bool(data['verify'])
+            self._verify = utils.verify_setting(data['verify'])
         # the settings may have changed: the next upload must connect afresh
         self._drop_conn()
 
@@ -1197,6 +1205,7 @@ class S3(UploadService):
         self._secret_key: str | None = None
         self._bucket: str | None = None
         self._sse_c_key: str | None = None
+        self._verify: bool = True
         super().__init__(camera_id)
 
     def dump(self) -> dict:
@@ -1206,11 +1215,13 @@ class S3(UploadService):
             'secret_key': self._secret_key,
             'bucket': self._bucket,
             'sse_c_key': self._sse_c_key,
+            'verify': self._verify,
         }
 
     def load(self, data: dict) -> None:
-        if data.get('endpoint_url'):
-            self._endpoint_url = data['endpoint_url']
+        if 'endpoint_url' in data:
+            # an empty field means AWS itself
+            self._endpoint_url = data['endpoint_url'] or None
         if data.get('access_key') is not None:
             self._access_key = data['access_key']
         if data.get('secret_key') is not None:
@@ -1219,17 +1230,28 @@ class S3(UploadService):
             self._bucket = data['bucket']
         if data.get('sse_c_key') is not None:
             self._sse_c_key = data['sse_c_key']
+        if data.get('verify') is not None:
+            self._verify = utils.verify_setting(data['verify'])
 
-    def upload_file(
-        self, target_dir: str | None, filename: str, camera_name: str
-    ) -> None:
-        # Create an S3 client
-        s3 = boto3.client(
+    def _client(self):
+        # the switch applies to a custom endpoint only; AWS itself is always
+        # verified; None is boto3's default
+        verify = False if self._endpoint_url is not None and not self._verify else None
+        if verify is False:
+            # urllib3 would warn on every single request; the user chose that
+            warnings.filterwarnings('ignore', message='Unverified HTTPS request')
+        return boto3.client(
             's3',
             endpoint_url=self._endpoint_url,
             aws_access_key_id=self._access_key,
             aws_secret_access_key=self._secret_key,
+            verify=verify,
         )
+
+    def upload_file(
+        self, target_dir: str | None, filename: str, camera_name: str
+    ) -> None:
+        s3 = self._client()
 
         if target_dir:
             target_dir = os.path.realpath(target_dir)
@@ -1260,13 +1282,7 @@ class S3(UploadService):
 
     def test_access(self):
         try:
-            # Create an S3 client
-            s3 = boto3.client(
-                's3',
-                endpoint_url=self._endpoint_url,
-                aws_access_key_id=self._access_key,
-                aws_secret_access_key=self._secret_key,
-            )
+            s3 = self._client()
             response = s3.list_buckets()
             logging.debug('Existing buckets:')
             for bucket in response['Buckets']:

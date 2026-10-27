@@ -24,6 +24,12 @@ from motioneye import settings
 
 
 def parse_options(parser, args):
+    parser.add_argument(
+        '--no-verify',
+        dest='verify',
+        action='store_false',
+        help="do not check the server's TLS certificate",
+    )
     parser.add_argument('method', help='the HTTP method to use')
     parser.add_argument('url', help='the URL for the request')
 
@@ -41,6 +47,7 @@ def main(parser, args):
     logging.debug('hello!')
     logging.debug(f'method = {options.method}')
     logging.debug(f'url = {options.url}')
+    logging.debug(f'verify = {options.verify}')
 
     # some endpoints reject requests without a User-Agent with HTTP 403
     headers = {'User-Agent': 'motionEye'}
@@ -69,7 +76,9 @@ def main(parser, args):
 
     request = urllib.request.Request(url, data, headers=headers)
     try:
-        utils.urlopen(request, timeout=settings.REMOTE_REQUEST_TIMEOUT)
+        utils.urlopen(
+            request, timeout=settings.REMOTE_REQUEST_TIMEOUT, verify=options.verify
+        )
         logging.debug('webhook successfully called')
 
     except Exception as e:
