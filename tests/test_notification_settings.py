@@ -237,16 +237,22 @@ class ConfigTest(_ConfigCase):
         )
         self.assertEqual(expected, {option: data[option] for option in expected})
 
-    def test_a_post_without_the_verify_keys_keeps_the_check_on(self):
+    def test_a_post_without_the_verify_keys_keeps_the_stored_choice(self):
         ui = config.motion_camera_dict_to_ui(self.camera)
         ui.update(_UI)
-        for name in _UI:  # a client that does not know the keys
-            if name.endswith('_verify'):
-                del ui[name]
+        off = {name: False for name in _UI if name.endswith('_verify')}
+        stored_off = config.motion_camera_ui_to_dict(dict(ui, **off), self.camera)
+        for name in off:  # a client that does not know the keys
+            del ui[name]
 
-        data = config.motion_camera_ui_to_dict(ui, self.camera)
-        expected = _new_lines()
-        self.assertEqual(expected, {option: data[option] for option in expected})
+        for stored, expected in ((self.camera, _new_lines()), (stored_off, stored_off)):
+            with self.subTest(stored_off=stored is stored_off):
+                data = config.motion_camera_ui_to_dict(dict(ui), stored)
+
+                self.assertEqual(
+                    {option: expected[option] for option in _new_lines()},
+                    {option: data[option] for option in _new_lines()},
+                )
 
     def test_a_storage_webhook_url_with_a_quote_is_refused(self):
         ui = config.motion_camera_dict_to_ui(self.camera)
