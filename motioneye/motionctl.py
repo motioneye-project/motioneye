@@ -17,11 +17,8 @@ from __future__ import annotations
 
 import logging
 import re
-from errno import ECHILD, ESRCH
-from os import WNOHANG, kill, waitpid
 from os.path import exists, join
-from signal import SIGKILL, SIGTERM
-from subprocess import DEVNULL, CalledProcessError, Popen
+from subprocess import DEVNULL, CalledProcessError, Popen, TimeoutExpired
 from time import sleep
 
 from tornado.httpclient import AsyncHTTPClient, HTTPClientError, HTTPRequest
@@ -33,6 +30,8 @@ from motioneye.controls.powerctl import PowerControl
 _MOTION_CONTROL_TIMEOUT = 5
 
 _started = False
+# the motion process is a child of motionEye, so no pid file is needed to find it
+_process: Popen | None = None
 _motion_binary_cache = None
 _motion_detected: dict = {}
 
@@ -79,10 +78,9 @@ def start(deferred=False):
     from motioneye import config, mjpgclient
 
     if deferred:
-        io_loop = IOLoop.current()
-        io_loop.add_callback(start, deferred=False)
+        IOLoop.current().add_callback(start, deferred=False)
 
-    global _started
+    global _started, _process
 
     _started = True
 
@@ -99,7 +97,6 @@ def start(deferred=False):
     logging.debug(f'starting motion executable "{binary}" version "{version}"')
 
     motion_cfg_path = join(settings.CONF_PATH, 'motion.conf')
-    motion_pid_path = join(settings.RUN_PATH, 'motion.pid')
 
     args = [binary, '-n', '-c', motion_cfg_path, '-d']
 
@@ -137,11 +134,7 @@ def start(deferred=False):
         if exit_code is not None and exit_code != 0:
             raise RuntimeError(f'motion failed to start with exit code "{exit_code}"')
 
-    pid = process.pid
-
-    # write the pid to file
-    with open(motion_pid_path, 'w') as f:
-        f.write(str(pid) + '\n')
+    _process = process
 
     # disable motion detection if version < 4.4, otherwise the new "pause" setting does
     if not is_motion_post43():
@@ -168,55 +161,39 @@ def stop(invalidate=False):
 
     mjpgclient.close_all(invalidate=invalidate)
 
-    pid = _get_pid()
-    if pid is not None:
-        try:
-            # send the TERM signal once
-            kill(pid, SIGTERM)
+    # send the TERM signal once
+    _process.terminate()
 
-            # wait 5 seconds for the process to exit
-            for _i in range(50):
-                waitpid(pid, WNOHANG)
-                sleep(0.1)
+    # wait 5 seconds for the process to exit
+    try:
+        _process.wait(5)
+        return
 
-            # send the KILL signal once
-            kill(pid, SIGKILL)
+    except TimeoutExpired:
+        pass
 
-            # wait 2 seconds for the process to exit
-            for _i in range(20):
-                sleep(0.1)
-                waitpid(pid, WNOHANG)
+    # send the KILL signal once
+    _process.kill()
 
-            # the process still did not exit
-            if settings.ENABLE_REBOOT:
-                logging.error('could not terminate the motion process')
-                PowerControl.reboot()
+    # wait 2 seconds for the process to exit
+    try:
+        _process.wait(2)
+        return
 
-            else:
-                raise RuntimeError('could not terminate the motion process')
+    except TimeoutExpired:
+        pass
 
-        except OSError as e:
-            if e.errno not in (ESRCH, ECHILD):
-                raise
+    # the process still did not exit
+    if settings.ENABLE_REBOOT:
+        logging.error('could not terminate the motion process')
+        PowerControl.reboot()
+
+    else:
+        raise RuntimeError('could not terminate the motion process')
 
 
 def running():
-    pid = _get_pid()
-    if pid is None:
-        return False
-
-    try:
-        waitpid(pid, WNOHANG)
-        kill(pid, 0)
-
-        # the process is running
-        return True
-
-    except OSError as e:
-        if e.errno not in (ESRCH, ECHILD):
-            raise
-
-    return False
+    return _process is not None and _process.poll() is None
 
 
 def started():
@@ -496,15 +473,3 @@ async def _disable_initial_motion_detection():
                 f'motion detection disabled by config for camera with id {camera_id}'
             )
             await set_motion_detection(camera_id, False)
-
-
-def _get_pid():
-    motion_pid_path = join(settings.RUN_PATH, 'motion.pid')
-
-    # read the pid from file
-    try:
-        with open(motion_pid_path) as f:
-            return int(f.readline().strip())
-
-    except (OSError, ValueError):
-        return None

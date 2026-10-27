@@ -72,12 +72,15 @@ _UI = {
     'web_hook_notifications_enabled': True,
     'web_hook_notifications_http_method': 'POSTj',
     'web_hook_notifications_url': _MOTION_URL,
+    'web_hook_notifications_verify': True,
     'web_hook_end_notifications_enabled': True,
     'web_hook_end_notifications_http_method': 'GET',
     'web_hook_end_notifications_url': _END_URL,
+    'web_hook_end_notifications_verify': True,
     'web_hook_storage_enabled': True,
     'web_hook_storage_http_method': 'POSTj',
     'web_hook_storage_url': _STORAGE_URL,
+    'web_hook_storage_verify': True,
     'command_notifications_enabled': True,
     'command_notifications_exec': _CUSTOM,
 }
@@ -221,6 +224,38 @@ class ConfigTest(_ConfigCase):
                     for value in _HIDDEN:
                         self.assertNotIn(value, line)
 
+    def test_a_webhook_with_the_check_off_carries_the_flag_on_its_line(self):
+        off = {'web_hook_end_notifications_verify': False}
+        off['web_hook_storage_verify'] = False
+        data = self._save(**dict(_UI, **off))
+
+        hook = _find_command('webhook')
+        storage = f"{hook} --no-verify 'POSTj' '{_STORAGE_URL}'"
+        expected = dict(
+            _new_lines(),  # the start hook keeps its check, and its line
+            on_event_end=f"{_RELAY} stop %t; {hook} --no-verify 'GET' '{_END_URL}'",
+            on_movie_end=f'{_RELAY} movie_end %t %f; {storage}',
+            on_picture_save=f'{_RELAY} picture_save %t %f; {storage}',
+        )
+        self.assertEqual(expected, {option: data[option] for option in expected})
+
+    def test_a_post_without_the_verify_keys_keeps_the_stored_choice(self):
+        ui = config.motion_camera_dict_to_ui(self.camera)
+        ui.update(_UI)
+        off = {name: False for name in _UI if name.endswith('_verify')}
+        stored_off = config.motion_camera_ui_to_dict(dict(ui, **off), self.camera)
+        for name in off:  # a client that does not know the keys
+            del ui[name]
+
+        for stored, expected in ((self.camera, _new_lines()), (stored_off, stored_off)):
+            with self.subTest(stored_off=stored is stored_off):
+                data = config.motion_camera_ui_to_dict(dict(ui), stored)
+
+                self.assertEqual(
+                    {option: expected[option] for option in _new_lines()},
+                    {option: data[option] for option in _new_lines()},
+                )
+
     def test_a_storage_webhook_url_with_a_quote_is_refused(self):
         ui = config.motion_camera_dict_to_ui(self.camera)
         ui.update(_UI, web_hook_storage_url="http://hooks.example/a'b")
@@ -300,6 +335,23 @@ class ConfigTest(_ConfigCase):
                 self.assertIn(f'\n# @email_notifications_smtp_verify {word}\n', text)
                 self.assertIs(expected, self._get()['email_notifications_smtp_verify'])
 
+    def test_the_flag_survives_a_round_trip_through_the_camera_file(self):
+        off = {'web_hook_notifications_verify': False}
+        off['web_hook_storage_verify'] = False
+        self._write(1, self.camera)
+        self._post(dict(self._get(), **dict(_UI, **off)))
+        text = self._read(1)
+        self.assertIn(" --no-verify 'POSTj' ", text)
+        self.assertNotIn(" --no-verify 'GET' ", text)
+
+        got = self._get()
+        self.assertIs(False, got['web_hook_notifications_verify'])
+        self.assertIs(True, got['web_hook_end_notifications_verify'])
+        self.assertIs(False, got['web_hook_storage_verify'])
+
+        self._post(got)
+        self.assertEqual(text, self._read(1))
+
     def test_cache_equals_the_file(self):
         self._write(1, self.camera)
         ui = dict(self._get(), **_UI)
@@ -329,10 +381,33 @@ class ConfigTest(_ConfigCase):
         got = self._get()
         self.assertEqual(hooks, {name: got[name] for name in hooks})
         self.assertIs(True, got['email_notifications_smtp_verify'])  # sent back as is
+        self.assertIs(True, got['web_hook_notifications_verify'])
         self.assertFalse(_ha_sets_webhook(got, 'notifications', _MOTION_URL))
         self.assertFalse(_ha_sets_webhook(got, 'storage', _STORAGE_URL))
 
         self._post(got)
+        self.assertEqual(text, self._read(1))
+        self.assertEqual(got, self._get())
+
+    def test_a_home_assistant_update_keeps_the_check_off(self):
+        hooks = {  # what Home Assistant sets
+            'web_hook_notifications_enabled': True,
+            'web_hook_notifications_http_method': 'POSTj',
+            'web_hook_notifications_url': _MOTION_URL,
+            'web_hook_storage_enabled': True,
+            'web_hook_storage_http_method': 'POSTj',
+            'web_hook_storage_url': _STORAGE_URL,
+        }
+        off = {'web_hook_notifications_verify': False}
+        off['web_hook_storage_verify'] = False
+        self._write(1, self.camera)
+        self._post(dict(self._get(), **hooks, **off))  # the user turned the check off
+        text = self._read(1)
+
+        got = self._get()
+        self.assertEqual(off, {name: got[name] for name in off})
+
+        self._post(dict(got, **hooks))  # Home Assistant sets its webhooks again
         self.assertEqual(text, self._read(1))
         self.assertEqual(got, self._get())
 

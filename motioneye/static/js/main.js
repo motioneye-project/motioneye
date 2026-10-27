@@ -662,6 +662,9 @@ function initUI() {
         });
     });
 
+    /* the certificate rows also follow these, which their depends cannot express */
+    $('#uploadTlsSwitch, #uploadEndpointUrlEntry, #webHookNotificationsUrlEntry, #webHookEndNotificationsUrlEntry, #webHookStorageUrlEntry').on('change', updateConfigUI);
+
     /* prefs change handlers */
     $('#layoutColumnsSlider').on('change', function () {
         var columns = parseInt(this.value);
@@ -1534,6 +1537,19 @@ function updateConfigUI() {
         }
     });
 
+    /* the certificate check needs TLS: FTP with the TLS switch, S3, WebDAV and the web hooks with an https URL */
+    var isHttps = function (url) { return /^https:\/\//i.test(url); };
+    var uploadService = $('#uploadServiceSelect').val();
+    var uploadTls = uploadService == 'ftp' ? $('#uploadTlsSwitch')[0].checked : isHttps($('#uploadEndpointUrlEntry').val());
+    if (!uploadTls) {
+        $('#uploadVerifySwitch').closest('tr.settings-item').each(markHideLogic);
+    }
+    [['webHookNotifications', 'webHookNotifications'], ['webHookEndNotifications', 'webHookEndNotifications'], ['webHookStorage', 'webHookStorage']].forEach(function (pair) {
+        if (!isHttps($('#' + pair[0] + 'UrlEntry').val())) {
+            $('#' + pair[1] + 'VerifySwitch').closest('tr.settings-item').each(markHideLogic);
+        }
+    });
+
     /* hide sections that have no visible configs and no switch */
     $('div.settings-section-title').each(function () {
         var $this = $(this);
@@ -1825,6 +1841,7 @@ function cameraUi2Dict() {
         'web_hook_storage_enabled': $('#webHookStorageEnabledSwitch')[0].checked,
         'web_hook_storage_url': $('#webHookStorageUrlEntry').val(),
         'web_hook_storage_http_method': $('#webHookStorageHttpMethodSelect').val(),
+        'web_hook_storage_verify': $('#webHookStorageVerifySwitch')[0].checked,
         'command_storage_enabled': $('#commandStorageEnabledSwitch')[0].checked,
         'command_storage_exec': $('#commandStorageEntry').val(),
 
@@ -1904,9 +1921,11 @@ function cameraUi2Dict() {
         'web_hook_notifications_enabled': $('#webHookNotificationsEnabledSwitch')[0].checked,
         'web_hook_notifications_url': $('#webHookNotificationsUrlEntry').val(),
         'web_hook_notifications_http_method': $('#webHookNotificationsHttpMethodSelect').val(),
+        'web_hook_notifications_verify': $('#webHookNotificationsVerifySwitch')[0].checked,
         'web_hook_end_notifications_enabled': $('#webHookEndNotificationsEnabledSwitch')[0].checked,
         'web_hook_end_notifications_url': $('#webHookEndNotificationsUrlEntry').val(),
         'web_hook_end_notifications_http_method': $('#webHookEndNotificationsHttpMethodSelect').val(),
+        'web_hook_end_notifications_verify': $('#webHookEndNotificationsVerifySwitch')[0].checked,
         'command_notifications_enabled': $('#commandNotificationsEnabledSwitch')[0].checked,
         'command_notifications_exec': $('#commandNotificationsEntry').val(),
         'command_end_notifications_enabled': $('#commandEndNotificationsEnabledSwitch')[0].checked,
@@ -2145,6 +2164,7 @@ function dict2CameraUi(dict) {
     $('#webHookStorageEnabledSwitch')[0].checked = dict['web_hook_storage_enabled']; markHideIfNull('web_hook_storage_enabled', 'webHookStorageEnabledSwitch');
     $('#webHookStorageUrlEntry').val(dict['web_hook_storage_url']);
     $('#webHookStorageHttpMethodSelect').val(dict['web_hook_storage_http_method']);
+    $('#webHookStorageVerifySwitch')[0].checked = dict['web_hook_storage_verify'] !== false; markHideIfNull('web_hook_storage_verify', 'webHookStorageVerifySwitch');
 
     $('#commandStorageEnabledSwitch')[0].checked = dict['command_storage_enabled']; markHideIfNull('command_storage_enabled', 'commandStorageEnabledSwitch');
     $('#commandStorageEntry').val(dict['command_storage_exec']);
@@ -2266,10 +2286,12 @@ function dict2CameraUi(dict) {
     $('#webHookNotificationsEnabledSwitch')[0].checked = dict['web_hook_notifications_enabled']; markHideIfNull('web_hook_notifications_enabled', 'webHookNotificationsEnabledSwitch');
     $('#webHookNotificationsUrlEntry').val(dict['web_hook_notifications_url']);
     $('#webHookNotificationsHttpMethodSelect').val(dict['web_hook_notifications_http_method']);
+    $('#webHookNotificationsVerifySwitch')[0].checked = dict['web_hook_notifications_verify'] !== false; markHideIfNull('web_hook_notifications_verify', 'webHookNotificationsVerifySwitch');
 
     $('#webHookEndNotificationsEnabledSwitch')[0].checked = dict['web_hook_end_notifications_enabled']; markHideIfNull('web_hook_end_notifications_enabled', 'webHookEndNotificationsEnabledSwitch');
     $('#webHookEndNotificationsUrlEntry').val(dict['web_hook_end_notifications_url']);
     $('#webHookEndNotificationsHttpMethodSelect').val(dict['web_hook_end_notifications_http_method']);
+    $('#webHookEndNotificationsVerifySwitch')[0].checked = dict['web_hook_end_notifications_verify'] !== false; markHideIfNull('web_hook_end_notifications_verify', 'webHookEndNotificationsVerifySwitch');
 
     $('#commandNotificationsEnabledSwitch')[0].checked = dict['command_notifications_enabled']; markHideIfNull('command_notifications_enabled', 'commandNotificationsEnabledSwitch');
     $('#commandNotificationsEntry').val(dict['command_notifications_exec']);

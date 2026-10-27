@@ -263,6 +263,14 @@ class ConfigHandler(BaseHandler):
                 on_finish(None, True)  # (no error, motion needs restart)
 
             elif utils.is_remote_camera(local_config):
+                if ui_config.get('connection_failed'):
+                    # a placeholder for an unreachable camera, posted back as it
+                    # was listed: there is nothing in it to save
+                    return on_finish(
+                        'the remote camera could not be reached, nothing was saved',
+                        False,
+                    )
+
                 # update the camera locally
                 local_config['@enabled'] = ui_config['enabled']
                 if ui_config.get('admin_only') is not None:
