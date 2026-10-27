@@ -1080,7 +1080,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
             deviceNameValidRegExp, ui['name'], 'camera_name', deviceNameFailMessage
         ),
         '@enabled': ui['enabled'],
-        '@admin_only': ui.get('admin_only', False),
+        '@admin_only': input_or_stored(ui, 'admin_only', prev_config, False),
         'auto_brightness': ui['auto_brightness'],
         'framerate': int(ui['framerate']),
         'rotate': int(ui['rotation']),
@@ -2153,7 +2153,7 @@ def simple_mjpeg_camera_ui_to_dict(ui: dict, prev_config: dict | None = None):
         # device
         'camera_name': ui['name'],
         '@enabled': ui['enabled'],
-        '@admin_only': ui.get('admin_only', False),
+        '@admin_only': input_or_stored(ui, 'admin_only', prev_config, False),
     }
 
     prev_config.update(data)
