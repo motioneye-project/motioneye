@@ -718,6 +718,7 @@ SENDMAIL_KEYS = {
     'account': '@email_notifications_smtp_account',
     'password': '@email_notifications_smtp_password',  # nosec: B105
     'tls': '@email_notifications_smtp_tls',
+    'verify': '@email_notifications_smtp_verify',
     'sender': '@email_notifications_from',
     'to': '@email_notifications_addresses',
     'timespan': '@email_notifications_picture_time_span',
@@ -728,16 +729,18 @@ SENDTELEGRAM_KEYS = {
     'timespan': '@telegram_notifications_picture_time_span',
 }
 _NOTIFICATION_KEYS = [*SENDMAIL_KEYS.values(), *SENDTELEGRAM_KEYS.values()]
+_OPTIONAL_NOTIFICATION_KEYS = {SENDMAIL_KEYS['verify']}  # absent in older camera files
 MOMENT = '%Y-%m-%dT%H:%M:%S'  # the event time, expanded by motion
 _SHORT = f" %t '{MOMENT}'"
 
 
 def get_notification_settings(camera_id: int | None, keys: dict) -> dict | None:
     camera_config = get_camera(camera_id) if camera_id is not None else None
-    if not camera_config or not all(key in camera_config for key in keys.values()):
+    required = [key for key in keys.values() if key not in _OPTIONAL_NOTIFICATION_KEYS]
+    if not camera_config or not all(key in camera_config for key in required):
         return None  # e.g. disabled since motion was started
 
-    return {name: camera_config[key] for name, key in keys.items()}
+    return {name: camera_config.get(key) for name, key in keys.items()}
 
 
 def notification_command(data: dict, name: str, values: dict) -> str:
@@ -758,6 +761,9 @@ def _settings_to_ui(data: dict, keys: dict) -> dict:
     for name, value in ui.items():
         if name.endswith('_tls'):
             ui[name] = value.lower() == 'true'
+
+        elif name.endswith('_verify'):
+            ui[name] = utils.verify_setting(value)
 
         elif name.endswith('_time_span'):
             ui[name] = int(value) if value.isdigit() else 0
@@ -1451,6 +1457,8 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
 
     # event start
     on_event_start = [f"{meyectl.find_command('relayevent')} start %t"]
+    # kept for a client that does not send the key
+    stored_mail_verify = prev_config.get(SENDMAIL_KEYS['verify'])
     for key in _NOTIFICATION_KEYS:  # stored only while enabled
         prev_config.pop(key, None)
 
@@ -1476,7 +1484,14 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         else:
             email_from = ''
 
-        values = {key: ui[key[1:]] for key in SENDMAIL_KEYS.values()}
+        values = {
+            key: ui[key[1:]]
+            for key in SENDMAIL_KEYS.values()
+            if key != SENDMAIL_KEYS['verify']
+        }
+        values[SENDMAIL_KEYS['verify']] = utils.verify_setting(
+            ui.get('email_notifications_smtp_verify', stored_mail_verify)
+        )
         values['@email_notifications_addresses'] = emails
         values['@email_notifications_from'] = email_from
         on_event_start.append(notification_command(data, 'sendmail', values))

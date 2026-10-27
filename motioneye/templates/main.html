@@ -1032,6 +1032,11 @@
                             <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="smtpTlsSwitch"></td>
                             <td><span class="help-mark" title="{{ _("Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi).") }}">?</span></td>
                         </tr>
+                        <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled smtpTls">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Verify certificate") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="smtpVerifySwitch"></td>
+                            <td><span class="help-mark" title="{{ _("check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated") }}">?</span></td>
+                        </tr>
                         <tr class="settings-item" min="0" max="60" required="true" depends="emailNotificationsEnabled motionDetectionEnabled">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Aldonitaj bildoj tempo-intervalo") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="number styled notifications camera-config" id="emailPictureTimeSpanEntry"><span class="settings-item-unit">{{ _("sekundoj") }}</span></td>

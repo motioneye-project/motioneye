@@ -1912,6 +1912,7 @@ function cameraUi2Dict() {
         'email_notifications_smtp_account': $('#smtpAccountEntry').val(),
         'email_notifications_smtp_password': $('#smtpPasswordEntry').val(),
         'email_notifications_smtp_tls': $('#smtpTlsSwitch')[0].checked,
+        'email_notifications_smtp_verify': $('#smtpVerifySwitch')[0].checked,
         'email_notifications_picture_time_span': $('#emailPictureTimeSpanEntry').val(),
         'telegram_notifications_enabled': $('#telegramNotificationsEnabledSwitch')[0].checked,
         'telegram_notifications_api': $('#telegramAPIEntry').val(),
@@ -2274,6 +2275,7 @@ function dict2CameraUi(dict) {
     $('#smtpAccountEntry').val(dict['email_notifications_smtp_account']);
     $('#smtpPasswordEntry').val(dict['email_notifications_smtp_password']);
     $('#smtpTlsSwitch')[0].checked = dict['email_notifications_smtp_tls'];
+    $('#smtpVerifySwitch')[0].checked = dict['email_notifications_smtp_verify'] !== false;
     $('#emailPictureTimeSpanEntry').val(dict['email_notifications_picture_time_span']);
 
     $('#telegramNotificationsEnabledSwitch')[0].checked = dict['telegram_notifications_enabled']; markHideIfNull('telegram_notifications_enabled', 'telegramNotificationsEnabledSwitch');
@@ -2831,7 +2833,8 @@ function doTestEmail() {
         smtp_port: $('#smtpPortEntry').val(),
         smtp_account: $('#smtpAccountEntry').val(),
         smtp_password: $('#smtpPasswordEntry').val(),
-        smtp_tls: $('#smtpTlsSwitch')[0].checked
+        smtp_tls: $('#smtpTlsSwitch')[0].checked,
+        smtp_verify: $('#smtpVerifySwitch')[0].checked
     };
 
     var cameraId = $('#cameraSelect').val();

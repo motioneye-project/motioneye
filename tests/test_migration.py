@@ -93,6 +93,8 @@ class MigrationTest(_ConfigCase):
 
         password = self.fresh['@email_notifications_smtp_password']
         self.assertEqual('p;w%d FAKE-1234', password)
+        # a converted line turns the check on, as a save in the UI does
+        self.assertEqual('True', camera['@email_notifications_smtp_verify'])
 
     def test_sender_is_kept(self):
         mail = _OLD_SENDMAIL.replace("'True' ''", "'True' 'me@example'")
@@ -221,6 +223,7 @@ class MigrationTest(_ConfigCase):
         expected = dict(_EMAIL, **_TELEGRAM)
         self.assertEqual(expected, {name: ui[name] for name in expected})
         self.assertIs(True, ui['email_notifications_smtp_tls'])
+        self.assertIs(True, ui['email_notifications_smtp_verify'])
         self.assertEqual(10, ui['telegram_notifications_picture_time_span'])
 
 
