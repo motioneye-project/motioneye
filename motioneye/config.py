@@ -561,7 +561,7 @@ def get_camera(camera_id: int, as_lines: bool = False) -> dict | list:
 
             except Exception as e:
                 logging.error(
-                    f'failed to chown 0600 camera config file {camera_config_path}: {e}'
+                    f'failed to chmod 0600 camera config file {camera_config_path}: {e}'
                 )
                 raise
 
