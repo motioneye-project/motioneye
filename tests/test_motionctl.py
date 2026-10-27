@@ -14,15 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-"""Tests verifying where motion logs to, depending on log_to_file."""
+"""Tests verifying where motion logs to, and how its process is tracked."""
 
 import os
+import sys
 import unittest
 from contextlib import ExitStack
 from shutil import rmtree
-from subprocess import DEVNULL
+from subprocess import DEVNULL, Popen, TimeoutExpired
 from tempfile import mkdtemp
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from motioneye import config, motionctl, settings
 
@@ -69,10 +70,12 @@ class MotionLogFileTest(unittest.TestCase):
                 )
             )
 
+            stack.enter_context(patch.object(motionctl, '_process', None))
             popen = stack.enter_context(patch.object(motionctl, 'Popen'))
             popen.return_value.poll.return_value = None
             popen.return_value.pid = 1234
             motionctl.start()
+            self.process = motionctl._process
 
         return popen.call_args
 
@@ -115,6 +118,75 @@ class MotionLogFileTest(unittest.TestCase):
         # keeps early startup logs, until motion switches to the file
         self.assertIsNone(kwargs['stdout'])
         self.assertIsNone(kwargs['stderr'])
+
+    def test_the_process_is_kept_without_a_pid_file(self):
+        self._start(log_to_file=False)
+
+        self.assertIsNotNone(self.process)
+        self.assertEqual([], os.listdir(self.tmp_dir))
+
+
+class MotionProcessTest(unittest.TestCase):
+    def setUp(self):
+        for patcher in (
+            patch.object(motionctl, '_process', None),
+            patch('motioneye.mjpgclient.close_all'),
+        ):
+            patcher.start()
+            self.addCleanup(patcher.stop)
+
+    def _child(self):
+        process = Popen([sys.executable, '-c', 'import time; time.sleep(30)'])
+        self.addCleanup(process.wait)
+        self.addCleanup(process.kill)
+        return process
+
+    def test_nothing_runs_before_motion_was_started(self):
+        self.assertFalse(motionctl.running())
+
+    def test_a_running_process_is_stopped_with_term(self):
+        motionctl._process = self._child()
+        self.assertTrue(motionctl.running())
+
+        motionctl.stop()
+
+        self.assertFalse(motionctl.running())
+        self.assertEqual(-15, motionctl._process.returncode)
+
+    def test_a_process_that_ignores_term_is_killed(self):
+        process = Mock(**{'poll.return_value': None})
+        process.wait.side_effect = [TimeoutExpired('motion', 5), 0]
+        motionctl._process = process
+
+        motionctl.stop()
+
+        process.terminate.assert_called_once_with()
+        process.kill.assert_called_once_with()
+
+    def test_a_process_that_does_not_exit_is_reported(self):
+        process = Mock(**{'poll.return_value': None})
+        process.wait.side_effect = TimeoutExpired('motion', 5)
+        motionctl._process = process
+
+        with (
+            patch.object(motionctl.settings, 'ENABLE_REBOOT', False),
+            self.assertRaisesRegex(RuntimeError, 'could not terminate'),
+        ):
+            motionctl.stop()
+
+    def test_a_stale_pid_file_is_ignored(self):
+        # an unrelated process, whose PID a motion.pid file of an older motionEye holds
+        other = self._child()
+        run_dir = mkdtemp()
+        self.addCleanup(rmtree, run_dir)
+        with open(os.path.join(run_dir, 'motion.pid'), 'w') as f:
+            f.write(f'{other.pid}\n')
+
+        with patch.object(motionctl.settings, 'RUN_PATH', run_dir):
+            self.assertFalse(motionctl.running())
+            motionctl.stop()
+
+        self.assertIsNone(other.poll())
 
 
 if __name__ == '__main__':

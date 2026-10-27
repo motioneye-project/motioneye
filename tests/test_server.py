@@ -18,6 +18,10 @@ import os
 import subprocess
 import sys
 import unittest
+from shutil import rmtree
+from tempfile import mkdtemp
+from types import SimpleNamespace
+from unittest.mock import patch
 
 import motioneye
 
@@ -164,3 +168,57 @@ class TestServerSignals(unittest.TestCase):
 
         self._assert_clean(result)
         self.assertGreater(float(result.stdout.split()[-1]), 1.9, result.stderr)
+
+
+class RunPathTest(unittest.TestCase):
+    """Only the background mode writes a pid file, so only it needs run_path."""
+
+    def setUp(self):
+        from motioneye import settings
+
+        tmp_dir = mkdtemp()
+        self.addCleanup(rmtree, tmp_dir)
+        for patcher in (
+            patch.multiple(
+                settings,
+                CONF_PATH=tmp_dir,
+                MEDIA_PATH=tmp_dir,
+                RUN_PATH=os.path.join(tmp_dir, 'missing'),
+                LOG_TO_FILE=False,
+                SMB_SHARES=False,
+            ),
+            patch('motioneye.meyectl.configure_logging'),
+            patch('motioneye.meyectl.configure_tornado'),
+        ):
+            patcher.start()
+            self.addCleanup(patcher.stop)
+
+    def _main(self, background):
+        from motioneye import server
+
+        options = SimpleNamespace(background=background)
+        with (
+            patch.object(server, 'parse_options', return_value=options),
+            patch.object(server, 'Daemon') as daemon,
+            patch.object(server, 'run') as run,
+        ):
+            server.main(None, [], 'start')
+
+        return daemon, run
+
+    def test_the_requirements_do_not_include_run_path(self):
+        from motioneye import server
+
+        server.test_requirements()
+
+    def test_the_server_starts_in_foreground_without_run_path(self):
+        daemon, run = self._main(background=False)
+
+        run.assert_called_once_with()
+        daemon.assert_not_called()
+
+    def test_the_background_mode_needs_a_writable_run_path(self):
+        with self.assertRaises(SystemExit), self.assertLogs(level='CRITICAL') as logs:
+            self._main(background=True)
+
+        self.assertIn('pid directory', '\n'.join(logs.output))
