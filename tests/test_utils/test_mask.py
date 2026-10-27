@@ -1,3 +1,4 @@
+import os
 import shutil
 import tempfile
 import unittest
@@ -5,7 +6,7 @@ from unittest import mock
 
 from PIL import Image
 
-from motioneye import utils
+from motioneye import settings, utils
 
 
 def mask_grid(width, height):
@@ -30,10 +31,24 @@ def mask_grid(width, height):
 class TestEditableMask(unittest.TestCase):
     def setUp(self):
         self.conf_path = tempfile.mkdtemp()
-        patcher = mock.patch.object(utils, 'CONF_PATH', self.conf_path)
+        # as load_settings() sets it from motioneye.conf, after utils was imported
+        patcher = mock.patch.object(settings, 'CONF_PATH', self.conf_path)
         patcher.start()
         self.addCleanup(patcher.stop)
         self.addCleanup(shutil.rmtree, self.conf_path)
+
+    def test_mask_files_are_in_the_configured_conf_path(self):
+        for mask_class, name in [
+            ('motion', 'mask_1.pgm'),
+            ('privacy', 'mask_1_privacy.pgm'),
+        ]:
+            with self.subTest(mask_class=mask_class):
+                file_name = utils.build_editable_mask_file(
+                    1, mask_class, [640, 480] + [0] * 24
+                )
+
+                self.assertEqual(os.path.join(self.conf_path, name), file_name)
+                self.assertTrue(os.path.isfile(file_name))
 
     def test_build_and_parse_round_trip(self):
         for width, height in [
