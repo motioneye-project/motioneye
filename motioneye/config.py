@@ -1025,7 +1025,6 @@ def input_sanity_check(regex: str, value: str, key: str, msg: str) -> str:
 
 
 def input_or_stored(ui: dict, key: str, prev_config: dict, default):
-    # for a setting added after 0.44.0: a client that does not send it, such as
     # keep the stored setting if the client does not send it, e.g. in case of
     # a hub running an older release and for keys not shared, like admin-only
     return ui.get(key, prev_config.get(f'@{key}', default))
