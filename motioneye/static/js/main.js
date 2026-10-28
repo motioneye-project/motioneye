@@ -1925,6 +1925,7 @@ function cameraUi2Dict() {
         'motion_mask_lines': $('#motionMaskLinesEntry').val() ? $('#motionMaskLinesEntry').val().split(',').map(function (l) {return parseInt(l);}) : [],
         'show_frame_changes': $('#showFrameChangesSwitch')[0].checked,
         'create_debug_media': $('#createDebugMediaSwitch')[0].checked,
+        'motion_event_button': $('#motionEventButtonSwitch')[0].checked,
 
         /* motion notifications */
         'email_notifications_enabled': $('#emailNotificationsEnabledSwitch')[0].checked,
@@ -2288,6 +2289,7 @@ function dict2CameraUi(dict) {
     $('#motionMaskLinesEntry').val((dict['motion_mask_lines'] || []).join(',')); markHideIfNull('motion_mask_lines', 'motionMaskLinesEntry');
     $('#showFrameChangesSwitch')[0].checked = dict['show_frame_changes']; markHideIfNull('show_frame_changes', 'showFrameChangesSwitch');
     $('#createDebugMediaSwitch')[0].checked = dict['create_debug_media']; markHideIfNull('create_debug_media', 'createDebugMediaSwitch');
+    $('#motionEventButtonSwitch')[0].checked = dict['motion_event_button']; markHideIfNull('motion_event_button', 'motionEventButtonSwitch');
 
     /* motion notifications */
     $('#emailNotificationsEnabledSwitch')[0].checked = dict['email_notifications_enabled']; markHideIfNull('email_notifications_enabled', 'emailNotificationsEnabledSwitch');
@@ -4702,6 +4704,7 @@ function addCameraFrameUi(cameraConfig) {
                             '<div class="button icon camera-action-button mouse-effect alarm-on" title="turn alarm on"></div>' +
                             '<div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div>' +
                             '<div class="button icon camera-action-button mouse-effect snapshot" title="' + i18n.gettext("preni instantaron") + '"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect eventstart" title="toggle a motion event"></div>' +
                             '<div class="button icon camera-action-button mouse-effect up" title="up"></div>' +
                             '<div class="button icon camera-action-button mouse-effect down" title="down"></div>' +
                             '<div class="button icon camera-action-button mouse-effect left" title="left"></div>' +
@@ -4742,6 +4745,7 @@ function addCameraFrameUi(cameraConfig) {
     var alarmOnButton = cameraFrameDiv.find('div.camera-action-button.alarm-on');
     var alarmOffButton = cameraFrameDiv.find('div.camera-action-button.alarm-off');
     var snapshotButton = cameraFrameDiv.find('div.camera-action-button.snapshot');
+    var motionEventButton = cameraFrameDiv.find('div.camera-action-button.eventstart');
     var upButton = cameraFrameDiv.find('div.camera-action-button.up');
     var rightButton = cameraFrameDiv.find('div.camera-action-button.right');
     var downButton = cameraFrameDiv.find('div.camera-action-button.down');
@@ -4971,6 +4975,7 @@ function addCameraFrameUi(cameraConfig) {
         'alarm_on': alarmOnButton,
         'alarm_off': alarmOffButton,
         'snapshot': snapshotButton,
+        'motion_event': motionEventButton,
         'up': upButton,
         'right': rightButton,
         'down': downButton,
@@ -5002,7 +5007,15 @@ function addCameraFrameUi(cameraConfig) {
 
             button.addClass('pending');
 
-            doAction(cameraId, action, function () {
+            let actionToDo;
+            if (action === 'motion_event') {
+                actionToDo = button.hasClass('eventstart') ? 'eventstart' : 'eventend';
+            }
+            else {
+                actionToDo = action;
+            }
+
+            doAction(cameraId, actionToDo, function () {
                 button.removeClass('pending');
             });
         })
@@ -5061,9 +5074,11 @@ function addCameraFrameUi(cameraConfig) {
         if ((!this.lastCookieTime || now - this.lastCookieTime > 1000) && (cameraFrameDiv[0].config['proto'] != 'mjpeg')) {
             if (getCookie('motion_detected_' + cameraId) == 'true') {
                 cameraFrameDiv.addClass('motion-detected');
+                motionEventButton.removeClass('eventstart').addClass('eventend');
             }
             else {
                 cameraFrameDiv.removeClass('motion-detected');
+                motionEventButton.removeClass('eventend').addClass('eventstart');
             }
 
             var captureFps = getCookie('capture_fps_' + cameraId);
