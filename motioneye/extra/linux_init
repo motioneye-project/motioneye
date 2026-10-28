@@ -10,14 +10,20 @@ fi
 # Process CLI arguments
 SKIP_SYSTEMD=0
 SKIP_APT_UPDATE=0
+MEYECTL=''
 while (( $# )); do
   case "$1" in
     '--skip-systemd') SKIP_SYSTEMD=1;;
     '--skip-apt-update') SKIP_APT_UPDATE=1;;
+    '--meyectl') (( $# > 1 )) || { echo 'ERROR: Missing path after "--meyectl". Aborting ...'; exit 1; }; MEYECTL=$2; shift;;
     *) echo "ERROR: Invalid command-line argument \"$1\". Aborting ..."; exit 1;;
   esac
   shift
 done
+if [[ $MEYECTL && ! ( -f $MEYECTL && -x $MEYECTL ) ]]; then
+  echo "ERROR: meyectl executable \"$MEYECTL\" given with --meyectl does not exist. Aborting ..."
+  exit 1
+fi
 
 # Install dependencies
 if command -v apt-get > /dev/null; then
@@ -85,10 +91,10 @@ chmod 0640 /etc/motioneye/motioneye.conf
 
 # Install service
 cp extra/motioneye.systemd /etc/systemd/system/motioneye.service
-# - Update meyectl path if expected /usr/local/bin/meyectl does not exist, found on Arch Linux: https://github.com/motioneye-project/motioneye/issues/3005
-if [[ ! -f '/usr/local/bin/meyectl' ]]
+# - Update meyectl path if given, e.g. by motioneye_init from a venv, or if expected /usr/local/bin/meyectl does not exist, found on Arch Linux: https://github.com/motioneye-project/motioneye/issues/3005
+if [[ $MEYECTL || ! -f '/usr/local/bin/meyectl' ]]
 then
-  if meyectl_path=$(command -v meyectl)
+  if meyectl_path=${MEYECTL:-$(command -v meyectl)}
   then
     echo "Using $meyectl_path for systemd service"
     sed -i "s|^ExecStart=/usr/local/bin/meyectl|ExecStart=$meyectl_path|" /etc/systemd/system/motioneye.service
@@ -97,4 +103,6 @@ then
   fi
 fi
 systemctl daemon-reload
-systemctl enable --now motioneye
+systemctl enable motioneye
+# A running service would keep its old ExecStart, e.g. a meyectl removed when switching to a venv
+systemctl restart motioneye

@@ -16,15 +16,24 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
 import sys
+import sysconfig
 from subprocess import run
 
 import motioneye
 
 
 def main():
+    args = []
+    # the meyectl of this Python environment, e.g. a venv, which need not be in PATH
+    meyectl = os.path.join(sysconfig.get_path('scripts'), 'meyectl')
+    if os.access(meyectl, os.X_OK):
+        args += ['--meyectl', meyectl]
+
+    # given after it, so that --meyectl given on the command line takes precedence
     run(
-        [f'{motioneye.__path__[0]}/extra/linux_init', *sys.argv[1:]],
+        [f'{motioneye.__path__[0]}/extra/linux_init', *args, *sys.argv[1:]],
         cwd=motioneye.__path__[0],
         check=False,
     )
