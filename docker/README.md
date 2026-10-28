@@ -7,7 +7,7 @@ The command below will run motionEye and preserve your configuration and videos
 across motionEye restarts.
 
 ```bash
-docker pull ccrisan/motioneye:master-amd64
+docker pull motioneyeproject/motioneye
 docker run \
   --rm \
   -d \
@@ -16,7 +16,7 @@ docker run \
   -v /etc/localtime:/etc/localtime:ro \
   -v /data/motioneye/config:/etc/motioneye \
   -v /data/motioneye/videos:/var/lib/motioneye \
-  ccrisan/motioneye:master-amd64
+  motioneyeproject/motioneye
 ```
 
 This configuration maps motionEye configs into the `/data/motioneye/config`
@@ -30,16 +30,16 @@ host. You can easily accomplish this by using the commands below:
 ```bash
 docker volume create motioneye-config
 docker volume create motioneye-videos
-docker pull ccrisan/motioneye:master-amd64
+docker pull motioneyeproject/motioneye
 docker run \
   --rm \
   -d \
   -p 8765:8765 \
-  --hostname="motioneye" =
+  --hostname="motioneye" \
   -v /etc/localtime:/etc/localtime:ro \
   --mount type=volume,source=motioneye-config,destination=/etc/motioneye \
   --mount type=volume,source=motioneye-videos,destination=/var/lib/motioneye \
-  ccrisan/motioneye:master-amd64
+  motioneyeproject/motioneye
 ```
 
 Use `docker volume ls` to view existing volumes.
@@ -75,7 +75,7 @@ docker run \
   --entrypoint chown \
   --mount type=volume,source=motioneye-config,destination=/etc/motioneye \
   --mount type=volume,source=motioneye-videos,destination=/var/lib/motioneye \
-  ccrisan/motioneye:master-amd64 \
+  motioneyeproject/motioneye \
   "$(id -u):$(id -g)" /etc/motioneye /var/lib/motioneye
 ```
 
