@@ -29,7 +29,6 @@ var modalContainer = null;
 var cameraFramesCached = null;
 var cameraFramesTime = 0;
 var qualifyURLElement;
-var cameraFrameRatios = [];
 var forcePasswordChange = false; /* flag to track if user needs to set password */
 
 /* page data and translations, see main.html */
@@ -1016,23 +1015,12 @@ function setLayoutColumns(columns) {
 
 function updateLayout() {
     if (fitFramesVertically) {
-        /* make sure the height of each camera
-         * is smaller than the height of the screen
-         * divided by the number of layout rows */
+        /* make sure the layout rows of camera frames
+         * fit into the height of the screen */
 
-        /* find the max height/width ratio */
-        var frames = getCameraFrames();
-        var maxRatio = 0;
-
-        frames.each(function () {
-            var cameraId = this.id.substring(6);
-            var ratio = cameraFrameRatios[cameraId];
-            if (ratio > maxRatio) {
-                maxRatio = ratio;
-            }
-        });
-
-        if (!maxRatio) {
+        /* in single view, the other frames are hidden only after this */
+        var frames = isSingleView() ? getCameraFrame(singleViewCameraId) : getCameraFrames();
+        if (!frames.length) {
             return; /* no camera frames */
         }
 
@@ -1049,6 +1037,35 @@ function updateLayout() {
             rows = 1; /* a single camera fills the screen */
         }
 
+        /* the frames of a row have the same width, so the row is as high as its
+         * highest height/width ratio; only the rows that fit into the screen count */
+        var rowRatios = [];
+        frames.slice(0, rows * columns).each(function (index) {
+            var img = $(this).find('img.camera')[0];
+            var ratio = 0;
+            if (img.error) {
+                ratio = 0.75; /* the placeholder */
+            }
+            else if (img._naturalWidth) {
+                ratio = img._naturalHeight / img._naturalWidth; /* the last loaded image */
+            }
+
+            var row = Math.floor(index / columns);
+            rowRatios[row] = Math.max(rowRatios[row] || 0, ratio);
+        });
+
+        /* the average ratio of the rows, those without a loaded image left aside */
+        var knownRatios = rowRatios.filter(function (rowRatio) {
+            return rowRatio > 0;
+        });
+        if (!knownRatios.length) {
+            return; /* no image loaded yet */
+        }
+
+        var ratio = knownRatios.reduce(function (sum, rowRatio) {
+            return sum + rowRatio;
+        }, 0) / knownRatios.length;
+
         var heightOffset = 5; /* some padding */
         if (!fullScreenMode && !isSingleView()) {
             heightOffset += 50; /* top bar */
@@ -1059,12 +1076,12 @@ function updateLayout() {
 
         /* the border and padding of a frame around its image, the same for all frames,
          * whatever the aspect ratio of their image, but in em, hence measured */
-        var frame = frames.filter(':visible').first();
+        var frame = frames.first();
         var image = frame.find('img.camera');
         var paddingHeight = (frame.outerHeight(true) - image.height()) || 0;
         var paddingWidth = (frame.outerWidth(true) - image.width()) || 0;
 
-        var width = ((windowHeight / rows - paddingHeight) / maxRatio + paddingWidth) * columns;
+        var width = ((windowHeight / rows - paddingHeight) / ratio + paddingWidth) * columns;
         if (pageContainer.hasClass('stretched') && windowWidth > 1200) {
             maxWidth *= 0.6; /* opened settings panel occupies 40% of the window width */
         }
@@ -5019,8 +5036,6 @@ function addCameraFrameUi(cameraConfig) {
 
         cameraImg.addClass('error').removeClass('initializing');
         if (!wasError) {
-            /* the ratio of the placeholder, until an image loads again */
-            cameraFrameRatios[cameraId] = 0.75;
             updateLayout(); /* before sizing the placeholder to the new width */
         }
         cameraImg.height(Math.round(cameraImg.width() * 0.75));
@@ -5044,10 +5059,6 @@ function addCameraFrameUi(cameraConfig) {
         }
         if (this.naturalHeight) {
             this._naturalHeight = this.naturalHeight;
-        }
-        if (this.naturalWidth > 0) {
-            /* known before the layout below is updated */
-            cameraFrameRatios[cameraId] = this.naturalHeight / this.naturalWidth;
         }
 
         if (this.initializing) {
