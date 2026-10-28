@@ -1013,6 +1013,20 @@ function setLayoutColumns(columns) {
     updateLayout();
 }
 
+/* the height/width ratio of a camera image: that of the last loaded picture,
+ * also kept by the placeholder of a camera in error, or 4:3 for the placeholder
+ * of a camera that has not loaded any; 0 while the first picture is loading */
+function getCameraImageRatio(img) {
+    if (img._naturalWidth && img._naturalHeight) {
+        return img._naturalHeight / img._naturalWidth;
+    }
+    else if (img.error) {
+        return 0.75;
+    }
+
+    return 0;
+}
+
 function updateLayout() {
     /* in single view, the other frames are hidden only after this */
     let frames = isSingleView() ? getCameraFrame(singleViewCameraId) : getCameraFrames();
@@ -1040,13 +1054,7 @@ function updateLayout() {
         let rowRatios = [];
         frames.slice(0, rows * columns).each(function (index) {
             let img = $(this).find('img.camera')[0];
-            let ratio = 0;
-            if (img.error) {
-                ratio = 0.75; /* the placeholder */
-            }
-            else if (img._naturalWidth) {
-                ratio = img._naturalHeight / img._naturalWidth; /* the last loaded image */
-            }
+            let ratio = getCameraImageRatio(img);
 
             let row = Math.floor(index / columns);
             rowRatios[row] = Math.max(rowRatios[row] || 0, ratio);
@@ -5035,7 +5043,7 @@ function addCameraFrameUi(cameraConfig) {
         if (!wasError) {
             updateLayout(); /* before sizing the placeholder to the new width */
         }
-        cameraImg.height(Math.round(cameraImg.width() * 0.75));
+        cameraImg.height(Math.round(cameraImg.width() * getCameraImageRatio(this)));
         cameraPlaceholder.css('opacity', 1);
         cameraProgress.removeClass('visible');
         cameraFrameDiv.removeClass('motion-detected');
