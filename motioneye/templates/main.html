@@ -981,6 +981,11 @@
                             <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="motionEventButtonSwitch"></td>
                             <td><span class="help-mark" title="{{ _("If enabled, an action button is added to the camera frame, which allows to start and end a manual motion event. This can be used to manually create motion-triggered recordings, and test the motion notification pipeline.") }}">?</span></td>
                         </tr>
+                        <tr class="settings-item">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Motion detection toggle button") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="motionDetectionButtonSwitch"></td>
+                            <td><span class="help-mark" title="{{ _("If enabled, an action button is added to the camera frame, which allows to temporarily pause and reactivate motion detection. Saving settings, adding/removing cameras, and restarting motionEye resets the state.") }}">?</span></td>
+                        </tr>
                     </table>
 
                     <!-- Motion Notifications -->

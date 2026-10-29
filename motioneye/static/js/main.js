@@ -1926,6 +1926,7 @@ function cameraUi2Dict() {
         'show_frame_changes': $('#showFrameChangesSwitch')[0].checked,
         'create_debug_media': $('#createDebugMediaSwitch')[0].checked,
         'motion_event_button': $('#motionEventButtonSwitch')[0].checked,
+        'motion_detection_button': $('#motionDetectionButtonSwitch')[0].checked,
 
         /* motion notifications */
         'email_notifications_enabled': $('#emailNotificationsEnabledSwitch')[0].checked,
@@ -2290,6 +2291,7 @@ function dict2CameraUi(dict) {
     $('#showFrameChangesSwitch')[0].checked = dict['show_frame_changes']; markHideIfNull('show_frame_changes', 'showFrameChangesSwitch');
     $('#createDebugMediaSwitch')[0].checked = dict['create_debug_media']; markHideIfNull('create_debug_media', 'createDebugMediaSwitch');
     $('#motionEventButtonSwitch')[0].checked = dict['motion_event_button']; markHideIfNull('motion_event_button', 'motionEventButtonSwitch');
+    $('#motionDetectionButtonSwitch')[0].checked = dict['motion_detection_button']; markHideIfNull('motion_detection_button', 'motionDetectionButtonSwitch');
 
     /* motion notifications */
     $('#emailNotificationsEnabledSwitch')[0].checked = dict['email_notifications_enabled']; markHideIfNull('email_notifications_enabled', 'emailNotificationsEnabledSwitch');
@@ -3031,7 +3033,7 @@ function doDeleteAllFiles(mediaType, cameraId, groupKey, callback) {
 }
 
 function doAction(cameraId, action, callback) {
-    ajax('POST', basePath + 'action/' + cameraId + '/' + action + '/', null, function (data) {
+    ajax('POST', basePath + 'action/' + cameraId + '/' + action, null, function (data) {
         if (data == null || data.error) {
             showErrorMessage(data && data.error);
         }
@@ -4704,7 +4706,8 @@ function addCameraFrameUi(cameraConfig) {
                             '<div class="button icon camera-action-button mouse-effect alarm-on" title="turn alarm on"></div>' +
                             '<div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div>' +
                             '<div class="button icon camera-action-button mouse-effect snapshot" title="' + i18n.gettext("preni instantaron") + '"></div>' +
-                            '<div class="button icon camera-action-button mouse-effect eventstart" title="toggle a motion event"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect eventstart" title="' + i18n.gettext("toggle a motion event") + '"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect detectionpause" title="' + i18n.gettext("toggle motion detection") + '"></div>' +
                             '<div class="button icon camera-action-button mouse-effect up" title="up"></div>' +
                             '<div class="button icon camera-action-button mouse-effect down" title="down"></div>' +
                             '<div class="button icon camera-action-button mouse-effect left" title="left"></div>' +
@@ -4746,6 +4749,7 @@ function addCameraFrameUi(cameraConfig) {
     var alarmOffButton = cameraFrameDiv.find('div.camera-action-button.alarm-off');
     var snapshotButton = cameraFrameDiv.find('div.camera-action-button.snapshot');
     var motionEventButton = cameraFrameDiv.find('div.camera-action-button.eventstart');
+    var motionDetectionButton = cameraFrameDiv.find('div.camera-action-button.detectionpause');
     var upButton = cameraFrameDiv.find('div.camera-action-button.up');
     var rightButton = cameraFrameDiv.find('div.camera-action-button.right');
     var downButton = cameraFrameDiv.find('div.camera-action-button.down');
@@ -4976,6 +4980,7 @@ function addCameraFrameUi(cameraConfig) {
         'alarm_off': alarmOffButton,
         'snapshot': snapshotButton,
         'motion_event': motionEventButton,
+        'motion_detection': motionDetectionButton,
         'up': upButton,
         'right': rightButton,
         'down': downButton,
@@ -5010,6 +5015,9 @@ function addCameraFrameUi(cameraConfig) {
             let actionToDo;
             if (action === 'motion_event') {
                 actionToDo = button.hasClass('eventstart') ? 'eventstart' : 'eventend';
+            }
+            else if (action === 'motion_detection') {
+                actionToDo = button.hasClass('detectionpause') ? 'detectionpause' : 'detectionstart';
             }
             else {
                 actionToDo = action;
@@ -5079,6 +5087,15 @@ function addCameraFrameUi(cameraConfig) {
             else {
                 cameraFrameDiv.removeClass('motion-detected');
                 motionEventButton.removeClass('eventend').addClass('eventstart');
+            }
+
+            if (cameraConfig.actions.includes('motion_detection')) {
+                if (getCookie('motion_detection_' + cameraId) == 'true') {
+                    motionDetectionButton.removeClass('detectionstart').addClass('detectionpause');
+                }
+                else {
+                    motionDetectionButton.removeClass('detectionpause').addClass('detectionstart');
+                }
             }
 
             var captureFps = getCookie('capture_fps_' + cameraId);

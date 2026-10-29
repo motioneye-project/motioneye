@@ -1233,6 +1233,14 @@ div.camera-action-button.eventend {
     background-image: url(../img/camera-action-button-eventend.svg);
 }
 
+div.camera-action-button.detectionpause {
+    background-image: url(../img/camera-action-button-alarm-off.svg);
+}
+
+div.camera-action-button.detectionstart {
+    background-image: url(../img/camera-action-button-alarm-on.svg);
+}
+
 div.camera-action-button.up {
     background-image: url(../img/camera-action-button-up.svg);
 }

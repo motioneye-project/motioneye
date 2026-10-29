@@ -390,11 +390,16 @@ async def get_current_picture(
             'failed to get current picture for remote camera '
             f'{camera_id} on {pretty_camera_url(local_config)}: {utils.pretty_http_error(response)}'
         )
-
         return utils.GetCurrentPictureResponse(error=utils.pretty_http_error(response))
 
     cookies = utils.parse_cookies(response.headers.get_list('Set-Cookie'))
     motion_detected = cookies.get('motion_detected_' + str(camera_id)) == 'true'
+    motion_detection: bool | None = None
+    motion_detection_cookie: str | None = cookies.get(
+        'motion_detection_' + str(camera_id)
+    )
+    if motion_detection_cookie is not None:
+        motion_detection = motion_detection_cookie == 'true'
     try:
         capture_fps = float(cookies.get('capture_fps_' + str(camera_id)) or 0.0)
 
@@ -408,6 +413,7 @@ async def get_current_picture(
 
     return utils.GetCurrentPictureResponse(
         motion_detected=motion_detected,
+        motion_detection=motion_detection,
         capture_fps=capture_fps,
         monitor_info=monitor_info,
         picture=response.body,
@@ -892,7 +898,7 @@ async def exec_action(local_config, action) -> utils.CommonExternalResponse:
         f'executing action "{action}" of remote camera {camera_id} on {pretty_camera_url(local_config)}'
     )
 
-    path += f'/action/{camera_id}/{action}/'
+    path += f'/action/{camera_id}/{action}'
 
     request = _make_request(
         scheme,

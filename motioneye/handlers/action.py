@@ -66,10 +66,21 @@ class ActionHandler(BaseHandler):
             error = await motionctl.trigger_action(camera_id, action)
             self.finish_json({'error': error})
 
+        elif action in ('detectionpause', 'detectionstart'):
+            state: str = action.removeprefix('detection')
+            logging.debug(
+                f'received call to {state!r} motion detection for camera {camera_id}'
+            )
+            error = await motionctl.set_motion_detection(camera_id, state)
+            self.finish_json({'error': error})
+
         else:
             action_commands = config.get_action_commands(local_config)
             command = action_commands.get(action)
-            if not command:
+            # motion_event and motion_detection are no commands, but the names of
+            # buttons the UI shows, which post eventstart/eventend resp.
+            # detectionstart/detectionpause depending on their state
+            if not command or action in ('motion_event', 'motion_detection'):
                 raise HTTPError(400, 'unknown action')
 
             logging.debug(
