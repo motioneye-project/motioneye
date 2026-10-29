@@ -22,6 +22,9 @@ from tests.test_handlers import (
 # the id motion knows camera 1 by
 _MOTION_CAMERA_ID = 7
 
+# motion needs a file name to take snapshots, without it a snapshot action crashes it
+_SNAPSHOT_FILENAME = '%Y-%m-%d/%H-%M-%S'
+
 # action => path of the request to motion's control interface it ends up in
 _MOTION_PATHS = {
     'snapshot': f'{_MOTION_CAMERA_ID}/action/snapshot',
@@ -56,12 +59,17 @@ class _PostsActions:
 
 
 class _LocalActionCase(_PostsActions, HandlerTestCase):
-    """Camera 1 is run by the local motion, which answers what the test sets."""
+    """Camera 1 is run by the local motion, which answers what the test sets.
+
+    Snapshots are enabled for it, unless a test turns them off."""
 
     handler_cls = ActionHandler
 
     def setUp(self):
         super().setUp()
+        camera = patch.dict(_FAKE_CAMERA_CONFIG, snapshot_filename=_SNAPSHOT_FILENAME)
+        camera.start()
+        self.addCleanup(camera.stop)
         self.client = MagicMock()
         self.motion_answers(return_value=_motion_answer())
         for p in (
@@ -204,6 +212,38 @@ class LocalActionTest(_LocalActionCase):
                 self.assertEqual(400, response.code)
                 self.client.fetch.assert_not_called()
 
+    def test_a_snapshot_is_refused_while_snapshots_are_disabled(self):
+        # motion crashes on the action without a snapshot file name, so it never
+        # gets to see it: not defined at all, as well as the empty default
+        for case in ('not defined', 'empty'):
+            with self.subTest(case), patch.dict(_FAKE_CAMERA_CONFIG):
+                if case == 'empty':
+                    _FAKE_CAMERA_CONFIG['snapshot_filename'] = ''
+                else:
+                    del _FAKE_CAMERA_CONFIG['snapshot_filename']
+
+                response = self.post('snapshot')
+
+                self.assertEqual(400, response.code)
+                self.assertEqual(
+                    {'error': 'snapshots are disabled on this motionEye server'},
+                    loads(response.body),
+                )
+                self.client.fetch.assert_not_called()
+
+    def test_the_other_actions_do_not_depend_on_snapshots_being_enabled(self):
+        with patch.dict(_FAKE_CAMERA_CONFIG):
+            del _FAKE_CAMERA_CONFIG['snapshot_filename']
+            for action, path in _MOTION_PATHS.items():
+                if action == 'snapshot':
+                    continue
+
+                with self.subTest(action):
+                    response = self.post(action)
+
+                    self.assertEqual(200, response.code)
+                    self.assertEqual(self.motion_url(path), self.requested_url())
+
     def test_a_trailing_slash_after_the_action_is_accepted(self):
         # hubs of older versions address the actions of a remote camera this way
         response = self.post('detectionstart/')
@@ -265,7 +305,9 @@ class AdminOnlyActionTest(_LocalActionCase):
 
 
 class RemoteActionTest(_PostsActions, RemoteCameraTestCase):
-    """The actions for a remote camera go to the remote motionEye, by the same name."""
+    """The actions for a remote camera go to the remote motionEye, by the same name.
+
+    Whether snapshots are enabled is for the remote to decide, which has the config."""
 
     handler_cls = ActionHandler
 
