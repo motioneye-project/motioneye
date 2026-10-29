@@ -1014,17 +1014,13 @@ function setLayoutColumns(columns) {
 }
 
 /* the height/width ratio of a camera image: that of the last loaded picture,
- * also kept by the placeholder of a camera in error, or 4:3 for the placeholder
- * of a camera that has not loaded any; 0 while the first picture is loading */
+ * also kept while loading or in error, or 4:3 if none has been loaded yet */
 function getCameraImageRatio(img) {
     if (img._naturalWidth && img._naturalHeight) {
         return img._naturalHeight / img._naturalWidth;
     }
-    else if (img.error) {
-        return 0.75;
-    }
 
-    return 0;
+    return 0.75;
 }
 
 function updateLayout() {
@@ -1060,16 +1056,10 @@ function updateLayout() {
             rowRatios[row] = Math.max(rowRatios[row] || 0, ratio);
         });
 
-        /* the average ratio of the rows, those without a loaded image left aside */
-        let knownRatios = rowRatios.filter(function (rowRatio) {
-            return rowRatio > 0;
-        });
-        if (!knownRatios.length) {
-            return; /* no image loaded yet */
-        }
-        let ratio = knownRatios.reduce(function (sum, rowRatio) {
+        /* the average ratio of the rows */
+        let ratio = rowRatios.reduce(function (sum, rowRatio) {
             return sum + rowRatio;
-        }, 0) / knownRatios.length;
+        }, 0) / rowRatios.length;
 
         /* the border and padding of a frame around its image, the same for all frames,
          * whatever the aspect ratio of their image, but in em, hence measured */
@@ -5040,10 +5030,10 @@ function addCameraFrameUi(cameraConfig) {
         this.loading_count = 0;
 
         cameraImg.addClass('error').removeClass('initializing');
+        cameraImg.css('aspect-ratio', '1 / ' + getCameraImageRatio(this)); /* no picture to give a height */
         if (!wasError) {
-            updateLayout(); /* before sizing the placeholder to the new width */
+            updateLayout();
         }
-        cameraImg.height(Math.round(cameraImg.width() * getCameraImageRatio(this)));
         cameraPlaceholder.css('opacity', 1);
         cameraProgress.removeClass('visible');
         cameraFrameDiv.removeClass('motion-detected');
@@ -5054,7 +5044,7 @@ function addCameraFrameUi(cameraConfig) {
         if (this.error) {
             cameraImg.removeClass('error');
             cameraPlaceholder.css('opacity', 0);
-            cameraImg.css('height', '');
+            cameraImg.css('aspect-ratio', '');
             this.error = false;
         }
 
@@ -5069,7 +5059,7 @@ function addCameraFrameUi(cameraConfig) {
         if (this.initializing) {
             cameraProgress.removeClass('visible');
             cameraImg.removeClass('initializing');
-            cameraImg.css('height', '');
+            cameraImg.css('aspect-ratio', '');
             this.initializing = false;
 
             updateLayout();
@@ -5148,7 +5138,7 @@ function addCameraFrameUi(cameraConfig) {
 
     cameraImg.addClass('initializing');
     cameraImg[0].initializing = true;
-    cameraImg.height(Math.round(cameraImg.width() * 0.75));
+    cameraImg.css('aspect-ratio', '4 / 3'); /* no picture to give a height until the first one is loaded */
 
     function updateActionButtons() {
         /* check if action buttons need one or two rows*/
