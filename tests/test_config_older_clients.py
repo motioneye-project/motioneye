@@ -124,7 +124,6 @@ _SENT_BY_0_44 = frozenset(
         'upload_sse_c_key',
         'upload_subfolders',
         'upload_username',
-        'value',
         'video_controls',
         'video_streaming',
         'web_hook_end_notifications_enabled',
