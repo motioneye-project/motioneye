@@ -15,6 +15,8 @@ You can contribute to translations on [__Weblate__](https://hosted.weblate.org/p
 
 # Installation
 
+_(Docker images are provided on [Docker Hub](https://hub.docker.com/r/motioneyeproject/motioneye). See [docker/README.md](https://github.com/motioneye-project/motioneye/blob/dev/docker/README.md) for further details.)_
+
 1. Install **Python 3.9 or later** and build dependencies
 
     _Here the commands for APT-based Linux distributions are given._
