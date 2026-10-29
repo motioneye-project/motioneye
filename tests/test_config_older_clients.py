@@ -5,8 +5,9 @@ import unittest
 from motioneye import config
 from tests.test_notification_settings import _UI, _ConfigCase
 
-# what the UI of 0.44.0 posts when a camera is saved: the keys of cameraUi2Dict() in that
-# release's main.js. Frozen, so do not add new settings here.
+# the keys cameraUi2Dict() in 0.44.0's main.js can return, i.e. what that UI posts when a camera
+# is saved (an Apply right after an upload service test leaves out upload_authorization_key).
+# Frozen, so do not add new settings here.
 _SENT_BY_0_44 = frozenset(
     {
         'admin_only',
