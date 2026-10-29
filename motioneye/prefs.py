@@ -27,7 +27,6 @@ PrefsDict = dict[str, PrefsValue]
 
 _PREFS_FILE_NAME: str = 'prefs.json'
 _DEFAULT_PREFS: PrefsDict = {
-    'layout_columns': 3,
     'fit_frames_vertically': True,
     'layout_rows': 1,
     'framerate_factor': 1,

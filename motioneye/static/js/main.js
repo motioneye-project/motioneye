@@ -666,8 +666,8 @@ function initUI() {
     /* prefs change handlers */
     $('#layoutColumnsSlider').on('change', function () {
         var columns = parseInt(this.value);
+        storeLayoutColumns(columns);
         setLayoutColumns(columns);
-        savePrefs();
     });
     $('#fitFramesVerticallySwitch').on('change', function () {
         fitFramesVertically = this.checked;
@@ -1014,6 +1014,41 @@ function setLayoutColumns(columns) {
     updateLayout();
 }
 
+/* the layout columns are kept in each browser, as a phone and a desktop want different
+ * ones; until they are chosen there, they follow the window width */
+function getStoredLayoutColumns() {
+    try {
+        let columns = parseInt(localStorage.getItem('layoutColumns'));
+        if (columns >= 1 && columns <= 4) {
+            return columns;
+        }
+    }
+    catch (e) {
+        /* no local storage, e.g. blocked by the browser */
+    }
+
+    return null;
+}
+
+function storeLayoutColumns(columns) {
+    try {
+        localStorage.setItem('layoutColumns', columns);
+    }
+    catch (e) {
+        /* no local storage, the columns last until the page is reloaded */
+    }
+}
+
+function updateLayoutColumns() {
+    /* about 500px for each frame */
+    let columns = getStoredLayoutColumns() || Math.min(4, Math.max(1, Math.floor($(window).width() / 500)));
+
+    $('#layoutColumnsSlider').val(columns).each(function () {
+        this.update();
+    });
+    setLayoutColumns(columns);
+}
+
 /* the height/width ratio of a camera image: that of the last loaded picture,
  * also kept while loading or in error, or 4:3 if none has been loaded yet */
 function getCameraImageRatio(img) {
@@ -1037,8 +1072,8 @@ function updateLayout() {
 
         let windowWidth = $(window).width();
         let columns = layoutColumns;
-        if (isSingleView() || fullScreenMode || windowWidth <= 1200) {
-            columns = 1; /* always 1 column when in full screen or mobile */
+        if (isSingleView() || fullScreenMode) {
+            columns = 1; /* always 1 column when in full screen */
         }
 
         let rows = layoutRows;
@@ -1725,7 +1760,6 @@ function configUiValid() {
 
 function prefsUi2Dict() {
     var dict = {
-        'layout_columns': parseInt($('#layoutColumnsSlider').val()),
         'fit_frames_vertically': $('#fitFramesVerticallySwitch')[0].checked,
         'layout_rows': parseInt($('#layoutRowsSlider').val()),
         'framerate_factor': $('#framerateDimmerSlider').val() / 100,
@@ -1737,7 +1771,6 @@ function prefsUi2Dict() {
 }
 
 function dict2PrefsUi(dict) {
-    $('#layoutColumnsSlider').val(dict['layout_columns']);
     $('#fitFramesVerticallySwitch')[0].checked = dict['fit_frames_vertically'];
     $('#layoutRowsSlider').val(dict['layout_rows']);
     $('#framerateDimmerSlider').val(dict['framerate_factor'] * 100);
@@ -1748,7 +1781,7 @@ function dict2PrefsUi(dict) {
 }
 
 function applyPrefs(dict) {
-    setLayoutColumns(dict['layout_columns']);
+    updateLayoutColumns();
     fitFramesVertically = dict['fit_frames_vertically'];
     layoutRows = dict['layout_rows'];
     framerateFactor = dict['framerate_factor'];
@@ -5663,7 +5696,7 @@ $(document).ready(function () {
     checkCameraErrors();
 
     $(window).on('resize', function () {
-        updateLayout();
+        updateLayoutColumns();
     });
 
     document.addEventListener('fullscreenchange', function() {
