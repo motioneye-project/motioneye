@@ -62,6 +62,9 @@ class ActionHandler(BaseHandler):
                 self.finish_json()
 
         elif action in ('snapshot', 'eventstart', 'eventend'):
+            if action == 'snapshot' and not local_config.get('snapshot_filename'):
+                raise HTTPError(400, 'snapshots are disabled on this motionEye server')
+
             logging.debug(f'received {action} action call for camera {camera_id}')
             error = await motionctl.trigger_action(camera_id, action)
             self.finish_json({'error': error})
