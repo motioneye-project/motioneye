@@ -81,7 +81,7 @@ def start(deferred=False):
     if deferred:
         IOLoop.current().add_callback(start, deferred=False)
 
-    global _started, _process
+    global _started, _process, _motion_detection
     _started = True
 
     enabled_local_motion_cameras = config.get_enabled_local_motion_cameras()
@@ -135,6 +135,9 @@ def start(deferred=False):
             raise RuntimeError(f'motion failed to start with exit code "{exit_code}"')
 
     _process = process
+
+    # Clear motion detection status cache to cover start() without stop() from server._motion_checker
+    _motion_detection = {}
 
     # disable motion detection if version < 4.4, otherwise the new "pause" setting does
     if not is_motion_post43():
