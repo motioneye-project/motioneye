@@ -1,0 +1,32 @@
+name: test_hub_remote
+
+on: [pull_request, push]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
+    strategy:
+      fail-fast: false
+      matrix:
+        # releases a hub or remote of this version must work with
+        release: ['0.44.0']
+        hub: [release, head]
+    runs-on: ubuntu-26.04
+    name: ${{ matrix.hub == 'head' && 'HEAD hub' || format('{0} hub', matrix.release) }}, ${{ matrix.hub == 'head' && format('{0} remote', matrix.release) || 'HEAD remote' }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - run: sudo apt-get -qq update
+      - run: sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends install motion
+      - run: python3 -m venv /tmp/head && /tmp/head/bin/pip install -q .
+      - run: python3 -m venv /tmp/release && /tmp/release/bin/pip install -q 'motioneye==${{ matrix.release }}'
+      - run: python3 tests/hub_remote_compat.py --hub /tmp/${{ matrix.hub }} --remote /tmp/${{ matrix.hub == 'head' && 'release' || 'head' }}
