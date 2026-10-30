@@ -1234,11 +1234,11 @@ div.camera-action-button.eventend {
 }
 
 div.camera-action-button.detectionpause {
-    background-image: url(../img/camera-action-button-alarm-off.svg);
+    background-image: url(../img/camera-action-button-detectionpause.svg);
 }
 
 div.camera-action-button.detectionstart {
-    background-image: url(../img/camera-action-button-alarm-on.svg);
+    background-image: url(../img/camera-action-button-detectionstart.svg);
 }
 
 div.camera-action-button.up {
