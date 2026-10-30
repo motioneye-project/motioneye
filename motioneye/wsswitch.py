@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations
+
 import logging
 from datetime import datetime
 from typing import TYPE_CHECKING
@@ -26,9 +28,17 @@ from tornado.ioloop import IOLoop
 
 from motioneye import config, motionctl, utils
 
+# the motion detection state set for each camera by the working schedule: it is
+# only enforced again when the schedule changes, so that a manual change lasts
+_ws_state: dict[int, bool] = {}
+
 
 def _start_check_ws() -> None:
     IOLoop.current().spawn_callback(_check_ws)
+
+
+def clear_cache() -> None:
+    _ws_state.clear()
 
 
 def start() -> None:
@@ -78,29 +88,29 @@ async def _switch_motion_detection_status(
     must_be_enabled,
     working_schedule_type,
     motion_detection_resp: utils.GetMotionDetectionResult,
-) -> None:
+) -> str | None:
     if motion_detection_resp.error:  # could not detect current status
         logging.warning(
             f'skipping motion detection status update for camera with id {camera_id}: {motion_detection_resp.error}'
         )
 
-        return
+        return motion_detection_resp.error
 
     if motion_detection_resp.enabled and not must_be_enabled:
         logging.debug(
             f'must disable motion detection for camera with id {camera_id} ({working_schedule_type} working schedule)'
         )
 
-        await motionctl.set_motion_detection(camera_id, 'pause')
+        return await motionctl.set_motion_detection(camera_id, 'pause')
 
     elif not motion_detection_resp.enabled and must_be_enabled:
         logging.debug(
             f'must enable motion detection for camera with id {camera_id} ({working_schedule_type} working schedule)'
         )
 
-        await motionctl.set_motion_detection(camera_id, 'start')
+        return await motionctl.set_motion_detection(camera_id, 'start')
 
-    return
+    return None
 
 
 async def _check_ws() -> None:
@@ -123,9 +133,11 @@ async def _check_ws() -> None:
         if (
             not working_schedule
         ):  # working schedule disabled, motion detection left untouched
+            _ws_state.pop(camera_id, None)
             continue
 
         if not motion_detection:  # motion detection explicitly disabled
+            _ws_state.pop(camera_id, None)
             continue
 
         now_during = _during_working_schedule(now, working_schedule)
@@ -133,7 +145,12 @@ async def _check_ws() -> None:
             not now_during and working_schedule_type == 'outside'
         )
 
+        if _ws_state.get(camera_id) == must_be_enabled:
+            continue  # set already, or changed manually since
+
         motion_detection_resp = await motionctl.get_motion_detection(camera_id)
-        await _switch_motion_detection_status(
+        error = await _switch_motion_detection_status(
             camera_id, must_be_enabled, working_schedule_type, motion_detection_resp
         )
+        if not error:  # otherwise tried again next time
+            _ws_state[camera_id] = must_be_enabled
