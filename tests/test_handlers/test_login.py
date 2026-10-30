@@ -3,6 +3,7 @@ from email.utils import parsedate_to_datetime
 from hashlib import sha1
 from http.cookies import SimpleCookie
 from ipaddress import ip_network
+from time import time
 from unittest import TestCase
 from unittest.mock import patch
 
@@ -463,6 +464,61 @@ class LoginHandlerTest(HandlerTestCase):
             )
         self.assertEqual(200, response.code)
         self._assert_session_lifetime(response, 'normal', 1 * 3600)
+
+    def _login_normal_for_1000_hours(self):
+        main_config = {
+            '@admin_username': 'admin',
+            '@admin_password': ph.hash('adminpass'),
+            '@normal_username': 'user',
+            '@normal_password': ph.hash('watcher'),
+        }
+        # kept for the requests that follow
+        for p in [
+            patch.object(config, '_main_config_cache', main_config),
+            patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 1000),
+        ]:
+            p.start()
+            self.addCleanup(p.stop)
+
+        response = self.fetch(
+            '/login',
+            method='POST',
+            body='username=user&password=watcher',
+            headers={'Content-Type': 'application/x-www-form-urlencoded'},
+        )
+        self.assertEqual(200, response.code)
+
+        return response.headers['Set-Cookie'].split(';')[0]
+
+    @staticmethod
+    def _days_later(days):
+        # both Tornado's signed cookie check and the session store
+        later = time() + days * 86400
+        return patch('time.time', return_value=later), patch.object(
+            base, 'time', return_value=later
+        )
+
+    def test_normal_session_longer_than_31_days(self):
+        # Tornado rejects signed cookies older than 31 days by default
+        cookie = self._login_normal_for_1000_hours()
+
+        for days, code in [(40, 200), (42, 403)]:
+            with self.subTest(days=days):
+                clock, session_clock = self._days_later(days)
+                with clock, session_clock:
+                    response = self.fetch('/login', headers={'Cookie': cookie})
+                self.assertEqual(code, response.code)
+
+    def test_logout_after_31_days(self):
+        cookie = self._login_normal_for_1000_hours()
+
+        clock, session_clock = self._days_later(40)
+        with clock, session_clock:
+            response = self.fetch(
+                '/logout', method='POST', body='', headers={'Cookie': cookie}
+            )
+        self.assertEqual(200, response.code)
+        self.assertEqual({}, _session_store)
 
     def test_logout(self):
         cookie = self.make_session_cookie('admin')

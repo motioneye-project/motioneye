@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from motioneye.handlers.base import BaseHandler, invalidate_session
+from motioneye.handlers.base import BaseHandler, get_session_id, invalidate_session
 
 __all__ = ('LogoutHandler',)
 
@@ -26,7 +26,7 @@ class LogoutHandler(BaseHandler):
         self.clear_cookie('user')
 
         # Invalidate the session id stored in the secure cookie
-        session_id = self.get_signed_cookie('user')
+        session_id = get_session_id(self)
         if session_id:
             session_id = (
                 session_id.decode('utf-8')

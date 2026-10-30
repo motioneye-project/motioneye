@@ -47,6 +47,20 @@ def session_expiry_seconds(user_type: str) -> int:
     return _SESSION_EXPIRY_SECONDS
 
 
+def get_session_id(handler: RequestHandler):
+    """Return the session id from the signed "user" cookie.
+
+    Tornado rejects signed cookies older than 31 days by default, while the
+    surveillance user session can last longer, so the cookie is accepted as
+    long as the longest session lasts; the session store still checks the
+    lifetime of each user type.
+    """
+    max_age_days = (
+        max(session_expiry_seconds('admin'), session_expiry_seconds('normal')) / 86400
+    )
+    return handler.get_signed_cookie('user', max_age_days=max_age_days)
+
+
 def create_session(user_type):
     """Create a secure session id with expiry."""
     session_id = token_hex(32)
@@ -155,7 +169,7 @@ class BaseHandler(RequestHandler):
 
     def get_current_user(self):
         # Check for session-based authentication (via secure cookie)
-        session_id = self.get_signed_cookie('user')
+        session_id = get_session_id(self)
         if session_id:
             try:
                 session_id = (
