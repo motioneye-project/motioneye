@@ -210,8 +210,10 @@ def set_up(root: Path, hub: Path, remote: Path) -> None:
     for directory in (
         hub_dir / 'run',
         hub_dir / 'log',
+        hub_dir / 'tmp',
         remote_dir / 'run',
         remote_dir / 'log',
+        remote_dir / 'tmp',
     ):
         directory.mkdir(parents=True)
     for directory in (
@@ -324,6 +326,8 @@ def start(root: Path, hub: Path, remote: Path) -> list[subprocess.Popen]:
                     str(root / name / 'motioneye.conf'),
                 ],
                 cwd=root / name,
+                # both servers create <tmp>/MotionEye on import and race for it
+                env={**os.environ, 'TMPDIR': str(root / name / 'tmp')},
                 stdout=log,
                 stderr=subprocess.STDOUT,
             )
