@@ -547,7 +547,8 @@ def main() -> int:
     report.append(f'API checks: FAILED: {failure}' if failure else 'API checks: OK')
     if tracebacks:
         report.append('tracebacks in the server logs (separate from the API checks):')
-        report.extend(f'  {line}' for line in tracebacks)
+        for line in dict.fromkeys(tracebacks):  # each once, in order, with a count
+            report.append(f'  {tracebacks.count(line)} x {line}')
         if not args.ignore_tracebacks:
             failure = failure or (
                 f'{len(tracebacks)} tracebacks in the server logs '
