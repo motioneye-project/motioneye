@@ -1105,6 +1105,10 @@ function updateLayout() {
 
 function showCameraOverlay() {
     getCameraFrames().find('div.camera-overlay').css('display', '');
+    /* the action buttons could not be measured while the overlay was hidden */
+    getCameraFrames().each(function () {
+        this.config.updateActionButtons();
+    });
     setTimeout(function () {
         getCameraFrames().find('div.camera-overlay').addClass('visible');
         updateCameraTopButtonState();
@@ -5186,6 +5190,9 @@ function addCameraFrameUi(cameraConfig) {
             var actionButtonWidth = actionButtonDict[cameraConfig.actions[0]].height();
             var actionsWidth = actionsCount * actionButtonWidth;
             var cameraWidth = cameraOverlay.find('div.camera-overlay-bottom').width();
+            if (!cameraWidth) {
+                return; /* overlay hidden, updated again when shown */
+            }
             var flexBasis = (200 / actionsCount);
             // to account for uneven numbers to space correctly
             if(actionsCount % 2 == 1){
