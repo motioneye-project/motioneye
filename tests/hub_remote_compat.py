@@ -6,9 +6,13 @@ the hub's HTTP API as its web UI does: list the cameras, get the camera's config
 fetch a current picture, list the media, and save the camera twice. Each save posts
 exactly the keys the hub's own UI sends, read from cameraUi2Dict() in the hub's
 main.js. The second save must leave the remote's camera file unchanged apart from the
-camera name (and the text overlay that shows it).
+camera name (and the text overlay that shows it). A third save does what the Home
+Assistant integration does: post the whole fetched config back with web hooks set.
 
-Usage: python3 tests/hub_remote_compat.py --hub VENV --remote VENV
+Tracebacks in the server logs are reported separately from these API checks, and fail
+the run too unless --ignore-tracebacks is given.
+
+Usage: python3 tests/hub_remote_compat.py --hub VENV --remote VENV [--ignore-tracebacks]
 Each VENV is a virtual environment with motionEye installed; motion must be in PATH.
 """
 
@@ -35,6 +39,8 @@ STREAM_PORT = 18082
 PICTURE_PORT = 18090
 REMOTE_SECRET = 'hub-remote-compat-0123456789'
 ADMIN_PASSWORD = 'hub-remote-compat'
+# shaped like the web hooks the Home Assistant integration sets; never called here
+HA_WEBHOOK = 'http://127.0.0.1:8123/api/webhook/hub-remote-compat?camera_id=%t&src=hass-motioneye'
 
 FROZEN_0_44 = Path(__file__).with_name('test_config_older_clients.py')
 
@@ -444,6 +450,45 @@ def check(root: Path, hub: Path, remote: Path, report: list[str]) -> None:
             )
         before = after
 
+    # the Home Assistant integration (motioneye-client) saves differently: it posts the
+    # whole config it fetched back to the single camera endpoint, with its web hooks set
+    answer = client.get_json('/config/1/get/')
+    hooks = {
+        'web_hook_notifications_enabled': True,
+        'web_hook_notifications_http_method': 'POSTj',
+        'web_hook_notifications_url': f'{HA_WEBHOOK}&event_type=motion_detected',
+        'web_hook_storage_enabled': True,
+        'web_hook_storage_http_method': 'POSTj',
+        'web_hook_storage_url': f'{HA_WEBHOOK}&file_path=%f&event_type=file_stored',
+    }
+    result = client.post_json('/config/1/set/', {**answer, **hooks})
+    if result.get('error'):
+        raise CheckFailed(f'Home Assistant style save: {result["error"]}')
+
+    saved_config = client.get_json('/config/1/get/')
+    wrong = {
+        k: saved_config.get(k) for k, v in hooks.items() if saved_config.get(k) != v
+    }
+    if wrong or saved_config.get('name') != answer.get('name'):
+        raise CheckFailed(
+            f"Home Assistant style save: {wrong or saved_config.get('name')!r} after the save"
+        )
+    report.append(
+        'Home Assistant style save: the whole config posted back with its web hooks set, '
+        'and the web hooks arrived'
+    )
+
+
+def exception_lines(lines: list[str]) -> list[str]:
+    """The exception each traceback in a log ends with."""
+    found = []
+    for i, line in enumerate(lines):
+        if line.startswith('Traceback (most recent call last)'):
+            rest = (text for text in lines[i + 1 :] if text and not text[0].isspace())
+            found.append(next(rest, '(no exception line after the traceback)'))
+
+    return found
+
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=(__doc__ or '').split('\n')[0])
@@ -452,6 +497,12 @@ def main() -> int:
     )
     parser.add_argument(
         '--remote', type=Path, required=True, help='virtual environment of the remote'
+    )
+    parser.add_argument(
+        '--ignore-tracebacks',
+        action='store_true',
+        help='report tracebacks in the server logs without failing, e.g. for local runs '
+        'where a tool the servers call is missing',
     )
     args = parser.parse_args()
 
@@ -469,6 +520,8 @@ def main() -> int:
         check(root, hub, remote, report)
     except CheckFailed as e:
         failure = str(e)
+    except Exception as e:  # anything else still gets the server logs printed below
+        failure = f'unexpected {type(e).__name__}: {e}'
     finally:
         for process in reversed(processes):
             process.terminate()
@@ -478,18 +531,33 @@ def main() -> int:
             except subprocess.TimeoutExpired:
                 process.kill()
 
+    logs: dict[str, list[str]] = {}
+    tracebacks: list[str] = []
     for name in ('remote', 'hub'):
         log = root / f'{name}.log'
         text = log.read_text(encoding='utf-8', errors='replace') if log.exists() else ''
-        if 'Traceback' in text:
-            failure = failure or f'{name} logged a traceback'
-        errors = [line for line in text.split('\n') if ' ERROR: ' in line]
+        logs[name] = text.split('\n')
+        raised = exception_lines(logs[name])
+        tracebacks.extend(f'{name}: {line}' for line in raised)
+        errors = [line for line in logs[name] if ' ERROR: ' in line]
         report.append(
-            f'{name} log: {len(errors)} error lines, traceback: {"Traceback" in text}'
+            f'{name} log: {len(errors)} error lines, {len(raised)} tracebacks'
         )
-        if failure:
+
+    report.append(f'API checks: FAILED: {failure}' if failure else 'API checks: OK')
+    if tracebacks:
+        report.append('tracebacks in the server logs (separate from the API checks):')
+        report.extend(f'  {line}' for line in tracebacks)
+        if not args.ignore_tracebacks:
+            failure = failure or (
+                f'{len(tracebacks)} tracebacks in the server logs '
+                '(--ignore-tracebacks reports them without failing)'
+            )
+
+    if failure:
+        for name in ('remote', 'hub'):
             report.append(f'--- {name} log, last 40 lines ---')
-            report.extend(text.split('\n')[-40:])
+            report.extend(logs[name][-40:])
 
     report.append(f'FAILED: {failure}' if failure else 'OK')
     print('\n'.join(report))
