@@ -4706,8 +4706,8 @@ function addCameraFrameUi(cameraConfig) {
                             '<div class="button icon camera-action-button mouse-effect alarm-on" title="turn alarm on"></div>' +
                             '<div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div>' +
                             '<div class="button icon camera-action-button mouse-effect snapshot" title="' + i18n.gettext("preni instantaron") + '"></div>' +
-                            '<div class="button icon camera-action-button mouse-effect eventstart" title="' + i18n.gettext("toggle a motion event") + '"></div>' +
-                            '<div class="button icon camera-action-button mouse-effect detectionpause" title="' + i18n.gettext("toggle motion detection") + '"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect eventstart" title="' + i18n.gettext("start a motion event") + '"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect detectionpause" title="' + i18n.gettext("pause motion detection") + '"></div>' +
                             '<div class="button icon camera-action-button mouse-effect up" title="up"></div>' +
                             '<div class="button icon camera-action-button mouse-effect down" title="down"></div>' +
                             '<div class="button icon camera-action-button mouse-effect left" title="left"></div>' +
@@ -5082,19 +5082,23 @@ function addCameraFrameUi(cameraConfig) {
         if ((!this.lastCookieTime || now - this.lastCookieTime > 1000) && (cameraFrameDiv[0].config['proto'] != 'mjpeg')) {
             if (getCookie('motion_detected_' + cameraId) == 'true') {
                 cameraFrameDiv.addClass('motion-detected');
-                motionEventButton.removeClass('eventstart').addClass('eventend');
+                motionEventButton.removeClass('eventstart').addClass('eventend')
+                    .attr('title', i18n.gettext('stop the motion event'));
             }
             else {
                 cameraFrameDiv.removeClass('motion-detected');
-                motionEventButton.removeClass('eventend').addClass('eventstart');
+                motionEventButton.removeClass('eventend').addClass('eventstart')
+                    .attr('title', i18n.gettext('start a motion event'));
             }
 
             if (cameraConfig.actions.includes('motion_detection')) {
                 if (getCookie('motion_detection_' + cameraId) == 'true') {
-                    motionDetectionButton.removeClass('detectionstart').addClass('detectionpause');
+                    motionDetectionButton.removeClass('detectionstart').addClass('detectionpause')
+                        .attr('title', i18n.gettext('pause motion detection'));
                 }
                 else {
-                    motionDetectionButton.removeClass('detectionpause').addClass('detectionstart');
+                    motionDetectionButton.removeClass('detectionpause').addClass('detectionstart')
+                        .attr('title', i18n.gettext('start motion detection'));
                 }
             }
 
