@@ -250,10 +250,7 @@ class PictureHandler(BaseHandler):
                 quote(unquote(resp.monitor_info or ''), safe=''),
             )
 
-            if (
-                camera_config.get('@motion_detection_button', False)
-                and resp.motion_detection is not None
-            ):
+            if resp.motion_detection is not None:
                 self.set_cookie(
                     'motion_detection_' + camera_id_str,
                     str(resp.motion_detection).lower(),
