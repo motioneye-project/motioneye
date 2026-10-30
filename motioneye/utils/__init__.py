@@ -75,6 +75,7 @@ GetMotionDetectionResult = namedtuple('GetMotionDetectionResult', ('enabled', 'e
 @dataclass
 class GetCurrentPictureResponse:
     motion_detected: bool = False
+    motion_detection: bool | None = None
     capture_fps: Any = None
     monitor_info: Any = None
     picture: Any = None

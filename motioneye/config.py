@@ -1150,6 +1150,12 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         '@preserve_movies': int(ui['preserve_movies']),
         # motion detection
         '@motion_detection': ui['motion_detection'],
+        '@motion_event_button': input_or_stored(
+            ui, 'motion_event_button', prev_config, False
+        ),
+        '@motion_detection_button': input_or_stored(
+            ui, 'motion_detection_button', prev_config, False
+        ),
         'emulate_motion': False,
         'text_changes': ui['show_frame_changes'],
         'locate_motion_mode': ui['show_frame_changes'],
@@ -1730,6 +1736,8 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
         'movie_passthrough': data['movie_passthrough'],
         # motion detection
         'motion_detection': data['@motion_detection'],
+        'motion_event_button': data['@motion_event_button'],
+        'motion_detection_button': data['@motion_detection_button'],
         'show_frame_changes': data['text_changes'] or data['locate_motion_mode'],
         'auto_noise_detect': data['noise_tune'],
         'max_frame_change_threshold': data['threshold_maximum'],
@@ -2192,8 +2200,11 @@ def get_action_commands(camera_config: dict) -> dict:
     ):
         action_commands['snapshot'] = True
 
-    if camera_config.get('@manual_record'):
-        action_commands['record'] = True
+    if camera_config.get('@motion_event_button'):
+        action_commands['motion_event'] = True
+
+    if camera_config.get('@motion_detection_button'):
+        action_commands['motion_detection'] = True
 
     return action_commands
 
@@ -2563,6 +2574,8 @@ def _set_default_motion_camera(camera_id: int, data: dict) -> None:
     data.setdefault('text_scale', 1)
 
     data.setdefault('@motion_detection', True)
+    data.setdefault('@motion_event_button', False)
+    data.setdefault('@motion_detection_button', False)
     data.setdefault('text_changes', False)
     data.setdefault('locate_motion_mode', False)
     data.setdefault('locate_motion_style', 'redbox')
@@ -2611,7 +2624,6 @@ def _set_default_motion_camera(camera_id: int, data: dict) -> None:
     data.setdefault('movie_quality', 75)  # 75%
 
     data.setdefault('@preserve_movies', 0)
-    data.setdefault('@manual_record', False)
 
     data.setdefault('@working_schedule', '')
     data.setdefault('@working_schedule_type', 'outside')

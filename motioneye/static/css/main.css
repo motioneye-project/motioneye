@@ -1225,12 +1225,20 @@ div.camera-action-button.snapshot {
     background-image: url(../img/camera-action-button-snapshot.svg);
 }
 
-div.camera-action-button.record-start {
-    background-image: url(../img/camera-action-button-record-start.svg);
+div.camera-action-button.eventstart {
+    background-image: url(../img/camera-action-button-eventstart.svg);
 }
 
-div.camera-action-button.record-stop {
-    background-image: url(../img/camera-action-button-record-stop.svg);
+div.camera-action-button.eventend {
+    background-image: url(../img/camera-action-button-eventend.svg);
+}
+
+div.camera-action-button.detectionpause {
+    background-image: url(../img/camera-action-button-detectionpause.svg);
+}
+
+div.camera-action-button.detectionstart {
+    background-image: url(../img/camera-action-button-detectionstart.svg);
 }
 
 div.camera-action-button.up {

@@ -27,18 +27,19 @@ from tornado.ioloop import IOLoop
 from motioneye import mediafiles, settings, update, utils
 from motioneye.controls.powerctl import PowerControl
 
-_MOTION_CONTROL_TIMEOUT = 5
+_MOTION_CONTROL_TIMEOUT: int = 5
 
-_started = False
+_started: bool = False
 # the motion process is a child of motionEye, so no pid file is needed to find it
 _process: Popen | None = None
-_motion_binary_cache = None
-_motion_detected: dict = {}
+_motion_binary_cache: tuple[str, str] | None = None
+_motion_detected: dict[int, bool] = {}
+_motion_detection: dict[int, utils.GetMotionDetectionResult] = {}
 
 
 def find_motion():
     global _motion_binary_cache
-    if _motion_binary_cache:
+    if _motion_binary_cache is not None:
         return _motion_binary_cache
 
     # binary
@@ -80,8 +81,7 @@ def start(deferred=False):
     if deferred:
         IOLoop.current().add_callback(start, deferred=False)
 
-    global _started, _process
-
+    global _started, _process, _motion_detection
     _started = True
 
     enabled_local_motion_cameras = config.get_enabled_local_motion_cameras()
@@ -136,6 +136,9 @@ def start(deferred=False):
 
     _process = process
 
+    # Clear motion detection status cache to cover start() without stop() from server._motion_checker
+    _motion_detection = {}
+
     # disable motion detection if version < 4.4, otherwise the new "pause" setting does
     if not is_motion_post43():
         IOLoop.current().spawn_callback(_disable_initial_motion_detection)
@@ -150,9 +153,11 @@ def start(deferred=False):
 def stop(invalidate=False):
     from motioneye import mjpgclient
 
-    global _started
-
+    global _started, _motion_detection
     _started = False
+
+    # Clear motion detection status cache
+    _motion_detection = {}
 
     if not running():
         return
@@ -214,82 +219,86 @@ def _control_request(path: str) -> HTTPRequest:
 
 
 async def get_motion_detection(camera_id) -> utils.GetMotionDetectionResult:
-    motion_camera_id = camera_id_to_motion_camera_id(camera_id)
+    if _motion_detection.get(camera_id) is not None:
+        return _motion_detection[camera_id]
+
+    error: str | None = None
+    motion_camera_id: int | None = camera_id_to_motion_camera_id(camera_id)
     if motion_camera_id is None:
-        error = f'could not find motion camera id for camera with id {camera_id}'
+        error = f'could not find motion camera id for camera {camera_id}'
         logging.error(error)
         return utils.GetMotionDetectionResult(None, error=error)
 
     request = _control_request(f'{motion_camera_id}/detection/status')
-    resp = await AsyncHTTPClient().fetch(request)
-    if resp.error:
-        return utils.GetMotionDetectionResult(None, error=utils.pretty_http_error(resp))
+    try:
+        resp = await AsyncHTTPClient().fetch(request, raise_error=False)
+        if resp.error:
+            error = utils.pretty_http_error(resp)
 
-    resp_body = resp.body.decode('utf-8')
-    enabled = bool(resp_body.lower().count('active'))
+        elif resp.body.startswith(b'Bad Request'):
+            error = resp.body.decode(errors='replace')
+
+    except HTTPClientError as e:
+        error = str(e)
+
+    if error is not None:
+        error = (
+            f"failed to obtain motion detection status for camera {camera_id}: {error}"
+        )
+        logging.error(error)
+        return utils.GetMotionDetectionResult(None, error=error)
+
+    resp_body: str = resp.body.decode()
+    enabled: bool = bool(resp_body.lower().count('active'))
 
     logging.debug(
-        f"motion detection is {['disabled', 'enabled'][enabled]} for camera with id {camera_id}"
+        f"motion detection is {['disabled', 'enabled'][enabled]} for camera {camera_id}"
     )
+    _motion_detection[camera_id] = utils.GetMotionDetectionResult(enabled, None)
+    return _motion_detection[camera_id]
 
-    return utils.GetMotionDetectionResult(enabled, None)
 
-
-async def set_motion_detection(camera_id, enabled):
-    motion_camera_id = camera_id_to_motion_camera_id(camera_id)
+async def set_motion_detection(camera_id: int, state: str) -> str | None:
+    error: str | None = None
+    motion_camera_id: int | None = camera_id_to_motion_camera_id(camera_id)
     if motion_camera_id is None:
-        logging.error(f'could not find motion camera id for camera with id {camera_id}')
+        error = f'could not find motion camera id for camera {camera_id}'
+        logging.error(error)
+        return error
 
-        return
+    if state not in ('start', 'pause'):
+        error = f'invalid argument {state!r}'
+        logging.error(error)
+        return error
 
-    if not enabled:
+    if state == 'pause':
         _motion_detected[camera_id] = False
 
-    logging.debug(
-        f"{['disabling', 'enabling'][enabled]} motion detection for camera with id {camera_id}"
+    stat = state.removesuffix('e')
+    logging.debug(f'{stat}ing motion detection for camera {camera_id}')
+
+    request = _control_request(f'{motion_camera_id}/detection/{state}')
+    try:
+        resp = await AsyncHTTPClient().fetch(request, raise_error=False)
+        if resp.error:
+            error = utils.pretty_http_error(resp)
+
+        elif resp.body.startswith(b'Bad Request'):
+            error = resp.body.decode(errors='replace')
+
+    except HTTPClientError as e:
+        error = str(e)
+
+    if error is not None:
+        error = f'failed to {state} motion detection for camera {camera_id}: {error}'
+        logging.error(error)
+        return error
+
+    logging.debug(f"successfully {stat}ed motion detection for camera {camera_id}")
+    _motion_detection[camera_id] = utils.GetMotionDetectionResult(
+        state == 'start', None
     )
-
-    request = _control_request(
-        f"{motion_camera_id}/detection/{['pause', 'start'][enabled]}"
-    )
-    resp = await AsyncHTTPClient().fetch(request)
-    if resp.error:
-        logging.error(
-            'failed to {} motion detection for camera with id {}: {}'.format(
-                ['disable', 'enable'][enabled],
-                camera_id,
-                utils.pretty_http_error(resp),
-            )
-        )
-
-    else:
-        logging.debug(
-            f"successfully {['disabled', 'enabled'][enabled]} motion detection for camera with id {camera_id}"
-        )
-
-    return
-
-
-async def take_snapshot(camera_id):
-    motion_camera_id = camera_id_to_motion_camera_id(camera_id)
-    if motion_camera_id is None:
-        logging.error(f'could not find motion camera id for camera with id {camera_id}')
-
-        return
-
-    logging.debug(f'taking snapshot for camera with id {camera_id}')
-
-    request = _control_request(f'{motion_camera_id}/action/snapshot')
-    resp = await AsyncHTTPClient().fetch(request)
-    if resp.error:
-        logging.error(
-            f'failed to take snapshot for camera with id {camera_id}: {utils.pretty_http_error(resp)}'
-        )
-
-    else:
-        logging.debug(f'successfully took snapshot for camera with id {camera_id}')
-
-    return
+    return None
 
 
 async def trigger_action(camera_id: int, action: str) -> str | None:
@@ -329,10 +338,10 @@ def is_motion_detected(camera_id):
 
 def set_motion_detected(camera_id, motion_detected):
     if motion_detected:
-        logging.debug(f'marking motion detected for camera with id {camera_id}')
+        logging.debug(f'marking motion detected for camera {camera_id}')
 
     else:
-        logging.debug(f'clearing motion detected for camera with id {camera_id}')
+        logging.debug(f'clearing motion detected for camera {camera_id}')
 
     _motion_detected[camera_id] = motion_detected
 
@@ -469,7 +478,5 @@ async def _disable_initial_motion_detection():
             continue
 
         if not camera_config['@motion_detection']:
-            logging.debug(
-                f'motion detection disabled by config for camera with id {camera_id}'
-            )
-            await set_motion_detection(camera_id, False)
+            logging.debug(f'motion detection disabled by config for camera {camera_id}')
+            await set_motion_detection(camera_id, 'pause')

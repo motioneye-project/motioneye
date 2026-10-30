@@ -156,6 +156,8 @@ _NOT_FORWARDED = {
     'web_hook_notifications_verify': False,
     'web_hook_end_notifications_verify': False,
     'web_hook_storage_verify': False,
+    'motion_event_button': True,
+    'motion_detection_button': True,
 }
 # what the camera answer carries besides settings
 _NOT_SETTINGS = {
@@ -168,7 +170,13 @@ _NOT_SETTINGS = {
     'id',
     'smb_shares',
 }
-_NOT_DEFAULT = {'@upload_tls': True, '@upload_verify': False, '@clean_uploaded': True}
+_NOT_DEFAULT = {
+    '@upload_tls': True,
+    '@upload_verify': False,
+    '@clean_uploaded': True,
+    '@motion_event_button': True,
+    '@motion_detection_button': True,
+}
 
 
 def _as_older_hub_posts(ui):
@@ -198,6 +206,8 @@ class OlderClientTest(_ConfigCase):
             '# @upload_tls on',
             '# @upload_verify off',
             '# @clean_uploaded on',
+            '# @motion_event_button on',
+            '# @motion_detection_button on',
         ):
             self.assertIn(f'\n{line}\n', text)
 
@@ -207,7 +217,13 @@ class OlderClientTest(_ConfigCase):
 
     def test_a_post_with_the_new_settings_still_sets_them(self):
         ui = config.motion_camera_dict_to_ui(self.camera)
-        ui.update(upload_tls=True, upload_verify=False, clean_uploaded=True)
+        ui.update(
+            upload_tls=True,
+            upload_verify=False,
+            clean_uploaded=True,
+            motion_event_button=True,
+            motion_detection_button=True,
+        )
 
         data = config.motion_camera_ui_to_dict(ui, self.camera)
 
