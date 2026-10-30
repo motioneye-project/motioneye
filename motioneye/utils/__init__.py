@@ -39,7 +39,7 @@ from tornado.httputil import parse_cookie
 from tornado.ioloop import IOLoop
 from tornado.web import HTTPError
 
-from motioneye.settings import CONF_PATH
+from motioneye import settings
 
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
 
@@ -455,7 +455,7 @@ def build_editable_mask_file(
         if rx and line & 1:
             dr.rectangle((nx * rw, ny * rh, nx * rw + rx - 1, ny * rh + ry - 1), fill=0)
 
-    #    file_name = os.path.join(CONF_PATH, 'mask_%s.pgm' % camera_id)
+    #    file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
     file_name = build_mask_file_name(camera_id, mask_class)
 
     # resize the image if necessary
@@ -477,7 +477,7 @@ def build_mask_file_name(camera_id, mask_class):
         if mask_class == 'motion'
         else f'mask_{camera_id}_{mask_class}.pgm'
     )
-    full_path = os.path.join(CONF_PATH, file_name)
+    full_path = os.path.join(settings.CONF_PATH, file_name)
 
     return full_path
 
