@@ -104,5 +104,4 @@ then
 fi
 systemctl daemon-reload
 systemctl enable motioneye
-# A running service would keep its old ExecStart, e.g. a meyectl removed when switching to a venv
 systemctl restart motioneye

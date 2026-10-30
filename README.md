@@ -25,7 +25,7 @@ _(Docker images are provided on [Docker Hub](https://hub.docker.com/r/motioneyep
 
     ```sh
     sudo apt update
-    sudo apt --no-install-recommends install ca-certificates curl python3
+    sudo apt --no-install-recommends install ca-certificates curl python3-venv
     ```
 
     On **ARMv6/ARMv7 (32-bit), RISC-V, and other rare CPU architectures** additional build dependencies may be required to compile the [Pillow](https://pypi.org/project/pillow/), [PycURL](https://pypi.org/project/pycurl/), and [CFFI](https://github.com/python-cffi/cffi) modules:
@@ -39,7 +39,6 @@ _(Docker images are provided on [Docker Hub](https://hub.docker.com/r/motioneyep
     Recent distro versions, like Debian 12/Bookworm, Ubuntu 23.04/Lunar, and later, do not allow to install Python modules with `pip` outside of a `venv`. Hence create one, here in `/opt/motioneye`, which also keeps motionEye and its dependencies apart from the Python modules installed via APT:
 
     ```sh
-    sudo apt --no-install-recommends install python3-venv
     sudo python3 -m venv --upgrade-deps /opt/motioneye
     ```
 
