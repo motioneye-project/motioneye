@@ -302,6 +302,37 @@ class ConfigTest(_ConfigCase):
                 lines = _new_lines()
                 self.assertEqual(lines, {option: data[option] for option in lines})
 
+    def test_the_encryption_is_stored_as_older_versions_read_it(self):
+        # STARTTLS stays True, which a 0.44 remote behind a newer hub reads as STARTTLS
+        ui = config.motion_camera_dict_to_ui(self.camera)
+        ui.update(_UI)
+        for value, expected in (
+            (False, 'False'),
+            (True, 'True'),
+            ('implicit', 'implicit'),
+        ):
+            with self.subTest(value=value):
+                ui['email_notifications_smtp_tls'] = value
+                data = config.motion_camera_ui_to_dict(dict(ui), self.camera)
+
+                self.assertEqual(expected, data['@email_notifications_smtp_tls'])
+
+    def test_the_encryption_survives_a_round_trip_through_the_camera_file(self):
+        self._write(1, self.camera)
+        for value, line in ((False, 'False'), (True, 'True'), ('implicit', 'implicit')):
+            with self.subTest(value=value):
+                ui = dict(self._get(), **_UI)
+                ui['email_notifications_smtp_tls'] = value
+                self._post(ui)
+                text = self._read(1)
+                self.assertIn(f'\n# @email_notifications_smtp_tls {line}\n', text)
+
+                got = self._get()
+                self.assertEqual(value, got['email_notifications_smtp_tls'])
+                self.assertIs(type(value), type(got['email_notifications_smtp_tls']))
+                self._post(got)
+                self.assertEqual(text, self._read(1))
+
     def test_the_mail_check_survives_a_round_trip_through_the_camera_file(self):
         off = dict(_UI, email_notifications_smtp_verify=False)
         self._write(1, self.camera)
@@ -561,6 +592,21 @@ class SenderTest(_ConfigCase):
 
                 self.assertEqual(self._stored_mail(), sent)  # the rest is unchanged
                 self.assertIs(False, self.send_mail.call_args.kwargs['verify'])
+
+    def test_the_stored_encryption_reaches_send_mail(self):
+        # saved in the UI, or edited by hand
+        for word, expected in (
+            ('False', False),
+            ('True', True),
+            ('true', True),
+            ('implicit', 'implicit'),
+        ):
+            with self.subTest(word=word):
+                self._write_stored(dict(_STORED, email_notifications_smtp_tls=word))
+                sent = self._mail('-c', _CONF, '1', _EVENT)
+
+                self.assertEqual(expected, sent[4])
+                self.assertEqual(self._stored_mail()[5:], sent[5:])
 
     def test_a_file_from_an_older_release_still_sends(self):
         stored = dict(_STORED)

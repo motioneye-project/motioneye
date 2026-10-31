@@ -67,6 +67,16 @@ class TestEmailTest(HandlerTestCase):
         self.assertEqual({}, answer)
         self.assertIs(False, send_mail.call_args.kwargs['verify'])
 
+    def test_the_test_email_reads_the_encryption_as_a_notification_does(self):
+        # true and false as from older UIs, 'implicit' for TLS from the start
+        for value, expected in ((False, False), (True, True), ('implicit', 'implicit')):
+            with self.subTest(value=value):
+                with patch('motioneye.sendmail.send_mail') as send_mail:
+                    answer = self._test_email(smtp_tls=value)
+
+                self.assertEqual({}, answer)
+                self.assertEqual(expected, send_mail.call_args.args[4])
+
     def test_a_text_off_value_turns_the_check_off(self):
         # an API client may send the switch as text
         with patch('motioneye.sendmail.send_mail') as send_mail:
