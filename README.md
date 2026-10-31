@@ -47,8 +47,6 @@ _(Docker images are provided on [Docker Hub](https://hub.docker.com/r/motioneyep
 
     `motioneye_init` sets up the systemd service with the `meyectl` of the `venv`, hence it does not need to be activated. Another `meyectl` can be given with `--meyectl /path/to/meyectl`.
 
-    If motionEye was installed with `sudo python3 -m pip install motioneye` before, outside of a `venv`, uninstall it with `sudo python3 -m pip uninstall motioneye` first. Your configuration in `/etc/motioneye` is kept, and `motioneye_init` updates the systemd service.
-
     > `motioneye_init` currently assumes either an APT- or RPM-based distribution with `systemd` as init system. For a manual setup, config and service files can be found here: <https://github.com/motioneye-project/motioneye/tree/dev/motioneye/extra>
 
 4. Access the web interface
@@ -62,6 +60,8 @@ _(Docker images are provided on [Docker Hub](https://hub.docker.com/r/motioneyep
     Use usernamme _admin_ with empty password when prompted for credentials. A password must be applied for the admin and surveillance (view-only) user account once saving any configuration changes.
 
 # Upgrade
+
+If motionEye was installed with `sudo python3 -m pip install motioneye` before, outside of a `venv`, uninstall it with `sudo python3 -m pip uninstall motioneye`, then follow the [installation](#installation) steps. Your configuration in `/etc/motioneye` is kept, and `motioneye_init` updates the systemd service.
 
 When upgrading motionEye, remember to restart the service. To rule out any mix of old in-memory backend code with new frontend assets, it is recommended to stop it prior to the upgrade, and start it back up afterwards:
 
