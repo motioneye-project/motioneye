@@ -1105,6 +1105,10 @@ function updateLayout() {
 
 function showCameraOverlay() {
     getCameraFrames().find('div.camera-overlay').css('display', '');
+    /* the action buttons could not be measured while the overlay was hidden */
+    getCameraFrames().each(function () {
+        this.config.updateActionButtons();
+    });
     setTimeout(function () {
         getCameraFrames().find('div.camera-overlay').addClass('visible');
         updateCameraTopButtonState();
@@ -5181,35 +5185,37 @@ function addCameraFrameUi(cameraConfig) {
 
     function updateActionButtons() {
         /* check if action buttons need one or two rows*/
-        var actionsCount = Math.ceil(cameraConfig.actions.length);
+        let actionsCount = cameraConfig.actions.length;
         if(actionsCount) {
-            var actionButtonWidth = actionButtonDict[cameraConfig.actions[0]].height();
-            var actionsWidth = actionsCount * actionButtonWidth;
-            var cameraWidth = cameraOverlay.find('div.camera-overlay-bottom').width();
-            var flexBasis = (200 / actionsCount);
-            // to account for uneven numbers to space correctly
-            if(actionsCount % 2 == 1){
-                switch (Math.floor(actionsCount/2)) {
-                    case 4:
-                        flexBasis -= 4;
-                        break;
-                    case 5:
-                        flexBasis -= 2.5;
-                        break;
-                    case 6:
-                    case 7:
-                        flexBasis -= 1.5;
-                        break;
-                    case 8:
-                    case 9:
-                    case 10:
-                        flexBasis -= 1;
-                        break;
-                }
+            let cameraWidth = cameraOverlay.find('div.camera-overlay-bottom').width();
+            if (!cameraWidth) {
+                return; /* overlay hidden, updated again when shown */
             }
-            flexBasis += '%';
-            if(cameraWidth <= actionsWidth){
-                actionButtonDiv.css('flex', '1 0' + flexBasis);
+            let actionButtonWidth = actionButtonDict[cameraConfig.actions[0]].height();
+            if (cameraWidth <= actionsCount * actionButtonWidth) {
+                let flexBasis = (200 / actionsCount);
+                // to account for uneven numbers to space correctly
+                if (actionsCount % 2 == 1) {
+                    switch (Math.floor(actionsCount/2)) {
+                        case 4:
+                            flexBasis -= 4;
+                            break;
+                        case 5:
+                            flexBasis -= 2.5;
+                            break;
+                        case 6:
+                        case 7:
+                            flexBasis -= 1.5;
+                            break;
+                        case 8:
+                        case 9:
+                        case 10:
+                            flexBasis -= 1;
+                            break;
+                    }
+                }
+                flexBasis += '%';
+                actionButtonDiv.css('flex', '1 0 ' + flexBasis);
             } else {
                 actionButtonDiv.css('flex', 'none');
             }
