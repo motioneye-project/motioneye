@@ -5215,7 +5215,7 @@ function addCameraFrameUi(cameraConfig) {
                     }
                 }
                 flexBasis += '%';
-                actionButtonDiv.css('flex', '1 0' + flexBasis);
+                actionButtonDiv.css('flex', '1 0 ' + flexBasis);
             } else {
                 actionButtonDiv.css('flex', 'none');
             }
