@@ -76,18 +76,13 @@ class TestBackup(unittest.TestCase):
         data = config.backup()
         self._assert_tarball_members(data, ['mask_1.pgm', 'mask_2.pgm'])
 
-    def test_backup_includes_prefs_json(self):
-        self._create_files('prefs.json')
-
-        data = config.backup()
-        self._assert_tarball_members(data, ['prefs.json'])
-
     def test_backup_excludes_other_files(self):
         self._create_files(
             'motion.conf',
             'uploadservices.json',
             'secrets.json',
             'motioneye.conf',
+            'prefs.json',  # left by older versions, the preferences are in the browser now
         )
 
         data = config.backup()
@@ -161,18 +156,13 @@ class TestRestore(unittest.TestCase):
         config.restore(tarball)
         self._assert_restored_files('mask_1.pgm', 'mask_2.pgm')
 
-    def test_restore_extracts_prefs_json(self):
-        tarball = self._make_tarball('prefs.json')
-
-        config.restore(tarball)
-        self._assert_restored_files('prefs.json')
-
     def test_restore_ignores_non_matching_files(self):
         tarball = self._make_tarball(
             'motion.conf',
             'uploadservices.json',
             'secrets.json',
             'motioneye.conf',
+            'prefs.json',  # in backups of older versions
         )
 
         config.restore(tarball)

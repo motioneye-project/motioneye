@@ -22,6 +22,7 @@ var initialConfigFetched = false; /* used to workaround browser extensions that 
 var pageContainer = null;
 var overlayVisible = false;
 var layoutColumns = 1;
+var chosenLayoutColumns = null; /* null: from the window width */
 var fitFramesVertically = false;
 var cameraOrder = []; /* camera IDs in layout order */
 var layoutRows = 1;
@@ -665,8 +666,8 @@ function initUI() {
 
     /* prefs change handlers */
     $('#layoutColumnsSlider').on('change', function () {
-        var columns = parseInt(this.value);
-        setLayoutColumns(columns);
+        chosenLayoutColumns = parseInt(this.value);
+        setLayoutColumns(chosenLayoutColumns);
         savePrefs();
     });
     $('#fitFramesVerticallySwitch').on('change', function () {
@@ -1014,6 +1015,17 @@ function setLayoutColumns(columns) {
     updateLayout();
 }
 
+/* until the layout columns are chosen in a browser, they follow the window width */
+function updateLayoutColumns() {
+    /* about 500px for each frame */
+    let columns = chosenLayoutColumns || Math.min(4, Math.max(1, Math.floor($(window).width() / 500)));
+
+    $('#layoutColumnsSlider').val(columns).each(function () {
+        this.update();
+    });
+    setLayoutColumns(columns);
+}
+
 /* the height/width ratio of a camera image: that of the last loaded picture,
  * also kept while loading or in error, or 4:3 if none has been loaded yet */
 function getCameraImageRatio(img) {
@@ -1037,8 +1049,8 @@ function updateLayout() {
 
         let windowWidth = $(window).width();
         let columns = layoutColumns;
-        if (isSingleView() || fullScreenMode || windowWidth <= 1200) {
-            columns = 1; /* always 1 column when in full screen or mobile */
+        if (isSingleView() || fullScreenMode) {
+            columns = 1; /* always 1 column when in full screen */
         }
 
         let rows = layoutRows;
@@ -1729,30 +1741,32 @@ function configUiValid() {
 
 function prefsUi2Dict() {
     var dict = {
-        'layout_columns': parseInt($('#layoutColumnsSlider').val()),
         'fit_frames_vertically': $('#fitFramesVerticallySwitch')[0].checked,
         'layout_rows': parseInt($('#layoutRowsSlider').val()),
         'framerate_factor': $('#framerateDimmerSlider').val() / 100,
         'resolution_factor': $('#resolutionDimmerSlider').val() / 100,
         'camera_order': cameraOrder
     };
+    if (chosenLayoutColumns) {
+        dict['layout_columns'] = chosenLayoutColumns;
+    }
 
     return dict;
 }
 
 function dict2PrefsUi(dict) {
-    $('#layoutColumnsSlider').val(dict['layout_columns']);
     $('#fitFramesVerticallySwitch')[0].checked = dict['fit_frames_vertically'];
     $('#layoutRowsSlider').val(dict['layout_rows']);
     $('#framerateDimmerSlider').val(dict['framerate_factor'] * 100);
     $('#resolutionDimmerSlider').val(dict['resolution_factor'] * 100);
     cameraOrder = dict['camera_order'] || [];
+    chosenLayoutColumns = dict['layout_columns'] >= 1 && dict['layout_columns'] <= 4 ? dict['layout_columns'] : null;
 
     updateConfigUI();
 }
 
 function applyPrefs(dict) {
-    setLayoutColumns(dict['layout_columns']);
+    updateLayoutColumns();
     fitFramesVertically = dict['fit_frames_vertically'];
     layoutRows = dict['layout_rows'];
     framerateFactor = dict['framerate_factor'];
@@ -1766,9 +1780,51 @@ function applyPrefs(dict) {
     }
 }
 
+/* the preferences are kept in each browser, as a phone and a desktop want different ones */
+/* one key per preference, e.g. motioneye.layout_rows, holding its value as JSON */
+var PREFS_KEY_PREFIX = 'motioneye.';
+var DEFAULT_PREFS = {
+    'layout_columns': null, /* from the window width */
+    'fit_frames_vertically': false,
+    'layout_rows': 1,
+    'framerate_factor': 1,
+    'resolution_factor': 1,
+    'camera_order': []
+};
+
+function loadPrefs() {
+    var prefs = {};
+    Object.keys(DEFAULT_PREFS).forEach(function (name) {
+        prefs[name] = DEFAULT_PREFS[name];
+        try {
+            var value = localStorage.getItem(PREFS_KEY_PREFIX + name);
+            if (value != null) {
+                prefs[name] = JSON.parse(value);
+            }
+        }
+        catch (e) {
+            /* no local storage, e.g. blocked by the browser, or not readable */
+        }
+    });
+
+    return prefs;
+}
+
 function savePrefs() {
-    var prefs = prefsUi2Dict();
-    ajax('POST', basePath + 'prefs/', prefs);
+    var prefs = Object.assign({'layout_columns': null}, prefsUi2Dict());
+    Object.keys(DEFAULT_PREFS).forEach(function (name) {
+        try {
+            if (prefs[name] == null) {
+                localStorage.removeItem(PREFS_KEY_PREFIX + name);
+            }
+            else {
+                localStorage.setItem(PREFS_KEY_PREFIX + name, JSON.stringify(prefs[name]));
+            }
+        }
+        catch (e) {
+            /* no local storage, the preferences last until the page is reloaded */
+        }
+    });
 }
 
 function mainUi2Dict() {
@@ -3186,32 +3242,25 @@ function fetchCurrentConfig(onFetch) {
         pageContainer.append('<img class="main-loading-progress" src="' + staticPath + 'img/main-loading-progress.gif">');
     }
 
-    /* fetch the prefs */
-    ajax('GET', basePath + 'prefs/', null, function (data) {
-        if (data == null || data.error) {
-            showErrorMessage(data && data.error);
-            return;
-        }
+    var prefs = loadPrefs();
+    dict2PrefsUi(prefs);
+    applyPrefs(prefs);
 
-        dict2PrefsUi(data);
-        applyPrefs(data);
+    if (isAdmin()) {
+        /* fetch the main configuration */
+        ajax('GET', basePath + 'config/main/get/', null, function (data) {
+            if (data == null || data.error) {
+                showErrorMessage(data && data.error);
+                return;
+            }
 
-        if (isAdmin()) {
-            /* fetch the main configuration */
-            ajax('GET', basePath + 'config/main/get/', null, function (data) {
-                if (data == null || data.error) {
-                    showErrorMessage(data && data.error);
-                    return;
-                }
-
-                dict2MainUi(data);
-                fetchCameraList();
-            });
-        }
-        else {
+            dict2MainUi(data);
             fetchCameraList();
-        }
-    });
+        });
+    }
+    else {
+        fetchCameraList();
+    }
 }
 
 function fetchCurrentCameraConfig(onFetch) {
@@ -5669,7 +5718,7 @@ $(document).ready(function () {
     checkCameraErrors();
 
     $(window).on('resize', function () {
-        updateLayout();
+        chosenLayoutColumns ? updateLayout() : updateLayoutColumns();
     });
 
     document.addEventListener('fullscreenchange', function() {

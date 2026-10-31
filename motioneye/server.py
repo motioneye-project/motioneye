@@ -42,7 +42,6 @@ from motioneye.handlers.movie import MovieHandler
 from motioneye.handlers.movie_playback import MovieDownloadHandler, MoviePlaybackHandler
 from motioneye.handlers.picture import PictureHandler
 from motioneye.handlers.power import PowerHandler
-from motioneye.handlers.prefs import PrefsHandler
 from motioneye.handlers.relay_event import RelayEventHandler
 from motioneye.utils import authstate
 
@@ -218,7 +217,6 @@ handler_mapping: Sequence[tuple] = [
         {'path': r''},
     ),
     (r'^/action/(?P<camera_id>\d+)/(?P<action>\w+)/?$', ActionHandler),
-    (r'^/prefs/(?P<key>\w+)?/?$', PrefsHandler),
     (r'^/_relay_event/?$', RelayEventHandler),
     (r'^/log/(?P<name>\w+)/?$', LogHandler),
     (r'^/power/(?P<op>shutdown|reboot)/?$', PowerHandler),
