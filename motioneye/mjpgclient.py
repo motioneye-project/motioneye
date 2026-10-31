@@ -142,7 +142,7 @@ class MjpgClient(IOStream):
         try:
             self.close()
 
-        except Exception:  # nosec: B110 # noqa: S110
+        except Exception:  # noqa: S110
             pass  # already closed or closing failed, nothing we can do
 
     def _get_future_result(self, future: Future) -> tuple[bool, Any]:

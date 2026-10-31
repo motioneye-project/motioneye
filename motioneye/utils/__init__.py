@@ -282,7 +282,7 @@ def build_digest_header(method, url, username, password, state):
         def md5_utf8(x):
             if isinstance(x, str):
                 x = x.encode('utf-8')
-            return hashlib.md5(x).hexdigest()  # nosec: B324
+            return hashlib.md5(x).hexdigest()
 
         hash_utf8 = md5_utf8
 
@@ -291,7 +291,7 @@ def build_digest_header(method, url, username, password, state):
         def sha_utf8(x):
             if isinstance(x, str):
                 x = x.encode('utf-8')
-            return hashlib.sha1(x).hexdigest()  # nosec: B324
+            return hashlib.sha1(x).hexdigest()
 
         hash_utf8 = sha_utf8
 
@@ -321,7 +321,7 @@ def build_digest_header(method, url, username, password, state):
     s += time.ctime().encode('utf-8')
     s += os.urandom(8)
 
-    cnonce = hashlib.sha1(s).hexdigest()[:16]  # nosec B324
+    cnonce = hashlib.sha1(s).hexdigest()[:16]
     if _algorithm == 'MD5-SESS':
         HA1 = hash_utf8(f'{HA1}:{nonce}:{cnonce}')
 
@@ -375,7 +375,7 @@ def urlopen(request: Request, *, verify: bool = True, **kwargs) -> HTTPResponse:
         context.verify_mode = ssl.CERT_NONE
         kwargs['context'] = context
 
-    return _urlopen(request, **kwargs)  # nosec: B310
+    return _urlopen(request, **kwargs)  # noqa: S310
 
 
 def build_editable_mask_file(
@@ -619,7 +619,7 @@ def call_subprocess(
         stdout=stdout,
         stderr=stderr,
         capture_output=capture_output,
-        shell=shell,  # nosec: B602
+        shell=shell,
         cwd=cwd,
         timeout=timeout,
         check=check,

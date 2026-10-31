@@ -62,7 +62,7 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
                 stream.set_close_callback(None)  # not an error when reconnecting
                 stream.close()
 
-            except Exception:  # nosec: B110 # noqa: S110
+            except Exception:  # noqa: S110
                 pass  # already closed or closing failed, nothing we can do
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
@@ -248,7 +248,7 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
         try:
             stream.close()
 
-        except Exception:  # nosec: B110 # noqa: S110
+        except Exception:  # noqa: S110
             pass  # already closed or closing failed, nothing we can do
 
         future.set_result(GetCamerasResponse(None, error=e))

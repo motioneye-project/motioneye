@@ -605,7 +605,7 @@ def make_movie_preview(camera_config: dict, rel_path: str) -> str | None:
         try:
             os.remove(thumb_path)
 
-        except Exception:  # nosec: B110 # noqa: S110
+        except Exception:  # noqa: S110
             pass  # nothing we can do about it
 
         return None
@@ -674,7 +674,7 @@ def list_media(
                 try:
                     os.kill(process.pid, SIGKILL)
 
-                except Exception:  # nosec: B110 # noqa: S110
+                except Exception:  # noqa: S110
                     pass  # nevermind
 
                 fut.set_result(None)
@@ -747,7 +747,7 @@ def get_zipped_content(camera_config: dict, media_type: str, group: str) -> Awai
                 try:
                     os.kill(process.pid, SIGTERM)
 
-                except Exception:  # nosec: B110 # noqa: S110
+                except Exception:  # noqa: S110
                     pass  # nevermind
 
                 fut.set_result(None)
@@ -822,7 +822,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                 try:
                     os.kill(_timelapse_process.pid, SIGTERM)
 
-                except Exception:  # nosec: B110 # noqa: S110
+                except Exception:  # noqa: S110
                     pass  # nevermind
 
                 _timelapse_process.progress = -1
@@ -983,7 +983,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                 try:
                     os.remove(tmp_filename)
 
-                except Exception:  # nosec: B110 # noqa: S110
+                except Exception:  # noqa: S110
                     pass  # nothing we can do about it
 
             else:
@@ -1008,7 +1008,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                     try:
                         os.remove(tmp_filename)
 
-                    except Exception:  # nosec: B110 # noqa: S110
+                    except Exception:  # noqa: S110
                         pass  # nothing we can do about it
 
     poll_media_list_process()
@@ -1098,7 +1098,7 @@ def del_media_content(camera_config: dict, path: str):
         try:
             os.remove(full_path + '.thumb')
 
-        except Exception:  # nosec: B110 # noqa: S110
+        except Exception:  # noqa: S110
             pass  # thumb file may not exist
 
         # remove the parent directories if empty or contains only thumb files
@@ -1203,7 +1203,7 @@ def get_prepared_cache(key):
 
 
 def set_prepared_cache(data):
-    key = sha1(str(time()).encode()).hexdigest()  # nosec: B324
+    key = sha1(str(time()).encode()).hexdigest()
 
     if key in _prepared_files:
         logging.warning(f'key "{key}" already present in prepared cache')

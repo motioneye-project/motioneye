@@ -54,10 +54,6 @@ motioneye = ["extra/*", "static/*.*", "static/*/*", "templates/*", "scripts/*", 
 [tool.setuptools.dynamic]
 version = {attr = "motioneye.VERSION"}
 
-[tool.bandit]
-# skip hardcoded password, MD5/SHA1 hashes, import subprocess, subprocess.run(..., shell=False)
-skips = ["B105", "B324", "B404", "B603"]
-
 [tool.codespell]
 ignore-words-list = "ot"
 skip = "*.html,*.js,*.json,*.po,*.pot"
@@ -70,10 +66,17 @@ target-version = "py39"
 quote-style = "preserve"
 
 [tool.ruff.lint]
-# C901 and E501 as flake8 had them, I as isort, UP as pyupgrade
+# C901 and E501 as flake8 had them, I as isort, UP as pyupgrade, S as bandit
 # flake8-return rules to add later: RET501 to RET508
-extend-select = ["C901", "E501", "I", "UP"]
-ignore = ["E722", "LOG015", "BLE001"]
+extend-select = ["C901", "E501", "I", "UP", "S"]
+# S as bandit skipped them: hardcoded password, MD5/SHA1 hashes, import subprocess,
+# subprocess.run(..., shell=False)
+ignore = ["E722", "LOG015", "BLE001", "S105", "S324", "S404", "S603"]
+
+[tool.ruff.lint.per-file-ignores]
+# the requests built here are opened by utils.urlopen(), which allows only http and https
+"motioneye/uploadservices.py" = ["S310"]
+"motioneye/webhook.py" = ["S310"]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 68
