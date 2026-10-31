@@ -57,7 +57,7 @@ _(Docker images are provided on [Docker Hub](https://hub.docker.com/r/motioneyep
     http://[your_ip]:8765/
     ```
 
-    Use usernamme _admin_ with empty password when prompted for credentials. A password must be applied for the admin and surveillance (view-only) user account once saving any configuration changes.
+    Use the username _admin_ with an empty password when prompted for credentials. Passwords must be set for both the admin and surveillance (view-only) user accounts when saving any configuration changes.
 
 # Upgrade
 
