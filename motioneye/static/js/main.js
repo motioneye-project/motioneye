@@ -1781,7 +1781,7 @@ function applyPrefs(dict) {
 var PREFS_KEY_PREFIX = 'motioneye.';
 var DEFAULT_PREFS = {
     'layout_columns': null, /* from the window width */
-    'fit_frames_vertically': true,
+    'fit_frames_vertically': false,
     'layout_rows': 1,
     'framerate_factor': 1,
     'resolution_factor': 1,
