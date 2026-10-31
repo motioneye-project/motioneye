@@ -1777,31 +1777,50 @@ function applyPrefs(dict) {
 }
 
 /* the preferences are kept in each browser, as a phone and a desktop want different ones */
-function loadPrefs() {
-    var prefs = null;
-    try {
-        prefs = JSON.parse(localStorage.getItem('prefs'));
-    }
-    catch (e) {
-        /* no local storage, e.g. blocked by the browser, or not readable */
-    }
+/* one key per preference, e.g. motioneye.layout_rows, holding its value as JSON */
+var PREFS_KEY_PREFIX = 'motioneye.';
+var DEFAULT_PREFS = {
+    'layout_columns': null, /* from the window width */
+    'fit_frames_vertically': true,
+    'layout_rows': 1,
+    'framerate_factor': 1,
+    'resolution_factor': 1,
+    'camera_order': []
+};
 
-    return Object.assign({
-        'fit_frames_vertically': true,
-        'layout_rows': 1,
-        'framerate_factor': 1,
-        'resolution_factor': 1,
-        'camera_order': []
-    }, prefs);
+function loadPrefs() {
+    var prefs = {};
+    Object.keys(DEFAULT_PREFS).forEach(function (name) {
+        prefs[name] = DEFAULT_PREFS[name];
+        try {
+            var value = localStorage.getItem(PREFS_KEY_PREFIX + name);
+            if (value != null) {
+                prefs[name] = JSON.parse(value);
+            }
+        }
+        catch (e) {
+            /* no local storage, e.g. blocked by the browser, or not readable */
+        }
+    });
+
+    return prefs;
 }
 
 function savePrefs() {
-    try {
-        localStorage.setItem('prefs', JSON.stringify(prefsUi2Dict()));
-    }
-    catch (e) {
-        /* no local storage, the preferences last until the page is reloaded */
-    }
+    var prefs = Object.assign({'layout_columns': null}, prefsUi2Dict());
+    Object.keys(DEFAULT_PREFS).forEach(function (name) {
+        try {
+            if (prefs[name] == null) {
+                localStorage.removeItem(PREFS_KEY_PREFIX + name);
+            }
+            else {
+                localStorage.setItem(PREFS_KEY_PREFIX + name, JSON.stringify(prefs[name]));
+            }
+        }
+        catch (e) {
+            /* no local storage, the preferences last until the page is reloaded */
+        }
+    });
 }
 
 function mainUi2Dict() {
@@ -5693,7 +5712,7 @@ $(document).ready(function () {
     checkCameraErrors();
 
     $(window).on('resize', function () {
-        updateLayoutColumns();
+        chosenLayoutColumns ? updateLayout() : updateLayoutColumns();
     });
 
     document.addEventListener('fullscreenchange', function() {
