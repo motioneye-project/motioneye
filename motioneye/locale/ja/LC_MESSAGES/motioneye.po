@@ -15,90 +15,90 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-10-11 20:51+0000\n"
-"Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
+"PO-Revision-Date: 2026-10-31 10:37+0000\n"
+"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.10.1.dev0\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/cleanup.py:47
 msgid "purigado komenciĝis"
 msgstr "クリーニングを開始しました"
 
-#: motioneye/config.py:1062
+#: motioneye/config.py:1055
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
 msgstr "デバイス名には、英数字、ハイフン（-）、アンダースコア（_）、プラス（+）、スペースのみを含めることができます"
 
-#: motioneye/config.py:1066
+#: motioneye/config.py:1059
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 msgstr "ファイル名には、英数字、括弧()、スラッシュ(/)、ドット(.)、アンダースコア (_)、ハイフン (-)、スペース、および motion が提供する書式指定子 (%C %Y %m %d %H %M %S %I %p %l %q %v %$) のみを含めることができます"
 
-#: motioneye/config.py:1071
+#: motioneye/config.py:1064
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
 msgstr "ディレクトリ名には、英数字、スペース、括弧()、スラッシュ(/)、ドット(.)、アンダースコア (_)、ハイフン (-) のみを含めることができます"
 
-#: motioneye/config.py:1076
+#: motioneye/config.py:1069
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
 msgstr "電子メールアドレスには、英数字、アンダースコア (_)、プラス (+)、ドット (.)、アットマーク (@)、キャレット (^)、チルダ (~)、角括弧 (<>)、ハイフン (-) のみを含めることができます。複数の電子メールアドレスを指定する場合は、カンマおよびスペースで区切って指定してください"
 
-#: motioneye/config.py:1081
+#: motioneye/config.py:1074
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr "URL にはキャレット (^)、セミコロン (;)、アポストロフィ (') を含めることはできません"
 
-#: motioneye/server.py:233
+#: motioneye/server.py:236
 msgid "interrompa signalo ricevita, fermanta …"
 msgstr "割り込み信号を受信しました、終了中…"
 
-#: motioneye/server.py:273
+#: motioneye/server.py:278
 msgid "smb-akcioj postulas radikajn privilegiojn"
 msgstr "SMB 共有には root 権限が必要です"
 
-#: motioneye/server.py:280
+#: motioneye/server.py:285
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
 msgstr "tornado バージョン 3.1 以降をインストールしてください"
 
-#: motioneye/server.py:287
+#: motioneye/server.py:292
 msgid "bonvolu instali jinja2"
 msgstr "jinja2 をインストールしてください"
 
-#: motioneye/server.py:294
+#: motioneye/server.py:299
 msgid "bonvolu instali pillow aŭ PIL"
 msgstr "pillow または PIL をインストールしてください"
 
-#: motioneye/server.py:301
+#: motioneye/server.py:306
 msgid "bonvolu instali pycurl"
 msgstr "pycurl をインストールしてください"
 
-#: motioneye/server.py:416
+#: motioneye/server.py:428
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "こんにちは！ こちらは motionEye サーバです "
 
-#: motioneye/server.py:431
+#: motioneye/server.py:443
 msgid "The admin and/or surveillance user has no password assigned. Please login to the web interface to set both passwords."
 msgstr "管理者ユーザおよび監視ユーザの両方、もしくはいずれか片方にパスワードが設定されていません。 Web インターフェイスにログインして、両方のパスワードを設定してください。"
 
-#: motioneye/server.py:452
+#: motioneye/server.py:464
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "mjpg クライアントガベージコレクタを開始しました"
 
-#: motioneye/server.py:464
+#: motioneye/server.py:481
 msgid "servilo komenciĝis"
 msgstr "サーバを起動しました"
 
-#: motioneye/server.py:472
+#: motioneye/server.py:489
 msgid "servilo haltis"
 msgstr "サーバを停止しました"
 
-#: motioneye/server.py:479
+#: motioneye/server.py:497
 msgid "motion haltis"
 msgstr "motion が停止しました"
 
-#: motioneye/server.py:485
+#: motioneye/server.py:503
 msgid "adiaŭ!"
 msgstr "さようなら！"
 
@@ -114,1462 +114,1511 @@ msgstr "タスクが停止しました"
 msgid "wsswitch komenciĝis"
 msgstr "wsswitch を開始しました"
 
-#: motioneye/templates/main.html:83
+#: motioneye/templates/main.html:34
 msgid "agordojn"
 msgstr "設定"
 
-#: motioneye/templates/main.html:84
+#: motioneye/templates/main.html:35
 msgid "ŝanĝi uzanton"
 msgstr "ユーザの切り替え"
 
-#: motioneye/templates/main.html:86
+#: motioneye/templates/main.html:37
 msgid "forigi kameraon"
 msgstr "カメラの削除"
 
-#: motioneye/templates/main.html:87
+#: motioneye/templates/main.html:38
 msgid "Apliki"
 msgstr "適用"
 
-#: motioneye/templates/main.html:106
+#: motioneye/templates/main.html:57
 msgid "preferoj de uzanto"
 msgstr "ユーザ設定"
 
-#: motioneye/templates/main.html:107
+#: motioneye/templates/main.html:58
 msgid "Preferoj"
 msgstr "設定"
 
-#: motioneye/templates/main.html:112
+#: motioneye/templates/main.html:63
 msgid "Aranĝo Kolumnoj"
 msgstr "列の配置"
 
-#: motioneye/templates/main.html:114
+#: motioneye/templates/main.html:65
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
 msgstr "カメラを配置する際に使用する列の数を設定します"
 
-#: motioneye/templates/main.html:117
+#: motioneye/templates/main.html:68
 msgid "Fiksi Kadrojn Vertikale"
 msgstr "フレームを垂直に設定"
 
-#: motioneye/templates/main.html:119
+#: motioneye/templates/main.html:70
 msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
 msgstr "ウィンドウを垂直に整列させる際にフレームサイズを変更するか制御します"
 
-#: motioneye/templates/main.html:122
+#: motioneye/templates/main.html:73
 msgid "Aranĝo linioj"
 msgstr "レイアウト線"
 
-#: motioneye/templates/main.html:124
+#: motioneye/templates/main.html:75
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
 msgstr "カメラを配置する際に使用する行の数を設定します"
 
-#: motioneye/templates/main.html:127
+#: motioneye/templates/main.html:78
 msgid "kadro-variatoro"
 msgstr "フレームレート可変"
 
-#: motioneye/templates/main.html:129
+#: motioneye/templates/main.html:80
 msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
 msgstr "フレームレートを下げてネットワーク帯域幅とトラフィックを節約します（単純なMJPEGカメラでは機能しません）"
 
-#: motioneye/templates/main.html:132
+#: motioneye/templates/main.html:83
 msgid "Rezolucio-variatoro"
 msgstr "解像度可変"
 
-#: motioneye/templates/main.html:134
+#: motioneye/templates/main.html:85
 msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
 msgstr "すべてのカメラの実効解像度を下げて、ネットワーク帯域幅とトラフィックを節約します (単純な MJPEG カメラでは機能しません)"
 
-#: motioneye/templates/main.html:137
+#: motioneye/templates/main.html:88
 msgid "Enable Reordering"
 msgstr "配置変更の有効化"
 
-#: motioneye/templates/main.html:139
+#: motioneye/templates/main.html:90
 msgid "when enabled, you will be able to move cameras around in the live view to your preferred order"
 msgstr "有効にすると、ライブビューのカメラ配置を変更できるようになります"
 
-#: motioneye/templates/main.html:145
+#: motioneye/templates/main.html:96
 msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
 msgstr "すべてのカメラに共通の一般的なパラメータ"
 
-#: motioneye/templates/main.html:146
+#: motioneye/templates/main.html:97
 msgid "Ĝeneralaj Agordoj"
 msgstr "共通設定"
 
-#: motioneye/templates/main.html:151
+#: motioneye/templates/main.html:102
 msgid "Lingvo"
 msgstr "言語"
 
-#: motioneye/templates/main.html:157
+#: motioneye/templates/main.html:108
 msgid "la lingvo de la interfaco (du literoj)"
 msgstr "インターフェイスの言語（2文字）"
 
-#: motioneye/templates/main.html:160
+#: motioneye/templates/main.html:111
 msgid "Administranto"
 msgstr "管理者"
 
-#: motioneye/templates/main.html:162
+#: motioneye/templates/main.html:113
 msgid "la uzantnomo uzata por agordi la sistemon"
 msgstr "システム設定時に使用するユーザ名"
 
-#: motioneye/templates/main.html:165 motioneye/templates/main.html:175
-#: motioneye/templates/main.html:521 motioneye/templates/main.html:709
+#: motioneye/templates/main.html:116 motioneye/templates/main.html:126
+#: motioneye/templates/main.html:464 motioneye/templates/main.html:651
 msgid "Pasvorto"
 msgstr "パスワード"
 
-#: motioneye/templates/main.html:167
+#: motioneye/templates/main.html:118
 msgid "pasvorto de administranto"
 msgstr "管理者パスワード"
 
-#: motioneye/templates/main.html:170
+#: motioneye/templates/main.html:121
 msgid "Observanto"
 msgstr "監視ユーザ名"
 
-#: motioneye/templates/main.html:172
+#: motioneye/templates/main.html:123
 msgid "la uzantnomo por uzi por la monitorado"
 msgstr "監視時に使用するユーザ名"
 
-#: motioneye/templates/main.html:177
+#: motioneye/templates/main.html:128
 msgid "la pasvorto de la uzanto de monitorado"
 msgstr "監視ユーザのパスワード"
 
-#: motioneye/templates/main.html:180
+#: motioneye/templates/main.html:131
 msgid "Client Secret"
 msgstr "クライアントシークレット"
 
-#: motioneye/templates/main.html:184
+#: motioneye/templates/main.html:135
 msgid "Show/hide"
 msgstr "表示／非表示"
 
-#: motioneye/templates/main.html:187
+#: motioneye/templates/main.html:138
 msgid "Auto-generated secret for this motionEye server. Copy this value into the Remote Secret field when adding this server as a remote camera on another motionEye server."
 msgstr "この motionEye サーバに対して設定された自動生成のシークレット値です。このサーバを他の motionEye サーバのリモートカメラとして追加したい場合、このシークレット値をリモートシークレット値に指定してください。"
 
-#: motioneye/templates/main.html:196
+#: motioneye/templates/main.html:144
 msgid "motionEye Versio"
 msgstr "motionEye バージョン"
 
-#: motioneye/templates/main.html:200
+#: motioneye/templates/main.html:148
 msgid "Motion Versio"
 msgstr "Motion バージョン"
 
-#: motioneye/templates/main.html:204
+#: motioneye/templates/main.html:152
 msgid "Operaciumo Versio"
 msgstr "オペレーティングシステムのバージョン"
 
-#: motioneye/templates/main.html:208
+#: motioneye/templates/main.html:156
 msgid "Nutro"
 msgstr "電源"
 
-#: motioneye/templates/main.html:209
+#: motioneye/templates/main.html:157
 msgid "Fermu"
 msgstr "閉じる"
 
-#: motioneye/templates/main.html:210
+#: motioneye/templates/main.html:158
 msgid "malŝaltas la sistemon"
 msgstr "システムをシャットダウンします"
 
-#: motioneye/templates/main.html:214
+#: motioneye/templates/main.html:162
 msgid "Rekomencu"
 msgstr "再起動"
 
-#: motioneye/templates/main.html:215
+#: motioneye/templates/main.html:163
 msgid "rekomencas la sistemon"
 msgstr "システムを再起動します"
 
-#: motioneye/templates/main.html:221
+#: motioneye/templates/main.html:169
 msgid "Agordo"
 msgstr "設定"
 
-#: motioneye/templates/main.html:222
+#: motioneye/templates/main.html:170
 msgid "Sekurkopio"
 msgstr "バックアップ"
 
-#: motioneye/templates/main.html:223
+#: motioneye/templates/main.html:171
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
 msgstr "現在の設定をローカルに保存するためのファイルを作成します"
 
-#: motioneye/templates/main.html:227
+#: motioneye/templates/main.html:175
 msgid "Restaŭri"
 msgstr "リストア"
 
-#: motioneye/templates/main.html:228
+#: motioneye/templates/main.html:176
 msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
 msgstr "以前に保存したバックアップファイルから設定を復元します"
 
-#: motioneye/templates/main.html:252
+#: motioneye/templates/main.html:183
 msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
 msgstr "このカメラを使用する場合は有効にします"
 
-#: motioneye/templates/main.html:253
+#: motioneye/templates/main.html:184
 msgid "Video-Aparato"
 msgstr "ビデオデバイス"
 
-#: motioneye/templates/main.html:258 motioneye/templates/main.html:619
-#: motioneye/templates/main.html:636
+#: motioneye/templates/main.html:189 motioneye/templates/main.html:564
+#: motioneye/templates/main.html:581
 msgid "Kamerao Nomo"
 msgstr "カメラ名"
 
-#: motioneye/templates/main.html:259
+#: motioneye/templates/main.html:190
 msgid "kameraa nomo…"
 msgstr "カメラ名…"
 
-#: motioneye/templates/main.html:260
+#: motioneye/templates/main.html:191
 msgid "alias pri ĉi tiu kamera aparato"
 msgstr "このカメラデバイスの名前"
 
-#: motioneye/templates/main.html:263
+#: motioneye/templates/main.html:194
 msgid "Kamerao ID"
 msgstr "カメラID"
 
-#: motioneye/templates/main.html:265
+#: motioneye/templates/main.html:196
 msgid "la kamerao identiga numero"
 msgstr "カメラ識別番号"
 
-#: motioneye/templates/main.html:268
+#: motioneye/templates/main.html:199
 msgid "Kamerao aparato"
 msgstr "カメラデバイス"
 
-#: motioneye/templates/main.html:270
+#: motioneye/templates/main.html:201
 msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
 msgstr "入力デバイス（例：/dev/video）またはURL（例：rtsp://192.168.1.1/stream）"
 
-#: motioneye/templates/main.html:273
+#: motioneye/templates/main.html:204
 msgid "Kamerao Tipo"
 msgstr "カメラタイプ"
 
-#: motioneye/templates/main.html:277
+#: motioneye/templates/main.html:208
 msgid "Connection"
 msgstr "接続"
 
-#: motioneye/templates/main.html:278
+#: motioneye/templates/main.html:209
 msgid "Edit Credentials"
 msgstr "資格情報の編集"
 
-#: motioneye/templates/main.html:279
+#: motioneye/templates/main.html:210
 msgid "edit the camera URL and credentials"
 msgstr "カメラの URL と資格情報を編集"
 
-#: motioneye/templates/main.html:282
+#: motioneye/templates/main.html:213 motioneye/templates/main.html:434
+#: motioneye/templates/main.html:533 motioneye/templates/main.html:1046
+#: motioneye/templates/main.html:1113 motioneye/templates/main.html:1163
+#, fuzzy
+msgid "Verify certificate"
+msgstr "証明書の確認"
+
+#: motioneye/templates/main.html:215
+#, fuzzy
+msgid "check the remote motionEye's TLS certificate against the trusted authorities of this system; turn this off only for a remote with a self-signed certificate that you trust; the connection is then still encrypted, but the remote is not authenticated"
+msgstr "このシステムの立法当局に対するリモートモーションEyeのTLS証明書をチェックしてください。 あなたが信頼する自己署名された証明書でリモートだけオフにします。 仕様は暗号化されていきますが、リモートは認証されていません"
+
+#: motioneye/templates/main.html:218
 msgid "Admin-only access"
 msgstr "管理者のみにアクセスを許可する"
 
-#: motioneye/templates/main.html:284
+#: motioneye/templates/main.html:220
 msgid "If enabled only the admin user can access this camera"
 msgstr "有効にすると、管理者のみがこのカメラにアクセスできるようになります"
 
-#: motioneye/templates/main.html:290
+#: motioneye/templates/main.html:226
 msgid "Aŭtomata Brilo"
 msgstr "自動明るさ調節"
 
-#: motioneye/templates/main.html:292
+#: motioneye/templates/main.html:228
 msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
 msgstr "ソフトウェアによる自動明るさ調整を有効にします（自動明るさ調整機能のないカメラにのみ推奨）"
 
-#: motioneye/templates/main.html:298
+#: motioneye/templates/main.html:234
 msgid "Video-rezolucio"
 msgstr "ビデオ解像度"
 
-#: motioneye/templates/main.html:303
+#: motioneye/templates/main.html:239
 msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
 msgstr "ビデオの解像度(値が高いほど品質は良くなりますが、より多くのCPUパワー、より大きなストレージと帯域幅が必要になります)"
 
-#: motioneye/templates/main.html:306
+#: motioneye/templates/main.html:242
 msgid "Larĝeco"
 msgstr "幅"
 
-#: motioneye/templates/main.html:308
+#: motioneye/templates/main.html:244
 msgid "enigu kutiman rezolucian larĝon"
 msgstr "カスタム解像度の幅を入力してください"
 
-#: motioneye/templates/main.html:311
+#: motioneye/templates/main.html:247
 msgid "Alteco"
 msgstr "高さ"
 
-#: motioneye/templates/main.html:313
+#: motioneye/templates/main.html:249
 msgid "enigu kutiman rezolucian altecon"
 msgstr "カスタム解像度の高さを入力してください"
 
-#: motioneye/templates/main.html:316
+#: motioneye/templates/main.html:252
 msgid "Video-Rotacio"
 msgstr "ビデオ回転"
 
-#: motioneye/templates/main.html:325
+#: motioneye/templates/main.html:261
 msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
 msgstr "カメラの向きが正しくない場合、これを使用してキャプチャした画像を回転させます"
 
-#: motioneye/templates/main.html:328
+#: motioneye/templates/main.html:264
 msgid "Kadrofrekvenco"
 msgstr "フレームレート"
 
-#: motioneye/templates/main.html:330
+#: motioneye/templates/main.html:266
 msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
 msgstr "カメラが1秒間にキャプチャするフレーム数を設定します（値が大きいほど滑らかな動画が作成されますが、より高いCPUパワーとより大きなストレージ、そしてより大きな帯域幅を必要とします）"
 
-#: motioneye/templates/main.html:336
+#: motioneye/templates/main.html:272
 msgid "Privateca masko"
 msgstr "プライバシーマスク"
 
-#: motioneye/templates/main.html:338
+#: motioneye/templates/main.html:274
 msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
 msgstr "プライバシーを保護するため、特定の画像領域の記録を回避するための画像のマスキングを有効にします"
 
-#: motioneye/templates/main.html:343 motioneye/templates/main.html:1022
+#: motioneye/templates/main.html:279 motioneye/templates/main.html:955
 msgid "Redakti maskon"
 msgstr "マスクを編集"
 
-#: motioneye/templates/main.html:344 motioneye/templates/main.html:1023
+#: motioneye/templates/main.html:280 motioneye/templates/main.html:956
 msgid "Konservi maskon"
 msgstr "マスクを保存"
 
-#: motioneye/templates/main.html:347
+#: motioneye/templates/main.html:283
 msgid "alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon"
 msgstr "このボタンを押すと、マスクエディタを有効/無効にできます"
 
-#: motioneye/templates/main.html:358
+#: motioneye/templates/main.html:294
 msgid "Ekstraj Elektoj"
 msgstr "その他のオプション"
 
-#: motioneye/templates/main.html:360
+#: motioneye/templates/main.html:296
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
 msgstr "motion デーモンの追加オプションをここに設定します（\"name value\"形式、1行あたりオプションは1つまで）"
 
-#: motioneye/templates/main.html:369
+#: motioneye/templates/main.html:302
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
 msgstr "メディアを保存する場所と方法を選択します"
 
-#: motioneye/templates/main.html:370
+#: motioneye/templates/main.html:303
 msgid "Stokado de dosieroj"
 msgstr "ファイルストレージ"
 
-#: motioneye/templates/main.html:375
+#: motioneye/templates/main.html:308
 msgid "Stokada Aparato"
 msgstr "ストレージデバイス"
 
-#: motioneye/templates/main.html:380
+#: motioneye/templates/main.html:313
 msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
 msgstr "画像および動画ファイルを保存するストレージデバイスを表します"
 
-#: motioneye/templates/main.html:383
+#: motioneye/templates/main.html:316
 msgid "Retservilo"
 msgstr "Web サーバ"
 
-#: motioneye/templates/main.html:385
+#: motioneye/templates/main.html:318
 msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
 msgstr "Web サーバーのアドレス（IP アドレスまたは名前）"
 
-#: motioneye/templates/main.html:388
+#: motioneye/templates/main.html:321
 msgid "SMB Protokolo-Versio"
 msgstr "SMB プロトコルバージョン"
 
-#: motioneye/templates/main.html:398
+#: motioneye/templates/main.html:331
 msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
 msgstr "使用するSMBバージョンを選択します（さまざまなオプションをテストし、NASで最適に動作するオプションを確認します）"
 
-#: motioneye/templates/main.html:401
+#: motioneye/templates/main.html:334
 msgid "Kunhava nomo"
 msgstr "共有名"
 
-#: motioneye/templates/main.html:403
+#: motioneye/templates/main.html:336
 msgid "la nomo de la interŝanĝa reto"
 msgstr "ネットワーク共有名"
 
-#: motioneye/templates/main.html:406 motioneye/templates/main.html:516
-#: motioneye/templates/main.html:704
+#: motioneye/templates/main.html:339 motioneye/templates/main.html:459
+#: motioneye/templates/main.html:646
 msgid "Uzantnomo"
 msgstr "ユーザ名"
 
-#: motioneye/templates/main.html:408
+#: motioneye/templates/main.html:341
 msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
 msgstr "ネットワークディレクトリにアクセスするときに使用するユーザー名（ユーザ名が不要な場合は何も指定しないでください）"
 
-#: motioneye/templates/main.html:411
+#: motioneye/templates/main.html:344
 msgid "Pasvorton"
 msgstr "パスワード"
 
-#: motioneye/templates/main.html:413
+#: motioneye/templates/main.html:346
 msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
 msgstr "ネットワークディレクトリにアクセスするときに使用するパスワード (パスワードが不要な場合は何も指定しないでください)"
 
-#: motioneye/templates/main.html:416
+#: motioneye/templates/main.html:349
 msgid "Radika dosierujo"
 msgstr "ルートディレクトリ"
 
-#: motioneye/templates/main.html:418
+#: motioneye/templates/main.html:351
 msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
 msgstr "ファイルの保存先ルートパス（選択したストレージデバイス上のパス）"
 
-#: motioneye/templates/main.html:422
+#: motioneye/templates/main.html:355
 msgid "Testi la reton dosierujon"
 msgstr "ネットワークディレクトリをテストする"
 
-#: motioneye/templates/main.html:423
+#: motioneye/templates/main.html:356
 msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
 msgstr "必要な情報を入力してからこのボタンをクリックして共有フォルダへの接続をテストします"
 
-#: motioneye/templates/main.html:429
+#: motioneye/templates/main.html:362
 msgid "Uzado de Disko"
 msgstr "ディスク使用量"
 
-#: motioneye/templates/main.html:433
+#: motioneye/templates/main.html:366
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
 msgstr "ルートディレクトリが存在するドライブの使用中/全体サイズ"
 
-#: motioneye/templates/main.html:439
+#: motioneye/templates/main.html:372
 msgid "Alŝutu Mediajn Dosierojn"
 msgstr "メディアファイルをアップロード"
 
-#: motioneye/templates/main.html:441
+#: motioneye/templates/main.html:374
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
 msgstr "メディアファイルを外部サーバにアップロードする場合は、このオプションを有効にします"
 
-#: motioneye/templates/main.html:444
+#: motioneye/templates/main.html:377
 msgid "Alŝutu Bildojn"
 msgstr "画像をアップロード"
 
-#: motioneye/templates/main.html:446
+#: motioneye/templates/main.html:379
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
 msgstr "画像を外部サーバからダウンロードする場合は、このオプションを有効にします"
 
-#: motioneye/templates/main.html:449
+#: motioneye/templates/main.html:382
 msgid "Alŝutu Filmojn"
 msgstr "動画をアップロード"
 
-#: motioneye/templates/main.html:451
+#: motioneye/templates/main.html:384
 msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
 msgstr "動画を外部サーバにアップロードする場合は、これを有効にします"
 
-#: motioneye/templates/main.html:454
+#: motioneye/templates/main.html:387
 msgid "Alŝuta Servo"
 msgstr "アップロードサーバ"
 
-#: motioneye/templates/main.html:457
+#: motioneye/templates/main.html:390
 msgid "Servilo FTP"
 msgstr "FTPサーバ"
 
-#: motioneye/templates/main.html:458
+#: motioneye/templates/main.html:391
 msgid "Servilo SFTP"
 msgstr "SFTPサーバ"
 
-#: motioneye/templates/main.html:466
+#: motioneye/templates/main.html:399
 msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
 msgstr "メディアファイルのアップロード先を選択します"
 
-#: motioneye/templates/main.html:469
+#: motioneye/templates/main.html:402
+#, fuzzy
+msgid "Use TLS (FTPS)"
+msgstr "TLS(FTPS)を使う"
+
+#: motioneye/templates/main.html:404
+#, fuzzy
+msgid "encrypt the connection with explicit TLS on the normal FTP port (usually 21), the way most servers offer it; implicit TLS on port 990 is not supported"
+msgstr "通常の FTP ポートランドの TLS で仕様を暗号化する、ほとんどのモデルがその提供する方法; ポート 990 の暗黙 TLS はサポートされていません"
+
+#: motioneye/templates/main.html:407
 msgid "Servila Adreso"
 msgstr "サーバアドレス"
 
-#: motioneye/templates/main.html:471
+#: motioneye/templates/main.html:409
 msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
 msgstr "サーバのドメイン名またはIPアドレス（例：ftp.example.comまたは192.168.1.3）"
 
-#: motioneye/templates/main.html:474
+#: motioneye/templates/main.html:412
 msgid "Servila haveno"
 msgstr "サーバポート"
 
-#: motioneye/templates/main.html:476
+#: motioneye/templates/main.html:414
 msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
 msgstr "サーバへの接続に使用するポート（デフォルト値を使用するには、このフィールドを空白のままにします）"
 
-#: motioneye/templates/main.html:479
+#: motioneye/templates/main.html:417
 msgid "Metodo"
 msgstr "メソッド"
 
-#: motioneye/templates/main.html:486
+#: motioneye/templates/main.html:424
 msgid "la HTTP-metodo uzi por alŝuti dosierojn"
 msgstr "ファイルのアップロード時に使用する HTTP メソッド"
 
-#: motioneye/templates/main.html:489
+#: motioneye/templates/main.html:427
 msgid "Finpunkto URL"
 msgstr "エンドポイント URL"
 
-#: motioneye/templates/main.html:491
+#: motioneye/templates/main.html:429
 msgid "La kompleta URL al la alŝuta servila finpunkto:"
 msgstr "アップロード先サーバの完全なURL："
 
-#: motioneye/templates/main.html:492
+#: motioneye/templates/main.html:430
 msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
 msgstr "S3の例：http://my.minio:9000。 AWSでは空欄にしてください！"
 
-#: motioneye/templates/main.html:493
+#: motioneye/templates/main.html:431
 msgid "Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/"
 msgstr "webDAVの例：https://my.cloud/remote.php/dav/files/me/"
 
-#: motioneye/templates/main.html:496
+#: motioneye/templates/main.html:436 motioneye/templates/main.html:535
+#: motioneye/templates/main.html:1048 motioneye/templates/main.html:1115
+#: motioneye/templates/main.html:1165
+#, fuzzy
+msgid "check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated"
+msgstr "このシステムの宣言の制限に対する「TLS証明書」をチェックしてください。この証明書は、信頼する自己署名証明書で転送するだけです。その後、コーポレートは暗号化されますが、第二は調和していません"
+
+#: motioneye/templates/main.html:439
 msgid "Loko"
 msgstr "場所"
 
-#: motioneye/templates/main.html:498
+#: motioneye/templates/main.html:441
 msgid "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. /files/cam1/)"
 msgstr "メディアのアップロード先（ルートパス、例：/files/cam1 /）"
 
-#: motioneye/templates/main.html:501
+#: motioneye/templates/main.html:444
 msgid "Inkluzivi Subdosierujojn"
 msgstr "サブフォルダを含める"
 
-#: motioneye/templates/main.html:503
+#: motioneye/templates/main.html:446
 msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
 msgstr "設定を有効にすると、ルートに直接配置しなくてもサブディレクトリとともにメディアファイルをアップロードできます"
 
-#: motioneye/templates/main.html:506
+#: motioneye/templates/main.html:449
 msgid "Purigi la nubon"
 msgstr "クラウド側の消去"
 
-#: motioneye/templates/main.html:508
+#: motioneye/templates/main.html:451
 msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
 msgstr "有効にすると、ファイルの保持設定に従ってローカルメディアファイルが削除されると、クラウド上のファイルも削除されます。現在このオプションは gdrive でのみ使用できます。"
 
-#: motioneye/templates/main.html:511
+#: motioneye/templates/main.html:454
 msgid "Forigi Dosierojn Post Alŝuto"
 msgstr "アップロード完了後にファイルを削除"
 
-#: motioneye/templates/main.html:513
+#: motioneye/templates/main.html:456
 msgid "ebligu ĉi tion por forigi la lokan plurmedian dosieron tuj post kiam ĝi estis sukcese alŝutita al la ekstera servo (utila por liberigi malgrandajn SD-kartojn)"
 msgstr "有効にすると、外部サービスへのアップロードが成功した場合、ローカルのメディアファイルを削除します (容量の少ない SD メモリカードを使用している場合に有用です)"
 
-#: motioneye/templates/main.html:518
+#: motioneye/templates/main.html:461
 msgid "la uzantnomo por la alŝuta servo-konto"
 msgstr "アップロードサービスのユーザー名"
 
-#: motioneye/templates/main.html:523
+#: motioneye/templates/main.html:466
 msgid "la pasvorto por la alŝuta servo-konto"
 msgstr "アップロードサービスのパスワード"
 
-#: motioneye/templates/main.html:526
+#: motioneye/templates/main.html:469
 msgid "Rajtiga ŝlosilo"
 msgstr "認証キー"
 
-#: motioneye/templates/main.html:528
+#: motioneye/templates/main.html:471
 msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
 msgstr "アップロードサービスの認証で使用されるキー（通常、設定時のみ必要）"
 
-#: motioneye/templates/main.html:534
+#: motioneye/templates/main.html:477
 msgid "Akiri ŝlosilon"
 msgstr "キーを取得"
 
-#: motioneye/templates/main.html:537
+#: motioneye/templates/main.html:480
 msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
 msgstr "ここをクリックして認証キーを取得してください"
 
-#: motioneye/templates/main.html:540
+#: motioneye/templates/main.html:483
 msgid "Access Key"
 msgstr "アクセスキー"
 
-#: motioneye/templates/main.html:542
+#: motioneye/templates/main.html:485
 msgid "The AWS access key used to authenticate with the upload service"
 msgstr "アップロードサービスの認証で使用するAWSアクセスキー"
 
-#: motioneye/templates/main.html:545
+#: motioneye/templates/main.html:488
 msgid "Sekreta Alira Ŝlosilo"
 msgstr "シークレットアクセスキー"
 
-#: motioneye/templates/main.html:547
+#: motioneye/templates/main.html:490
 msgid "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
 msgstr "アップロードサービスでの認証で使用されるAWSシークレットアクセスキー（通常、設定時にのみ必要）"
 
-#: motioneye/templates/main.html:550
+#: motioneye/templates/main.html:493
 msgid "Sitelo"
 msgstr "バケット"
 
-#: motioneye/templates/main.html:552
+#: motioneye/templates/main.html:495
 msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
 msgstr "アップロードサービスで使用するS3バケット名（通常、設定時のみ必要）"
 
-#: motioneye/templates/main.html:555
+#: motioneye/templates/main.html:498
 msgid "Encryption key"
 msgstr "暗号化キー"
 
-#: motioneye/templates/main.html:556
+#: motioneye/templates/main.html:499
 msgid "optional base64-encoded SSE-C encryption key"
 msgstr "SSE-C 暗号化キー (任意指定, base64 エンコード)"
 
-#: motioneye/templates/main.html:557
+#: motioneye/templates/main.html:500
 msgid "Add an encryption key if you want to use server-side encryption (SSE-C). The key must be a base64-encoded string with a length of 32 bytes. This key will be needed by every client to access the encrypted files. You can generate a key using the following command: openssl rand 32 | base64"
 msgstr "サーバ側での暗号化 (SSE-C) を使用したい場合、ここに暗号化キーを追加します。キーは base64 形式の文字列で、 32 バイトの長さを持つものでなければなりません。このキーは、暗号化されたファイルにアクセスする際にクライアント側で入力する必要があります。なお、暗号化キーは下記のコマンドを実行することで生成できます: openssl rand 32 | base64"
 
-#: motioneye/templates/main.html:561
+#: motioneye/templates/main.html:504
 msgid "Testi la servon"
 msgstr "サービスのテスト"
 
-#: motioneye/templates/main.html:562
+#: motioneye/templates/main.html:505
 msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
 msgstr "必要な詳細設定を入力した後、このボタンをクリックしてアップロードサービスをテストします"
 
-#: motioneye/templates/main.html:568
+#: motioneye/templates/main.html:511
 msgid "alvoki URL"
 msgstr "URL 呼び出し"
 
-#: motioneye/templates/main.html:570
+#: motioneye/templates/main.html:513
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "メディアファイルの作成後に特定の URL にアクセスさせたい場合は、これを有効にします"
 
-#: motioneye/templates/main.html:573 motioneye/templates/main.html:1151
-#: motioneye/templates/main.html:1196
+#: motioneye/templates/main.html:516 motioneye/templates/main.html:1096
+#: motioneye/templates/main.html:1146
 msgid "Reteja URL"
 msgstr "Web サイト URL"
 
-#: motioneye/templates/main.html:574
+#: motioneye/templates/main.html:517
 msgid "ekz. http://example.com/notify/"
 msgstr "例　http://example.com/notify/"
 
-#: motioneye/templates/main.html:575
+#: motioneye/templates/main.html:518
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%f = dosiera vojo"
 msgstr "動きが検出されたときに送信する URL 。以下の特殊トークンが使用可能です：%Y =年、%m =月、%d =日、%H =時間、%M =分、%S =秒、%q =フレーム番号、 %v =イベント番号、%f =ファイルパス"
 
-#: motioneye/templates/main.html:578 motioneye/templates/main.html:1156
-#: motioneye/templates/main.html:1201
+#: motioneye/templates/main.html:521 motioneye/templates/main.html:1101
+#: motioneye/templates/main.html:1151
 msgid "Metodo HTTP"
 msgstr "HTTP メソッド"
 
-#: motioneye/templates/main.html:587
+#: motioneye/templates/main.html:530
 msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
 msgstr "ネットワークフックURLを要求するときに使用するHTTPメソッド（指定されたURLエンコードパラメータは、実際にはここで表示された形で送信されます）"
 
-#: motioneye/templates/main.html:593
+#: motioneye/templates/main.html:541
 msgid "Kuri Komando"
 msgstr "コマンドの実行"
 
-#: motioneye/templates/main.html:595
+#: motioneye/templates/main.html:543
 msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
 msgstr "メディアファイルが作成された後にコマンドを実行したい場合は、これを有効にします"
 
-#: motioneye/templates/main.html:598
+#: motioneye/templates/main.html:546
 msgid "Ordono"
 msgstr "コマンド"
 
-#: motioneye/templates/main.html:599
+#: motioneye/templates/main.html:547
 msgid "ordono…"
 msgstr "コマンド …"
 
-#: motioneye/templates/main.html:600
+#: motioneye/templates/main.html:548
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadra numero , %v = okaza numero, %f = dosiera vojo"
 msgstr "マルチメディアファイルの作成後に実行するコマンド。複数のコマンドを実行する場合は、セミコロンで区切って指定してください。なお、コマンド内ではセミコロンを使用しないでください。以下の特殊トークンが使用可能です：%Y =年、%m =月、%d =日、%H =時間、%M =分、%S =秒、%q =フレーム番号、 %v =イベント番号、%f =ファイルパス"
 
-#: motioneye/templates/main.html:610
+#: motioneye/templates/main.html:555
 msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
 msgstr "キャプチャフレームに表示される情報を選択します"
 
-#: motioneye/templates/main.html:611
+#: motioneye/templates/main.html:556
 msgid "Teksto Superkovrita"
 msgstr "テキストのオーバーレイ表示"
 
-#: motioneye/templates/main.html:616
+#: motioneye/templates/main.html:561
 msgid "Maldekstra Teksto"
 msgstr "左のテキスト"
 
-#: motioneye/templates/main.html:620 motioneye/templates/main.html:637
+#: motioneye/templates/main.html:565 motioneye/templates/main.html:582
 msgid "Tempostampo"
 msgstr "タイムスタンプ"
 
-#: motioneye/templates/main.html:621 motioneye/templates/main.html:638
+#: motioneye/templates/main.html:566 motioneye/templates/main.html:583
 msgid "Propra Teksto"
 msgstr "独自のテキスト"
 
-#: motioneye/templates/main.html:622 motioneye/templates/main.html:639
-#: motioneye/templates/main.html:696
+#: motioneye/templates/main.html:567 motioneye/templates/main.html:584
+#: motioneye/templates/main.html:638
 msgid "Malebligita"
 msgstr "無効"
 
-#: motioneye/templates/main.html:625
+#: motioneye/templates/main.html:570
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
 msgstr "動画や画像の左下に表示されるテキストを設定します"
 
-#: motioneye/templates/main.html:629 motioneye/templates/main.html:646
+#: motioneye/templates/main.html:574 motioneye/templates/main.html:591
 msgid "propra teksto…"
 msgstr "独自のテキスト…"
 
-#: motioneye/templates/main.html:630
+#: motioneye/templates/main.html:575
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%T = HH:MM:SS, \\n = nova linio"
 msgstr "ここでは左揃えテキストを独自に設定することができます。以下の特殊トークンが使用可能です：%Y = 年、%m = 月、%d = 日、%H = 時、%M = 分、%S = 秒、%q = フレーム番号、%v = イベント番号、%T = HH:MM:SS、\\n = 改行"
 
-#: motioneye/templates/main.html:633
+#: motioneye/templates/main.html:578
 msgid "Dekstra Teksto"
 msgstr "右テキスト"
 
-#: motioneye/templates/main.html:642
+#: motioneye/templates/main.html:587
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
 msgstr "動画や画像の右下に表示されるテキストを設定します"
 
-#: motioneye/templates/main.html:647
+#: motioneye/templates/main.html:592
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%T = HH:MM:SS, \\n = nova linio"
 msgstr "ここでは右揃えテキストを独自に設定することができます。以下の特殊トークンが使用可能です：%Y = 年、%m = 月、%d = 日、%H = 時、%M = 分、%S = 秒、%q = フレーム番号、%v = イベント番号、%T = HH:MM:SS、\\n = 改行"
 
-#: motioneye/templates/main.html:650
+#: motioneye/templates/main.html:595
 msgid "Teksta Skalo"
 msgstr "文字サイズ"
 
-#: motioneye/templates/main.html:652
+#: motioneye/templates/main.html:597
 msgid "Difinas la grandecon de la superkovrita teksto"
 msgstr "オーバーレイテキストのサイズを設定します"
 
-#: motioneye/templates/main.html:662
+#: motioneye/templates/main.html:604
 msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
 msgstr "このカメラでビデオストリーミングする場合は、これを有効にします"
 
-#: motioneye/templates/main.html:663
+#: motioneye/templates/main.html:605
 msgid "Videofluo"
 msgstr "ビデオストリーミング"
 
-#: motioneye/templates/main.html:668
+#: motioneye/templates/main.html:610
 msgid "Framo frekvencon"
 msgstr "フレームレート"
 
-#: motioneye/templates/main.html:670
+#: motioneye/templates/main.html:612
 msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
 msgstr "ライブストリームで1秒あたりに送信されるフレーム数を設定します。"
 
-#: motioneye/templates/main.html:673
+#: motioneye/templates/main.html:615
 msgid "Flua Kvalito"
 msgstr "ストリーミング品質"
 
-#: motioneye/templates/main.html:675
+#: motioneye/templates/main.html:617
 msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
 msgstr "ライブストリーミング品質に調整します（値が高いほど品質は良くなりますが、より多くのネットワーク帯域が必要になります）。"
 
-#: motioneye/templates/main.html:678
+#: motioneye/templates/main.html:620
 msgid "Bilda Redimensionado"
 msgstr "ストリーミング画面サイズの調整"
 
-#: motioneye/templates/main.html:680
+#: motioneye/templates/main.html:622
 msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
 msgstr "これをオンにすると画像はブラウザに送信前にリサイズされます（遅いCPUで実行している場合は無効になります）。"
 
-#: motioneye/templates/main.html:683
+#: motioneye/templates/main.html:625
 msgid "Flua rezolucio"
 msgstr "ストリーミングの解像度"
 
-#: motioneye/templates/main.html:685
+#: motioneye/templates/main.html:627
 msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
 msgstr "ビデオデバイス解像度のパーセンテージとして与えられるストリーミング解像度（値が高いほどビデオ品質は向上しますが、より多くの帯域が必要になります）"
 
-#: motioneye/templates/main.html:688
+#: motioneye/templates/main.html:630
 msgid "Flua haveno"
 msgstr "ストリーミングポート番号"
 
-#: motioneye/templates/main.html:690
+#: motioneye/templates/main.html:632
 msgid "starigas la TCP-havenon, sur kiu aŭskultas la ret-servila ret-servo"
 msgstr "Webカメラのストリーミングサーバが待機しているTCPポート番号を設定します"
 
-#: motioneye/templates/main.html:693
+#: motioneye/templates/main.html:635
 msgid "Aŭtentiga reĝimo"
 msgstr "認証モード"
 
-#: motioneye/templates/main.html:701
+#: motioneye/templates/main.html:643
 msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
 msgstr "ストリームで使用される認証方法（サードパーティのプログラムで問題が発生した場合は、「ダイジェスト」ではなく「Basic」を選択してください）"
 
-#: motioneye/templates/main.html:706
+#: motioneye/templates/main.html:648
 msgid "username used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user."
 msgstr "ビデオストリーミング認証に使用するユーザー名。 管理者のみのアクセスが有効になっている場合、監視ユーザとは異なる資格情報を使用してください。"
 
-#: motioneye/templates/main.html:711
+#: motioneye/templates/main.html:653
 msgid "password used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user."
 msgstr "ビデオストリーミング認証に使用するパスワード。 管理者のみのアクセスが有効になっている場合、監視ユーザとは異なる資格情報を使用してください。"
 
-#: motioneye/templates/main.html:714
+#: motioneye/templates/main.html:656
 msgid "Movado-Optimigo"
 msgstr "モーション最適化"
 
-#: motioneye/templates/main.html:716
+#: motioneye/templates/main.html:658
 msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
 msgstr "動きが検出されないときの配信フレームレートを低くする場合は、これを有効にします"
 
-#: motioneye/templates/main.html:722
+#: motioneye/templates/main.html:664
 msgid "Utilaj URLoj"
 msgstr "便利な URL"
 
-#: motioneye/templates/main.html:725
+#: motioneye/templates/main.html:667
 msgid "Instantara URL"
 msgstr "スナップショットURL"
 
-#: motioneye/templates/main.html:728
+#: motioneye/templates/main.html:670
 msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
 msgstr "カメラの最新JPEG画像を提供するURL"
 
-#: motioneye/templates/main.html:734
+#: motioneye/templates/main.html:676
 msgid "Flua URL"
 msgstr "ストリーミングURL"
 
-#: motioneye/templates/main.html:737
+#: motioneye/templates/main.html:679
 msgid "URL kiu provizas MJPEG-fluon de la kamerao"
 msgstr "カメラのMJPEGストリームを提供するURL"
 
-#: motioneye/templates/main.html:743
+#: motioneye/templates/main.html:685
 msgid "Enigita URL"
 msgstr "埋め込みURL"
 
-#: motioneye/templates/main.html:746
+#: motioneye/templates/main.html:688
 msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
 msgstr "埋め込みされたカメラフレームを含む最小限の HTML ドキュメントを提供する URL"
 
-#: motioneye/templates/main.html:756
+#: motioneye/templates/main.html:695
 msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
 msgstr "静止画像をキャプチャする場合は、これを有効にします。"
 
-#: motioneye/templates/main.html:757
+#: motioneye/templates/main.html:696
 msgid "Kaptitaj Bildoj"
 msgstr "キャプチャ画像"
 
-#: motioneye/templates/main.html:762
+#: motioneye/templates/main.html:701
 msgid "Nomo Bildo-Dosiero"
 msgstr "画像ファイル名"
 
-#: motioneye/templates/main.html:763 motioneye/templates/main.html:832
+#: motioneye/templates/main.html:702 motioneye/templates/main.html:768
 msgid "dosiernomo ŝablono…"
 msgstr "ファイル名テンプレート…"
 
-#: motioneye/templates/main.html:764
+#: motioneye/templates/main.html:703
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero, / = subdosierujo."
 msgstr "画像 (JPEG) ファイルの名前パターンを設定します。以下の特殊トークンが使用可能です：%Y = 年、%m = 月、%d = 日、%H = 時、%M = 分、%S = 秒、%q = フレーム番号、%v = イベント番号、/ = サブフォルダ。"
 
-#: motioneye/templates/main.html:767
+#: motioneye/templates/main.html:706
 msgid "Bildkvalito"
 msgstr "画質"
 
-#: motioneye/templates/main.html:769
+#: motioneye/templates/main.html:708
 msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
 msgstr "JPEGの画質を設定します（値が高いほど画質が良くなりますが、より多くのストレージが必要になります）"
 
-#: motioneye/templates/main.html:772
+#: motioneye/templates/main.html:711
 msgid "Kaptila reĝimo"
 msgstr "撮影モード"
 
-#: motioneye/templates/main.html:775 motioneye/templates/main.html:895
+#: motioneye/templates/main.html:714 motioneye/templates/main.html:831
 msgid "Moviĝa deĉenigo"
 msgstr "モーショントリガ"
 
-#: motioneye/templates/main.html:776
+#: motioneye/templates/main.html:715
 msgid "Moviĝa deĉenigo (Unu bildo)"
 msgstr "モーショントリガ（1つの画像）"
 
-#: motioneye/templates/main.html:777
+#: motioneye/templates/main.html:716
 msgid "Intertempe"
 msgstr "撮影間隔"
 
-#: motioneye/templates/main.html:778
+#: motioneye/templates/main.html:717
 msgid "Ĉiuj bildoj"
 msgstr "すべての画像"
 
-#: motioneye/templates/main.html:779
+#: motioneye/templates/main.html:718
 msgid "Mane"
 msgstr "マニュアル"
 
-#: motioneye/templates/main.html:782
+#: motioneye/templates/main.html:721
 msgid "Difinas la kapta reĝimon:"
 msgstr "キャプチャモードの設定："
 
-#: motioneye/templates/main.html:783
+#: motioneye/templates/main.html:722
 msgid "Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,"
 msgstr "モーショントリガ=モーションが検出されるたびにキャプチャされる画像、"
 
-#: motioneye/templates/main.html:784
+#: motioneye/templates/main.html:723
 msgid "Intertempe = bildo kaptita ĉiun x sekundojn,"
 msgstr "撮影間隔 = x秒間隔で画像を撮影"
 
-#: motioneye/templates/main.html:785
+#: motioneye/templates/main.html:724
 msgid "Ĉiuj bildoj = konservas ĉiun kadron en bildodosiero,"
 msgstr "すべての画像 = 全フレームを画像ファイルに保存"
 
-#: motioneye/templates/main.html:786
+#: motioneye/templates/main.html:725
 msgid "Mane = mana kapto kun dediĉita butono."
 msgstr "マニュアル = スナップショットボタンによる手動キャプチャ。"
 
-#: motioneye/templates/main.html:789
+#: motioneye/templates/main.html:728
 msgid "Interkapto-Intervalo"
 msgstr "撮影間隔"
 
-#: motioneye/templates/main.html:790 motioneye/templates/main.html:903
-#: motioneye/templates/main.html:978 motioneye/templates/main.html:1107
+#: motioneye/templates/main.html:729 motioneye/templates/main.html:839
+#: motioneye/templates/main.html:911 motioneye/templates/main.html:1052
 #: motioneye/utils/dtconv.py:152 motioneye/utils/dtconv.py:155
 msgid "sekundoj"
 msgstr "秒"
 
-#: motioneye/templates/main.html:791
+#: motioneye/templates/main.html:730
 msgid "agordas la intervalon (en sekundoj) por la kaptiloj"
 msgstr "スナップショット撮影の間隔（秒）を設定します"
 
-#: motioneye/templates/main.html:794
+#: motioneye/templates/main.html:733
 msgid "Konservi bildojn"
 msgstr "画像を保存"
 
-#: motioneye/templates/main.html:797 motioneye/templates/main.html:910
+#: motioneye/templates/main.html:736 motioneye/templates/main.html:846
 msgid "Dum unu tago"
 msgstr "1 日間"
 
-#: motioneye/templates/main.html:798 motioneye/templates/main.html:911
+#: motioneye/templates/main.html:737 motioneye/templates/main.html:847
 msgid "Dum unu semajno"
 msgstr "1 週間"
 
-#: motioneye/templates/main.html:799 motioneye/templates/main.html:912
+#: motioneye/templates/main.html:738 motioneye/templates/main.html:848
 msgid "Dum unu monato"
 msgstr "1 ヶ月間"
 
-#: motioneye/templates/main.html:800 motioneye/templates/main.html:913
+#: motioneye/templates/main.html:739 motioneye/templates/main.html:849
 msgid "Dum unu jaro"
 msgstr "1 年間"
 
-#: motioneye/templates/main.html:801 motioneye/templates/main.html:914
+#: motioneye/templates/main.html:740 motioneye/templates/main.html:850
 msgid "Porĉiame"
 msgstr "永久"
 
-#: motioneye/templates/main.html:802 motioneye/templates/main.html:915
+#: motioneye/templates/main.html:741 motioneye/templates/main.html:851
 msgid "Propra"
 msgstr "独自設定"
 
-#: motioneye/templates/main.html:805
+#: motioneye/templates/main.html:744
 msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
 msgstr "設定期間を過ぎた画像は、ストレージを解放するために自動的に削除されます。"
 
-#: motioneye/templates/main.html:808
+#: motioneye/templates/main.html:747
 msgid "Bildaj Vivdaŭro"
 msgstr "画像保存期間"
 
-#: motioneye/templates/main.html:810
+#: motioneye/templates/main.html:749
 msgid "Difinas la nombron da tagoj post kiuj la bildoj estos forigitaj aŭtomate."
 msgstr "画像が自動的に削除されるまでの期間を設定します。"
 
-#: motioneye/templates/main.html:813
+#: motioneye/templates/main.html:752
 msgid "Ebligu manaj kaptoj"
 msgstr "手動撮影を有効にする"
 
-#: motioneye/templates/main.html:815
+#: motioneye/templates/main.html:754
 msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
 msgstr "これをオンにすると、ボタンを使用して手動で撮影を行えます。"
 
-#: motioneye/templates/main.html:825
+#: motioneye/templates/main.html:761
 msgid "ebligu ĉi tion, se vi volas registri filmojn"
 msgstr "動画を記録したい場合は、これを有効にします"
 
-#: motioneye/templates/main.html:826
+#: motioneye/templates/main.html:762
 msgid "Filmoj"
 msgstr "動画"
 
-#: motioneye/templates/main.html:831
+#: motioneye/templates/main.html:767
 msgid "Filma Dosiernomo"
 msgstr "動画ファイル名"
 
-#: motioneye/templates/main.html:833
+#: motioneye/templates/main.html:769
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero, / = subdosierujo."
 msgstr "動画ファイル名のテンプレートを定義します。以下の特殊トークンが使用可能です：%Y =年、%m =月、%d =日、%H =時間、%M =分、%S =秒、%q =フレーム番号、 %v =イベント番号、/ =サブディレクトリ。"
 
-#: motioneye/templates/main.html:836
+#: motioneye/templates/main.html:772
 msgid "Rekta kopia filmeto"
 msgstr "動画のパススルー"
 
-#: motioneye/templates/main.html:838
+#: motioneye/templates/main.html:774
 msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
 msgstr "カメラから直接動画ファイルを作成します。このオプションを使用すると、CPU使用率は減少しますが、メモリの使用量が増加します。画像処理が行われないためテキストオーバレイ、プライバシーマスクなどは動画に含まれません。"
 
-#: motioneye/templates/main.html:841
+#: motioneye/templates/main.html:777
 msgid "Filmformato"
 msgstr "動画フォーマット"
 
-#: motioneye/templates/main.html:884
+#: motioneye/templates/main.html:820
 msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
 msgstr "動画ファイルをカスタマイズします。すべてのフォーマットがすべてのシステムで動作することが保証されているわけではありません。懸念がある場合は、各フォーマットをテストして最適なフォーマットを選択してください。"
 
-#: motioneye/templates/main.html:887
+#: motioneye/templates/main.html:823
 msgid "Filma Kvalito"
 msgstr "動画品質"
 
-#: motioneye/templates/main.html:889
+#: motioneye/templates/main.html:825
 msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
 msgstr "MPEG動画の品質を設定します（値が高いほど、品質は高くなりますが、より多くのストレージが必要になります）。"
 
-#: motioneye/templates/main.html:892
+#: motioneye/templates/main.html:828
 msgid "Rekorda reĝimo"
 msgstr "記録モード"
 
-#: motioneye/templates/main.html:896
+#: motioneye/templates/main.html:832
 msgid "Kontinua registrado"
 msgstr "連続記録"
 
-#: motioneye/templates/main.html:899
+#: motioneye/templates/main.html:835
 msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
 msgstr "記録モードを設定します。モーショントリガー=モーションが検出されるたびに新しいムービーを生成、連続記録= 1つの大きなムービーファイル。"
 
-#: motioneye/templates/main.html:902
+#: motioneye/templates/main.html:838
 msgid "Maksimuma filma daŭro"
 msgstr "最長録画時間"
 
-#: motioneye/templates/main.html:904
+#: motioneye/templates/main.html:840
 msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
 msgstr "動画の最大長を秒単位で設定します。モーションイベントが長く続く場合は新しいムービーファイルが作成されます。記録時間を無制限にするには0を設定します。"
 
-#: motioneye/templates/main.html:907
+#: motioneye/templates/main.html:843
 msgid "Konservi filmojn"
 msgstr "動画を保存"
 
-#: motioneye/templates/main.html:918
+#: motioneye/templates/main.html:854
 msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
 msgstr "設定された期間より古い動画は、ストレージを解放するために自動的に削除されます。"
 
-#: motioneye/templates/main.html:921
+#: motioneye/templates/main.html:857
 msgid "Filmoj Vivdaŭro"
 msgstr "動画保管期間"
 
-#: motioneye/templates/main.html:922 motioneye/utils/dtconv.py:131
+#: motioneye/templates/main.html:858 motioneye/utils/dtconv.py:131
 msgid "tagoj"
 msgstr "日間"
 
-#: motioneye/templates/main.html:923
+#: motioneye/templates/main.html:859
 msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
 msgstr "動画が自動的に削除されるまでの日数を設定します。"
 
-#: motioneye/templates/main.html:933
+#: motioneye/templates/main.html:866
 msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
 msgstr "動き検出を有効化します。"
 
-#: motioneye/templates/main.html:934
+#: motioneye/templates/main.html:867
 msgid "Movado-Detekto"
 msgstr "動き検出"
 
-#: motioneye/templates/main.html:939
+#: motioneye/templates/main.html:872
 msgid "Kadra ŝanĝo sojlo"
 msgstr "フレーム変化しきい値"
 
-#: motioneye/templates/main.html:941
+#: motioneye/templates/main.html:874
 msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
 msgstr "動き検知のために2つの連続するフレーム間で差分検出する画像の最小パーセンテージを示します（値が小さいほど検出の感度が高くなりますが、誤検知する傾向があります）。"
 
-#: motioneye/templates/main.html:944
+#: motioneye/templates/main.html:877
 msgid "Maksimuma ŝanĝo sojlo"
 msgstr "最大変化しきい値"
 
-#: motioneye/templates/main.html:946
+#: motioneye/templates/main.html:879
 msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
 msgstr "フレーム間の差分検出で動き検知されなくなる変化ピクセル数を設定します（0はしきい値が無効になります）。"
 
-#: motioneye/templates/main.html:949
+#: motioneye/templates/main.html:882
 msgid "Aŭtomata sojla agordo"
 msgstr "自動しきい値設定"
 
-#: motioneye/templates/main.html:951
+#: motioneye/templates/main.html:884
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
 msgstr "しきい値を自動的に設定するかどうかを指定します。"
 
-#: motioneye/templates/main.html:954
+#: motioneye/templates/main.html:887
 msgid "Aŭtomata bruo-detekto"
 msgstr "自動ノイズ検出"
 
-#: motioneye/templates/main.html:956
+#: motioneye/templates/main.html:889
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
 msgstr "ノイズレベルを自動的に調整するかどうかを指定します。"
 
-#: motioneye/templates/main.html:959
+#: motioneye/templates/main.html:892
 msgid "Bruo-nivelo"
 msgstr "ノイズレベル"
 
-#: motioneye/templates/main.html:961
+#: motioneye/templates/main.html:894
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
 msgstr "ノイズレベルを手動で固定値に設定します。"
 
-#: motioneye/templates/main.html:964
+#: motioneye/templates/main.html:897
 msgid "Detekto de lumaj ŝanĝoj"
 msgstr "周辺光変化の検出"
 
-#: motioneye/templates/main.html:966
+#: motioneye/templates/main.html:899
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
 msgstr "動き検知ではなく突然の周辺光の変化として扱う画素変化をパーセンテージで設定します（0%で無効になります）。"
 
-#: motioneye/templates/main.html:969
+#: motioneye/templates/main.html:902
 msgid "Makula filtrilo"
 msgstr "スペックルフィルタ"
 
-#: motioneye/templates/main.html:971
+#: motioneye/templates/main.html:904
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
 msgstr "モーション検出を行う前に、フレームにスペックルフィルタを適用するかどうかを指定します。"
 
-#: motioneye/templates/main.html:977
+#: motioneye/templates/main.html:910
 msgid "Senmovada daŭro"
 msgstr "モーションギャップ"
 
-#: motioneye/templates/main.html:979
+#: motioneye/templates/main.html:912
 msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
 msgstr "動き検知イベントの最後から一時的に検知停止する秒数（動き検知なし）を設定します。"
 
-#: motioneye/templates/main.html:982
+#: motioneye/templates/main.html:915
 msgid "Kaptita Antaŭe"
 msgstr "開始以前のキャプチャ"
 
-#: motioneye/templates/main.html:983 motioneye/templates/main.html:988
-#: motioneye/templates/main.html:993
+#: motioneye/templates/main.html:916 motioneye/templates/main.html:921
+#: motioneye/templates/main.html:926
 msgid "kadroj"
 msgstr "フレーム"
 
-#: motioneye/templates/main.html:984
+#: motioneye/templates/main.html:917
 msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
 msgstr "動き検知前にキャプチャしておく（動画に含める）フレーム数を設定します。"
 
-#: motioneye/templates/main.html:987
+#: motioneye/templates/main.html:920
 msgid "Kaptita Post"
 msgstr "開始以後のキャプチャ"
 
-#: motioneye/templates/main.html:989
+#: motioneye/templates/main.html:922
 msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
 msgstr "動き検知の終了後にキャプチャする（ムービーに含める）フレーム数を設定します。"
 
-#: motioneye/templates/main.html:992
+#: motioneye/templates/main.html:925
 msgid "Minimumaj movaj kadroj"
 msgstr "最小のモーションフレーム"
 
-#: motioneye/templates/main.html:994
+#: motioneye/templates/main.html:927
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
 msgstr "動き検知の開始に必要な連続するモーションフレームの最小値を設定します。"
 
-#: motioneye/templates/main.html:1000
+#: motioneye/templates/main.html:933
 msgid "Masko"
 msgstr "マスク"
 
-#: motioneye/templates/main.html:1002
+#: motioneye/templates/main.html:935
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
 msgstr "より選択的で正確なモーション検出のために画像マスキングを有効にします。"
 
-#: motioneye/templates/main.html:1005
+#: motioneye/templates/main.html:938
 msgid "Tipo de masko"
 msgstr "マスクタイプ"
 
-#: motioneye/templates/main.html:1008
+#: motioneye/templates/main.html:941
 msgid "Inteligenta"
 msgstr "インテリジェント"
 
-#: motioneye/templates/main.html:1009
+#: motioneye/templates/main.html:942
 msgid "Redaktebla"
 msgstr "編集可能"
 
-#: motioneye/templates/main.html:1012
+#: motioneye/templates/main.html:945
 msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
 msgstr "インテリジェントオプションを使うと通常の動き領域を自動的に検出し内部マスクを動的に作成します。編集可能オプションを使用すると手動でマスクを作成できます。"
 
-#: motioneye/templates/main.html:1015
+#: motioneye/templates/main.html:948
 msgid "Inteligenta-maska Malrapideco"
 msgstr "スマートマスクの感度"
 
-#: motioneye/templates/main.html:1017
+#: motioneye/templates/main.html:950
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
 msgstr "値を大きくするとより長時間のマスクになりますが計算に時間がかかります。"
 
-#: motioneye/templates/main.html:1026
+#: motioneye/templates/main.html:959
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
 msgstr "このボタンをクリックすると、マスクエディタを有効/無効にできます。"
 
-#: motioneye/templates/main.html:1030
+#: motioneye/templates/main.html:963
 msgid "Purigi maskon"
 msgstr "マスクの消去"
 
-#: motioneye/templates/main.html:1031
+#: motioneye/templates/main.html:964
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
 msgstr "このボタンをクリックして、現在のマスクを消去します。"
 
-#: motioneye/templates/main.html:1037
+#: motioneye/templates/main.html:970
 msgid "Montri Kadro-Ŝanĝojn"
 msgstr "フレーム変化の表示"
 
-#: motioneye/templates/main.html:1039
+#: motioneye/templates/main.html:972
 msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
 msgstr "これがアクティブな場合、フレーム変化（変化があった領域のピクセル数）が画像に表示されます。機能を一時的に有効にしてモーション検出のパラメータを決める参考にします。"
 
-#: motioneye/templates/main.html:1042
+#: motioneye/templates/main.html:975
 msgid "Krei debug media files"
 msgstr "デバッグメディアファイルを作成する"
 
-#: motioneye/templates/main.html:1044
+#: motioneye/templates/main.html:977
 msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
 msgstr "有効にすると、モーション検出の問題のデバッグに役立つ特別なムービーと画像を作成できます。"
 
-#: motioneye/templates/main.html:1053
+#: motioneye/templates/main.html:980
+#, fuzzy
+msgid "Manual motion event button"
+msgstr "手動モーションイベントボタン"
+
+#: motioneye/templates/main.html:982
+#, fuzzy
+msgid "If enabled, an action button is added to the camera frame, which allows to start and end a manual motion event. This can be used to manually create motion-triggered recordings, and test the motion notification pipeline."
+msgstr "有効にすると、アクションボタンがカメラフレームに追加され、手動のモーションイベントが開始され、終了します。 これは手動でモーショントリガーされた選択を作成し、パイプラインに注意するために動きをテストするのに使用することができます."
+
+#: motioneye/templates/main.html:985
+#, fuzzy
+msgid "Motion detection toggle button"
+msgstr "モーショントグルボタン"
+
+#: motioneye/templates/main.html:987
+#, fuzzy
+msgid "If enabled, an action button is added to the camera frame, which allows to temporarily pause and reactivate motion detection. Saving settings, adding/removing cameras, and restarting motionEye resets the state."
+msgstr "有効な場合、アクションボタンはカメラフレームに追加することです。これは、モーション画像を選ぶことができる理由です。 保存室、コンテンツ/削除スケジュール、およびモーションを再起動すると、状態をリセットします."
+
+#: motioneye/templates/main.html:993
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
 msgstr "動きが検出されたときに通知を送信するかどうかを指定します。"
 
-#: motioneye/templates/main.html:1054
+#: motioneye/templates/main.html:994
 msgid "Moviĝaj sciigoj"
 msgstr "モーション通知"
 
-#: motioneye/templates/main.html:1066
+#: motioneye/templates/main.html:1006
 msgid "Sendi retpoŝton"
 msgstr "電子メールを送る"
 
-#: motioneye/templates/main.html:1068
+#: motioneye/templates/main.html:1008
 msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "このオプションを有効にすると、モーションイベントが検出されるたびにメールが送信されます。"
 
-#: motioneye/templates/main.html:1071
+#: motioneye/templates/main.html:1011
 msgid "Retpoŝtadresoj"
 msgstr "電子メールアドレス"
 
-#: motioneye/templates/main.html:1072
+#: motioneye/templates/main.html:1012
 msgid "retpoŝtadresoj…"
 msgstr "電子メールアドレス…"
 
-#: motioneye/templates/main.html:1073
+#: motioneye/templates/main.html:1013
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
 msgstr "モーションイベントが検出された際、通知メールの送信先となるアドレスをカンマ区切りで指定します。"
 
-#: motioneye/templates/main.html:1076
+#: motioneye/templates/main.html:1016
 msgid "Servilo SMTP"
 msgstr "SMTPサーバ"
 
-#: motioneye/templates/main.html:1077
+#: motioneye/templates/main.html:1017
 msgid "ekz. smtp.gmail.com"
 msgstr "例　smtp.gmail.com"
 
-#: motioneye/templates/main.html:1078
+#: motioneye/templates/main.html:1018
 msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
 msgstr "SMTPサーバーのホスト名またはIPアドレスを入力します（Gmail の場合、smtp.gmail.com）。"
 
-#: motioneye/templates/main.html:1081
+#: motioneye/templates/main.html:1021
 msgid "SMTP Haveno"
 msgstr "SMTPポート番号"
 
-#: motioneye/templates/main.html:1082
+#: motioneye/templates/main.html:1022
 msgid "ekz. 587"
 msgstr "例　587"
 
-#: motioneye/templates/main.html:1083
+#: motioneye/templates/main.html:1023
 msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
 msgstr "SMTPサーバが使用するポート番号を入力します（通常、非TLS接続は465、TLS接続は587）。"
 
-#: motioneye/templates/main.html:1086
+#: motioneye/templates/main.html:1026
 msgid "SMTP-Konto"
 msgstr "SMTP アカウント"
 
-#: motioneye/templates/main.html:1087
+#: motioneye/templates/main.html:1027
 msgid "konto@gmail.com…"
 msgstr "account@gmail.com…"
 
-#: motioneye/templates/main.html:1088
+#: motioneye/templates/main.html:1028
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
 msgstr "SMTP アカウント（通常はメールアドレス）を入力します。"
 
-#: motioneye/templates/main.html:1091
+#: motioneye/templates/main.html:1031
 msgid "SMTP Pasvorto"
 msgstr "SMTP パスワード"
 
-#: motioneye/templates/main.html:1093
+#: motioneye/templates/main.html:1033
 msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
 msgstr "SMTPパスワードを入力します(Gmail の場合、 Google パスワードまたはアプリが生成したパスワードを使用します)。"
 
-#: motioneye/templates/main.html:1096
+#: motioneye/templates/main.html:1036
 msgid "De adreso"
 msgstr "差出人アドレス"
 
-#: motioneye/templates/main.html:1097
+#: motioneye/templates/main.html:1037
 msgid "retpoŝta adreso…"
 msgstr "電子メールアドレス…"
 
-#: motioneye/templates/main.html:1098
+#: motioneye/templates/main.html:1038
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
 msgstr "SMTPサービスで必要な場合は、カスタムの「差出人アドレス」を設定します（空白のままにすると、最初の宛先メールアドレスが使用されます）。"
 
-#: motioneye/templates/main.html:1101
+#: motioneye/templates/main.html:1041
 msgid "Uzi TLS"
 msgstr "TLS を使用する"
 
-#: motioneye/templates/main.html:1103
+#: motioneye/templates/main.html:1043
 msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
 msgstr "SMTPサーバーがTLSを必要とする場合は有効にします（Gmailでは有効にする必要があります）。"
 
-#: motioneye/templates/main.html:1106
+#: motioneye/templates/main.html:1051
 msgid "Aldonitaj bildoj tempo-intervalo"
 msgstr "写真の時間間隔を添付"
 
-#: motioneye/templates/main.html:1108
+#: motioneye/templates/main.html:1053
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "電子メールリンクを作成するときに使用する検索時間間隔を設定します（値が大きいほど通知の遅延時間が増加することを犠牲にしてより多くの画像を含む電子メールを生成します）;0を設定すると画像添付しません。この機能を使うには、「画像のキャプチャ」も有効にする必要もあります。"
 
-#: motioneye/templates/main.html:1112
+#: motioneye/templates/main.html:1057
 msgid "Testi retpoŝto"
 msgstr "電子メールをテストする"
 
-#: motioneye/templates/main.html:1113
+#: motioneye/templates/main.html:1058
 msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
 msgstr "必要な設定の後、このボタンをクリックして電子メールによる通知をテストします。"
 
-#: motioneye/templates/main.html:1119
+#: motioneye/templates/main.html:1064
 msgid "Sendu Telegraman Sciigon"
 msgstr "Telegram通知を送信する"
 
-#: motioneye/templates/main.html:1121
+#: motioneye/templates/main.html:1066
 msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
 msgstr "このオプションを有効にすると、動き検知のたびに Telegram メッセージを送信します"
 
-#: motioneye/templates/main.html:1124
+#: motioneye/templates/main.html:1069
 msgid "HTTP API ĵetono"
 msgstr "HTTP　APIトークン"
 
-#: motioneye/templates/main.html:1125
+#: motioneye/templates/main.html:1070
 msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 msgstr "例：93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 
-#: motioneye/templates/main.html:1126
+#: motioneye/templates/main.html:1071
 msgid "Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
 msgstr "Telegram-Bot Chatを作成することにより、ここに入力する必要があるAPIトークンが表示されます。下のAPIボタンをクリックして、APIトークンを取得するステップバイステップガイドを表示します。また、キーが生成された後、新しく作成された「ボット」とチャットして、メッセージを受け取るようにしてください。"
 
-#: motioneye/templates/main.html:1129
+#: motioneye/templates/main.html:1074
 msgid "Babileja ID"
 msgstr "チャット ID"
 
-#: motioneye/templates/main.html:1130
+#: motioneye/templates/main.html:1075
 msgid "Ekzemplo: 938272312"
 msgstr "例：938272312"
 
-#: motioneye/templates/main.html:1131
+#: motioneye/templates/main.html:1076
 msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
 msgstr "id_chatbot（@id_chatbot）への新しいチャットを作成し、開始を選択します。チャットはこのフィールドに必要な番号を返します。"
 
-#: motioneye/templates/main.html:1134
+#: motioneye/templates/main.html:1079
 msgid "Alkroĉitaj Bildoj Tempo"
 msgstr "画像添付時間"
 
-#: motioneye/templates/main.html:1136
+#: motioneye/templates/main.html:1081
 msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
 msgstr "テレグラム添付ファイルを作成する際の画像検索時間を設定します（値が大きいほど、送信遅延が増加しますが、たくさんの画像が作成されます）;画像の添付を無効にするには0を設定します。添付を機能させるには、静止画撮影も有効にする必要があります。画像が送信されるまで、この番号を試してみてください。1つの動き検知を設定した場合、最初の適切な番号は30です。通常の動き検知の場合、値はもっと低く設定します。"
 
-#: motioneye/templates/main.html:1139
+#: motioneye/templates/main.html:1084
 msgid "API-Informoj"
 msgstr "API 情報"
 
-#: motioneye/templates/main.html:1140
+#: motioneye/templates/main.html:1085
 msgid "Testo"
 msgstr "テスト"
 
-#: motioneye/templates/main.html:1146 motioneye/templates/main.html:1191
+#: motioneye/templates/main.html:1091 motioneye/templates/main.html:1141
 msgid "Alvoki URL"
 msgstr "URL呼び出し"
 
-#: motioneye/templates/main.html:1148
+#: motioneye/templates/main.html:1093
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
 msgstr "動き検知されたときに URL にアクセスするかどうかを指定します。"
 
-#: motioneye/templates/main.html:1152
+#: motioneye/templates/main.html:1097
 msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "例　http://example.com/search/"
 
-#: motioneye/templates/main.html:1153
+#: motioneye/templates/main.html:1098
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadro-numero, %v = okaza numero"
 msgstr "動き検知されたときに要求する URL 。以下の特殊トークンが使用可能です：%Y =年、%m =月、%d =日、%H =時間、%M =分、%S =秒、%q =フレーム番号、%v =イベント番号"
 
-#: motioneye/templates/main.html:1165 motioneye/templates/main.html:1210
+#: motioneye/templates/main.html:1110 motioneye/templates/main.html:1160
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "ネットワークフック URL を要求するときに使用する HTTP メソッド（指定された URL エンコードパラメータは、実際にはここで表示された形で送信されます）。"
 
-#: motioneye/templates/main.html:1171 motioneye/templates/main.html:1216
+#: motioneye/templates/main.html:1121 motioneye/templates/main.html:1171
 msgid "Lanĉi komando"
 msgstr "コマンドを実行する"
 
-#: motioneye/templates/main.html:1173
+#: motioneye/templates/main.html:1123
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "動き検知されるたびにコマンドを実行する場合は、これを有効にします。"
 
-#: motioneye/templates/main.html:1176 motioneye/templates/main.html:1221
+#: motioneye/templates/main.html:1126 motioneye/templates/main.html:1176
 msgid "Komando"
 msgstr "コマンド"
 
-#: motioneye/templates/main.html:1177 motioneye/templates/main.html:1222
+#: motioneye/templates/main.html:1127 motioneye/templates/main.html:1177
 msgid "komando…"
 msgstr "コマンド …"
 
-#: motioneye/templates/main.html:1178
+#: motioneye/templates/main.html:1128
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadro-numero, %v = okaza numero"
 msgstr "動き検知されたときに実行するコマンド。複数のコマンドを実行する場合は、コロンで区切って指定してください。なお、コマンド間の区切りとしてセミコロンを使用しないでください。以下の特殊トークンが使用可能です：%Y =年、%m =月、%d =日、%H =時間、%M =分、%S =秒、%q =フレーム番号、%v =イベント番号"
 
-#: motioneye/templates/main.html:1218
+#: motioneye/templates/main.html:1173
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
 msgstr "動き検知イベントが終了したときにコマンドを実行するかどうかを指定します。"
 
-#: motioneye/templates/main.html:1223
+#: motioneye/templates/main.html:1178
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = dato, %H = horo, %M = minuto, %S = sekundo, %q = kadra nombro."
 msgstr "動き検知イベントの終了時に起動するコマンド。複数のコマンドを実行する場合は、コロンで区切って指定してください。なお、コマンド間の区切りとしてセミコロンを使用しないでください。以下の特殊トークンが使用可能です：%Y =年、%m =月、%d =日付、%H =時間、%M =分、%S =秒、%q =フレーム番号。"
 
-#: motioneye/templates/main.html:1233
+#: motioneye/templates/main.html:1185
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
 msgstr "動き検知の週間スケジュールを設定するかどうかを指定します。"
 
-#: motioneye/templates/main.html:1234
+#: motioneye/templates/main.html:1186
 msgid "Laboranta horaro"
 msgstr "動作スケジュール"
 
-#: motioneye/templates/main.html:1239
+#: motioneye/templates/main.html:1191
 msgid "Lundo"
 msgstr "月曜日"
 
-#: motioneye/templates/main.html:1242 motioneye/templates/main.html:1251
-#: motioneye/templates/main.html:1260 motioneye/templates/main.html:1269
-#: motioneye/templates/main.html:1278 motioneye/templates/main.html:1287
-#: motioneye/templates/main.html:1296
+#: motioneye/templates/main.html:1194 motioneye/templates/main.html:1203
+#: motioneye/templates/main.html:1212 motioneye/templates/main.html:1221
+#: motioneye/templates/main.html:1230 motioneye/templates/main.html:1239
+#: motioneye/templates/main.html:1248
 msgid "de"
 msgstr "開始"
 
-#: motioneye/templates/main.html:1243 motioneye/templates/main.html:1252
-#: motioneye/templates/main.html:1261 motioneye/templates/main.html:1270
-#: motioneye/templates/main.html:1279 motioneye/templates/main.html:1288
-#: motioneye/templates/main.html:1297
+#: motioneye/templates/main.html:1195 motioneye/templates/main.html:1204
+#: motioneye/templates/main.html:1213 motioneye/templates/main.html:1222
+#: motioneye/templates/main.html:1231 motioneye/templates/main.html:1240
+#: motioneye/templates/main.html:1249
 msgid "ĝis"
 msgstr "終了"
 
-#: motioneye/templates/main.html:1245
+#: motioneye/templates/main.html:1197
 msgid "Fiksas la labortagan tempintervalon por lundoj."
 msgstr "月曜日の動作スケジュールの間隔を設定します。"
 
-#: motioneye/templates/main.html:1248
+#: motioneye/templates/main.html:1200
 msgid "Mardo"
 msgstr "火曜日"
 
-#: motioneye/templates/main.html:1254
+#: motioneye/templates/main.html:1206
 msgid "Fiksas la labortagan tempintervalon por mardoj."
 msgstr "火曜日の動作スケジュールの時間間隔を設定します。"
 
-#: motioneye/templates/main.html:1257
+#: motioneye/templates/main.html:1209
 msgid "Merkredo"
 msgstr "水曜日"
 
-#: motioneye/templates/main.html:1263
+#: motioneye/templates/main.html:1215
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
 msgstr "水曜日の動作スケジュールの時間間隔を設定します。"
 
-#: motioneye/templates/main.html:1266
+#: motioneye/templates/main.html:1218
 msgid "Ĵaŭdo"
 msgstr "木曜日"
 
-#: motioneye/templates/main.html:1272
+#: motioneye/templates/main.html:1224
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
 msgstr "木曜日の動作スケジュールの時間間隔を設定します。"
 
-#: motioneye/templates/main.html:1275
+#: motioneye/templates/main.html:1227
 msgid "Vendredo"
 msgstr "金曜日"
 
-#: motioneye/templates/main.html:1281
+#: motioneye/templates/main.html:1233
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
 msgstr "金曜日の動作スケジュールの時間間隔を設定します。"
 
-#: motioneye/templates/main.html:1284
+#: motioneye/templates/main.html:1236
 msgid "Sabato"
 msgstr "土曜日"
 
-#: motioneye/templates/main.html:1290
+#: motioneye/templates/main.html:1242
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
 msgstr "土曜日の動作スケジュールの時間間隔を設定します。"
 
-#: motioneye/templates/main.html:1293
+#: motioneye/templates/main.html:1245
 msgid "Dimanĉo"
 msgstr "日曜日"
 
-#: motioneye/templates/main.html:1299
+#: motioneye/templates/main.html:1251
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
 msgstr "日曜日の動作スケジュールの時間間隔を設定します。"
 
-#: motioneye/templates/main.html:1302
+#: motioneye/templates/main.html:1254
 msgid "Detekti movadon"
 msgstr "動き検知"
 
-#: motioneye/templates/main.html:1305
+#: motioneye/templates/main.html:1257
 msgid "Dum laborista horaro"
 msgstr "動作スケジュール内"
 
-#: motioneye/templates/main.html:1306
+#: motioneye/templates/main.html:1258
 msgid "Ekster laborista horaro"
 msgstr "動作スケジュール外"
 
-#: motioneye/templates/main.html:1309
+#: motioneye/templates/main.html:1261
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr "動作スケジュール内または動作スケジュール外に動き検知をアクティブにするか設定します。"
 
