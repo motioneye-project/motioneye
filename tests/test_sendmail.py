@@ -99,6 +99,45 @@ class SendMailTest(unittest.TestCase):
                 conn.sendmail.assert_called_once()
 
     @patch('motioneye.sendmail.smtplib.SMTP')
+    @patch('motioneye.sendmail.smtplib.SMTP_SSL')
+    def test_implicit_tls_encrypts_from_the_start(self, mock_ssl, mock_smtp):
+        for verify in (True, False):
+            with self.subTest(verify=verify):
+                mock_ssl.reset_mock()
+                # e.g. port 465: no plain connection and no STARTTLS
+                sendmail.send_mail(
+                    'smtp.example',
+                    465,
+                    '',
+                    '',
+                    True,
+                    'a@example',
+                    ['b@example'],
+                    **_KW,
+                    verify=verify,
+                    implicit_tls=True,
+                )
+
+                mock_smtp.assert_not_called()
+                mock_ssl.return_value.starttls.assert_not_called()
+                mock_ssl.return_value.sendmail.assert_called_once()
+                context = mock_ssl.call_args.kwargs['context']
+                self.assertIsInstance(context, ssl.SSLContext)
+                self.assertIs(verify, context.check_hostname)
+                expected = ssl.CERT_REQUIRED if verify else ssl.CERT_NONE
+                self.assertEqual(expected, context.verify_mode)
+
+    @patch('motioneye.sendmail.smtplib.SMTP')
+    @patch('motioneye.sendmail.smtplib.SMTP_SSL')
+    def test_implicit_tls_needs_tls(self, mock_ssl, mock_smtp):
+        # as the UI shows "none": a plain connection
+        sendmail.send_mail(*_ARGS, **_KW, implicit_tls=True)
+
+        mock_ssl.assert_not_called()
+        mock_smtp.return_value.starttls.assert_not_called()
+        mock_smtp.return_value.sendmail.assert_called_once()
+
+    @patch('motioneye.sendmail.smtplib.SMTP')
     def test_a_certificate_error_propagates(self, mock_smtp):
         conn = mock_smtp.return_value
         conn.starttls.side_effect = ssl.SSLCertVerificationError(1, _VERIFY_FAILED)

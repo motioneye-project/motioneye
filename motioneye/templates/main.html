@@ -1020,7 +1020,7 @@
                         <tr class="settings-item" min="1" max="65535" depends="emailNotificationsEnabled motionDetectionEnabled" required="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("SMTP Haveno") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled number notifications camera-config" id="smtpPortEntry" placeholder="{{ _("ekz. 587") }}"></td>
-                            <td><span class="help-mark" title="{{ _("Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj).") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("the port of your SMTP server: usually 465 for TLS, 587 for STARTTLS, and 25 without encryption; e.g. Gmail accepts 465 with TLS and 587 with STARTTLS") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("SMTP-Konto") }}</span></td>
@@ -1038,11 +1038,17 @@
                             <td><span class="help-mark" title="{{ _("Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena).") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Uzi TLS") }}</span></td>
-                            <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="smtpTlsSwitch"></td>
-                            <td><span class="help-mark" title="{{ _("Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi).") }}">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Encryption") }}</span></td>
+                            <td class="settings-item-value">
+                                <select class="styled notifications camera-config" id="smtpTlsSelect">
+                                    <option value="none">{{ _("none") }}</option>
+                                    <option value="starttls">STARTTLS</option>
+                                    <option value="tls">TLS</option>
+                                </select>
+                            </td>
+                            <td><span class="help-mark" title="{{ _("how the connection to your SMTP server is encrypted: TLS encrypts it from the start (usually port 465), STARTTLS connects unencrypted and then switches to encryption (usually port 587); choose what your provider names") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled smtpTls">
+                        <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled smtpTls!=none">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Verify certificate") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="smtpVerifySwitch"></td>
                             <td><span class="help-mark" title="{{ _("check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated") }}">?</span></td>

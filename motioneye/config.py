@@ -723,6 +723,7 @@ SENDMAIL_KEYS = {
     'account': '@email_notifications_smtp_account',
     'password': '@email_notifications_smtp_password',  # nosec: B105
     'tls': '@email_notifications_smtp_tls',
+    'implicit_tls': '@email_notifications_smtp_implicit_tls',
     'verify': '@email_notifications_smtp_verify',
     'sender': '@email_notifications_from',
     'to': '@email_notifications_addresses',
@@ -734,7 +735,8 @@ SENDTELEGRAM_KEYS = {
     'timespan': '@telegram_notifications_picture_time_span',
 }
 _NOTIFICATION_KEYS = [*SENDMAIL_KEYS.values(), *SENDTELEGRAM_KEYS.values()]
-_OPTIONAL_NOTIFICATION_KEYS = {SENDMAIL_KEYS['verify']}  # absent in older camera files
+# absent in older camera files
+_OPTIONAL_NOTIFICATION_KEYS = {SENDMAIL_KEYS['verify'], SENDMAIL_KEYS['implicit_tls']}
 MOMENT = '%Y-%m-%dT%H:%M:%S'  # the event time, expanded by motion
 _SHORT = f" %t '{MOMENT}'"
 
@@ -1470,6 +1472,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
     on_event_start = [f"{meyectl.find_command('relayevent')} start %t"]
     # kept for a client that does not send the key
     stored_mail_verify = prev_config.get(SENDMAIL_KEYS['verify'])
+    stored_mail_implicit_tls = prev_config.get(SENDMAIL_KEYS['implicit_tls'])
     for key in _NOTIFICATION_KEYS:  # stored only while enabled
         prev_config.pop(key, None)
 
@@ -1498,10 +1501,19 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         values = {
             key: ui[key[1:]]
             for key in SENDMAIL_KEYS.values()
-            if key != SENDMAIL_KEYS['verify']
+            if key not in _OPTIONAL_NOTIFICATION_KEYS
         }
         values[SENDMAIL_KEYS['verify']] = utils.verify_setting(
             ui.get('email_notifications_smtp_verify', stored_mail_verify)
+        )
+        # without it, TLS is STARTTLS, as before
+        values[SENDMAIL_KEYS['implicit_tls']] = (
+            str(
+                ui.get(
+                    'email_notifications_smtp_implicit_tls', stored_mail_implicit_tls
+                )
+            ).lower()
+            == 'true'
         )
         values['@email_notifications_addresses'] = emails
         values['@email_notifications_from'] = email_from

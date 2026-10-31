@@ -147,6 +147,7 @@ def _old_sendmail(e: list) -> dict | None:
         keys['account']: e[-9],
         keys['password']: e[-8].replace('\\;', ';').replace('%%', '%'),
         keys['tls']: e[-7].lower() == 'true',
+        keys['implicit_tls']: False,  # these used STARTTLS
         keys['verify']: True,
         keys['sender']: e[-6],
         keys['to']: e[-5],

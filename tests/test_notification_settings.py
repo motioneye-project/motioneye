@@ -61,6 +61,7 @@ _UI = {
     'email_notifications_smtp_account': '007',
     'email_notifications_smtp_password': 'p;w%d FAKE-1234',
     'email_notifications_smtp_tls': True,
+    'email_notifications_smtp_implicit_tls': False,
     'email_notifications_smtp_verify': True,
     'email_notifications_from': '',
     'email_notifications_addresses': 'a@example,b@example',
@@ -94,6 +95,7 @@ _STORED = {
     'email_notifications_smtp_account': '007',
     'email_notifications_smtp_password': 'p;w%d FAKE-1234',
     'email_notifications_smtp_tls': 'True',
+    'email_notifications_smtp_implicit_tls': 'False',
     'email_notifications_smtp_verify': 'True',
     'email_notifications_from': '',
     'email_notifications_addresses': 'a@example,b@example',
@@ -302,6 +304,34 @@ class ConfigTest(_ConfigCase):
                 lines = _new_lines()
                 self.assertEqual(lines, {option: data[option] for option in lines})
 
+    def test_a_post_without_implicit_tls_keeps_the_stored_choice(self):
+        ui = config.motion_camera_dict_to_ui(self.camera)
+        ui.update(_UI)
+        del ui['email_notifications_smtp_implicit_tls']  # e.g. from a 0.44 hub
+        stored_on = dict(
+            self.camera, **{'@email_notifications_smtp_implicit_tls': 'True'}
+        )
+
+        for stored, expected in ((self.camera, 'False'), (stored_on, 'True')):
+            with self.subTest(stored=expected):
+                data = config.motion_camera_ui_to_dict(dict(ui), stored)
+
+                self.assertEqual(
+                    expected, data['@email_notifications_smtp_implicit_tls']
+                )
+
+    def test_implicit_tls_survives_a_round_trip_through_the_camera_file(self):
+        on = dict(_UI, email_notifications_smtp_implicit_tls=True)
+        self._write(1, self.camera)
+        self._post(dict(self._get(), **on))
+        text = self._read(1)
+        self.assertIn('\n# @email_notifications_smtp_implicit_tls True\n', '\n' + text)
+
+        got = self._get()
+        self.assertIs(True, got['email_notifications_smtp_implicit_tls'])
+        self._post(got)
+        self.assertEqual(text, self._read(1))
+
     def test_the_mail_check_survives_a_round_trip_through_the_camera_file(self):
         off = dict(_UI, email_notifications_smtp_verify=False)
         self._write(1, self.camera)
@@ -416,7 +446,7 @@ class ConfigTest(_ConfigCase):
         self._post(dict(self._get(), **_UI))
         lines = self._read(1).splitlines()
         stored = [line for line in lines if line.startswith(_STORED_LINES)]
-        self.assertEqual(12, len(stored))
+        self.assertEqual(13, len(stored))
 
         off = {'email_notifications_enabled': False}
         off['telegram_notifications_enabled'] = False
@@ -561,6 +591,24 @@ class SenderTest(_ConfigCase):
 
                 self.assertEqual(self._stored_mail(), sent)  # the rest is unchanged
                 self.assertIs(False, self.send_mail.call_args.kwargs['verify'])
+
+    def test_stored_implicit_tls_reaches_send_mail(self):
+        for word, expected in (('True', True), ('False', False)):
+            with self.subTest(word=word):
+                stored = dict(_STORED, email_notifications_smtp_implicit_tls=word)
+                self._write_stored(stored)
+                self._mail('-c', _CONF, '1', _EVENT)
+
+                self.assertIs(expected, self.send_mail.call_args.kwargs['implicit_tls'])
+
+    def test_a_file_without_implicit_tls_uses_starttls(self):
+        stored = dict(_STORED)
+        del stored['email_notifications_smtp_implicit_tls']  # what older releases wrote
+        self._write_stored(stored)
+        sent = self._mail('-c', _CONF, '1', _EVENT)
+
+        self.assertEqual(self._stored_mail(), sent)
+        self.assertIs(False, self.send_mail.call_args.kwargs['implicit_tls'])
 
     def test_a_file_from_an_older_release_still_sends(self):
         stored = dict(_STORED)
