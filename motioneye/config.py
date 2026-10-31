@@ -38,12 +38,15 @@ if TYPE_CHECKING:
 from argon2 import PasswordHasher
 from tornado.ioloop import IOLoop
 
+import motioneye
 from motioneye import meyectl, motionctl, settings, tasks, uploadservices, utils
 from motioneye.controls import diskctl, smbctl, v4l2ctl
 from motioneye.controls.powerctl import PowerControl
 
 ph = PasswordHasher()
 _CAMERA_CONFIG_FILE_NAME = 'camera-%(id)s.conf'
+# the motionEye version that last saved a camera config, read by migration.py
+CONFIG_VERSION_KEY = '@config_motioneye_version'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
 _ACTIONS = [
     'lock',
@@ -595,6 +598,7 @@ def get_camera(camera_id: int, as_lines: bool = False) -> dict | list:
             '@upload_bucket',
             '@upload_sse_c_key',
             '@remote_secret',
+            CONFIG_VERSION_KEY,
             *_NOTIFICATION_KEYS,
             'camera_name',
         ],
@@ -636,6 +640,7 @@ def get_camera(camera_id: int, as_lines: bool = False) -> dict | list:
 
 def set_camera(camera_id: int, camera_config: dict) -> None:
     camera_config['@id'] = camera_id
+    camera_config[CONFIG_VERSION_KEY] = motioneye.VERSION
     _camera_config_cache[camera_id] = camera_config
 
     camera_config = dict(camera_config)

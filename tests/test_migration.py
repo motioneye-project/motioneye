@@ -17,6 +17,7 @@
 import unittest
 from unittest.mock import Mock, patch
 
+import motioneye
 from motioneye import config, migration, server
 from motioneye.handlers.config import ConfigHandler
 from tests.test_notification_settings import (
@@ -257,15 +258,21 @@ class StartupTest(_ConfigCase):
         with self.assertLogs(level='INFO') as logs:
             migration.migrate_cameras()
 
-        self.assertEqual([1, 3, 4], [c.args[0] for c in writes.call_args_list])
+        # 2 (nothing readable to move) and 5 (a remote camera) only get the version
+        self.assertEqual([1, 2, 3, 4, 5], [c.args[0] for c in writes.call_args_list])
         output = '\n'.join(logs.output)
         self.assertNotIn('FAKE-', output)
         warning = 'WARNING:root:could not read on_event_start command of camera 2'
         self.assertIn(warning, output)
         error = 'ERROR:root:failed to migrate camera 3: read-only file system'
         self.assertIn(error, logs.output)
-        for camera_id in (2, 3, 5):
-            self.assertEqual(files[camera_id], self._read(camera_id))
+        self.assertEqual(files[3], self._read(3))
+        config.invalidate()
+        for camera_id in (2, 5):
+            saved = config.get_camera(camera_id)
+            self.assertEqual(motioneye.VERSION, saved[config.CONFIG_VERSION_KEY])
+        unread = f'{_RELAY} start %t; {broken}'
+        self.assertEqual(unread, config.get_camera(2)['on_event_start'])
 
         kept = config.get_camera(3)['on_event_start']  # as in the file
         self.assertEqual(self.old['on_event_start'], kept)
@@ -359,6 +366,171 @@ class StartupTest(_ConfigCase):
                 ConfigHandler.restore(handler)
 
         migrate.assert_not_called()
+
+
+class ConfigVersionTest(_ConfigCase):
+    """Each camera config records the motionEye version that saved it, and the migration
+    steps newer than that version run for it."""
+
+    def setUp(self):
+        super().setUp()
+        self._patch('motioneye.VERSION', '0.46.0')
+        self._patch('motioneye.config.get_camera_ids', return_value=[1])
+        self.writes = self._patch(
+            'motioneye.config.set_camera', wraps=config.set_camera
+        )
+
+    def _saved_by(self, version):
+        camera = dict(self.camera)
+        if version is not None:
+            camera[config.CONFIG_VERSION_KEY] = version
+        self._write(1, camera)
+        config.invalidate()
+
+    def _steps(self, *steps):
+        self._patch('motioneye.migration.STEPS', steps)
+
+    def test_versions_compare_with_pre_releases_just_below_their_release(self):
+        cases = {
+            '0.45.0': (0, 45, 0),
+            '0.45.0a1': (0, 45, -1),
+            '0.45.0a1.dev2026103101': (0, 45, -1),
+            '0.44.0b3': (0, 44, -1),
+            '1.2.3': (1, 2, 3),
+            None: (-1, -1, -1),
+            '': (-1, -1, -1),
+            'not a version': (-1, -1, -1),
+        }
+        for value, expected in cases.items():
+            with self.subTest(value=value):
+                self.assertEqual(expected, migration.config_version(value))
+
+        order = ['0.44.0', '0.45.0a1', '0.45.0', '0.45.1']
+        versions = [migration.config_version(value) for value in order]
+        self.assertEqual(sorted(versions), versions)
+
+    def test_a_save_records_the_version_as_text(self):
+        config.set_camera(1, dict(self.camera))
+
+        self.assertIn('\n# @config_motioneye_version 0.46.0\n', self._read(1))
+        config.invalidate()
+        self.assertEqual('0.46.0', config.get_camera(1)[config.CONFIG_VERSION_KEY])
+
+    def test_the_steps_newer_than_the_saved_version_run(self):
+        run_45, run_46 = Mock(return_value=False), Mock(return_value=False)
+        self._steps(
+            migration.Step('0.45.0', '0.45 step', run_45),
+            migration.Step('0.46.0', '0.46 step', run_46),
+        )
+        cases = {
+            None: (True, True),
+            '0.44.0': (True, True),
+            '0.45.0a1': (True, True),  # its own release's steps run again
+            '0.45.0': (False, True),
+            '0.46.0a2': (False, True),
+            '0.46.0': (False, False),
+        }
+        for saved_by, expected in cases.items():
+            with self.subTest(saved_by=saved_by):
+                run_45.reset_mock()
+                run_46.reset_mock()
+                self._saved_by(saved_by)
+
+                migration.migrate_cameras()
+
+                self.assertEqual(expected, (run_45.called, run_46.called))
+
+    def test_a_step_for_every_start_runs_on_a_current_config(self):
+        every_start = Mock(return_value=False)
+        self._steps(migration.Step('0.45.0', 'every start', every_start, True))
+        self._saved_by('0.46.0')
+
+        migration.migrate_cameras()
+
+        every_start.assert_called_once()
+        self.writes.assert_not_called()  # nothing changed, version already current
+
+    def test_the_version_is_recorded_once(self):
+        self._steps(migration.Step('0.45.0', 'no change', Mock(return_value=False)))
+        self._saved_by(None)
+
+        migration.migrate_cameras()
+        migration.migrate_cameras()  # the next start
+
+        self.assertEqual(1, self.writes.call_count)
+        self.assertIn('\n# @config_motioneye_version 0.46.0\n', self._read(1))
+
+    def test_a_development_build_does_not_write_on_every_start(self):
+        self._patch('motioneye.VERSION', '0.46.0a1')
+        step = Mock(return_value=False)
+        self._steps(migration.Step('0.46.0', 'this release', step))
+        self._saved_by('0.46.0a1')
+
+        migration.migrate_cameras()
+
+        step.assert_called_once()  # rerun for testing
+        self.writes.assert_not_called()
+
+    def test_a_failed_step_keeps_the_version_and_runs_again(self):
+        failing = Mock(side_effect=ValueError('broken step'))
+        self._steps(migration.Step('0.46.0', 'failing', failing))
+        self._saved_by('0.45.0')
+        text = self._read(1)
+
+        with self.assertLogs(level='ERROR') as logs:
+            migration.migrate_cameras()
+        migration.migrate_cameras()  # the next start
+
+        self.assertEqual(
+            ['ERROR:root:failed to migrate camera 1: broken step'], logs.output[:1]
+        )
+        self.writes.assert_not_called()
+        self.assertEqual(text, self._read(1))
+        self.assertEqual(2, failing.call_count)
+
+    def test_lines_written_by_0_44_after_a_downgrade_are_moved_again(self):
+        fresh = self._save(**_UI)
+        stored = {f'@{name}' for name in _STORED}
+        old = {key: value for key, value in fresh.items() if key not in stored}
+        old['on_event_start'] = _old_start(fresh['on_event_start'])
+        # 0.44 keeps the version a newer release left in the file
+        self._write(1, dict(old, **{config.CONFIG_VERSION_KEY: '0.46.0'}))
+        config.invalidate()
+
+        with self.assertLogs(level='INFO') as logs:
+            migration.migrate_cameras()
+
+        self.assertIn('INFO:root:moving notification settings of camera 1', logs.output)
+        config.invalidate()
+        self.assertEqual(
+            fresh['on_event_start'], config.get_camera(1)['on_event_start']
+        )
+
+
+class UnusedCameraFileTest(_ConfigCase):
+    def test_a_new_camera_does_not_take_over_the_settings_of_an_unused_file(self):
+        # incomplete, so get_camera_ids() skips it and add_camera() picks its id
+        self._write_text(1, '# a comment\n# @leftover_key old\nleftover_option 1\n')
+        details = {
+            'proto': 'motioneye',
+            'scheme': 'http',
+            'host': 'cam.example',
+            'port': 8765,
+            'path': '/',
+            'remote_camera_id': '1',
+        }
+
+        with self.assertLogs(level='WARNING') as logs:
+            camera = config.add_camera(details)
+
+        self.assertIn('is incomplete, ignoring', '\n'.join(logs.output))
+        self.assertEqual(1, camera['@id'])
+        text = self._read(1)
+        # set_camera() writes only the new camera's settings; plain comments stay
+        self.assertNotIn('leftover', text)
+        self.assertIn('\n# @host cam.example\n', text)
+        self.assertIn('\n# a comment\n', text)
+        self.assertEqual(motioneye.VERSION, camera[config.CONFIG_VERSION_KEY])
 
 
 if __name__ == '__main__':
