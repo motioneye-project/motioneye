@@ -61,7 +61,7 @@ _(Docker images are provided on [Docker Hub](https://hub.docker.com/r/motioneyep
 
 # Upgrade
 
-If motionEye was installed with `sudo python3 -m pip install motioneye` before, outside of a `venv`, uninstall it with `sudo python3 -m pip uninstall motioneye`, then follow the [installation](#installation) steps. Your configuration in `/etc/motioneye` is kept, and `motioneye_init` updates the systemd service.
+> If motionEye was installed with `sudo python3 -m pip install motioneye` before, outside of a `venv`, uninstall it with `sudo python3 -m pip uninstall motioneye`, then follow the [installation](#installation) steps. Your configuration in `/etc/motioneye` is kept, and `motioneye_init` updates the systemd service.
 
 When upgrading motionEye, remember to restart the service. To rule out any mix of old in-memory backend code with new frontend assets, it is recommended to stop it prior to the upgrade, and start it back up afterwards:
 
