@@ -19,11 +19,10 @@ jobs:
     runs-on: ${{ matrix.dist }}
     name: ${{ matrix.dist }}
     steps:
-      # ERROR: Cannot uninstall pip 24.0, RECORD file not found. Hint: The package was installed by debian.
-      - run: sudo DEBIAN_FRONTEND=noninteractive apt-get -qq autopurge python3-pip python3-setuptools python3-wheel python3-dev
-      - run: curl -sSfO 'https://bootstrap.pypa.io/get-pip.py'
-      - run: sudo python3 get-pip.py
-      - run: sudo python3 -m pip install "https://github.com/${HEAD_REPO:-$GITHUB_REPOSITORY}/archive/${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}.tar.gz"
-      - run: sudo motioneye_init
+      - run: sudo apt-get -qq update
+      - run: sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends install python3-venv
+      - run: sudo python3 -m venv --upgrade-deps /opt/motioneye
+      - run: sudo /opt/motioneye/bin/pip install "https://github.com/${HEAD_REPO:-$GITHUB_REPOSITORY}/archive/${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}.tar.gz"
+      - run: sudo /opt/motioneye/bin/motioneye_init
       - run: i=0; until ss -tlpn | grep 8765; do [ $i -le 10 ] || { sudo journalctl -u motioneye; exit 1; }; sleep 1; i=$(( $i + 1 )); done
       - run: sudo systemctl status motioneye

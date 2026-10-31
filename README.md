@@ -19,45 +19,35 @@ _(Docker images are provided on [Docker Hub](https://hub.docker.com/r/motioneyep
 
 1. Install **Python 3.9 or later** and build dependencies
 
-    _Here the commands for APT-based Linux distributions are given._
-
-    Thanks to pre-compiled wheels from PyPI, installing motionEye usually does not require anything but Python 3 and cURL with the ability to do HTTPS network requests:
+    Here, the commands for APT-based Linux distributions are given:
 
     ```sh
     sudo apt update
-    sudo apt --no-install-recommends install ca-certificates curl python3
+    sudo apt --no-install-recommends install ca-certificates curl python3-venv
     ```
 
-    On **ARMv6/ARMv7 (32-bit), RISC-V, and other rare CPU architectures** additional build dependencies may be required to compile the [Pillow](https://pypi.org/project/pillow/), [PycURL](https://pypi.org/project/pycurl/), and [CFFI](https://github.com/python-cffi/cffi) modules:
+    > On **ARMv6/ARMv7 (32-bit), RISC-V, and other rare CPU architectures**, additional build dependencies may be required to compile the [Pillow](https://pypi.org/project/pillow/), [PycURL](https://pypi.org/project/pycurl/), and [CFFI](https://pypi.org/project/cffi/) modules:
+    >
+    > ```sh
+    > sudo apt --no-install-recommends install python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev libffi-dev
+    > ```
+
+2. Create a Python virtual environment (`venv`) for motionEye
 
     ```sh
-    sudo apt --no-install-recommends install python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev libffi-dev
-    ```
-
-2. Install the Python package manager `pip`
-
-    ```sh
-    curl -sSfO 'https://bootstrap.pypa.io/get-pip.py'
-    sudo python3 get-pip.py
-    rm get-pip.py
-    ```
-
-    **On recent distro versions, like Debian 12/Bookworm, Ubuntu 23.04/Lunar, and later**, the `libpython3.*-stdlib` package ships a file `/usr/lib/python3.*/EXTERNALLY-MANAGED`, which prevents the installation of Python modules outside of `venv` environments.
-    motionEye however has a small number of dependencies with no strict version requirements and hence is very unlikely to break any Python package you might have installed via APT. To bypass this block, add `break-system-packages=true` to the `[global]` section of your `pip.conf`:
-
-    ```sh
-    grep -q '\[global\]' /etc/pip.conf 2> /dev/null || printf '%b' '[global]\n' | sudo tee -a /etc/pip.conf > /dev/null
-    sudo sed -i '/^\[global\]/a\break-system-packages=true' /etc/pip.conf
+    sudo python3 -m venv --upgrade-deps /opt/motioneye
     ```
 
 3. Install and setup **motionEye**
 
     ```sh
-    sudo python3 -m pip install motioneye
-    sudo motioneye_init
+    sudo /opt/motioneye/bin/pip install motioneye
+    sudo /opt/motioneye/bin/motioneye_init
     ```
 
-    _NB: `motioneye_init` currently assumes either an APT- or RPM-based distribution with `systemd` as init system. For a manual setup, config and service files can be found here: <https://github.com/motioneye-project/motioneye/tree/dev/motioneye/extra>_
+    `motioneye_init` sets up the systemd service with the `meyectl` of the `venv`, hence it does not need to be activated. Another `meyectl` can be given with `--meyectl /path/to/meyectl`.
+
+    > `motioneye_init` currently assumes either an APT- or RPM-based distribution with `systemd` as init system. For a manual setup, config and service files can be found here: <https://github.com/motioneye-project/motioneye/tree/dev/motioneye/extra>
 
 4. Access the web interface
 
@@ -67,15 +57,17 @@ _(Docker images are provided on [Docker Hub](https://hub.docker.com/r/motioneyep
     http://[your_ip]:8765/
     ```
 
-    Use usernamme _admin_ with empty password when prompted for credentials. For security, __please do set up a proper password for the admin user__, at least if you plan to make your motionEye installation accessible from the Internet.
+    Use the username _admin_ with an empty password when prompted for credentials. Passwords must be set for both the admin and surveillance (view-only) user accounts when saving any configuration changes.
 
 # Upgrade
+
+> If motionEye was installed with `sudo python3 -m pip install motioneye` before, outside of a `venv`, uninstall it with `sudo python3 -m pip uninstall motioneye`, then follow the [installation](#installation) steps. Your configuration in `/etc/motioneye` is kept, and `motioneye_init` updates the systemd service.
 
 When upgrading motionEye, remember to restart the service. To rule out any mix of old in-memory backend code with new frontend assets, it is recommended to stop it prior to the upgrade, and start it back up afterwards:
 
 ```sh
 sudo systemctl stop motioneye
-sudo python3 -m pip install --upgrade motioneye
+sudo /opt/motioneye/bin/pip install --upgrade motioneye
 sudo systemctl start motioneye
 ```
 
@@ -85,7 +77,7 @@ We may push beta versions to PyPI to give upcoming releases some testing period.
 
 ```sh
 sudo systemctl stop motioneye
-sudo python3 -m pip install --upgrade --pre motioneye
+sudo /opt/motioneye/bin/pip install --upgrade --pre motioneye
 sudo systemctl start motioneye
 ```
 
@@ -93,6 +85,6 @@ If you want to test a recent commit on our development branch:
 
 ```sh
 sudo systemctl stop motioneye
-sudo python3 -m pip install --upgrade 'https://github.com/motioneye-project/motioneye/archive/dev.tar.gz'
+sudo /opt/motioneye/bin/pip install --upgrade 'https://github.com/motioneye-project/motioneye/archive/dev.tar.gz'
 sudo systemctl start motioneye
 ```
