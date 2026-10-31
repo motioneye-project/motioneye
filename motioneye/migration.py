@@ -61,9 +61,11 @@ def migrate_cameras() -> None:
         try:
             camera_config = dict(config.get_camera(camera_id))
             saved_by = camera_config.get(config.CONFIG_VERSION_KEY)
-            older = config_version(saved_by)
+            saved_version = config_version(saved_by)
             due = [
-                s for s in STEPS if s.every_start or older < config_version(s.version)
+                s
+                for s in STEPS
+                if s.every_start or saved_version < config_version(s.version)
             ]
             changed = False
             for step in due:
