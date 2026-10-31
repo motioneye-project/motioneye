@@ -19,12 +19,38 @@ import logging
 import re
 from shlex import split
 from shutil import disk_usage
+from typing import Callable, NamedTuple
 
+import motioneye
 from motioneye import config, settings
 
 
+class Step(NamedTuple):
+    version: str  # the motionEye release that introduced it
+    name: str  # for the log
+    run: Callable[[int, dict], bool]  # changes a camera config, returns whether it did
+    # also when the camera config is not older than the step, see STEPS
+    every_start: bool = False
+
+
+def config_version(value: object) -> tuple[int, int, int]:
+    # for comparing with a step: a pre-release or development version (0.45.0a1) counts
+    # as just below its release (0.45.-1), so the steps of that release run again; no
+    # version, or one that is not readable, counts as older than any step
+    text = str(value or '').strip()
+    found = re.match(r'(\d+)\.(\d+)\.(\d+)', text)
+    if not found:
+        return (-1, -1, -1)
+
+    major, minor, patch = (int(number) for number in found.groups())
+    if found.end() < len(text):
+        patch -= 1
+
+    return (major, minor, patch)
+
+
 def migrate_cameras() -> None:
-    # camera configs of older versions, restored ones included; never raises
+    # camera configs written by older versions, restored ones included; never raises
     try:
         camera_ids = config.get_camera_ids()
 
@@ -34,14 +60,25 @@ def migrate_cameras() -> None:
     for camera_id in camera_ids:
         try:
             camera_config = dict(config.get_camera(camera_id))
-            if not _move_notification_settings(camera_id, camera_config):
+            saved_by = camera_config.get(config.CONFIG_VERSION_KEY)
+            older = config_version(saved_by)
+            due = [
+                s for s in STEPS if s.every_start or older < config_version(s.version)
+            ]
+            changed = False
+            for step in due:
+                if step.run(camera_id, camera_config):
+                    logging.info(f'{step.name} of camera {camera_id}')
+                    changed = True
+
+            # unchanged and saved by this version: nothing to write
+            if not changed and saved_by == motioneye.VERSION:
                 continue
 
             if disk_usage(settings.CONF_PATH).free < 2**20:  # set_camera() truncates
                 raise OSError('less than 1 MiB free')
 
-            logging.info(f'moving notification settings of camera {camera_id}')
-            config.set_camera(camera_id, camera_config)
+            config.set_camera(camera_id, camera_config)  # with this version
 
         except Exception as e:
             config.invalidate()  # the cache must match the files
@@ -137,3 +174,11 @@ def _time_span(value: str) -> int:
 
 
 _OLD_SENDERS = {'sendmail': _old_sendmail, 'sendtelegram': _old_sendtelegram}
+
+# in order; a step must leave a camera config it already migrated alone
+STEPS = (
+    # 0.44 writes the old sendmail and sendtelegram lines again when its notification
+    # settings are saved, and keeps the version a newer release left in the file, so
+    # this step runs on every start for as long as going back to 0.44 is supported
+    Step('0.45.0', 'moving notification settings', _move_notification_settings, True),
+)
