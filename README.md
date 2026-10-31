@@ -45,7 +45,7 @@ _(Docker images are provided on [Docker Hub](https://hub.docker.com/r/motioneyep
     sudo /opt/motioneye/bin/motioneye_init
     ```
 
-    `motioneye_init` sets up the systemd service with the `meyectl` of the `venv`, hence it does not need to be activated. Another `meyectl` can be given with `--meyectl /path/to/meyectl`.
+    `motioneye_init` sets up a systemd service with its main executable `meyectl` from the `venv` path, respectively the Python environment the called `motioneye_init` belongs to. A custom `meyectl` path can be given with `--meyectl /path/to/meyectl`.
 
     > `motioneye_init` currently assumes either an APT- or RPM-based distribution with `systemd` as init system. For a manual setup, config and service files can be found here: <https://github.com/motioneye-project/motioneye/tree/dev/motioneye/extra>
 
