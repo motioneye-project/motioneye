@@ -42,7 +42,7 @@ class TestUrlopen(unittest.TestCase):
     def test_other_schemes_than_http_are_refused(self):
         refused = self.assertRaisesRegex(ValueError, 'Unsupported URL scheme')
         with patch('motioneye.utils._urlopen') as urlopen, refused:
-            utils.urlopen(Request('ftp://x/'))
+            utils.urlopen(Request('ftp://x/'))  # noqa: S310
 
         urlopen.assert_not_called()
 
