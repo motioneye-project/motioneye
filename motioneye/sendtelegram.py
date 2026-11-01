@@ -37,6 +37,9 @@ _CONNECT_TIMEOUT = 10
 # Telegram sometimes never answers a request it got: give up after this long
 # without data, rather than limiting the whole upload
 _STALL_TIMEOUT = 60
+# a socket timeout counts for the whole of a sendall(), so the body is sent in
+# pieces, each of which only has to go out within the stall timeout
+_UPLOAD_PIECE = 64 * 1024
 
 
 class TelegramError(RuntimeError):
@@ -60,7 +63,11 @@ def _post_once(path: str, body: bytes, content_type: str) -> None:
             raise _NotConnected(f'could not connect to {_HOST}: {e}') from e
 
         conn.sock.settimeout(_STALL_TIMEOUT)
-        conn.request('POST', path, body, {'Content-Type': content_type})
+        pieces = (
+            body[i : i + _UPLOAD_PIECE] for i in range(0, len(body), _UPLOAD_PIECE)
+        )
+        headers = {'Content-Type': content_type, 'Content-Length': str(len(body))}
+        conn.request('POST', path, pieces, headers)
         response = conn.getresponse()
         code = response.status
         reply = response.read()

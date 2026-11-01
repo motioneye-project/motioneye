@@ -97,7 +97,9 @@ class _FakeConnection:
         self.stall_timeout = timeout
 
     def request(self, method, path, body, headers):
-        self.request_args = (method, path, body, headers)
+        body = list(body)
+        self.pieces = [len(piece) for piece in body]
+        self.request_args = (method, path, b''.join(body), headers)
 
     def getresponse(self):
         reply = self.replies.pop(0)
@@ -193,6 +195,20 @@ class SendMessageTest(unittest.TestCase):
         self._send([_OK])
 
         self.assertEqual(60, self.connections[0].stall_timeout)
+
+    def test_sends_a_picture_in_pieces(self):
+        # a socket timeout counts for a whole sendall(), so one piece would limit
+        # the whole upload to 60 s; each piece only has to go out within 60 s
+        with open(self.pictures[0], 'wb') as f:
+            f.write(b'\xff' * (200 * 1024))
+
+        self._send([_OK], files=self.pictures[:1])
+
+        connection = self.connections[0]
+        _method, _path, body, headers = connection.request_args
+        self.assertEqual(str(len(body)), headers['Content-Length'])
+        self.assertGreater(len(connection.pieces), 3)
+        self.assertLessEqual(max(connection.pieces), 64 * 1024)
 
     def test_raises_telegrams_description_when_rejected(self):
         reply = b'{"ok": false, "error_code": 401, "description": "Unauthorized"}'
