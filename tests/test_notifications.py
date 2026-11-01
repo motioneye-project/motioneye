@@ -80,6 +80,7 @@ class _FakeCurl:
         self.replies = list(replies)
         self.options = {}
         self.posts = []
+        self.fresh_connects = []  # per request, whether FRESH_CONNECT was set
         self.closed = False
 
     def __getattr__(self, name):
@@ -90,22 +91,29 @@ class _FakeCurl:
 
     def perform(self):
         reply = self.replies.pop(0)
-        if isinstance(reply, Exception):
+        self.fresh_connects.append(self.options.get(pycurl.FRESH_CONNECT) == 1)
+        self.uploaded = 0
+        if isinstance(reply, pycurl.error):
             raise reply
 
         self.posts.append(self.options.get(pycurl.HTTPPOST))
+        self.uploaded = 1000
+        if reply is _STALLED:
+            raise pycurl.error(28, 'Operation too slow')
+
         self.code, body = reply
         if pycurl.WRITEDATA in self.options:
             self.options[pycurl.WRITEDATA].write(body)
 
     def getinfo(self, info):
-        return self.code
+        return self.uploaded if info == pycurl.SIZE_UPLOAD else self.code
 
     def close(self):
         self.closed = True
 
 
 _OK = (200, b'{"ok": true, "result": {}}')
+_STALLED = object()  # sent, but the reply never came
 _TOKEN = '123:secret'
 _PICTURES = ['/0.jpg', '/Küche/1.jpg', '/2.jpg']
 
@@ -198,24 +206,70 @@ class SendMessageTest(unittest.TestCase):
         )
         self.assertTrue(curl.closed)
 
-    def test_stops_at_a_curl_error_after_one_retry(self):
-        for files in ((), _PICTURES):
-            with self.subTest(pictures=len(files)):
-                timeout = pycurl.error(28, 'Operation timed out')
-                curl = _FakeCurl([timeout, timeout])
-                with self.assertRaises(pycurl.error):
-                    self._send(curl, files=files, chat_id='42')
+    def test_raises_a_curl_error_after_one_retry(self):
+        timeout = pycurl.error(28, 'Connection timed out')
+        curl = _FakeCurl([timeout, timeout])
+        with self.assertRaises(pycurl.error):
+            self._send(curl)
 
-                self.assertEqual([5], self.sleeps)
-                self.assertTrue(curl.closed)
+        self.assertEqual([5], self.sleeps)
+        self.assertEqual([False, True], curl.fresh_connects)
+        self.assertTrue(curl.closed)
 
-    def test_retries_once_after_a_curl_error(self):
-        curl = _FakeCurl([pycurl.error(92, 'HTTP/2 stream was not closed'), _OK])
+    def test_retries_once_on_a_new_connection_when_nothing_was_sent(self):
+        curl = _FakeCurl([pycurl.error(6, 'Could not resolve host'), _OK])
         with self.assertLogs(level='WARNING') as logs:
             self._send(curl)
 
         self.assertEqual([5], self.sleeps)
+        self.assertEqual([False, True], curl.fresh_connects)
         self.assertIn('telegram request failed, retrying in 5s', logs.output[0])
+
+    def test_does_not_retry_once_something_was_sent(self):
+        curl = _FakeCurl([_STALLED])
+        with self.assertRaises(pycurl.error):
+            self._send(curl)
+
+        self.assertEqual([], self.sleeps)
+        self.assertTrue(curl.closed)
+
+    def test_sends_the_other_pictures_on_new_connections_after_a_curl_error(self):
+        curl = _FakeCurl([_STALLED, _OK, _OK])
+        with (
+            self.assertLogs(level='ERROR') as logs,
+            self.assertRaisesRegex(RuntimeError, '^1 of 3 pictures not sent$'),
+        ):
+            self._send(curl, files=_PICTURES)
+
+        self.assertEqual([], self.sleeps)
+        self.assertEqual(3, len(curl.posts))
+        self.assertEqual([False, True, True], curl.fresh_connects)
+        self.assertIn('failed to send "0.jpg": (28, ', logs.output[0])
+        self.assertTrue(curl.closed)
+
+    def test_sends_the_other_pictures_after_a_failed_retry(self):
+        timeout = pycurl.error(28, 'Connection timed out')
+        curl = _FakeCurl([timeout, timeout, _OK, _OK])
+        with (
+            self.assertLogs(level='WARNING'),
+            self.assertRaisesRegex(RuntimeError, '^1 of 3 pictures not sent$'),
+        ):
+            self._send(curl, files=_PICTURES)
+
+        self.assertEqual([5], self.sleeps)
+        self.assertEqual(2, len(curl.posts))
+        self.assertEqual([False, True, True, True], curl.fresh_connects)
+
+    def test_uses_new_connections_after_a_retry_stalls(self):
+        curl = _FakeCurl([_too_many_requests(3), _STALLED, _OK, _OK])
+        with (
+            self.assertLogs(level='WARNING'),
+            self.assertRaisesRegex(RuntimeError, '^1 of 3 pictures not sent$'),
+        ):
+            self._send(curl, files=_PICTURES)
+
+        self.assertEqual([3], self.sleeps)
+        self.assertEqual([False, False, True, True], curl.fresh_connects)
 
     def test_waits_as_long_as_flood_control_asks(self):
         curl = _FakeCurl([_too_many_requests(3), _OK])
