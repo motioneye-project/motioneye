@@ -31,9 +31,10 @@ def main():
     if os.access(meyectl, os.X_OK):
         args += ['--meyectl', meyectl]
 
+    init = 'freebsd_init' if sys.platform.startswith('freebsd') else 'linux_init'
     # given after it, so that --meyectl given on the command line takes precedence
     run(
-        [f'{motioneye.__path__[0]}/extra/linux_init', *args, *sys.argv[1:]],
+        [f'{motioneye.__path__[0]}/extra/{init}', *args, *sys.argv[1:]],
         cwd=motioneye.__path__[0],
         check=False,
     )
