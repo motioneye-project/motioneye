@@ -3465,6 +3465,7 @@ function runLoginDialog(retry) {
                     '<td class="dialog-item-label"><span class="dialog-item-label">'
                         +i18n.gettext("Remember me") + '</span></td>' +
                     '<td class="dialog-item-value"><input type="checkbox" name="remember" class="styled" id="rememberCheck" checked></td>' +
+                    '<td><span class="help-mark" title="'+i18n.gettext("keeps you logged in after the browser is closed: for 24 hours as the admin, for 30 days as the surveillance user")+'">?</span></td>' +
                 '</tr>' +
             '</table></form>');
 
