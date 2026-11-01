@@ -76,7 +76,7 @@ def find_motion():
 
 
 def start(deferred=False):
-    from motioneye import config, mjpgclient
+    from motioneye import config, mjpgclient, wsswitch
 
     if deferred:
         IOLoop.current().add_callback(start, deferred=False)
@@ -138,6 +138,8 @@ def start(deferred=False):
 
     # Clear motion detection status cache to cover start() without stop() from server._motion_checker
     _motion_detection = {}
+    # motion starts with the configured state, which wsswitch has to check again
+    wsswitch.clear_cache()
 
     # disable motion detection if version < 4.4, otherwise the new "pause" setting does
     if not is_motion_post43():

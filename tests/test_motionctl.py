@@ -25,7 +25,7 @@ from subprocess import DEVNULL, Popen, TimeoutExpired
 from tempfile import mkdtemp
 from unittest.mock import Mock, patch
 
-from motioneye import config, motionctl, settings
+from motioneye import config, motionctl, settings, wsswitch
 
 
 class MotionLogFileTest(unittest.TestCase):
@@ -118,6 +118,12 @@ class MotionLogFileTest(unittest.TestCase):
         # keeps early startup logs, until motion switches to the file
         self.assertIsNone(kwargs['stdout'])
         self.assertIsNone(kwargs['stderr'])
+
+    def test_the_working_schedule_checks_the_state_again(self):
+        with patch.object(wsswitch, '_ws_state', {1: False}):
+            self._start(log_to_file=False)
+
+            self.assertEqual({}, wsswitch._ws_state)
 
     def test_the_process_is_kept_without_a_pid_file(self):
         self._start(log_to_file=False)
