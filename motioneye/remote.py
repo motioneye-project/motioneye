@@ -359,6 +359,37 @@ async def test(local_config, data) -> utils.CommonExternalResponse:
     )  # it will never return result = True, what the point?
 
 
+async def get_authorize_url(local_config, service: str) -> str | None:
+    scheme, host, port, remote_secret, path, camera_id, verify = _remote_params(
+        local_config
+    )
+    request = _make_request(
+        scheme,
+        host,
+        port,
+        remote_secret,
+        path + f'/config/{camera_id}/authorize/',
+        query={'service': service},
+        validate_cert=verify,
+    )
+    try:
+        response = await AsyncHTTPClient().fetch(request, raise_error=False)
+
+    except Exception as e:
+        logging.error(f'failed to get the authorization url of {service}: {e}')
+        return None
+
+    # the remote answers with a redirect to the authorization url
+    url = response.headers.get('Location') if response.code in (301, 302) else None
+    if not url:
+        logging.error(
+            f'failed to get the authorization url of {service} from remote camera '
+            f'{camera_id}, on {pretty_camera_url(local_config)}: {response.code}'
+        )
+
+    return url
+
+
 async def get_current_picture(
     local_config, width, height
 ) -> utils.GetCurrentPictureResponse:
