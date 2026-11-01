@@ -6,7 +6,8 @@ from json import loads
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import tornado.testing
-from tornado.httpclient import HTTPClientError, HTTPRequest, HTTPResponse
+from tornado.httpclient import HTTPRequest, HTTPResponse
+from tornado.simple_httpclient import HTTPTimeoutError
 
 from motioneye import config, motionctl, settings
 from motioneye.handlers.action import ActionHandler
@@ -136,9 +137,14 @@ class LocalActionTest(_LocalActionCase):
 
     def test_a_failed_action_reports_why(self):
         failures = {
+            # what Tornado's own client raises, rather than an HTTPClientError
             'motion is not reachable': (
-                {'side_effect': HTTPClientError(599, 'Connection refused')},
+                {'side_effect': ConnectionRefusedError(111, 'Connection refused')},
                 'Connection refused',
+            ),
+            'motion does not answer in time': (
+                {'side_effect': HTTPTimeoutError('Timeout during request')},
+                'Timeout',
             ),
             'motion answers with an error': (
                 {'return_value': _motion_answer(500)},
@@ -181,7 +187,9 @@ class LocalActionTest(_LocalActionCase):
                 self.client.fetch.assert_not_called()
 
     def test_a_failed_detection_action_leaves_the_status_to_be_asked_again(self):
-        self.motion_answers(side_effect=HTTPClientError(599, 'Connection refused'))
+        self.motion_answers(
+            side_effect=ConnectionRefusedError(111, 'Connection refused')
+        )
         with self.assertLogs(level='ERROR'):
             self.post('detectionpause')
         self.motion_answers(
