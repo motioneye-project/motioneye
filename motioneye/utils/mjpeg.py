@@ -144,8 +144,8 @@ def test_mjpeg_url(
         except Exception as e:
             # network errors and timeouts raise, even after a stream was recognized;
             # some name the whole URL, whose query may hold a password
-            error = Exception(str(e).replace(url, log_url))
-            response = HTTPResponse(HTTPRequest(url), 599, error=error)
+            safe = Exception(str(e).replace(url, log_url))
+            response = HTTPResponse(HTTPRequest(url), 599, error=safe)
 
         if called[0]:
             return
