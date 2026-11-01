@@ -1,0 +1,68 @@
+#!/bin/sh
+
+set -e
+
+if [ "$(id -u)" -ne 0 ]; then
+  echo 'ERROR: Root permissions required. Please run this command as root user, via "sudo", "doas" or "su". Aborting ...'
+  exit 1
+fi
+
+# Process CLI arguments
+SKIP_RC=0
+MEYECTL=''
+while [ $# -gt 0 ]; do
+  case "$1" in
+    '--skip-rc') SKIP_RC=1;;
+    '--meyectl') [ $# -gt 1 ] || { echo 'ERROR: Missing path after "--meyectl". Aborting ...'; exit 1; }; MEYECTL=$2; shift;;
+    *) echo "ERROR: Invalid command-line argument \"$1\". Aborting ..."; exit 1;;
+  esac
+  shift
+done
+if [ "$MEYECTL" ] && ! { [ -f "$MEYECTL" ] && [ -x "$MEYECTL" ]; }; then
+  echo "ERROR: meyectl executable \"$MEYECTL\" given with --meyectl does not exist. Aborting ..."
+  exit 1
+fi
+
+# Install dependencies
+echo 'INFO: Installing motionEye dependencies'
+pkg install -y motion v4l-utils ffmpeg curl
+
+# Run motionEye as the motion user, as on Linux, in the webcamd group if present, to access USB cameras
+if ! pw usershow motion > /dev/null 2>&1; then
+  pw useradd motion -c 'motion and motionEye' -d /nonexistent -s /usr/sbin/nologin
+fi
+if pw groupshow webcamd > /dev/null 2>&1; then
+  pw groupmod webcamd -m motion
+fi
+
+# Pre-create config and data dirs and install configuration files, at the FreeBSD locations
+for dir in /usr/local/etc/motioneye /var/run/motioneye /var/log/motioneye /var/db/motioneye; do
+  [ -d "$dir" ] || mkdir "$dir"
+  chown motion:motion "$dir"
+done
+if ! [ -f '/usr/local/etc/motioneye/motioneye.conf' ]; then
+  sed -e 's|^conf_path .*|conf_path /usr/local/etc/motioneye|' \
+      -e 's|^run_path .*|run_path /var/run/motioneye|' \
+      -e 's|^media_path .*|media_path /var/db/motioneye|' \
+      extra/motioneye.conf.sample > /usr/local/etc/motioneye/motioneye.conf
+fi
+chown -R motion:motion /usr/local/etc/motioneye
+# The settings may contain credentials (motion_control_authentication), and motionEye is not supposed to write to this file
+chown root:motion /usr/local/etc/motioneye/motioneye.conf
+chmod 0640 /usr/local/etc/motioneye/motioneye.conf
+
+[ "$SKIP_RC" = 1 ] && exit 0
+
+# Install service
+install -m 0555 extra/motioneye.rc /usr/local/etc/rc.d/motioneye
+# - Use the meyectl given, e.g. by motioneye_init from a venv, or the one in PATH if not at /usr/local/bin/meyectl
+if [ "$MEYECTL" ] || ! [ -f '/usr/local/bin/meyectl' ]; then
+  if meyectl_path=${MEYECTL:-$(command -v meyectl)}; then
+    echo "Using $meyectl_path for the rc.d service"
+    sysrc motioneye_meyectl="$meyectl_path"
+  else
+    echo 'ERROR: meyectl executable has not been found. rc.d service will fail to start. Please check your motionEye installation.'
+  fi
+fi
+sysrc motioneye_enable=YES
+service motioneye restart

@@ -60,6 +60,13 @@ class TestMotionEyeInit(unittest.TestCase):
             [self.linux_init, '--skip-systemd'], self._main('--skip-systemd')
         )
 
+    def test_freebsd_init_is_run_on_freebsd(self):
+        with mock.patch.object(motioneye_init.sys, 'platform', 'freebsd15'):
+            self.assertEqual(
+                [f'{motioneye.__path__[0]}/extra/freebsd_init', '--skip-rc'],
+                self._main('--skip-rc'),
+            )
+
 
 if __name__ == '__main__':
     unittest.main()
