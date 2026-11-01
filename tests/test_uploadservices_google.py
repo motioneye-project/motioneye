@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
+import tempfile
 import unittest
 from base64 import urlsafe_b64encode
 from hashlib import sha256
@@ -26,6 +27,7 @@ from motioneye import uploadservices
 from motioneye.uploadservices import GoogleDrive, GooglePhoto
 
 _CODE = '4/0Ab32j93'
+_CREDENTIALS = {'access_token': 'a', 'refresh_token': 'r'}
 
 
 class TestGoogleAuthorization(unittest.TestCase):
@@ -92,6 +94,89 @@ class TestGoogleAuthorization(unittest.TestCase):
             GoogleDrive(camera_id=1)._request_credentials(_CODE)
 
         urlopen.assert_not_called()
+
+
+class TestCredentialsFromTheTest(unittest.TestCase):
+    """The test obtains the credentials with a service of its own; uploads and
+    Apply use the one kept in memory, which has to get them too (#3512)."""
+
+    def setUp(self):
+        conf = tempfile.TemporaryDirectory()
+        self.addCleanup(conf.cleanup)
+        for target, value in (
+            (uploadservices.settings, ('CONF_PATH', conf.name)),
+            (uploadservices, ('_services', None)),
+        ):
+            p = patch.object(target, *value)
+            p.start()
+            self.addCleanup(p.stop)
+
+        for method, kwargs in (
+            ('_request_credentials', {'return_value': dict(_CREDENTIALS)}),
+            ('_get_folder_id', {'side_effect': self._get_folder_id}),
+        ):
+            p = patch.object(GoogleDrive, method, autospec=True, **kwargs)
+            p.start()
+            self.addCleanup(p.stop)
+
+    @staticmethod
+    def _get_folder_id(service, path=''):
+        # what the folder lookup does first: obtain the credentials, and save them
+        if not service._credentials:
+            service._credentials = service._request_credentials(
+                service._authorization_key
+            )
+            service.save()
+
+        return 'folder'
+
+    def test_uploads_and_apply_keep_the_credentials_of_the_test(self):
+        # the service was in use before the key was obtained, e.g. applied once
+        uploadservices.update(1, 'gdrive', {'location': '/cams'})
+
+        result = uploadservices.test_access(
+            1, 'gdrive', {'location': '/cams', 'authorization_key': _CODE}
+        )
+        self.assertIs(True, result)
+
+        # the key field is cleared after the test, so Apply sends no key
+        uploadservices.update(1, 'gdrive', {'location': '/cams'})
+
+        service = uploadservices._get_service(1, 'gdrive')
+        self.assertEqual(_CREDENTIALS, service.dump()['credentials'])
+        uploadservices._services = None  # as after a restart
+        stored = uploadservices._get_service(1, 'gdrive').dump()
+        self.assertEqual(_CREDENTIALS, stored['credentials'])
+        # the key is spent once the credentials were obtained, so it is not kept
+        self.assertIsNone(stored['authorization_key'])
+
+    def test_unsaved_settings_of_the_test_are_not_applied(self):
+        uploadservices.update(1, 'gdrive', {'location': '/cams'})
+
+        uploadservices.test_access(
+            1, 'gdrive', {'location': '/other', 'authorization_key': _CODE}
+        )
+
+        service = uploadservices._get_service(1, 'gdrive')
+        self.assertEqual('/cams', service.dump()['location'])
+        self.assertEqual(_CREDENTIALS, service.dump()['credentials'])
+        # also in the state file, which the test's own service had written
+        uploadservices._services = None  # as after a restart
+        stored = uploadservices._get_service(1, 'gdrive').dump()
+        self.assertEqual('/cams', stored['location'])
+        self.assertEqual(_CREDENTIALS, stored['credentials'])
+
+    def test_a_failed_test_changes_nothing(self):
+        uploadservices.update(1, 'gdrive', {'location': '/cams'})
+        GoogleDrive._request_credentials.side_effect = RuntimeError('invalid_grant')
+
+        result = uploadservices.test_access(
+            1, 'gdrive', {'location': '/other', 'authorization_key': _CODE}
+        )
+
+        self.assertEqual('invalid_grant', result)
+        stored = uploadservices._get_service(1, 'gdrive').dump()
+        self.assertEqual(('/cams', None), (stored['location'], stored['credentials']))
 
 
 if __name__ == '__main__':

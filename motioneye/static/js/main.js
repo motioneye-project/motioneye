@@ -423,7 +423,8 @@ function authorizeUpload() {
     });
 
     var content = $('<div></div>').append(steps).append(
-        $('<p></p>').text(i18n.gettext("The key only works with this link, and until motionEye is restarted."))
+        $('<p></p>').text(i18n.gettext("The key only works with this link, and until motionEye is restarted.")),
+        $('<p></p>').text(i18n.gettext("Testing the upload with the new key replaces the current Google authorization, even before the settings are applied."))
     );
 
     runModalDialog({

@@ -549,7 +549,7 @@ table.edit-credentials-dialog {
 }
 
 ol.authorize-steps,
-ol.authorize-steps + p {
+ol.authorize-steps ~ p {
     max-width: 30em;
 }
 

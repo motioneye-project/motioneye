@@ -1375,7 +1375,16 @@ def test_access(camera_id: int, service_name: str, data: dict) -> bool | str:
 
     service: UploadService = cls(camera_id=str(camera_id))
     service.load(data)
-    return service.test_access()
+    result = service.test_access()
+    if result is True:
+        # the key is spent, so the credentials obtained with it go to the service in
+        # use and the state file, as with Apply; the other settings of the test
+        # stay unapplied until Apply
+        credentials: dict | None = service.dump().get('credentials')
+        if credentials:
+            update(camera_id, service_name, {'credentials': credentials})
+
+    return result
 
 
 def update(camera_id: int, service_name: str, settings: dict) -> None:
