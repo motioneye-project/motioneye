@@ -37,6 +37,8 @@ _remote_movie_cache_locks: dict[str, Lock] = {}
 
 
 def _write_cache_file(tmpfile: str, data: bytes) -> None:
+    # created here, as it may be gone since the start, e.g. by systemd-tmpfiles
+    os.makedirs(os.path.dirname(tmpfile), exist_ok=True)
     Path(tmpfile + '.part').write_bytes(data)
     os.replace(tmpfile + '.part', tmpfile)
 
@@ -44,8 +46,6 @@ def _write_cache_file(tmpfile: str, data: bytes) -> None:
 # support fetching movies with authentication
 class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
     tmpdir: str = gettempdir() + '/MotionEye'
-    if not os.path.exists(tmpdir):
-        os.mkdir(tmpdir)
 
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
@@ -124,6 +124,9 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
         # delete any cached file older than an hour
         stale_time: float = time() - (60 * 60)
         try:
+            if not os.path.isdir(self.tmpdir):
+                return  # nothing cached yet
+
             for f in os.listdir(self.tmpdir):
                 f = os.path.join(self.tmpdir, f)
                 if os.path.isfile(f) and os.stat(f).st_atime <= stale_time:

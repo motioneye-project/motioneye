@@ -58,6 +58,18 @@ class RemoteMoviePlaybackTest(RemoteCameraTestCase):
             self.assertTrue(name.endswith('.mp4'), name)
         self.assertNotIn('f29test.mp4', cached)
 
+    def test_the_cache_dir_is_created_again_when_removed(self):
+        # e.g. by systemd-tmpfiles, which removes old entries in /tmp
+        rmtree(self._tmpdir)
+
+        with patch('motioneye.handlers.movie_playback.logging.exception') as log:
+            response = self.fetch_playback('f29test.mp4', b'mp4')
+
+        log.assert_not_called()  # "could not delete temp file"
+        self.assertEqual(200, response.code)
+        self.assertEqual(b'mp4', response.body)
+        self.assertEqual(1, len(os.listdir(self._tmpdir)))
+
     def test_an_mpg_movie_is_video_mpeg(self):
         response = self.fetch_playback('f29test.mpg', b'mpg')
 
