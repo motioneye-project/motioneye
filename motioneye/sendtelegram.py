@@ -42,7 +42,14 @@ class TelegramError(RuntimeError):
 def _perform_once(c):
     reply = BytesIO()
     c.setopt(c.WRITEDATA, reply)
-    c.perform()
+    try:
+        c.perform()
+
+    except pycurl.error:
+        # curl would reuse a stalled HTTP/2 connection, so use new ones from now on
+        c.setopt(c.FRESH_CONNECT, 1)
+        raise
+
     code = c.getinfo(c.RESPONSE_CODE)
     try:
         result = json.loads(reply.getvalue())
@@ -66,7 +73,8 @@ def _perform(c, retry):
         return
 
     except pycurl.error as e:
-        if not retry:
+        # Telegram may have it once it was sent, even if the reply is lost or late
+        if not retry or c.getinfo(c.SIZE_UPLOAD) > 0:
             raise
 
         delay = 5
@@ -117,7 +125,7 @@ def send_message(api_key, chat_id, message, files, retry=True):
                 try:
                     _perform(c, retry)
 
-                except RuntimeError as e:
+                except (RuntimeError, pycurl.error) as e:
                     logging.error(f'failed to send "{os.path.basename(f)}": {e}')
                     failed += 1
 
