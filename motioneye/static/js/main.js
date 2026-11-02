@@ -3461,11 +3461,20 @@ function runLoginDialog(retry) {
                         +i18n.gettext("Pasvorto") + '</span></td>' +
                     '<td class="dialog-item-value"><input type="password" name="password" class="styled" id="passwordEntry"></td>' +
                 '</tr>' +
+                '<tr>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'
+                        +i18n.gettext("Remember me") + '</span></td>' +
+                    '<td class="dialog-item-value"><input type="checkbox" name="remember" class="styled" id="rememberCheck" checked></td>' +
+                    '<td><span class="help-mark" title="'+i18n.gettext("keeps you logged in after the browser is closed: for 24 hours as the admin, for 30 days as the surveillance user")+'">?</span></td>' +
+                '</tr>' +
             '</table></form>');
 
     var usernameEntry = form.find('#usernameEntry');
     var passwordEntry = form.find('#passwordEntry');
+    var rememberCheck = form.find('#rememberCheck');
     var errorTd = form.find('td.login-dialog-error');
+
+    makeCheckBox(rememberCheck);
 
     // A failed session check should prompt login prompt.
     if (window._loginRetry) {
@@ -3487,7 +3496,9 @@ function runLoginDialog(retry) {
                     type: 'POST',
                     data: {
                         username: username,
-                        password: password
+                        password: password,
+                        /* otherwise the session cookie is dropped when the browser is closed */
+                        remember: rememberCheck[0].checked ? 1 : 0
                     },
                     success: function(data) {
                         if (data.error) {
