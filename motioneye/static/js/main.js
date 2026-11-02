@@ -407,7 +407,33 @@ function authorizeUpload() {
     var service = $('#uploadServiceSelect').val();
     var cameraId = $('#cameraSelect').val();
     var url = basePath + 'config/' + cameraId + '/authorize/?service=' + service;
-    window.open(url, '_blank');
+    if (service != 'gdrive' && service != 'gphoto') {
+        window.open(url, '_blank');
+        return;
+    }
+
+    /* Google sends the browser to a loopback address that does not load, with the key in it */
+    var steps = $('<ol class="authorize-steps"></ol>');
+    [
+        i18n.gettext("Sign in to Google in the new tab, and allow access."),
+        i18n.gettext("The tab then shows a page that cannot be loaded, at an address starting with http://127.0.0.1/. This is expected."),
+        i18n.gettext("Copy the whole address from the address bar of that tab, and paste it as the authorization key."),
+    ].forEach(function (step) {
+        steps.append($('<li></li>').text(step));
+    });
+
+    var content = $('<div></div>').append(steps).append(
+        $('<p></p>').text(i18n.gettext("Testing the upload with the new key replaces the current Google authorization, even before the settings are applied."))
+    );
+
+    runModalDialog({
+        title: i18n.gettext("Obtaining the key from Google"),
+        content: content,
+        buttons: 'okcancel',
+        onOk: function () {
+            window.open(url, '_blank');
+        }
+    });
 }
 
 
