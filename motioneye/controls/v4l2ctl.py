@@ -27,7 +27,6 @@ _resolutions_cache: dict = {}
 _ctrls_cache: dict = {}
 
 _DEV_V4L_BY_ID = '/dev/v4l/by-id/'
-_V4L2_TIMEOUT = 10
 
 
 def find_v4l2_ctl():
@@ -49,7 +48,7 @@ def list_devices():
             ['v4l2-ctl', '--list-devices'], stderr=subprocess.STDOUT
         )
 
-    except:
+    except Exception:
         logging.debug(f'v4l2-ctl error: {output}')
 
     name = None
@@ -85,12 +84,13 @@ def list_resolutions(device):
 
     resolutions = set()
     output = b''
-    cmd = f"v4l2-ctl -d {quote(device)} --list-formats-ext | grep -vi stepwise | grep -oE '[0-9]+x[0-9]+' || true"
+    cmd = f"v4l2-ctl -d {quote(device)} --list-formats-ext | grep -vi stepwise | grep -oE '[0-9]+x[0-9]+'"
     logging.debug(f'running command "{cmd}"')
 
     try:
-        output = utils.call_subprocess(cmd, shell=True, stderr=utils.DEV_NULL)
-    except:
+        output = utils.call_subprocess(cmd, shell=True, check=False)  # nosec: B604
+
+    except Exception:
         logging.error(f'failed to list resolutions of device "{device}"')
 
     output = utils.make_str(output)
@@ -124,7 +124,7 @@ def list_resolutions(device):
         resolutions = utils.COMMON_RESOLUTIONS
         resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
 
-    resolutions = list(sorted(resolutions, key=lambda r: (r[0], r[1])))
+    resolutions = sorted(resolutions, key=lambda r: (r[0], r[1]))
     _resolutions_cache[device] = resolutions
 
     return resolutions
@@ -137,7 +137,7 @@ def device_present(device):
         st = os.stat(device)
         return stat.S_ISCHR(st.st_mode)
 
-    except:
+    except Exception:
         return False
 
 
@@ -170,7 +170,7 @@ def list_ctrls(device):
 
     try:
         output = utils.call_subprocess(cmd, stderr=subprocess.STDOUT)
-    except:
+    except Exception:
         logging.error(f'failed to list controls of device "{device}"')
 
     controls = {}
@@ -180,16 +180,34 @@ def list_ctrls(device):
         if not line:
             continue
 
-        match = re.match(r'^\s*(\w+)\s+([a-f0-9x\s]+)?\(\w+\)\s*:\s*(.+)\s*', line)
+        match = re.match(r'^\s*(\w+)\s+([a-f0-9x\s]+)?\((\w+)\)\s*:\s*(.+)\s*', line)
         if not match:
             continue
 
-        control, _, properties = match.groups()
+        control, id_hex, ctrl_type, properties = match.groups()
         properties = dict(
             [v.split('=', 1) for v in properties.split(' ') if v.count('=')]
         )
+        if ctrl_type == 'bool':
+            # v4l2-ctl --list-ctrls gives no min/max for bool controls, so set them here
+            properties.setdefault('min', '0')
+            properties.setdefault('max', '1')
+
+        # Motion matches controls by ID. We use ID because the driver's raw
+        # name doesn't always match the name v4l2-ctl gives (e.g. driver:
+        # "White Balance, Automatic" vs. v4l2-ctl: "white_balance_automatic")
+        if id_hex:
+            try:
+                properties['control_id'] = f'ID{int(id_hex, 16):08d}'
+            except ValueError:
+                logging.warning(
+                    f'could not parse v4l2 control id "{id_hex}" for "{control}"'
+                )
+
         controls[control] = properties
 
-    _ctrls_cache[device] = controls
+    # don't cache an empty result, the cache has no expiry
+    if controls:
+        _ctrls_cache[device] = controls
 
     return controls

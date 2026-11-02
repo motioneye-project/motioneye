@@ -15,18 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import datetime
+import asyncio
 import json
 import logging
-import socket
+import ssl
+from datetime import datetime
+from socket import gethostname
 from urllib.parse import urlparse
 
-from tornado.ioloop import IOLoop
 from tornado.web import HTTPError
 
 from motioneye import (
     config,
     meyectl,
+    migration,
     motionctl,
     remote,
     settings,
@@ -34,8 +36,7 @@ from motioneye import (
     uploadservices,
     utils,
 )
-from motioneye.controls import mmalctl, smbctl, tzctl, v4l2ctl
-from motioneye.controls.powerctl import PowerControl
+from motioneye.controls import mmalctl, smbctl, v4l2ctl
 from motioneye.handlers.base import BaseHandler
 from motioneye.utils.mjpeg import test_mjpeg_url
 from motioneye.utils.rtmp import test_rtmp_url
@@ -45,6 +46,30 @@ __all__ = ('ConfigHandler',)
 
 
 class ConfigHandler(BaseHandler):
+    # fields visible to the normal/surveillance user
+    _NON_ADMIN_CAMERA_FIELDS = frozenset(
+        {
+            'id',
+            'name',
+            'enabled',
+            'proto',
+            'actions',
+            'streaming_framerate',
+            'streaming_server_resize',
+            'url',  # only for simple mjpeg cameras
+        }
+    )
+
+    def _sanitize_camera_on_usertype(self, camera: dict) -> dict:
+        if self.current_user in ['admin', 'peer']:
+            return camera
+
+        return {
+            key: value
+            for key, value in camera.items()
+            if key in self._NON_ADMIN_CAMERA_FIELDS
+        }
+
     async def get(self, camera_id=None, op=None):
         config.invalidate_monitor_commands()
 
@@ -53,17 +78,17 @@ class ConfigHandler(BaseHandler):
 
         if op == 'get':
             await self.get_config(camera_id)
-            return
+            return None
 
         elif op == 'list':
             await self.list()
-            return
+            return None
 
         elif op == 'backup':
             return self.backup()
 
         elif op == 'authorize':
-            return self.authorize()
+            return await self.authorize(camera_id)
 
         else:
             raise HTTPError(400, 'unknown operation')
@@ -74,11 +99,11 @@ class ConfigHandler(BaseHandler):
 
         if op == 'set':
             await self.set_config(camera_id)
-            return
+            return None
 
         elif op == 'add':
             await self.add_camera()
-            return
+            return None
 
         elif op == 'rem':
             return self.rem_camera(camera_id)
@@ -88,13 +113,14 @@ class ConfigHandler(BaseHandler):
 
         elif op == 'list':
             await self.list()
-            return
+            return None
 
         elif op == 'credentials':
             return await self.set_credentials(camera_id)
 
         elif op == 'test':
             await self.test(camera_id)
+            return None
 
         else:
             raise HTTPError(400, 'unknown operation')
@@ -124,6 +150,10 @@ class ConfigHandler(BaseHandler):
             local_config['@path'] = parsed.path or '/'
             if data.get('remote_secret'):
                 local_config['@remote_secret'] = data['remote_secret']
+            if data.get('remote_verify') is not None:
+                local_config['@remote_verify'] = utils.verify_setting(
+                    data['remote_verify']
+                )
             config.set_camera(camera_id, local_config)
             return self.finish_json()
 
@@ -168,9 +198,7 @@ class ConfigHandler(BaseHandler):
             elif utils.is_remote_camera(local_config):
                 resp = await remote.get_config(local_config)
                 if resp.error:
-                    msg = 'Failed to get remote camera configuration for {url}: {msg}.'.format(
-                        url=remote.pretty_camera_url(local_config), msg=resp.error
-                    )
+                    msg = f'failed to get remote camera config for {remote.pretty_camera_url(local_config)}: {resp.error}'
                     return self.finish_json(
                         {
                             'error': msg,
@@ -178,6 +206,7 @@ class ConfigHandler(BaseHandler):
                             'connection_url': remote.pretty_camera_url(
                                 local_config, camera=False
                             ),
+                            'remote_verify': local_config.get('@remote_verify', True),
                         }
                     )
 
@@ -198,6 +227,9 @@ class ConfigHandler(BaseHandler):
                 return self.finish_json(ui_config)
 
         else:
+            if self.current_user != 'admin':
+                raise HTTPError(403, 'access denied to read the main config')
+
             logging.debug('getting main config')
 
             ui_config = config.main_dict_to_ui(config.get_main())
@@ -210,7 +242,7 @@ class ConfigHandler(BaseHandler):
             ui_config = json.loads(self.request.body)
 
         except Exception as e:
-            logging.error(f'could not decode json: {str(e)}')
+            logging.error(f'could not decode json: {e}')
 
             raise
 
@@ -231,23 +263,32 @@ class ConfigHandler(BaseHandler):
                 on_finish(None, True)  # (no error, motion needs restart)
 
             elif utils.is_remote_camera(local_config):
+                if ui_config.get('connection_failed'):
+                    # a placeholder for an unreachable camera, posted back as it
+                    # was listed: there is nothing in it to save
+                    return on_finish(
+                        'the remote camera could not be reached, nothing was saved',
+                        False,
+                    )
+
                 # update the camera locally
                 local_config['@enabled'] = ui_config['enabled']
                 if ui_config.get('admin_only') is not None:
                     local_config['@admin_only'] = bool(ui_config.get('admin_only'))
+                if ui_config.get('remote_verify') is not None:
+                    local_config['@remote_verify'] = utils.verify_setting(
+                        ui_config['remote_verify']
+                    )
                 config.set_camera(camera_id, local_config)
 
                 if 'name' in ui_config:
-
-                    def on_finish_wrapper(e=None):
-                        return on_finish(e, False)
-
                     ui_config['enabled'] = True  # never disable the camera remotely
                     ui_config.pop(
                         'admin_only', None
                     )  # local-only setting do not send to remote
+                    ui_config.pop('remote_verify', None)
                     result = await remote.set_config(local_config, ui_config)
-                    return on_finish(result, False)
+                    on_finish(result, False)
 
                 else:
                     # when the ui config supplied has only the enabled state
@@ -265,6 +306,9 @@ class ConfigHandler(BaseHandler):
                 on_finish(None, False)  # (no error, motion doesn't need restart)
 
         def set_main_config(ui_config):
+            if self.current_user != 'admin':
+                raise HTTPError(403, 'access denied to write the main config')
+
             logging.debug('setting main config...')
 
             old_main_config = config.get_main()
@@ -281,20 +325,6 @@ class ConfigHandler(BaseHandler):
             normal_username = main_config.get('@normal_username')
             normal_password = main_config.get('@normal_password')
             lang = main_config.get('@lang')
-
-            additional_configs = config.get_additional_structure(camera=False)[1]
-            reboot_config_names = [
-                ('@_' + c['name'])
-                for c in list(additional_configs.values())
-                if c.get('reboot')
-            ]
-            reboot = bool(
-                [
-                    k
-                    for k in reboot_config_names
-                    if old_main_config.get(k) != main_config.get(k)
-                ]
-            )
 
             config.set_main(main_config)
 
@@ -316,35 +346,15 @@ class ConfigHandler(BaseHandler):
             if normal_username != old_normal_username or normal_password is not None:
                 logging.debug('surveillance credentials changed')
 
-            if reboot and settings.ENABLE_REBOOT:
-                logging.debug('system settings changed, reboot needed')
-
-            else:
-                reboot = False
-
-            return {'reload': reload, 'reboot': reboot, 'restart': restart}
+            return {'reload': reload, 'restart': restart}
 
         reload = False  # indicates that browser should reload the page
-        reboot = [False]  # indicates that the server will reboot immediately
         restart = [
             False
         ]  # indicates that the local motion instance was modified and needs to be restarted
         error = [None]
 
         def finish():
-            if reboot[0]:
-                if settings.ENABLE_REBOOT:
-
-                    def call_reboot():
-                        PowerControl.reboot()
-
-                    io_loop = IOLoop.current()
-                    io_loop.add_timeout(datetime.timedelta(seconds=2), call_reboot)
-                    return self.finish({'reload': False, 'reboot': True, 'error': None})
-
-                else:
-                    reboot[0] = False
-
             if restart[0]:
                 logging.debug('motion needs to be restarted')
 
@@ -352,7 +362,7 @@ class ConfigHandler(BaseHandler):
 
                 if settings.SMB_SHARES:
                     logging.debug('updating SMB mounts')
-                    stop, start = smbctl.update_mounts()  # @UnusedVariable
+                    _stop, start = smbctl.update_mounts()
 
                     if start:
                         motionctl.start()
@@ -360,7 +370,7 @@ class ConfigHandler(BaseHandler):
                 else:
                     motionctl.start()
 
-            self.finish({'reload': reload, 'reboot': reboot[0], 'error': error[0]})
+            self.finish({'reload': reload, 'error': error[0]})
 
         if camera_id is not None:
             if camera_id == 0:  # multiple camera configs
@@ -390,7 +400,6 @@ class ConfigHandler(BaseHandler):
                     if key == 'main':
                         result = set_main_config(cfg)
                         reload = result['reload'] or reload
-                        reboot[0] = result['reboot'] or reboot[0]
                         restart[0] = result['restart'] or restart[0]
                         check_finished(None, False)
 
@@ -409,8 +418,9 @@ class ConfigHandler(BaseHandler):
         else:  # main config
             result = set_main_config(ui_config)
             reload = result['reload']
-            reboot[0] = result['reboot']
             restart[0] = result['restart']
+
+        return None
 
     def _handle_list_cameras_response(self, resp: utils.GetCamerasResponse):
         if resp.error:
@@ -436,43 +446,41 @@ class ConfigHandler(BaseHandler):
         resp: utils.GetConfigResponse,
         cameras: list,
         length: list,
-    ) -> None:
+    ) -> bool:
+        # admin_only is a local-only flag and is never synced from the remote
+        local_config.setdefault('@admin_only', False)
+        admin_only = bool(local_config.get('@admin_only', False))
+
+        # do not add this camera to the list if admin-only, but reduce the async counter so listing can finish
+        if admin_only and self.current_user not in ['admin', 'peer']:
+            length[0] -= 1
+            return self.check_finished(cameras, length)
+
         if resp.error:
             msg = f'Failed to get remote camera configuration for {remote.pretty_camera_url(local_config)}: {resp.error}.'
-            cameras.append(
-                {
-                    'id': camera_id,
-                    'name': f'Camera {camera_id} - Connection failed',
-                    'enabled': False,
-                    'connection_failed': True,
-                    'connection_error': msg,
-                    'connection_url': remote.pretty_camera_url(
-                        local_config, camera=False
-                    ),
-                    'streaming_framerate': 1,
-                    'framerate': 1,
-                }
-            )
+            entry = {
+                'id': camera_id,
+                'name': f'Camera {camera_id} - Connection failed',
+                'enabled': False,
+                'connection_failed': True,
+                'connection_error': msg,
+                'connection_url': remote.pretty_camera_url(local_config, camera=False),
+                'streaming_framerate': 1,
+                'framerate': 1,
+            }
+            if self.current_user in ['admin', 'peer']:
+                entry['remote_verify'] = local_config.get('@remote_verify', True)
+            cameras.append(entry)
 
         else:
             resp.remote_ui_config['id'] = camera_id
 
-            # admin_only is a local-only flag and is never synced from the remote
-            local_config.setdefault('@admin_only', False)
-            admin_only = bool(local_config.get('@admin_only', False))
-
-            # do not add this camera to the list if admin-only, but reduce the async counter so listing can finish
-            if admin_only and self.current_user not in ['admin', 'peer']:
-                length[0] -= 1
-                self.check_finished(cameras, length)
-                return
-
-            if not resp.remote_ui_config['enabled'] and local_config['@enabled']:
+            if not resp.remote_ui_config.get('enabled') and local_config['@enabled']:
                 # if a remote camera is disabled, make sure it's disabled locally as well
                 local_config['@enabled'] = False
                 config.set_camera(camera_id, local_config)
 
-            elif resp.remote_ui_config['enabled'] and not local_config['@enabled']:
+            elif resp.remote_ui_config.get('enabled') and not local_config['@enabled']:
                 # if a remote camera is locally disabled, make sure the remote config says the same thing
                 resp.remote_ui_config['enabled'] = False
 
@@ -481,9 +489,9 @@ class ConfigHandler(BaseHandler):
                     continue
                 resp.remote_ui_config[key.replace('@', '')] = value
 
-            cameras.append(resp.remote_ui_config)
+            cameras.append(self._sanitize_camera_on_usertype(resp.remote_ui_config))
 
-        self.check_finished(cameras, length)
+        return self.check_finished(cameras, length)
 
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
@@ -572,6 +580,7 @@ class ConfigHandler(BaseHandler):
                 camera_ids = []
 
             length = [len(camera_ids)]
+            remote_cameras = []
 
             for camera_id in camera_ids:
                 local_config = config.get_camera(camera_id)
@@ -587,38 +596,39 @@ class ConfigHandler(BaseHandler):
 
                 if utils.is_local_motion_camera(local_config):
                     ui_config = config.motion_camera_dict_to_ui(local_config)
-                    cameras.append(ui_config)
+                    cameras.append(self._sanitize_camera_on_usertype(ui_config))
                     if self.check_finished(cameras, length):
-                        return
+                        return None
 
                 elif utils.is_remote_camera(local_config):
-                    if (
-                        local_config.get('@enabled')
-                        or self.get_argument('force', None) == 'true'
-                    ):
-                        resp = await remote.get_config(local_config)
-                        if self._handle_get_config_response(
-                            camera_id, local_config, resp, cameras, length
-                        ):
-                            return
-
-                    else:  # don't try to reach the remote of the camera is disabled
-                        if self._handle_get_config_response(
-                            camera_id,
-                            local_config,
-                            utils.GetConfigResponse(None, error=True),
-                            cameras,
-                            length,
-                        ):
-                            return
+                    remote_cameras.append((camera_id, local_config))
 
                 else:  # assuming simple mjpeg camera
                     ui_config = config.simple_mjpeg_camera_dict_to_ui(local_config)
-                    cameras.append(ui_config)
+                    cameras.append(self._sanitize_camera_on_usertype(ui_config))
                     if self.check_finished(cameras, length):
-                        return
+                        return None
 
+            for (camera_id, local_config), resp in zip(
+                remote_cameras,
+                await asyncio.gather(
+                    *(self._get_remote_config(c) for _, c in remote_cameras)
+                ),
+            ):
+                if self._handle_get_config_response(
+                    camera_id, local_config, resp, cameras, length
+                ):
+                    return None
+
+            cameras.sort(key=lambda c: c['id'])
             return self.finish_json({'cameras': cameras})
+
+    async def _get_remote_config(self, local_config) -> utils.GetConfigResponse:
+        if local_config.get('@enabled') or self.get_argument('force', None) == 'true':
+            return await remote.get_config(local_config)
+
+        # don't try to reach the remote if the camera is disabled
+        return utils.GetConfigResponse(None, error=True)
 
     @BaseHandler.auth(admin=True)
     async def add_camera(self):
@@ -628,17 +638,21 @@ class ConfigHandler(BaseHandler):
             device_details = json.loads(self.request.body)
 
         except Exception as e:
-            logging.error(f'could not decode json: {str(e)}')
+            logging.error(f'could not decode json: {e}')
 
             raise
 
-        camera_config = config.add_camera(device_details)
+        try:
+            camera_config = config.add_camera(device_details)
+
+        except ValueError as e:
+            return self.finish_json_with_error(str(e))
 
         if utils.is_local_motion_camera(camera_config):
             motionctl.stop()
 
             if settings.SMB_SHARES:
-                stop, start = smbctl.update_mounts()  # @UnusedVariable
+                _stop, start = smbctl.update_mounts()
 
                 if start:
                     motionctl.start()
@@ -685,7 +699,7 @@ class ConfigHandler(BaseHandler):
         content = config.backup()
 
         if not content:
-            raise Exception('failed to create backup file')
+            raise RuntimeError('failed to create backup file')
 
         filename = 'motioneye-config.tar.gz'
         self.set_header('Content-Type', 'application/x-compressed')
@@ -702,6 +716,9 @@ class ConfigHandler(BaseHandler):
             raise HTTPError(400, 'file attachment required')
 
         result = config.restore(content)
+        if result and not result['reboot']:  # a reboot converts them at startup
+            migration.migrate_cameras()
+
         if result:
             return self.finish_json({'ok': True, 'reboot': result['reboot']})
 
@@ -750,7 +767,7 @@ class ConfigHandler(BaseHandler):
                     return self.finish_json({'error': result})
 
             elif what == 'email':
-                import smtplib
+                from smtplib import SMTPResponseException
 
                 from motioneye import sendmail
 
@@ -759,63 +776,72 @@ class ConfigHandler(BaseHandler):
                 try:
                     subject = sendmail.subjects['motion_start']
                     message = sendmail.messages['motion_start']
+                    now = datetime.now().astimezone()
                     format_dict = {
                         'camera': camera_config['camera_name'],
-                        'hostname': socket.gethostname(),
-                        'moment': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                        'hostname': gethostname(),
+                        'moment': now.strftime('%Y-%m-%d %H:%M:%S'),
+                        'timezone': now.tzname() or 'local time',
                     }
-                    if settings.LOCAL_TIME_FILE:
-                        format_dict['timezone'] = tzctl.get_time_zone()
-
-                    else:
-                        format_dict['timezone'] = 'local time'
 
                     message = message % format_dict
                     subject = subject % format_dict
 
                     old_timeout = settings.SMTP_TIMEOUT
                     settings.SMTP_TIMEOUT = 10
-                    sendmail.send_mail(
-                        data['smtp_server'],
-                        int(data['smtp_port']),
-                        data['smtp_account'],
-                        data['smtp_password'],
-                        data['smtp_tls'],
-                        data['from'],
-                        data['addresses'].split(','),
-                        subject=subject,
-                        message=message,
-                        files=[],
-                    )
+                    try:
+                        sendmail.send_mail(
+                            data['smtp_server'],
+                            int(data['smtp_port']),
+                            data['smtp_account'],
+                            data['smtp_password'],
+                            data['smtp_tls'],
+                            data['from'],
+                            data['addresses'].split(','),
+                            subject=subject,
+                            message=message,
+                            files=[],
+                            verify=utils.verify_setting(data.get('smtp_verify')),
+                        )
 
-                    settings.SMTP_TIMEOUT = old_timeout
+                    finally:
+                        settings.SMTP_TIMEOUT = old_timeout
+
                     logging.debug('notification email test succeeded')
                     return self.finish_json()
 
                 except Exception as e:
-                    if isinstance(e, smtplib.SMTPResponseException):
+                    if isinstance(e, SMTPResponseException):
                         msg = e.smtp_error
+                        if isinstance(msg, bytes):
+                            msg = msg.decode(errors='replace')
 
                     else:
                         msg = str(e)
 
-                    msg_lower = msg.lower()
-                    if msg_lower.count('tls'):
+                    msg_lower: str = msg.lower()
+                    if isinstance(e, ssl.SSLCertVerificationError):
+                        reason = getattr(e, 'verify_message', e)
+                        msg = (
+                            f'certificate check failed ({reason}); turn off Verify '
+                            'certificate only for a server with a self-signed '
+                            'certificate that you trust'
+                        )
+
+                    elif 'tls' in msg_lower:
                         msg = 'TLS might be required'
 
-                    elif msg_lower.count('authentication'):
+                    elif 'authentication' in msg_lower:
                         msg = 'authentication error'
 
-                    elif msg_lower.count('name or service not known'):
+                    elif 'name or service not known' in msg_lower:
                         msg = 'check SMTP server name'
 
-                    elif msg_lower.count('connection refused'):
+                    elif 'connection refused' in msg_lower:
                         msg = 'check SMTP port'
 
-                    logging.error(
-                        'notification email test failed: %s' % msg, exc_info=True
-                    )
-                    return self.finish_json({'error': str(msg)})
+                    logging.error(f'notification email test failed: {msg}')
+                    return self.finish_json({'error': msg})
 
             elif what == 'telegram':
                 from motioneye import sendtelegram
@@ -825,7 +851,11 @@ class ConfigHandler(BaseHandler):
                 try:
                     message = 'This is a test of motionEye\'s telegram messaging'
                     sendtelegram.send_message(
-                        data['api'], int(data['chatid']), message=message, files=[]
+                        data['api'],
+                        str(data['chatid']).strip(),
+                        message=message,
+                        files=[],
+                        retry=False,
                     )
 
                     self.finish_json()
@@ -833,13 +863,10 @@ class ConfigHandler(BaseHandler):
                     logging.debug('telegram notification test succeeded')
 
                 except Exception as e:
-                    msg = str(e)
+                    logging.exception('telegram notification test failed')
+                    self.finish_json({'error': str(e)})
 
-                    msg_lower = msg.lower()
-                    logging.error(
-                        'telegram notification test failed: %s' % msg, exc_info=True
-                    )
-                    self.finish_json({'error': str(msg)})
+                return None
 
             elif what == 'network_share':
                 logging.debug(
@@ -874,7 +901,7 @@ class ConfigHandler(BaseHandler):
                     return self.finish_json({'error': str(e)})
 
             else:
-                raise HTTPError(400, 'unknown test %s' % what)
+                raise HTTPError(400, f'unknown test {what}')
 
         elif utils.is_remote_camera(camera_config):
             resp = await remote.test(camera_config, data)
@@ -888,16 +915,26 @@ class ConfigHandler(BaseHandler):
             raise HTTPError(400, 'cannot test features on this type of camera')
 
     @BaseHandler.auth(admin=True)
-    def authorize(self):
+    async def authorize(self, camera_id):
         service_name = self.get_argument('service')
         if not service_name:
             raise HTTPError(400, 'service_name required')
 
-        url = uploadservices.get_authorize_url(service_name)
+        if camera_id not in config.get_camera_ids():
+            raise HTTPError(404, 'no such camera')
+
+        camera_config = config.get_camera(camera_id)
+        if utils.is_remote_camera(camera_config):
+            # the remote redeems the key, so it has to create the link with the code
+            # verifier it keeps
+            url = await remote.get_authorize_url(camera_config, service_name)
+
+        else:
+            url = uploadservices.get_authorize_url(service_name)
         if not url:
             raise HTTPError(
-                400, 'no authorization url for upload service %s' % service_name
+                400, f'no authorization url for upload service {service_name}'
             )
 
-        logging.debug('redirected to authorization url %s' % url)
+        logging.debug(f'redirected to authorization url {url}')
         self.redirect(url)

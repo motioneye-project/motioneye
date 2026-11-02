@@ -9,21 +9,21 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions: {}
+permissions:
+  pull-requests: write
 
 jobs:
   pre-commit-autoupdate:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
     - uses: actions/checkout@v7
       with:
         ref: dev
         # https://github.com/peter-evans/create-pull-request/issues/48
         token: ${{ secrets.GH_PAT }}
-    - uses: actions/setup-python@v6
+    - uses: actions/setup-python@v7
       with:
         python-version: 3.x
-        check-latest: true
     - run: |
         branch_exists=0
         git fetch origin pre-commit-autoupdate && branch_exists=1
@@ -47,6 +47,6 @@ jobs:
         else
             git commit -m '[CI/CD] pre-commit autoupdate'
             git push origin pre-commit-autoupdate
-            export GH_TOKEN='${{ secrets.GH_PAT }}'
+            export GH_TOKEN='${{ github.token }}'
             gh pr create -B dev -H pre-commit-autoupdate -f -l 'CI/CD'
         fi

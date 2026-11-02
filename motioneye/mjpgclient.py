@@ -13,14 +13,14 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import logging
 import socket
-from datetime import timedelta
 from errno import ECONNREFUSED
 from re import findall, match
 from time import time
-from typing import Any, Optional, Tuple
+from typing import Any, ClassVar
 
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
@@ -32,7 +32,7 @@ from motioneye import config, motionctl, settings, utils
 class MjpgClient(IOStream):
     _FPS_LEN = 10
 
-    clients: dict = {}  # dictionary of clients indexed by camera id
+    clients: ClassVar[dict] = {}  # clients indexed by camera id
     _last_erroneous_close_time = (
         0  # helps detecting erroneous connections and restart motion
     )
@@ -54,7 +54,7 @@ class MjpgClient(IOStream):
 
         self.set_close_callback(self.on_close)
 
-    def do_connect(self) -> 'Future[MjpgClient]':
+    def do_connect(self) -> Future[MjpgClient]:
         f = self.connect(('localhost', self._port))
         f.add_done_callback(self._on_connect)
         return f
@@ -136,17 +136,16 @@ class MjpgClient(IOStream):
 
     def _error(self, error) -> None:
         logging.error(
-            f'mjpg client for camera {self._camera_id} on port {self._port} error: {str(error)}',
-            exc_info=True,
+            f'mjpg client for camera {self._camera_id} on port {self._port} error: {error!s}',
         )
 
         try:
             self.close()
 
-        except Exception:
-            pass
+        except Exception:  # nosec: B110 # noqa: S110
+            pass  # already closed or closing failed, nothing we can do
 
-    def _get_future_result(self, future: Future) -> Tuple[bool, Any]:
+    def _get_future_result(self, future: Future) -> tuple[bool, Any]:
         try:
             if self.closed():
                 future.cancel()
@@ -159,7 +158,7 @@ class MjpgClient(IOStream):
             return False, None
 
     def _on_connect(self, future: Future) -> None:
-        result, _ = self._get_future_result(future)
+        result, _data = self._get_future_result(future)
         if not result:
             return
 
@@ -186,8 +185,8 @@ class MjpgClient(IOStream):
 
         self._seek_http()
 
-    def _seek_http(self, future: Optional[Future] = None) -> None:
-        result, _ = self._get_future_result(future) if future else (True, False)
+    def _seek_http(self, future: Future | None = None) -> None:
+        result, _data = self._get_future_result(future) if future else (True, False)
 
         if not result or self._check_error():
             return
@@ -211,7 +210,7 @@ class MjpgClient(IOStream):
         future.add_done_callback(self._on_before_www_authenticate)
 
     def _on_before_www_authenticate(self, future: Future) -> None:
-        result, _ = self._get_future_result(future)
+        result, _data = self._get_future_result(future)
         if not result or self._check_error():
             return
 
@@ -266,7 +265,7 @@ class MjpgClient(IOStream):
         r_future.add_done_callback(self._on_before_content_length)
 
     def _on_before_content_length(self, future: Future):
-        result, _ = self._get_future_result(future)
+        result, _data = self._get_future_result(future)
         if not result or self._check_error():
             return
 
@@ -304,10 +303,7 @@ class MjpgClient(IOStream):
 
 def start():
     # schedule the garbage collector
-    io_loop = IOLoop.current()
-    io_loop.add_timeout(
-        timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector
-    )
+    IOLoop.current().call_later(settings.MJPG_CLIENT_TIMEOUT, _garbage_collector)
 
 
 def get_jpg(camera_id):
@@ -365,10 +361,7 @@ def close_all(invalidate=False):
 
 
 def _garbage_collector():
-    io_loop = IOLoop.current()
-    io_loop.add_timeout(
-        timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector
-    )
+    IOLoop.current().call_later(settings.MJPG_CLIENT_TIMEOUT, _garbage_collector)
 
     now = time()
     for camera_id, client in list(MjpgClient.clients.items()):

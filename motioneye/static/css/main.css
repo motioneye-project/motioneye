@@ -383,7 +383,6 @@ div.normal-button {
     padding-right: 0.5em;
 }
 
-div.update-button,
 div.backup-button,
 div.restore-button,
 div.edit-credentials-button,
@@ -404,7 +403,6 @@ div.reboot-button {
     background: #c0392b;
 }
 
-div.update-button:HOVER,
 div.backup-button:HOVER,
 div.restore-button:HOVER,
 div.edit-credentials-button:HOVER,
@@ -420,7 +418,6 @@ div.reboot-button:HOVER {
     background: #D43F2F;
 }
 
-div.update-button:ACTIVE,
 div.backup-button:ACTIVE,
 div.restore-button:ACTIVE,
 div.edit-credentials-button:ACTIVE,
@@ -471,8 +468,27 @@ div.check-box.on.section:HOVER div.check-box-button {
 }
 
 div.hidden,
+select.hidden,
 tr.hidden {
     display: none !important;
+}
+
+div.secret-field {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+div.secret-field > input {
+    flex: 1;
+}
+
+span.secret-toggle {
+    cursor: pointer;
+    padding: 0 6px;
+    font-size: 15px;
+    user-select: none;
+    opacity: 0.6;
 }
 
 span.help-mark {
@@ -532,12 +548,30 @@ table.edit-credentials-dialog {
     margin: auto;
 }
 
+ol.authorize-steps,
+ol.authorize-steps ~ p {
+    max-width: 30em;
+}
+
+ol.authorize-steps li {
+    margin-bottom: 0.5em;
+}
+
 table.add-camera-dialog select,
 table.add-camera-dialog input[type=text],
 table.add-camera-dialog input[type=password],
 table.edit-credentials-dialog input[type=text],
 table.edit-credentials-dialog input[type=password] {
     width: 17em;
+}
+
+div.add-camera-progress {
+    text-align: center;
+    margin: 2px;
+}
+
+div.restore-progress {
+    text-align: center;
 }
 
 span#cameraMsgLabel {
@@ -1121,6 +1155,31 @@ div.camera-top-button.multi-camera {
     background-position: -600% 0;
 }
 
+div.move-camera {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    width: 3em;
+    height: 3em;
+    background-color: rgba(0, 0, 0, 0.7);
+    background-size: cover;
+    border-radius: 50%;
+    background-image: url(../img/move-camera.svg);
+    cursor: grab;
+    touch-action: none;
+}
+
+div.camera-frame.dragging {
+    opacity: 0.85 !important;
+    z-index: 10;
+    transition: none;
+    pointer-events: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
 div.camera-overlay-bottom {
     bottom: 0;
     white-space: nowrap;
@@ -1175,12 +1234,20 @@ div.camera-action-button.snapshot {
     background-image: url(../img/camera-action-button-snapshot.svg);
 }
 
-div.camera-action-button.record-start {
-    background-image: url(../img/camera-action-button-record-start.svg);
+div.camera-action-button.eventstart {
+    background-image: url(../img/camera-action-button-eventstart.svg);
 }
 
-div.camera-action-button.record-stop {
-    background-image: url(../img/camera-action-button-record-stop.svg);
+div.camera-action-button.eventend {
+    background-image: url(../img/camera-action-button-eventend.svg);
+}
+
+div.camera-action-button.detectionpause {
+    background-image: url(../img/camera-action-button-detectionpause.svg);
+}
+
+div.camera-action-button.detectionstart {
+    background-image: url(../img/camera-action-button-detectionstart.svg);
 }
 
 div.camera-action-button.up {
@@ -1275,13 +1342,15 @@ div.camera-placeholder {
     right: 0;
     bottom: 0;
     left: 0;
-    text-align: center;
+    display: flex; /* centered, whatever the aspect ratio of the camera */
+    align-items: center;
+    justify-content: center;
     transition: opacity 0.2s ease;
 }
 
 img.no-camera {
-    margin-top: 20%;
     width: 30%;
+    max-height: 80%;
     opacity: 0.8;
 }
 
@@ -1391,16 +1460,6 @@ img.camera-progress {
     div.page-container {
         font-size: 16px !important;
         margin-left: auto !important;
-    }
-
-    div.camera-frame {
-        width: 100% !important;
-    }
-
-    #layoutColumnsRow {
-        /* layout columns are ignored on small screens,
-         * so hide the prefs row as well */
-        display: none !important;
     }
 }
 

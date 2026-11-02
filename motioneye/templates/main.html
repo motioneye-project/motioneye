@@ -1,54 +1,5 @@
 {% extends "base.html" %}
 
-{% macro config_item(config, depends="") -%}
-    <tr class="settings-item additional-config"
-            {% if config.get('reboot') and enable_reboot %}reboot="true"{% endif %}
-            {% if config.get('required') %}required="true"{% endif %}
-            {% if config.get('strip') %}strip="true"{% endif %}
-            {% if config.get('depends') %}depends="{{' '.join(config['depends'])}}{% if depends %} {{depends}}{% endif %}"{% endif %}
-            {% if config.get('min') is not none %}min="{{config['min']}}"{% endif %}
-            {% if config.get('max') is not none %}max="{{config['max']}}"{% endif %}
-            {% if config.get('floating') %}floating="true"{% endif %}
-            {% if config.get('sign') %}sign="true"{% endif %}
-            {% if config.get('snap') is not none %}snap="{{config['snap']}}"{% endif %}
-            {% if config.get('ticks') %}ticks="{{config['ticks']}}"{% endif %}
-            {% if config.get('ticksnum') is not none %}ticksnum="{{config['ticksnum']}}"{% endif %}
-            {% if config.get('decimals') is not none %}decimals="{{config['decimals']}}"{% endif %}
-            {% if config.get('unit') %}unit="{{config['unit']}}"{% endif %}
-            {% if config.get('validate') %}validate="{{config['validate']}}"{% endif %}>
-        {% if config['type'] == 'separator' %}
-        <td colspan="100"><div class="settings-item-separator"></div></td>
-        {% else %}
-        <td class="settings-item-label"><span class="settings-item-label">{{config['label']}}</span></td>
-        <td class="settings-item-value">
-            {% if config['type'] == 'str' %}
-                <input type="text" class="styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Entry">
-                {% if config['unit'] %}<span class="settings-item-unit">{{config['unit']}}</span>{% endif %}
-            {% elif config['type'] == 'pwd' %}
-                <input type="password" autocomplete="new-password" class="styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Entry">
-            {% elif config['type'] == 'number' %}
-                <input type="text" class="number styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Entry">
-                {% if config['unit'] %}<span class="settings-item-unit">{{config['unit']}}</span>{% endif %}
-            {% elif config['type'] == 'range' %}
-                <input type="text" class="range styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Slider">
-            {% elif config['type'] == 'bool' %}
-                <input type="checkbox" class="styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Switch">
-            {% elif config['type'] == 'choices' %}
-                <select class="styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Select">
-                    {% for choice in config['choices'] %}
-                    <option value="{{choice[0]}}">{{choice[1]}}</option>
-                    {% endfor %}
-                </select>
-                {% if config['unit'] %}<span class="settings-item-unit">{{config['unit']}}</span>{% endif %}
-            {% elif config['type'] == 'html' %}
-                <div class="html styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Html"></div>
-            {% endif %}
-        </td>
-        <td>{% if config.get('description') %}<span class="help-mark" title="{{config['description']}}">?</span>{% endif %}</td>
-        {% endif %}
-    </tr>
-{%- endmacro %}
-
 {% block title %}{% if title %}{{title}}{% else %}{{hostname}}{% endif %}{% endblock %}
 
 {% block style %}
@@ -70,30 +21,9 @@
 {% endblock %}
 
 {% block inline %}
-    {{super()}}
     <!-- gettext.js required for setting language -->
     <script src="{{static_path}}js/gettext.min.js"></script>
-    <script>
-        var i18n = window.i18n();
-      {% if settings.lingvo != 'eo' %}
-        // Set language for JavaScript
-        function Get(yourUrl){
-            var Httpreq = new XMLHttpRequest(); // a new request
-            Httpreq.open("GET",yourUrl,false);
-            Httpreq.send(null);
-            return Httpreq.responseText;
-        }
-        var i18njson=Get("{{static_path}}js/motioneye.{{settings.lingvo}}.json");
-        i18n.loadJSON(i18njson, 'messages');
-      {% endif %}
-        i18n.setLocale('{{settings.lingvo}}');
-        // Pass variables to JavaScript
-        var frame = {% if frame %}true{% else %}false{% endif %};
-        var hasLocalCamSupport = {% if has_motion %}true{% else %}false{% endif %};
-        var hasNetCamSupport = {% if has_motion %}true{% else %}false{% endif %};
-        {% if mask_width %}var maskWidth = {{mask_width}};{% endif %}
-        var currentUser = '{{ current_user or "" }}';
-    </script>
+    <script type="application/json" id="pageData">{{ {'staticPath': static_path|default('static/'), 'lingvo': settings.lingvo, 'translations': settings.js_translations, 'frame': frame|default(false), 'hasMotion': has_motion|default(false), 'maskWidth': mask_width|default(none), 'currentUser': current_user or ''}|tojson }}</script>
 {% endblock %}
 
 {% block body %}
@@ -103,8 +33,8 @@
             <div class="settings-top-bar closed">
                 <div class="button icon settings-button mouse-effect" title="{{ _("agordojn")}}"></div>
                 <div class="button icon logout-button mouse-effect" title="{{ _("ŝanĝi uzanton")}}"></div>
-                <select class="styled" id="cameraSelect" {% if not add_remove_cameras %}style="display: none;"{% endif %}></select>
-                <div class="button icon rem-camera-button mouse-effect" id="remCameraButton" title="{{ _("forigi kameraon")}}" {% if not add_remove_cameras %}style="display: none;"{% endif %}></div>
+                <select class="styled{% if not add_remove_cameras %} hidden{% endif %}" id="cameraSelect"></select>
+                <div class="button icon rem-camera-button mouse-effect{% if not add_remove_cameras %} hidden{% endif %}" id="remCameraButton" title="{{ _("forigi kameraon")}}"></div>
                 <div class="button apply-button" id="applyButton">{{ _("Apliki")}}</div>
                 {% if hostname %}<div class="hostname">{{hostname}}</div>{% endif %}
             </div>
@@ -154,6 +84,11 @@
                             <td class="settings-item-value"><input type="text" class="range styled prefs" id="resolutionDimmerSlider"></td>
                             <td><span class="help-mark" title="{{ _("reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)") }}">?</span></td>
                         </tr>
+                        <tr class="settings-item">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Enable Reordering") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled" id="cameraOrderControlsSwitch"></td>
+                            <td><span class="help-mark" title="{{ _("when enabled, you will be able to move cameras around in the live view to your preferred order") }}">?</span></td>
+                        </tr>
                     </table>
 
                     <!-- General Settings -->
@@ -195,16 +130,13 @@
                         <tr class="settings-item" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Client Secret") }}</span></td>
                             <td class="settings-item-value">
-                                <div style="display:flex;align-items:center;gap:4px;">
-                                    <input type="password" class="styled general main-config" id="clientSecretEntry" readonly="readonly" style="flex:1;">
-                                    <span class="secret-toggle" data-target="clientSecretEntry" title="{{ _("Show/hide") }}" style="cursor:pointer;padding:0 6px;font-size:15px;user-select:none;opacity:0.6;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0.6'">👁</span>
+                                <div class="secret-field">
+                                    <input type="password" class="styled general main-config" id="clientSecretEntry" readonly="readonly">
+                                    <span class="secret-toggle" data-target="clientSecretEntry" title="{{ _("Show/hide") }}">👁</span>
                                 </div>
                             </td>
                             <td><span class="help-mark" title="{{ _("Auto-generated secret for this motionEye server. Copy this value into the Remote Secret field when adding this server as a remote camera on another motionEye server.") }}">?</span></td>
                         </tr>
-                        {% for config in main_sections.get('general', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
                         <tr class="settings-item">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
@@ -220,13 +152,6 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Operaciumo Versio") }}</span></td>
                             <td class="settings-item-value"><span class="settings-item-label">{{os_version}}</span></td>
                         </tr>
-                        {% if enable_update %}
-                        <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Programara Ĝisdatigo") }}</span></td>
-                            <td class="settings-item-value"><div class="button normal-button update-button" id="updateButton">Check</div></td>
-                            <td><span class="help-mark" title="{{ _("kontrolas novajn versiojn kaj plenumas ĝisdatigojn") }}">?</span></td>
-                        </tr>
-                        {% endif %}
                         <tr class="settings-item{% if not enable_reboot %} hidden{% endif %}">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Nutro") }}</span></td>
                             <td class="settings-item-value"><div class="button normal-button shut-down-button" id="shutDownButton">{{ _("Fermu") }}</div></td>
@@ -251,23 +176,6 @@
                             <td><span class="help-mark" title="{{ _("restarigas la agordon el antaŭe konservita rezerva dosiero") }}">?</span></td>
                         </tr>
                     </table>
-
-                    <!-- Additional Main Sections -->
-                    {% for section in main_sections.values() %}
-                    {% if section.get('label') and section.get('configs') %}
-                    <div class="settings-section-title additional-section">
-                        {% if section.get('onoff') %}<input type="checkbox" class="styled section additional-section {{section['name']}} main-config" id="{{section['name']}}Switch">{% endif %}
-                        {% if section.get('description') %}<span class="help-mark" title="{{section['description']}}">?</span>{% endif %}
-                        <a class="settings-section-title">{{section['label']}}</a>
-                        <span class="minimize {% if section.get('open') %}open{% endif %}"></span>
-                    </div>
-                    <table class="settings">
-                        {% for config in section['configs'] %}
-                            {{config_item(config)}}
-                        {% endfor %}
-                    </table>
-                    {% endif %}
-                    {% endfor %}
 
                     <!-- Video Device -->
                     <div class="settings-section-title" id="deviceSectionDiv">
@@ -300,6 +208,11 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Connection") }}</span></td>
                             <td class="settings-item-value"><div class="button normal-button edit-credentials-button" id="editCredentialsButton">{{ _("Edit Credentials") }}</div></td>
                             <td><span class="help-mark" title="{{ _("edit the camera URL and credentials") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Verify certificate") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled device camera-config" id="remoteVerifySwitch"></td>
+                            <td><span class="help-mark" title="{{ _("check the remote motionEye's TLS certificate against the trusted authorities of this system; turn this off only for a remote with a self-signed certificate that you trust; the connection is then still encrypted, but the remote is not authenticated") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Admin-only access") }}</span></td>
@@ -382,9 +295,6 @@
                             <td class="settings-item-value"><textarea class="styled device camera-config" id="extraOptionsEntry" rows="3"></textarea></td>
                             <td><span class="help-mark" title="{{ _("vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('device', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
                     </table>
 
                     <!-- File Storage -->
@@ -479,8 +389,6 @@
                                 <select class="styled storage camera-config" id="uploadServiceSelect">
                                     <option value="ftp">{{ _("Servilo FTP") }}</option>
                                     <option value="sftp">{{ _("Servilo SFTP") }}</option>
-                                    <!-- <option value="http">{{ _("Servilo HTTP") }}</option> -->
-                                    <!-- <option value="https">{{ _("Servilo HTTPS") }}</option> -->
                                     <option value="gdrive">Google Drive</option>
                                     <option value="gphoto">Google Photo</option>
                                     <option value="dropbox">Dropbox</option>
@@ -489,6 +397,11 @@
                                 </select>
                             </td>
                             <td><span class="help-mark" title="{{ _("elektu servon, al kiu la mediadosieroj estu alŝutitaj") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item" depends="uploadEnabled uploadService=(ftp)">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Use TLS (FTPS)") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadTlsSwitch"></td>
+                            <td><span class="help-mark" title="{{ _("encrypt the connection with explicit TLS on the normal FTP port (usually 21), the way most servers offer it; implicit TLS on port 990 is not supported") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="uploadEnabled uploadService=(ftp|sftp|http|https)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Servila Adreso") }}</span></td>
@@ -517,6 +430,11 @@
       {{ _("Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!") }}
       {{ _("Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/") }}">?</span></td>
                         </tr>
+                        <tr class="settings-item" depends="uploadEnabled uploadService=(ftp|s3|webdav)">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Verify certificate") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadVerifySwitch"></td>
+                            <td><span class="help-mark" title="{{ _("check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated") }}">?</span></td>
+                        </tr>
                         <tr class="settings-item" required="true" depends="uploadEnabled uploadService!=(s3)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Loko") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadLocationEntry"></td>
@@ -532,6 +450,11 @@
                             <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="cleanCloudEnabledSwitch"></td>
                             <td><span class="help-mark" title="{{ _("ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo.") }}">?</span></td>
                         </tr>
+                        <tr class="settings-item" depends="uploadEnabled">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Forigi Dosierojn Post Alŝuto") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="cleanUploadedSwitch"></td>
+                            <td><span class="help-mark" title="{{ _("ebligu ĉi tion por forigi la lokan plurmedian dosieron tuj post kiam ĝi estis sukcese alŝutita al la ekstera servo (utila por liberigi malgrandajn SD-kartojn)") }}">?</span></td>
+                        </tr>
                         <tr class="settings-item" depends="uploadEnabled uploadService=(ftp|sftp|http|https|webdav)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Uzantnomo") }}</span></td>
                             <td class="settings-item-value"><input type="text" autocapitalize="none" class="styled storage camera-config" id="uploadUsernameEntry"></td>
@@ -545,13 +468,13 @@
                         <tr class="settings-item" depends="uploadEnabled uploadService=(gdrive|gphoto|dropbox)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Rajtiga ŝlosilo") }}</span></td>
                             <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled storage camera-config" id="uploadAuthorizationKeyEntry"></td>
-                            <td><span class="help-mark" title="{{ _("la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("the key used to authenticate with the upload service, usually only needed during setup; for Google, the whole address of the page that cannot be loaded after allowing access") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="uploadEnabled uploadService=(gdrive|gphoto|dropbox)">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
                             <td class="settings-item-value">
                                 <div class="html styled storage camera-config" id="authorizeLinkHtml">
-                                    <a href="javascript:authorizeUpload()">{{ _("Akiri ŝlosilon") }}</a>
+                                    <a href="#">{{ _("Akiri ŝlosilon") }}</a>
                                 </div>
                             </td>
                             <td><span class="help-mark" title="{{ _("alklaku ĉi tie por akiri la ŝlosilan rajtigan servon") }}">?</span></td>
@@ -606,6 +529,11 @@
                             </td>
                             <td><span class="help-mark" title="{{ _("la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)") }}">?</span></td>
                         </tr>
+                        <tr class="settings-item" depends="webHookStorageEnabled">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Verify certificate") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="webHookStorageVerifySwitch"></td>
+                            <td><span class="help-mark" title="{{ _("check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated") }}">?</span></td>
+                        </tr>
                         <tr class="settings-item">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
@@ -619,9 +547,6 @@
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="commandStorageEntry" placeholder="{{ _("ordono…") }}"></td>
                             <td><span class="help-mark" title="{{ _("Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadra numero , %v = okaza numero, %f = dosiera vojo") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('storage', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
                     </table>
 
                     <!-- Text Overlay -->
@@ -671,9 +596,6 @@
                             <td class="settings-item-value"><input type="text" class="range styled text-overlay camera-config" id="textScaleSlider"></td>
                             <td><span class="help-mark" title="{{ _("Difinas la grandecon de la superkovrita teksto") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('text-overlay', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
                     </table>
 
                     <!-- Video Streaming -->
@@ -742,7 +664,7 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Utilaj URLoj") }}</span></td>
                             <td class="settings-item-value">
                                 <div class="html styled streaming camera-config" id="streamingSnapshotUrlHtml">
-                                    <a href="javascript:showSnapshotUrl()">{{ _("Instantara URL") }}</a>
+                                    <a href="#">{{ _("Instantara URL") }}</a>
                                 </div>
                             </td>
                             <td><span class="help-mark" title="{{ _("URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao") }}">?</span></td>
@@ -751,7 +673,7 @@
                             <td class="settings-item-label"></td>
                             <td class="settings-item-value">
                                 <div class="html styled streaming camera-config" id="streamingMjpgUrlHtml">
-                                    <a href="javascript:showMjpgUrl()">{{ _("Flua URL") }}</a>
+                                    <a href="#">{{ _("Flua URL") }}</a>
                                 </div>
                             </td>
                             <td><span class="help-mark" title="{{ _("URL kiu provizas MJPEG-fluon de la kamerao") }}">?</span></td>
@@ -760,14 +682,11 @@
                             <td class="settings-item-label"></td>
                             <td class="settings-item-value">
                                 <div class="html styled streaming camera-config" id="streamingEmbedUrlHtml">
-                                    <a href="javascript:showEmbedUrl()">{{ _("Enigita URL") }}</a>
+                                    <a href="#">{{ _("Enigita URL") }}</a>
                                 </div>
                             </td>
                             <td><span class="help-mark" title="{{ _("URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('streaming', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
                     </table>
 
                     <!-- Still Images -->
@@ -834,9 +753,6 @@
                             <td class="settings-item-value"><input type="checkbox" class="styled still-images camera-config" id="manualSnapshotsSwitch"></td>
                             <td><span class="help-mark" title="{{ _("Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn.") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('still-images', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
                     </table>
 
                     <!-- Movies -->
@@ -942,9 +858,6 @@
                             <td class="settings-item-value"><input type="text" class="styled number movies camera-config" id="moviesLifetimeEntry"><span class="settings-item-unit">{{ _("tagoj") }}</span></td>
                             <td><span class="help-mark" title="{{ _("Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate.") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('movies', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
                     </table>
 
                     <!-- Motion Detection -->
@@ -1063,9 +976,16 @@
                             <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="createDebugMediaSwitch"></td>
                             <td><span class="help-mark" title="{{ _("Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto.") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('motion-detection', {}).get('configs', []) %}
-                            {{config_item(config)}}
-                        {% endfor %}
+                        <tr class="settings-item">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Manual motion event button") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="motionEventButtonSwitch"></td>
+                            <td><span class="help-mark" title="{{ _("If enabled, an action button is added to the camera frame, which allows to start and end a manual motion event. This can be used to manually create motion-triggered recordings, and test the motion notification pipeline.") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Motion detection toggle button") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="motionDetectionButtonSwitch"></td>
+                            <td><span class="help-mark" title="{{ _("If enabled, an action button is added to the camera frame, which allows to temporarily pause and reactivate motion detection. Saving settings, adding/removing cameras, and restarting motionEye resets the state.") }}">?</span></td>
+                        </tr>
                     </table>
 
                     <!-- Motion Notifications -->
@@ -1122,6 +1042,11 @@
                             <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="smtpTlsSwitch"></td>
                             <td><span class="help-mark" title="{{ _("Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi).") }}">?</span></td>
                         </tr>
+                        <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled smtpTls">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Verify certificate") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="smtpVerifySwitch"></td>
+                            <td><span class="help-mark" title="{{ _("check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated") }}">?</span></td>
+                        </tr>
                         <tr class="settings-item" min="0" max="60" required="true" depends="emailNotificationsEnabled motionDetectionEnabled">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Aldonitaj bildoj tempo-intervalo") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="number styled notifications camera-config" id="emailPictureTimeSpanEntry"><span class="settings-item-unit">{{ _("sekundoj") }}</span></td>
@@ -1156,8 +1081,8 @@
                             <td><span class="help-mark" title="{{ _("difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled" strip="true">
-                            <td class="settings-item-label"><a href="https://core.telegram.org/bots#6-botfather" target="_blank"><div class="button normal-button test-button" id="apiInstructionButton" style="opacity: 1; display: inline-block;">{{ _("API-Informoj") }}</div></a></td>
-                            <td class="settings-item-label"><div class="button normal-button test-button" id="telegramTestButton" style="opacity: 1; display: inline-block;">{{ _("Testo") }}</div></td>
+                            <td class="settings-item-label"><a href="https://core.telegram.org/bots#6-botfather" target="_blank"><div class="button normal-button test-button" id="apiInstructionButton">{{ _("API-Informoj") }}</div></a></td>
+                            <td class="settings-item-label"><div class="button normal-button test-button" id="telegramTestButton">{{ _("Testo") }}</div></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
@@ -1183,6 +1108,11 @@
                                 </select>
                             </td>
                             <td><span class="help-mark" title="{{ _("La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie).") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item" depends="webHookNotificationsEnabled motionDetectionEnabled">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Verify certificate") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="webHookNotificationsVerifySwitch"></td>
+                            <td><span class="help-mark" title="{{ _("check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
@@ -1229,6 +1159,11 @@
                             </td>
                             <td><span class="help-mark" title="{{ _("La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie).") }}">?</span></td>
                         </tr>
+                        <tr class="settings-item" depends="webHookEndNotificationsEnabled motionDetectionEnabled">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Verify certificate") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="webHookEndNotificationsVerifySwitch"></td>
+                            <td><span class="help-mark" title="{{ _("check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated") }}">?</span></td>
+                        </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
@@ -1242,9 +1177,6 @@
                             <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandEndNotificationsEntry" placeholder="{{ _("komando…") }}"></td>
                             <td><span class="help-mark" title="{{ _("Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = dato, %H = horo, %M = minuto, %S = sekundo, %q = kadra nombro.") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('notifications', {}).get('configs', []) %}
-                            {{config_item(config, "motionDetectionEnabled")}}
-                        {% endfor %}
                     </table>
 
                     <!-- Working Schedule -->
@@ -1328,32 +1260,13 @@
                             </td>
                             <td><span class="help-mark" title="{{ _("Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro.") }}">?</span></td>
                         </tr>
-                        {% for config in camera_sections.get('working-schedule', {}).get('configs', []) %}
-                            {{config_item(config, "motionDetectionEnabled")}}
-                        {% endfor %}
                     </table>
 
-                    <!-- Additional Camera Sections -->
-                    {% for section in camera_sections.values() %}
-                    {% if section.get('label') and section.get('configs') %}
-                    <div class="settings-section-title">
-                        {% if section.get('onoff') %}<input type="checkbox" class="styled section additional-section {{section['name']}} camera-config" id="{{section['name']}}Switch">{% endif %}
-                        {% if section.get('description') %}<span class="help-mark" title="{{section['description']}}">?</span>{% endif %}
-                        <a class="settings-section-title">{{section['label']}}</a>
-                        <span class="minimize {% if section.get('open') %}open{% endif %}"></span>
-                    </div>
-                    <table class="settings">
-                        {% for config in section['configs'] %}
-                            {{config_item(config)}}
-                        {% endfor %}
-                    </table>
-                    {% endif %}
-                    {% endfor %}
                     <div class="settings-progress"></div>
                 </form>
             </div>
         </div>
-        <img class="background-logo" src="{{static_path}}img/motioneye-logo.svg" onmousedown="return false;">
+        <img class="background-logo" src="{{static_path}}img/motioneye-logo.svg">
         <div class="page-container"></div>
         <div class="footer">
             <div class="copyright-note">copyright &copy; <a href="https://github.com/orgs/motioneye-project/people" target="_blank" rel="noopener">The motionEye Team</a></div>
@@ -1362,7 +1275,7 @@
     {% else %}
         <div class="camera-frame" id="camera{{camera_id}}"
             streaming_framerate="{{camera_config['stream_maxrate']}}" streaming_server_resize="{{camera_config['@webcam_server_resize']|string|lower}}"
-            proto="{{camera_config['@proto']}}" url="{{camera_config['@url']}}">
+            proto="{{camera_config['@proto']}}" url="{% if current_user %}{{camera_config['@url']}}{% endif %}">
             <div class="camera-container">
                 <div class="camera-placeholder"><img class="no-camera" src="{{static_path}}img/no-camera.svg"></div>
                 <img class="camera">

@@ -13,9 +13,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import atexit
-import datetime
 import logging
 import multiprocessing
 import os
@@ -23,13 +23,13 @@ import re
 import signal
 import sys
 import time
+from collections.abc import Sequence
 from secrets import token_bytes
-from typing import Sequence, Tuple
 
-from tornado.ioloop import IOLoop
+from tornado.ioloop import IOLoop, PeriodicCallback
 from tornado.web import Application
 
-from motioneye import settings, template
+from motioneye import config, migration, settings, template
 from motioneye.controls import smbctl, v4l2ctl
 from motioneye.handlers.action import ActionHandler
 from motioneye.handlers.base import ManifestHandler, NotFoundHandler
@@ -42,10 +42,8 @@ from motioneye.handlers.movie import MovieHandler
 from motioneye.handlers.movie_playback import MovieDownloadHandler, MoviePlaybackHandler
 from motioneye.handlers.picture import PictureHandler
 from motioneye.handlers.power import PowerHandler
-from motioneye.handlers.prefs import PrefsHandler
 from motioneye.handlers.relay_event import RelayEventHandler
-from motioneye.handlers.update import UpdateHandler
-from motioneye.handlers.version import VersionHandler
+from motioneye.utils import authstate
 
 _PID_FILE = 'motioneye.pid'
 _CURRENT_PICTURE_REGEX = re.compile(r'^/picture/\d+/current')
@@ -63,7 +61,7 @@ class Daemon:
                 sys.exit(0)
 
         except OSError as e:
-            sys.stderr.write('fork() failed: %s\n' % e.strerror)
+            sys.stderr.write(f'fork() failed: {e.strerror}\n')
             sys.exit(-1)
 
         # separate from parent
@@ -76,29 +74,29 @@ class Daemon:
                 sys.exit(0)
 
         except OSError as e:
-            sys.stderr.write('fork() failed: %s\n' % e.strerror)
+            sys.stderr.write(f'fork() failed: {e.strerror}\n')
             sys.exit(-1)
 
         # redirect standard file descriptors
         sys.stdout.flush()
         sys.stderr.flush()
-        si = open(os.devnull)
-        so = open(os.devnull, 'a+')
-        se = open(os.devnull, 'a+')
-        os.dup2(si.fileno(), sys.stdin.fileno())
-        os.dup2(so.fileno(), sys.stdout.fileno())
-        os.dup2(se.fileno(), sys.stderr.fileno())
+        with open(os.devnull) as si:
+            os.dup2(si.fileno(), sys.stdin.fileno())
+        with open(os.devnull, 'a+') as so:
+            os.dup2(so.fileno(), sys.stdout.fileno())
+        with open(os.devnull, 'a+') as se:
+            os.dup2(se.fileno(), sys.stderr.fileno())
 
         # pid file
         atexit.register(self.del_pid)
         with open(self.pid_file, 'w') as f:
-            f.write('%s\n' % os.getpid())
+            f.write(f'{os.getpid()}\n')
 
     def del_pid(self):
         try:
             os.remove(self.pid_file)
 
-        except:
+        except Exception:
             sys.stderr.write('failed to remove pid file.\n')
 
     def running(self):
@@ -106,14 +104,14 @@ class Daemon:
             with open(self.pid_file) as f:
                 pid = int(f.read().strip())
 
-        except:
+        except Exception:
             return None
 
         try:
             os.kill(pid, 0)
             return pid
 
-        except:
+        except Exception:
             return None
 
     def start(self):
@@ -135,9 +133,9 @@ class Daemon:
             os.kill(pid, signal.SIGTERM)
 
         except Exception as e:
-            sys.stderr.write('failed to terminate server: %s\n' % e)
+            sys.stderr.write(f'failed to terminate server: {e}\n')
 
-        for i in range(50):  # @UnusedVariable
+        for _i in range(50):
             try:
                 os.kill(pid, 0)
                 time.sleep(0.1)
@@ -149,7 +147,7 @@ class Daemon:
                     break
 
                 else:
-                    sys.stderr.write('failed to terminate server: %s\n' % e)
+                    sys.stderr.write(f'failed to terminate server: {e}\n')
                     sys.exit(-11)
 
         else:
@@ -157,7 +155,7 @@ class Daemon:
             try:
                 os.kill(pid, signal.SIGKILL)
 
-            except:
+            except Exception:
                 sys.stderr.write('failed to kill...\n')
 
 
@@ -184,7 +182,7 @@ def _log_request(handler):
         )
 
 
-handler_mapping: Sequence[Tuple] = [
+handler_mapping: Sequence[tuple] = [
     (r'^/$', MainHandler),
     (r'^/manifest.json$', ManifestHandler),
     (r'^/config/main/(?P<op>set|get)/?$', ConfigHandler),
@@ -219,66 +217,64 @@ handler_mapping: Sequence[Tuple] = [
         {'path': r''},
     ),
     (r'^/action/(?P<camera_id>\d+)/(?P<action>\w+)/?$', ActionHandler),
-    (r'^/prefs/(?P<key>\w+)?/?$', PrefsHandler),
     (r'^/_relay_event/?$', RelayEventHandler),
     (r'^/log/(?P<name>\w+)/?$', LogHandler),
-    (r'^/update/?$', UpdateHandler),
     (r'^/power/(?P<op>shutdown|reboot)/?$', PowerHandler),
-    (r'^/version/?$', VersionHandler),
     (r'^/login/?$', LoginHandler),
     (r'^/logout/?$', LogoutHandler),
     (r'^.*$', NotFoundHandler),
 ]
 
 
+_motion_checker: PeriodicCallback | None = None
+
+
 def configure_signals():
-    def bye_handler(signal, frame):
+    def bye_handler():
         logging.info(_('interrompa signalo ricevita, fermanta …'))
 
+        stop_motion_checker()
+
         # shut down the IO loop if it has been started
-        io_loop = IOLoop.current()
-        io_loop.stop()
+        IOLoop.current().stop()
 
     def child_handler(signal, frame):
         # this is required for the multiprocessing mechanism to work
         multiprocessing.active_children()
 
-    signal.signal(signal.SIGINT, bye_handler)
-    signal.signal(signal.SIGTERM, bye_handler)
+    asyncio_loop = IOLoop.current().asyncio_loop
+    asyncio_loop.add_signal_handler(signal.SIGINT, bye_handler)
+    asyncio_loop.add_signal_handler(signal.SIGTERM, bye_handler)
     signal.signal(signal.SIGCHLD, child_handler)
+
+    if sys.version_info < (3, 12):
+        # processes forked by multiprocessing inherit the signal wakeup fd of the
+        # handlers above, so a signal sent to one of them would stop this server
+        os.register_at_fork(after_in_child=lambda: signal.set_wakeup_fd(-1))
 
 
 def test_requirements():
     if not os.access(settings.CONF_PATH, os.W_OK):
         logging.fatal(
-            'config directory "%s" does not exist or is not writable'
-            % settings.CONF_PATH
+            f'config directory "{settings.CONF_PATH}" does not exist or is not writable'
         )
         sys.exit(-1)
 
-    if not os.access(settings.RUN_PATH, os.W_OK):
+    if settings.LOG_TO_FILE and not os.access(settings.LOG_PATH, os.W_OK):
         logging.fatal(
-            'pid directory "%s" does not exist or is not writable' % settings.RUN_PATH
-        )
-        sys.exit(-1)
-
-    if not os.access(settings.LOG_PATH, os.W_OK):
-        logging.fatal(
-            'log directory "%s" does not exist or is not writable' % settings.LOG_PATH
+            f'log directory "{settings.LOG_PATH}" does not exist or is not writable'
         )
         sys.exit(-1)
 
     if not os.access(settings.MEDIA_PATH, os.W_OK):
         logging.fatal(
-            'media directory "%s" does not exist or is not writable'
-            % settings.MEDIA_PATH
+            f'media directory "{settings.MEDIA_PATH}" does not exist or is not writable'
         )
         sys.exit(-1)
 
-    if os.geteuid() != 0:
-        if settings.SMB_SHARES:
-            logging.fatal(_('smb-akcioj postulas radikajn privilegiojn'))
-            sys.exit(-1)
+    if os.geteuid() != 0 and settings.SMB_SHARES:
+        logging.fatal(_('smb-akcioj postulas radikajn privilegiojn'))
+        sys.exit(-1)
 
     try:
         import tornado  # noqa: F401
@@ -348,25 +344,25 @@ def make_media_folders():
     camera_ids = config.get_camera_ids()
     for camera_id in camera_ids:
         camera_config = config.get_camera(camera_id)
-        if 'target_dir' in camera_config:
-            if not os.path.exists(camera_config['target_dir']):
-                try:
-                    os.makedirs(camera_config['target_dir'])
+        if 'target_dir' in camera_config and not os.path.exists(
+            camera_config['target_dir']
+        ):
+            try:
+                os.makedirs(camera_config['target_dir'])
 
-                except Exception as e:
-                    logging.error(
-                        'failed to create root media folder "{}" for camera with id {}: {}'.format(
-                            camera_config['target_dir'], camera_id, e
-                        )
+            except Exception as e:
+                logging.error(
+                    'failed to create root media folder "{}" for camera with id {}: {}'.format(
+                        camera_config['target_dir'], camera_id, e
                     )
+                )
 
 
 def start_motion():
+    global _motion_checker
+
     from motioneye import config, motionctl
 
-    io_loop = IOLoop.current()
-
-    # add a motion running checker
     def checker():
         if (
             not motionctl.running()
@@ -377,22 +373,26 @@ def start_motion():
                 logging.error('motion not running, starting it')
                 motionctl.start()
 
-            except Exception as e:
-                logging.error(f'failed to start motion: {str(e)}', exc_info=True)
-
-        io_loop.add_timeout(
-            datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker
-        )
+            except Exception:
+                logging.error('failed to start motion')
 
     try:
         motionctl.start()
 
-    except Exception as e:
-        logging.error(str(e), exc_info=True)
+    except Exception:
+        logging.exception('failed to start motion')
 
-    io_loop.add_timeout(
-        datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker
-    )
+    stop_motion_checker()
+    _motion_checker = PeriodicCallback(checker, settings.MOTION_CHECK_INTERVAL * 1000)
+    _motion_checker.start()
+
+
+def stop_motion_checker():
+    global _motion_checker
+
+    if _motion_checker is not None:
+        _motion_checker.stop()
+        _motion_checker = None
 
 
 def parse_options(parser, args):
@@ -419,32 +419,43 @@ def make_app(debug: bool = False) -> Application:
 
 
 def run():
-    import motioneye
-    from motioneye import cleanup, mjpgclient, motionctl, tasks, wsswitch
+    from motioneye import VERSION, cleanup, mjpgclient, motionctl, tasks, wsswitch
     from motioneye.controls import smbctl
 
     configure_signals()
-    logging.info(_('saluton! ĉi tio estas motionEye-servilo ') + motioneye.VERSION)
+    logging.info(_('saluton! ĉi tio estas motionEye-servilo ') + VERSION)
 
     test_requirements()
     make_media_folders()
 
+    legacy_pickle_file = os.path.join(settings.CONF_PATH, 'tasks.pickle')
+    if os.path.exists(legacy_pickle_file):
+        logging.warning(f'removing legacy tasks pickle file {legacy_pickle_file!r}')
+        os.remove(legacy_pickle_file)
+
+    state = authstate.build_password_hash_state(config.get_main())
+    authstate.set_password_hash_state(state)
+    if not authstate.validate_password_hash_state(state):
+        logging.warning(
+            _(
+                'The admin and/or surveillance user has no password assigned. '
+                'Please login to the web interface to set both passwords.'
+            )
+        )
+
+    migration.migrate_cameras()  # before motion reads the camera configs
+
     if settings.SMB_SHARES:
-        stop, start = smbctl.update_mounts()  # @UnusedVariable
+        _stop, start = smbctl.update_mounts()
         if start:
             start_motion()
 
     else:
         start_motion()
 
-    if settings.CLEANUP_INTERVAL:
-        cleanup.start()
-        logging.info(_('purigado komenciĝis'))
     wsswitch.start()
-    logging.info(_('wsswitch komenciĝis'))
-
     tasks.start()
-    logging.info(_('taskoj komenciĝis'))
+    cleanup.start()
 
     if settings.MJPG_CLIENT_TIMEOUT:
         mjpgclient.start()
@@ -459,25 +470,30 @@ def run():
 
     # Create the Tornado application with secure cookie settings
     application = make_app(debug=False)
-
     application.listen(settings.PORT, settings.LISTEN)
+    # motion relays its events to 127.0.0.1 (see relayevent.sh), and the relay
+    # event API only accepts local requests, so listen there as well when the
+    # configured address does not include it
+    if settings.LISTEN not in ('', '0.0.0.0', '127.0.0.1', 'localhost'):  # nosec: B104
+        application.listen(settings.PORT, '127.0.0.1')
     logging.info(_('servilo komenciĝis'))
+
     io_loop = IOLoop.current()
     # we need to reset the loop's PID to fix PID checks when running in daemon mode
     io_loop._pid = os.getpid()
     io_loop.start()
 
+    # shutdown sequence begins once io_loop.start() returns
     logging.info(_('servilo haltis'))
-    tasks.stop()
-    logging.info(_('taskoj haltis'))
 
-    if cleanup.running():
-        cleanup.stop()
-        logging.info('cleanup stopped')
+    stop_motion_checker()
+    cleanup.stop()
+    tasks.stop()
 
     if motionctl.running():
         motionctl.stop()
         logging.info(_('motion haltis'))
+
     if settings.SMB_SHARES:
         smbctl.stop()
         logging.info('smb mounts stopped')
@@ -490,11 +506,23 @@ def main(parser, args, command):
 
     options = parse_options(parser, args)
 
-    meyectl.configure_logging('motioneye', options.background or options.log_to_file)
+    # daemon mode redirects stdout/stderr to /dev/null,
+    # so logging to file is the only way to preserve any output
+    if options.background:
+        settings.LOG_TO_FILE = True
+
+    meyectl.configure_logging('motioneye')
     meyectl.configure_tornado()
 
     if command == 'start':
         if options.background:
+            # only the background mode needs a pid file, to be stopped by "stopserver"
+            if not os.access(settings.RUN_PATH, os.W_OK):
+                logging.fatal(
+                    f'pid directory "{settings.RUN_PATH}" does not exist or is not writable'
+                )
+                sys.exit(-1)
+
             daemon = Daemon(
                 pid_file=os.path.join(settings.RUN_PATH, _PID_FILE), run_callback=run
             )

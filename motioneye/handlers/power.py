@@ -15,8 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import datetime
-
 from tornado.ioloop import IOLoop
 
 from motioneye.controls.powerctl import PowerControl
@@ -35,9 +33,7 @@ class PowerHandler(BaseHandler):
             self.reboot()
 
     def shut_down(self):
-        io_loop = IOLoop.current()
-        io_loop.add_timeout(datetime.timedelta(seconds=2), PowerControl.shut_down)
+        IOLoop.current().call_later(2, PowerControl.shut_down)
 
     def reboot(self):
-        io_loop = IOLoop.current()
-        io_loop.add_timeout(datetime.timedelta(seconds=2), PowerControl.reboot)
+        IOLoop.current().call_later(2, PowerControl.reboot)

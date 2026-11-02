@@ -1,0 +1,46 @@
+#!/bin/sh
+# rc.subr exists on FreeBSD only, and reads the variables set here
+# shellcheck disable=SC1091,SC2034
+
+# PROVIDE: motioneye
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+#
+# Add the following line to /etc/rc.conf to start motionEye at boot:
+#
+# motioneye_enable="YES"
+#
+# Optional settings:
+# motioneye_user (default "motion"): the user motionEye runs as
+# motioneye_config (default "/usr/local/etc/motioneye/motioneye.conf")
+# motioneye_meyectl (default "/usr/local/bin/meyectl"): set by motioneye_init
+#   to the meyectl of its Python environment, e.g. a venv
+
+. /etc/rc.subr
+
+name=motioneye
+rcvar=motioneye_enable
+
+load_rc_config "$name"
+
+: "${motioneye_enable:=NO}"
+: "${motioneye_user:=motion}"
+: "${motioneye_config:=/usr/local/etc/motioneye/motioneye.conf}"
+: "${motioneye_meyectl:=/usr/local/bin/meyectl}"
+
+# rc.subr leaves /usr/local out of PATH, where motion, ffmpeg and v4l2-ctl are
+export PATH="${PATH}:/usr/local/sbin:/usr/local/bin"
+
+# daemon(8) supervises meyectl: it restarts it when it dies and sends its output to syslog.
+# rc.subr runs it as motioneye_user, so the pidfile goes to a directory owned by that user.
+pidfile="/var/run/${name}/${name}.pid"
+command=/usr/sbin/daemon
+command_args="-f -r -S -T ${name} -P ${pidfile} ${motioneye_meyectl} startserver -c ${motioneye_config}"
+start_precmd=motioneye_prestart
+
+motioneye_prestart()
+{
+	install -d -o "${motioneye_user}" "/var/run/${name}"
+}
+
+run_rc_command "$1"

@@ -16,18 +16,28 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import subprocess
+import os
 import sys
+import sysconfig
+from subprocess import run
 
 import motioneye
 
 
 def main():
-    cmd = f"cd '{motioneye.__path__[0]}' && extra/linux_init"
-    for arg in sys.argv[1:]:
-        cmd += f" '{arg}'"
+    args = []
+    # the meyectl of this Python environment, e.g. a venv, which need not be in PATH
+    meyectl = os.path.join(sysconfig.get_path('scripts'), 'meyectl')
+    if os.access(meyectl, os.X_OK):
+        args += ['--meyectl', meyectl]
 
-    subprocess.run(cmd, shell=True)
+    init = 'freebsd_init' if sys.platform.startswith('freebsd') else 'linux_init'
+    # given after it, so that --meyectl given on the command line takes precedence
+    run(
+        [f'{motioneye.__path__[0]}/extra/{init}', *args, *sys.argv[1:]],
+        cwd=motioneye.__path__[0],
+        check=False,
+    )
 
 
 if __name__ == '__main__':

@@ -11,7 +11,7 @@ permissions: {}
 jobs:
   docker:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     permissions:
       contents: read
@@ -58,7 +58,9 @@ jobs:
       - uses: docker/build-push-action@v7
         with:
           file: ./docker/Dockerfile
-          platforms: linux/amd64,linux/arm64/v8,linux/arm/v7,linux/riscv64
+          # linux/loong64 from Debian Forky on
+          # linux/arm/v6 builds times out after 6h, due to heavy compiling the "cmake" Python module, skipping it
+          platforms: linux/amd64,linux/arm64/v8,linux/arm/v7,linux/riscv64,linux/ppc64le,linux/s390x
           push: ${{ github.event_name == 'push' && github.repository == 'motioneye-project/motioneye' && steps.meta.outputs.tags != null }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

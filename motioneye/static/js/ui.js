@@ -13,12 +13,12 @@ function makeCheckBox($input) {
         var text = $('<span class="check-box-text"><span>');
 
         function setOn() {
-            text.html('<img src="' + staticPath + 'img/IEC5007_On_Symbol.svg" style="width:70%;height:70%;padding:12%">');
+            text.html('<img src="' + staticPath + 'img/IEC5007_On_Symbol.svg">');
             mainDiv.addClass('on');
         }
 
         function setOff() {
-            text.html('<img src="' + staticPath + 'img/IEC5008_Off_Symbol.svg" style="width:70%;height:70%;padding:12%">');
+            text.html('<img src="' + staticPath + 'img/IEC5008_Off_Symbol.svg">');
             mainDiv.removeClass('on');
         }
 
@@ -117,10 +117,6 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
             return pos;
         }
 
-        function getPos() {
-            return parseInt(cursor.position().left * 100 / bar.width());
-        }
-
         function valToPos(val) {
             return (val - minVal) * 100 / (maxVal - minVal);
         }
@@ -206,7 +202,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
             for (i = 0; i < ticks.length; i++) {
                 var tick = ticks[i];
                 var pos = valToPos(tick.value);
-                var span = $('<span class="slider-label" style="left: -9999px;">' + tick.label + '</span>');
+                var span = $('<span class="slider-label">' + tick.label + '</span>');
 
                 labels.append(span);
                 span.css('left', (pos - 10) + '%');
@@ -339,7 +335,7 @@ function makeProgressBar($div) {
 
     /* validators */
 
-function makeCustomValidator($input, isValidFunc) {
+function makeCustomValidator($input, isValidFunc, ignoreVisibility) {
     $input.each(function () {
         var element = this;
 
@@ -353,8 +349,8 @@ function makeCustomValidator($input, isValidFunc) {
         function validate() {
             var strVal = element.value || '';
 
-            /* An invisible element is considered always valid */
-            var valid = !isVisible(element) || isValidFunc(strVal);
+            /* An invisible element is considered always valid, unless ignoreVisibility is set */
+            var valid = (!ignoreVisibility && !isVisible(element)) || isValidFunc(strVal);
 
             /* Handle validators that return error messages or true */
             var isValidResult = (valid === true);
@@ -666,14 +662,19 @@ function makeModalDialogButtons(buttonsInfo) {
 
 function makeModalDialogTitleBar(options) {
     /* available options:
-     * * title: String
+     * * title: String (shown as text) or jQuery object
      * * closeButton: Boolean
      */
 
     var titleBar = $('<div class="modal-title-bar"></div>');
 
     var titleSpan = $('<span class="modal-title"></span>');
-    titleSpan.html(options.title || '');
+    if (options.title instanceof jQuery || options.title instanceof Node) {
+        titleSpan.append(options.title);
+    }
+    else {
+        titleSpan.text(options.title == null ? '' : String(options.title));
+    }
     if (options.closeButton) {
         titleSpan.css('margin', '0px 2em');
     }
@@ -691,7 +692,7 @@ function makeModalDialogTitleBar(options) {
 
 function runModalDialog(options) {
     /* available options:
-     * * title: String
+     * * title: String (shown as text) or jQuery object
      * * closeButton: Boolean
      * * content: any
      * * buttons: 'ok'|'yesno'|'okcancel'|Array
@@ -719,7 +720,7 @@ function runModalDialog(options) {
 
     /* add supplied content */
     if (options.content) {
-        var contentWrapper = $('<div style="padding: 10px;"></div>');
+        var contentWrapper = $('<div class="modal-content"></div>');
         contentWrapper.append(options.content);
         content.append(contentWrapper);
     }
@@ -833,7 +834,7 @@ function showPopupMessage(message, type) {
         clearTimeout(window._popupMessageTimeout);
     }
 
-    content.html(message);
+    content.text(message);
     content.addClass(type);
     container.html(content);
 

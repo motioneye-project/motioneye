@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 import atexit
 import os
 from secrets import token_hex
 from shutil import rmtree
 from tempfile import mkdtemp
 from time import time
-from typing import Generic, Optional, Type, TypeVar
+from typing import Generic, TypeVar
 from unittest.mock import MagicMock, patch
 
 from tornado.testing import AsyncHTTPTestCase
@@ -13,7 +15,7 @@ from tornado.web import Application, RequestHandler, create_signed_value
 from motioneye.handlers.base import _SESSION_EXPIRY_SECONDS, _session_store
 from motioneye.server import make_app
 
-__all__ = ('HandlerTestCase',)
+__all__ = ('HandlerTestCase', 'RemoteCameraTestCase')
 
 T = TypeVar('T', bound=RequestHandler)
 
@@ -43,7 +45,7 @@ _FAKE_CAMERA_CONFIG = {
 
 
 class HandlerTestCase(AsyncHTTPTestCase, Generic[T]):
-    handler_cls: Type[T]
+    handler_cls: type[T]
 
     def get_app(self) -> Application:
         self.app = make_app()
@@ -73,7 +75,7 @@ class HandlerTestCase(AsyncHTTPTestCase, Generic[T]):
         # Wipe any sessions left over from this test so the next test starts clean.
         _session_store.clear()
 
-    def get_handler(self, request: Optional[MagicMock] = None) -> T:
+    def get_handler(self, request: MagicMock | None = None) -> T:
         req = request or MagicMock()
         return self.handler_cls(self.app, req)
 
@@ -93,3 +95,34 @@ class HandlerTestCase(AsyncHTTPTestCase, Generic[T]):
             self.app.settings['cookie_secret'], 'user', session_id
         )
         return 'user=' + signed.decode()
+
+
+_FAKE_REMOTE_CAMERA_CONFIG = {
+    '@id': _FAKE_CAMERA_ID,
+    '@enabled': True,
+    '@proto': 'motioneye',
+    '@scheme': 'http',
+    '@host': 'cam.example',
+    '@port': 8765,
+    '@path': '',
+    '@remote_camera_id': 1,
+    '@remote_secret': 'secret',
+}
+
+
+class RemoteCameraTestCase(HandlerTestCase):
+    """Camera 1 is a remote motionEye camera."""
+
+    def setUp(self):
+        super().setUp()
+        self._remote_patch = patch(
+            'motioneye.config.get_camera', return_value=_FAKE_REMOTE_CAMERA_CONFIG
+        )
+        self._remote_patch.start()
+
+    def tearDown(self):
+        self._remote_patch.stop()
+        super().tearDown()
+
+    def fetch_as_admin(self, path):
+        return self.fetch(path, headers={'Cookie': self.make_session_cookie('admin')})

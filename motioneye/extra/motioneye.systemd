@@ -4,8 +4,6 @@ After=network.target local-fs.target remote-fs.target
 
 [Service]
 User=motion
-RuntimeDirectory=motioneye
-LogsDirectory=motioneye
 StateDirectory=motioneye
 ExecStart=/usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
 Restart=on-abort

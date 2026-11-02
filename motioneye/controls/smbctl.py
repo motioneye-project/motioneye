@@ -13,8 +13,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
-import datetime
 import logging
 import os
 import re
@@ -25,24 +25,46 @@ from tornado.ioloop import IOLoop
 
 from motioneye import config, settings, utils
 
+_mount_cifs_path_cache: str | None = None
+_umount_path_cache: str | None = None
+
 
 def start():
-    io_loop = IOLoop.current()
-    io_loop.add_timeout(
-        datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts
-    )
+    IOLoop.current().call_later(settings.MOUNT_CHECK_INTERVAL, _check_mounts)
 
 
 def stop():
     _umount_all()
 
 
-def find_mount_cifs():
+def find_mount_cifs() -> str | None:
+    global _mount_cifs_path_cache
+    if _mount_cifs_path_cache:
+        return _mount_cifs_path_cache
+
     try:
-        return utils.call_subprocess(['which', 'mount.cifs'])
+        path: str = utils.call_subprocess(['which', 'mount.cifs'])
 
     except subprocess.CalledProcessError:  # not found
         return None
+
+    _mount_cifs_path_cache = path
+    return _mount_cifs_path_cache
+
+
+def find_umount() -> str | None:
+    global _umount_path_cache
+    if _umount_path_cache:
+        return _umount_path_cache
+
+    try:
+        path: str = utils.call_subprocess(['which', 'umount'])
+
+    except subprocess.CalledProcessError:  # not found
+        return None
+
+    _umount_path_cache = path
+    return _umount_path_cache
 
 
 def make_mount_point(server, share, username):
@@ -64,7 +86,7 @@ def make_mount_point(server, share, username):
 
 
 def list_mounts():
-    logging.debug('listing smb mounts...')
+    logging.debug('listing smb mounts ...')
 
     mounts = []
     with open('/proc/mounts') as f:
@@ -183,7 +205,7 @@ def test_share(server, share, smb_ver, username, password, root_directory):
     if not mount_point:
         mount_point = _mount(server, share, smb_ver, username, password)
         if not mount_point:
-            raise Exception('cannot mount network share')
+            raise RuntimeError('cannot mount network share')
 
         mounted = True
 
@@ -194,35 +216,57 @@ def test_share(server, share, smb_ver, username, password, root_directory):
 
     path = os.path.join(mount_point, root_directory)
     if os.path.exists(path):
-        return maybe_umount()
+        maybe_umount()
+        return
 
     try:
         os.makedirs(path)
 
-    except:
-        raise Exception('cannot create root directory')
+    except Exception as e:
+        raise RuntimeError('cannot create root directory') from e
 
     finally:
         maybe_umount()
 
+    return
+
 
 def _mount(server, share, smb_ver, username, password):
-    mount_point = make_mount_point(server, share, username)
+    if find_mount_cifs() is None:
+        raise RuntimeError('mount.cifs not found, please install cifs-utils')
 
-    logging.debug('making sure mount point "%s" exists' % mount_point)
+    mount_point = make_mount_point(server, share, username)
+    logging.debug(f'making sure mount point "{mount_point}" exists')
 
     if not os.path.exists(mount_point):
         os.makedirs(mount_point)
 
     if username:
         opts = f'username={username},password={password}'
-        sec_types = [None, 'ntlm', 'ntlmv2', 'ntlmv2i', 'ntlmsspi', 'none']
+        # Let the kernel negotiate its default first (None), then try the
+        # security modes from strongest to weakest, each signed ('*i') variant
+        # before its unsigned counterpart. The legacy NTLMv1 'ntlm' mode is
+        # kept last as a fallback for very old servers: since a working modern
+        # mode is found first, recent kernels (which removed 'ntlm') no longer
+        # reach it and stop logging "bad security option: ntlm" (#3013).
+        sec_types = [
+            None,
+            'ntlmsspi',
+            'ntlmssp',
+            'ntlmv2i',
+            'ntlmv2',
+            'ntlmi',
+            'ntlm',
+            'none',
+        ]
 
     else:
         opts = 'guest'
-        sec_types = [None, 'none', 'ntlm', 'ntlmv2', 'ntlmv2i', 'ntlmsspi']
+        # Without credentials only a null-user session is meaningful; the
+        # password-hashing modes do not apply.
+        sec_types = [None, 'none']
 
-    opts += ',vers=%s' % smb_ver
+    opts += f',vers={smb_ver}'
 
     for sec in sec_types:
         if sec:
@@ -236,13 +280,19 @@ def _mount(server, share, smb_ver, username, password):
                 f'mounting "//{server}/{share}" at "{mount_point}" (sec={sec})'
             )
             subprocess.run(
-                ['mount.cifs', f'//{server}/{share}', mount_point, '-o', actual_opts],
+                [
+                    _mount_cifs_path_cache,
+                    f'//{server}/{share}',
+                    mount_point,
+                    '-o',
+                    actual_opts,
+                ],
                 check=True,
             )
             break
 
         except subprocess.CalledProcessError:
-            pass
+            pass  # mount failed with these options, try the next ones
 
     else:
         logging.error(
@@ -255,28 +305,29 @@ def _mount(server, share, smb_ver, username, password):
         path = os.path.join(mount_point, '.motioneye_' + str(int(time.time())))
         os.mkdir(path)
         os.rmdir(path)
-        logging.debug('directory at "%s" is writable' % mount_point)
+        logging.debug(f'directory at "{mount_point}" is writable')
 
-    except:
-        logging.error('directory at "%s" is not writable' % mount_point)
-
+    except Exception:
+        logging.error(f'directory at "{mount_point}" is not writable')
         return None
 
     return mount_point
 
 
 def _umount(server, share, username):
+    if find_umount() is None:
+        raise RuntimeError('umount command not found')
+
     mount_point = make_mount_point(server, share, username)
     logging.debug(f'unmounting "//{server}/{share}" from "{mount_point}"')
 
     try:
-        subprocess.run(['umount', mount_point], check=True)
+        subprocess.run([_umount_path_cache, mount_point], check=True)
 
     except subprocess.CalledProcessError:
         logging.error(
             f'failed to unmount smb share "//{server}/{share}" from "{mount_point}"'
         )
-
         return False
 
     try:
@@ -284,7 +335,6 @@ def _umount(server, share, username):
 
     except Exception as e:
         logging.error(f'failed to remove smb mount point "{mount_point}": {e}')
-
         return False
 
     return True
@@ -312,7 +362,4 @@ def _check_mounts():
     if start:
         motionctl.start()
 
-    io_loop = IOLoop.current()
-    io_loop.add_timeout(
-        datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts
-    )
+    IOLoop.current().call_later(settings.MOUNT_CHECK_INTERVAL, _check_mounts)

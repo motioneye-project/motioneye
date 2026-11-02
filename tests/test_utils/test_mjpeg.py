@@ -1,9 +1,25 @@
-import tornado.testing
+import logging
+from asyncio import sleep
+from importlib.util import find_spec
+from unittest import mock, skipUnless
+
 from tornado.concurrent import Future
+from tornado.httpclient import AsyncHTTPClient, HTTPResponse
+from tornado.iostream import StreamClosedError
+from tornado.tcpserver import TCPServer
+from tornado.testing import bind_unused_port, gen_test, main
 from tornado.web import RequestHandler
 
+from motioneye import settings
 from motioneye.utils.mjpeg import test_mjpeg_url
 from tests import WebTestCase
+
+
+class RawStreamServer(TCPServer):
+    # like `rpicam-vid --listen -o tcp://`: JPEG bytes without any HTTP response
+    async def handle_stream(self, stream, address):
+        await stream.write(b'\xff\xd8\xff\xe0' + b'\x00' * 70000)
+        stream.close()
 
 
 class UtilsMjpegTest(WebTestCase):
@@ -24,7 +40,18 @@ class UtilsMjpegTest(WebTestCase):
                 self.write(test.data)
                 await self.flush()
 
-        return [('/', MjpegHandler)]
+        class EndlessMjpegHandler(RequestHandler):
+            async def get(self):
+                self.set_header('Content-Type', 'multipart/x-mixed-replace')
+                try:
+                    while True:
+                        self.write(b'--frame\r\n\r\n' + b'\xff' * 1000)
+                        await self.flush()
+                        await sleep(0.05)
+                except StreamClosedError:
+                    pass
+
+        return [('/', MjpegHandler), ('/stream', EndlessMjpegHandler)]
 
     def test_test_mjpeg_url_invalid_data(self):
         self.data = 'Some random string'
@@ -98,6 +125,87 @@ class UtilsMjpegTest(WebTestCase):
             {'id': 1, 'name': 'MJPEG Network Camera', 'keep_alive': True}, cam
         )
 
+    @gen_test
+    async def test_test_mjpeg_url_connection_refused(self):
+        sock, port = bind_unused_port()
+        sock.close()
+
+        data = {'port': port, 'path': '/video.cgi?user=u&pwd=s3cret'}
+        debug = mock.patch.object(logging, 'debug')
+        with self.assertLogs(level='ERROR') as logs, debug as debug_log:
+            resp = await test_mjpeg_url(data, auth_modes=['basic'], allow_jpeg=True)
+        self.assertIsNone(resp.cameras)
+        self.assertTrue(resp.error)
+
+        # both log lines leave out the query, which may hold a password
+        ours = str(logs.output) + str(debug_log.call_args_list)
+        self.assertIn('/video.cgi using no authentication', ours)
+        self.assertIn('/video.cgi failed', ours)
+        self.assertNotIn('s3cret', ours)
+
+    @gen_test
+    async def test_test_mjpeg_url_not_http(self):
+        sock, port = bind_unused_port()
+        server = RawStreamServer()
+        server.add_sockets([sock])
+        try:
+            resp = await test_mjpeg_url(
+                {'port': port}, auth_modes=['basic'], allow_jpeg=True
+            )
+        finally:
+            server.stop()
+
+        self.assertIsNone(resp.cameras)
+        self.assertTrue(resp.error)
+
+    @gen_test(timeout=10)
+    async def test_test_mjpeg_url_stream_timeout_after_detection(self):
+        asyncio_log = logging.getLogger('asyncio')
+        short_timeout = mock.patch.object(settings, 'REMOTE_REQUEST_TIMEOUT', 1)
+        with short_timeout, mock.patch.object(asyncio_log, 'error') as log_error:
+            resp = await test_mjpeg_url(
+                {'port': self.get_http_port(), 'path': '/stream'},
+                auth_modes=['basic'],
+                allow_jpeg=True,
+            )
+            self.assertIsNone(resp.error)
+            self.assertEqual('MJPEG Network Camera', resp.cameras[0]['name'])
+
+            # the stream never ends, so its request still runs into the timeout
+            await sleep(2)
+
+        log_error.assert_not_called()
+
+    @gen_test
+    async def test_the_certificate_of_an_https_camera_is_verified(self):
+        def fetch(request, **kwargs):
+            fetch_future: Future = Future()
+            fetch_future.set_result(HTTPResponse(request, 200))
+            return fetch_future
+
+        client = mock.Mock(fetch=mock.Mock(side_effect=fetch))
+        client_patch = mock.patch(
+            'motioneye.utils.mjpeg.AsyncHTTPClient', return_value=client
+        )
+        camera = {'scheme': 'https', 'host': 'cam.example', 'port': '443'}
+        with client_patch, self.assertLogs(level='ERROR'):
+            resp = await test_mjpeg_url(camera, auth_modes=['basic'], allow_jpeg=True)
+
+        request = client.fetch.call_args.args[0]
+        self.assertEqual('https://cam.example:443', request.url)
+        # None is Tornado's default here, which verifies
+        self.assertIsNot(False, request.validate_cert)
+        self.assertEqual('not a supported network camera', resp.error)
+
+
+@skipUnless(find_spec('pycurl'), 'pycurl is not installed')
+class UtilsMjpegCurlTest(UtilsMjpegTest):
+    # the same tests with the curl client that motionEye's server uses
+    def setUp(self) -> None:
+        AsyncHTTPClient.configure('tornado.curl_httpclient.CurlAsyncHTTPClient')
+        self.addCleanup(AsyncHTTPClient.configure, None)
+        super().setUp()
+
 
 if __name__ == '__main__':
-    tornado.testing.main()
+    main()

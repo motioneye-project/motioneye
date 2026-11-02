@@ -15,9 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations
+
 import logging
-from os import sep
-from typing import Optional
+import os
 
 from motioneye import config, mediafiles, motionctl, tasks, uploadservices, utils
 from motioneye.handlers.base import BaseHandler
@@ -27,6 +28,15 @@ __all__ = ('RelayEventHandler',)
 
 class RelayEventHandler(BaseHandler):
     def post(self) -> None:
+        # Only motion on this host relays events, through loopback (see
+        # relayevent.sh and server.run()), so reject any other client
+        if self.request.remote_ip not in ('127.0.0.1', '::1'):
+            logging.warning(
+                f'relay event request from non-local address {self.request.remote_ip}'
+            )
+            self.set_status(403)
+            return self.finish_json({'error': 'unauthorized'})
+
         # Validate relay secret from header
         relay_secret = self.request.headers.get('X-Relay-Secret', '')
         expected_secret = config.get_relay_secret()
@@ -38,16 +48,6 @@ class RelayEventHandler(BaseHandler):
             self.set_status(403)
             return self.finish_json({'error': 'invalid_secret'})
 
-        # Allow localhost/127.0.0.1 to call this endpoint without additional authentication
-        # (internal relay from Motion daemon only)
-        client_ip = self.request.remote_ip
-        if client_ip not in ('127.0.0.1', 'localhost', '::1'):
-            # Not localhost, require authentication
-            user = self.current_user
-            if user != 'admin':
-                self.set_status(403)
-                return self.finish_json({'error': 'unauthorized'})
-
         event = self.get_argument('event')
         motion_camera_id = int(self.get_argument('motion_camera_id'))
 
@@ -57,7 +57,7 @@ class RelayEventHandler(BaseHandler):
                 f'ignoring event for unknown motion camera id {motion_camera_id}'
             )
             self.finish_json()
-            return
+            return None
 
         else:
             logging.debug(
@@ -68,15 +68,15 @@ class RelayEventHandler(BaseHandler):
         if not utils.is_local_motion_camera(camera_config):
             logging.warning(f'ignoring event for non-local camera with id {camera_id}')
             self.finish_json()
-            return
+            return None
 
-        filename: Optional[str] = self.get_argument('filename')
+        filename: str | None = self.get_argument('filename')
         if filename is not None:
             target_dir: str = camera_config['target_dir']
-            utils.validate_paths(
-                filename.removeprefix(target_dir + sep),
-                target_dir=target_dir,
-            )
+            # motion sends an absolute path, motionEye passes it on relative to
+            # the camera dir and joins it again only for file operations
+            filename = filename.removeprefix(target_dir + os.sep)
+            utils.validate_paths(filename, target_dir=target_dir)
 
         if event == 'start':
             if not camera_config['@motion_detection']:
@@ -84,7 +84,7 @@ class RelayEventHandler(BaseHandler):
                     f'ignoring start event for camera with id {camera_id} and motion detection disabled'
                 )
                 self.finish_json()
-                return
+                return None
 
             motionctl.set_motion_detected(camera_id, True)
 
@@ -96,36 +96,40 @@ class RelayEventHandler(BaseHandler):
             tasks.add(
                 5,
                 mediafiles.make_movie_preview,
-                tag='make_movie_preview(%s)' % filename,
+                tag=f'make_movie_preview({filename})',
                 camera_config=camera_config,
-                full_path=filename,
+                rel_path=filename,
             )
 
             # upload to external service
             if camera_config['@upload_enabled'] and camera_config['@upload_movie']:
-                self.upload_media_file(filename, camera_id, camera_config)
+                self._upload_media_file(filename, camera_id, camera_config)
 
         elif event == 'picture_save':
             # upload to external service
             if camera_config['@upload_enabled'] and camera_config['@upload_picture']:
-                self.upload_media_file(filename, camera_id, camera_config)
+                self._upload_media_file(filename, camera_id, camera_config)
 
         else:
             logging.warning(f'unknown event {event}')
 
         self.finish_json()
 
-    def upload_media_file(self, filename, camera_id, camera_config):
+        return None
+
+    def _upload_media_file(self, filename, camera_id, camera_config):
         service_name = camera_config['@upload_service']
 
         tasks.add(
             5,
             uploadservices.upload_media_file,
-            tag='upload_media_file(%s)' % filename,
+            tag=f'upload_media_file({filename})',
             camera_id=camera_id,
             service_name=service_name,
             camera_name=camera_config['camera_name'],
             target_dir=camera_config['@upload_subfolders']
             and camera_config['target_dir'],
-            filename=filename,
+            # the upload subsystem still works with the absolute path
+            filename=os.path.join(camera_config['target_dir'], filename),
+            clean_uploaded=camera_config['@clean_uploaded'],
         )

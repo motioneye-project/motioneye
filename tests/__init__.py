@@ -1,4 +1,5 @@
-from typing import Optional
+from __future__ import annotations
+
 from unittest import mock
 
 from tornado.testing import AsyncHTTPTestCase
@@ -21,7 +22,7 @@ class AsyncMock(mock.MagicMock):
 
 
 class WebTestCase(AsyncHTTPTestCase):
-    handler: Optional[type] = None
+    handler: type | None = None
 
     def get_app(self):
         self.app = Application(self.get_handlers(), **self.get_app_kwargs())

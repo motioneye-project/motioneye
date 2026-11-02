@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import os
 import tarfile
@@ -20,7 +21,6 @@ import unittest
 from io import BytesIO
 from shutil import rmtree
 from tempfile import mkdtemp
-from typing import Optional
 
 from motioneye import config, settings
 
@@ -50,9 +50,7 @@ class TestBackup(unittest.TestCase):
         for name in names:
             open(os.path.join(self.conf_dir, name), 'a').close()
 
-    def _assert_tarball_members(
-        self, data: Optional[bytes], expected: list[str]
-    ) -> None:
+    def _assert_tarball_members(self, data: bytes | None, expected: list[str]) -> None:
         if data is None:
             self.fail('tarball data is None')
 
@@ -78,18 +76,13 @@ class TestBackup(unittest.TestCase):
         data = config.backup()
         self._assert_tarball_members(data, ['mask_1.pgm', 'mask_2.pgm'])
 
-    def test_backup_includes_prefs_json(self):
-        self._create_files('prefs.json')
-
-        data = config.backup()
-        self._assert_tarball_members(data, ['prefs.json'])
-
     def test_backup_excludes_other_files(self):
         self._create_files(
             'motion.conf',
             'uploadservices.json',
             'secrets.json',
             'motioneye.conf',
+            'prefs.json',  # left by older versions, the preferences are in the browser now
         )
 
         data = config.backup()
@@ -163,18 +156,13 @@ class TestRestore(unittest.TestCase):
         config.restore(tarball)
         self._assert_restored_files('mask_1.pgm', 'mask_2.pgm')
 
-    def test_restore_extracts_prefs_json(self):
-        tarball = self._make_tarball('prefs.json')
-
-        config.restore(tarball)
-        self._assert_restored_files('prefs.json')
-
     def test_restore_ignores_non_matching_files(self):
         tarball = self._make_tarball(
             'motion.conf',
             'uploadservices.json',
             'secrets.json',
             'motioneye.conf',
+            'prefs.json',  # in backups of older versions
         )
 
         config.restore(tarball)
@@ -243,3 +231,58 @@ class TestRestore(unittest.TestCase):
     def test_restore_invalid_data_returns_none(self):
         result = config.restore(b'not a tarball')
         self.assertIsNone(result)
+
+
+class TestNetcamParams(unittest.TestCase):
+    def test_keeps_other_entries_as_an_extra_option(self):
+        data = {
+            'netcam_params': 'decoder = drm,keepalive = off, capture_rate = 5,tolerant_check = on'
+        }
+        config.adapt_config_directives(data, config._MOTION_44_TO_43_OPTIONS_MAPPING)
+
+        self.assertEqual(
+            {
+                'netcam_keepalive': False,
+                'netcam_tolerant_check': True,
+                'netcam_params': 'decoder = drm, capture_rate = 5',
+            },
+            data,
+        )
+
+    def test_writes_other_entries_back_with_the_known_ones(self):
+        line = 'decoder = drm,keepalive = off,tolerant_check = on,rtsp_transport = tcp'
+        data = {'netcam_params': line}
+        config.adapt_config_directives(data, config._MOTION_44_TO_43_OPTIONS_MAPPING)
+        config.adapt_config_directives(data, config._MOTION_43_TO_44_OPTIONS_MAPPING)
+
+        self.assertEqual({'netcam_params': line}, data)
+
+    def test_adds_no_extra_option_without_other_entries(self):
+        data = {
+            'netcam_params': 'keepalive = on,tolerant_check = off,rtsp_transport = udp'
+        }
+        config.adapt_config_directives(data, config._MOTION_44_TO_43_OPTIONS_MAPPING)
+
+        self.assertEqual(
+            {
+                'netcam_keepalive': True,
+                'netcam_tolerant_check': False,
+                'netcam_use_tcp': False,
+            },
+            data,
+        )
+
+
+class TestDefaultMotion(unittest.TestCase):
+    def test_control_interface_cannot_change_parameters_by_default(self):
+        data = {}
+        config._set_default_motion(data)
+
+        self.assertEqual(0, data['webcontrol_parms'])
+
+    def test_keeps_stored_control_interface_parameters(self):
+        # existing installations keep what is stored in motion.conf
+        data = {'webcontrol_parms': 2}
+        config._set_default_motion(data)
+
+        self.assertEqual(2, data['webcontrol_parms'])

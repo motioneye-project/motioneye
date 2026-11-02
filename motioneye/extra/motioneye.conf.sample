@@ -1,7 +1,13 @@
+# this file may contain credentials (see motion_control_authentication), hence
+# it should be readable by the motionEye user only, but not writable by it, so
+# that motionEye cannot change its own settings: motioneye_init applies owner
+# root:motion and mode 0640
+
 # path to the configuration directory (must be writable by motionEye)
 conf_path /etc/motioneye
 
-# path to the directory where pid files go (must be writable by motionEye)
+# path to the directory where the pid file goes, only used in background mode (-b)
+# (must be writable by motionEye then)
 run_path /run/motioneye
 
 # path to the directory where log files go (must be writable by motionEye)
@@ -13,12 +19,24 @@ media_path /var/lib/motioneye
 # the log level (use quiet, error, warning, info or debug)
 log_level info
 
+# whether to write logs to files in log_path (motioneye.log, motion.log)
+# instead of standard error (motionEye) and syslog (motion, or standard
+# error where there is no syslog, e.g. in a container);
+# the log_path setting above only has an effect when this is enabled
+log_to_file false
+
 # the IP address to listen on
 # (0.0.0.0 for all interfaces, 127.0.0.1 for localhost)
 listen 0.0.0.0
 
 # the TCP port to listen on
 port 8765
+
+# comma-separated IP addresses or networks (without quotes) of reverse proxies
+# whose X-Forwarded-For header is trusted for login rate limiting; set this when
+# behind a reverse proxy, otherwise all users share one limit; the proxy must
+# set X-Forwarded-For to include the actual client IP
+#trusted_proxies 127.0.0.1
 
 # path to the motion binary to use (automatically detected if commented)
 #motion_binary /usr/bin/motion
@@ -29,6 +47,12 @@ motion_control_localhost true
 
 # the TCP port that motion HTTP control interface listens on
 motion_control_port 7999
+
+# the credentials (username:password) required by motion HTTP control interface
+# (basic authentication), disabled if commented; recommended when
+# motion_control_localhost is false, as the interface is otherwise open to the
+# network
+#motion_control_authentication username:password
 
 # interval in seconds at which motionEye checks if motion is running
 motion_check_interval 10
@@ -59,16 +83,7 @@ smb_shares false
 # the directory where the SMB mount points will be created
 smb_mount_root /media
 
-# path to the wpa_supplicant.conf file
-# (enable this to configure wifi settings from the UI)
-#wpa_supplicant_conf /etc/wpa_supplicant.conf
-
-# path to the localtime file
-# (enable this to configure the system time zone from the UI)
-#local_time_file /etc/localtime
-
-# enables shutdown and rebooting after changing system settings
-# (such as wifi settings or time zone)
+# enables shutdown and reboot buttons in the UI
 enable_reboot false
 
 # timeout in seconds to use when talking to the SMTP server
@@ -94,3 +109,6 @@ add_remove_cameras true
 
 # overrides the hostname (useful if motionEye runs behind a reverse proxy)
 #server_name motionEye
+
+# lifetime in hours of the session cookie for the normal (surveillance) user, minimum 1 hour (higher values increase risk if the cookie is stolen)
+normal_session_expiry_hours 720

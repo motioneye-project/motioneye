@@ -16,6 +16,9 @@ langlist = [('en', 'English'), ('eo', 'esperanto'), ('fr', 'français')]
 # gettext translation
 traduction = None
 
+# JavaScript translations, embedded in the page
+js_translations = None
+
 # the root directory of the project
 PROJECT_PATH = os.path.dirname(motioneye.__file__)
 
@@ -28,8 +31,9 @@ STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 # path to the configuration directory (must be writable by motionEye)
 CONF_PATH = [sys.prefix, ''][sys.prefix == '/usr'] + '/etc/motioneye'
 
-# path to the directory where pid files go (must be writable by motionEye)
-for d in ['/run', '/var/run', '/tmp', '/var/tmp']:
+# path to the directory where the pid file goes, only used in background mode (-b)
+# (must be writable by motionEye then)
+for d in ['/run', '/var/run']:
     if os.path.exists(d):
         RUN_PATH = d
         break
@@ -38,7 +42,7 @@ else:
     RUN_PATH = PROJECT_PATH
 
 # path to the directory where log files go (must be writable by motionEye)
-for d in ['/log', '/var/log', '/tmp', '/var/tmp']:
+for d in ['/log', '/var/log']:
     if os.path.exists(d):
         LOG_PATH = d
         break
@@ -52,12 +56,20 @@ MEDIA_PATH = '/var/lib/motioneye'
 # the log level (use FATAL, ERROR, WARNING, INFO or DEBUG)
 LOG_LEVEL = logging.INFO
 
+# whether to write logs to files in log_path
+# instead of standard error (motionEye) and syslog (motion, or standard
+# error where there is no syslog, e.g. in a container)
+LOG_TO_FILE = False
+
 # the IP address to listen on
 # (0.0.0.0 for all interfaces, 127.0.0.1 for localhost)
-LISTEN = '0.0.0.0'
+LISTEN = '0.0.0.0'  # nosec: B104
 
 # the TCP port to listen on
 PORT = 8765
+
+# comma-separated proxy IPs or networks trusted by the login rate limiter
+TRUSTED_PROXIES: str = ''
 
 # path to the motion binary to use (automatically detected by default)
 MOTION_BINARY = None
@@ -68,6 +80,10 @@ MOTION_CONTROL_LOCALHOST = True
 
 # the TCP port that motion HTTP control interface listens on
 MOTION_CONTROL_PORT = 7999
+
+# the credentials (username:password) required by motion HTTP control interface
+# (basic authentication), empty to disable authentication
+MOTION_CONTROL_AUTHENTICATION = ''
 
 # interval in seconds at which motionEye checks if motion is running
 MOTION_CHECK_INTERVAL = 10
@@ -98,20 +114,8 @@ SMB_SHARES = False
 # the directory where the SMB mount points will be created
 SMB_MOUNT_ROOT = '/media'
 
-# path to the wpa_supplicant.conf file
-# (enable this to configure wifi settings from the UI)
-WPA_SUPPLICANT_CONF = None
-
-# path to the localtime file
-# (enable this to configure the system time zone from the UI)
-LOCAL_TIME_FILE = None
-
-# enables shutdown and rebooting after changing system settings
-# (such as wifi settings or time zone)
+# enables shutdown and reboot buttons in the UI
 ENABLE_REBOOT = False
-
-# enables motionEye version update (not implemented by default)
-ENABLE_UPDATE = False
 
 # timeout in seconds to use when talking to the SMTP server
 SMTP_TIMEOUT = 60
@@ -134,12 +138,12 @@ TIMELAPSE_TIMEOUT = 500
 # enable adding and removing cameras from UI
 ADD_REMOVE_CAMERAS = True
 
-# enable HTTPS certificate validation
-VALIDATE_CERTS = True
-
 # an external program to be executed whenever a password changes;
 # the program will be invoked with environment variables MEYE_USERNAME and MEYE_PASSWORD
 PASSWORD_HOOK = None
 
 # provides the possibility to override the hostname
 SERVER_NAME = socket.gethostname()
+
+# lifetime in hours of the session cookie for the normal (surveillance) user, minimum 1 hour
+NORMAL_SESSION_EXPIRY_HOURS = 720

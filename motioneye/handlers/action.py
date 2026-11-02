@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import datetime
 import logging
 import os
 import subprocess
@@ -32,12 +31,13 @@ __all__ = ('ActionHandler',)
 class ActionHandler(BaseHandler):
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
-    async def post(self, camera_id, action):
+    async def post(self, camera_id, action) -> None:
         camera_id = int(camera_id)
         if camera_id not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
 
-        local_config = config.get_camera(camera_id)
+        local_config: dict = config.get_camera(camera_id)
+
         # block access to admin-only cameras for non-admin users
         if (
             local_config
@@ -48,45 +48,48 @@ class ActionHandler(BaseHandler):
                 403,
                 f'access denied to admin-only camera "{camera_id}" for action "{action}"',
             )
+
         if utils.is_remote_camera(local_config):
             resp = await remote.exec_action(local_config, action)
             if resp.error:
                 msg = (
-                    'Failed to execute action on remote camera at {url}: {msg}.'.format(
-                        url=remote.pretty_camera_url(local_config), msg=resp.error
-                    )
+                    'Failed to execute action on remote camera at '
+                    f'{remote.pretty_camera_url(local_config)}: {resp.error}.'
                 )
+                self.finish_json({'error': msg})
 
-                return self.finish_json({'error': msg})
+            else:
+                self.finish_json()
 
-            return self.finish_json()
+        elif action in ('snapshot', 'eventstart', 'eventend'):
+            if action == 'snapshot' and not local_config.get('snapshot_filename'):
+                raise HTTPError(400, 'snapshots are disabled on this motionEye server')
 
-        if action == 'snapshot':
-            logging.debug('executing snapshot action for camera with id %s' % camera_id)
-            await self.snapshot(camera_id)
-            return
+            logging.debug(f'received {action} action call for camera {camera_id}')
+            error = await motionctl.trigger_action(camera_id, action)
+            self.finish_json({'error': error})
 
-        elif action == 'record_start':
+        elif action in ('detectionpause', 'detectionstart'):
+            state: str = action.removeprefix('detection')
             logging.debug(
-                'executing record_start action for camera with id %s' % camera_id
+                f'received call to {state!r} motion detection for camera {camera_id}'
             )
-            return self.record_start(camera_id)
+            error = await motionctl.set_motion_detection(camera_id, state)
+            self.finish_json({'error': error})
 
-        elif action == 'record_stop':
+        else:
+            action_commands = config.get_action_commands(local_config)
+            command = action_commands.get(action)
+            # motion_event and motion_detection are no commands, but the names of
+            # buttons the UI shows, which post eventstart/eventend resp.
+            # detectionstart/detectionpause depending on their state
+            if not command or action in ('motion_event', 'motion_detection'):
+                raise HTTPError(400, 'unknown action')
+
             logging.debug(
-                'executing record_stop action for camera with id %s' % camera_id
+                f'executing {action} action for camera with id {camera_id}: "{command}"'
             )
-            return self.record_stop(camera_id)
-
-        action_commands = config.get_action_commands(local_config)
-        command = action_commands.get(action)
-        if not command:
-            raise HTTPError(400, 'unknown action')
-
-        logging.debug(
-            f'executing {action} action for camera with id {camera_id}: "{command}"'
-        )
-        self.run_command_bg(command)
+            self.run_command_bg(command)
 
     def run_command_bg(self, command):
         self.p = subprocess.Popen(
@@ -95,9 +98,7 @@ class ActionHandler(BaseHandler):
         self.command = command
 
         self.io_loop = IOLoop.current()
-        self.io_loop.add_timeout(
-            datetime.timedelta(milliseconds=100), self.check_command
-        )
+        self.io_loop.call_later(0.1, self.check_command)
 
     def check_command(self):
         exit_status = self.p.poll()
@@ -115,23 +116,12 @@ class ActionHandler(BaseHandler):
                     logging.warning(f'{command}: {line}')
 
             else:
-                logging.debug('%s: command has finished' % command)
+                logging.debug(f'{command}: command has finished')
                 for line in lines:
                     logging.debug(f'{command}: {line}')
 
             return self.finish_json({'status': exit_status})
 
         else:
-            self.io_loop.add_timeout(
-                datetime.timedelta(milliseconds=100), self.check_command
-            )
-
-    async def snapshot(self, camera_id):
-        await motionctl.take_snapshot(camera_id)
-        return self.finish_json({})
-
-    def record_start(self, camera_id):
-        return self.finish_json({})
-
-    def record_stop(self, camera_id):
-        return self.finish_json({})
+            self.io_loop.call_later(0.1, self.check_command)
+            return None
