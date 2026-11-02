@@ -237,15 +237,19 @@ class MjpgClient(IOStream):
 
         data = data.decode()
         digest = utils.parse_digest_challenge([data])
-        if digest is not None:
+        digest_header = None
+        if digest is not None:  # None for an algorithm or qop it can't answer
+            digest_header = utils.build_digest_header(
+                'GET', '/', self._username, self._password, digest
+            )
+
+        if digest_header is not None:
             logging.debug('mjpg client using digest authentication')
 
             self._auth_digest_state = digest
-
-            auth_header = utils.build_digest_header(
-                'GET', '/', self._username, self._password, self._auth_digest_state
+            w_data = (
+                f'GET / HTTP/1.0\r\nAuthorization: {digest_header}\r\n\r\n'.encode()
             )
-            w_data = f'GET / HTTP/1.0\r\nAuthorization: {auth_header}\r\n\r\n'.encode()
             w_future = utils.cast_future(self.write(w_data))
             w_future.add_done_callback(self._seek_http)
 
