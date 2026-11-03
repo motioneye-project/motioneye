@@ -24,13 +24,22 @@ import socket
 import time
 from collections.abc import Callable
 from datetime import datetime
-from io import BytesIO
+from http.client import HTTPException, HTTPSConnection
+from secrets import token_hex
 from urllib.parse import urlencode
 
-import pycurl
 from tornado.ioloop import IOLoop
 
 from motioneye import config, mediafiles, meyectl, motionctl, settings, utils
+
+_HOST = 'api.telegram.org'
+_CONNECT_TIMEOUT = 10
+# Telegram sometimes never answers a request it got: give up after this long
+# without data, rather than limiting the whole upload
+_STALL_TIMEOUT = 60
+# a socket timeout counts for the whole of a sendall(), so the body is sent in
+# pieces, each of which only has to go out within the stall timeout
+_UPLOAD_PIECE = 64 * 1024
 
 
 class TelegramError(RuntimeError):
@@ -39,20 +48,35 @@ class TelegramError(RuntimeError):
         self.retry_after = retry_after
 
 
-def _perform_once(c):
-    reply = BytesIO()
-    c.setopt(c.WRITEDATA, reply)
-    try:
-        c.perform()
+class _NotConnected(OSError):
+    """Nothing of the request was sent, so it can be sent again."""
 
-    except pycurl.error:
-        # curl would reuse a stalled HTTP/2 connection, so use new ones from now on
-        c.setopt(c.FRESH_CONNECT, 1)
-        raise
 
-    code = c.getinfo(c.RESPONSE_CODE)
+def _post_once(path: str, body: bytes, content_type: str) -> None:
+    # a new connection per request: none is reused after a stalled one
+    conn = HTTPSConnection(_HOST, timeout=_CONNECT_TIMEOUT)
     try:
-        result = json.loads(reply.getvalue())
+        try:
+            conn.connect()
+
+        except OSError as e:
+            raise _NotConnected(f'could not connect to {_HOST}: {e}') from e
+
+        conn.sock.settimeout(_STALL_TIMEOUT)
+        pieces = (
+            body[i : i + _UPLOAD_PIECE] for i in range(0, len(body), _UPLOAD_PIECE)
+        )
+        headers = {'Content-Type': content_type, 'Content-Length': str(len(body))}
+        conn.request('POST', path, pieces, headers)
+        response = conn.getresponse()
+        code = response.status
+        reply = response.read()
+
+    finally:
+        conn.close()
+
+    try:
+        result = json.loads(reply)
 
     except ValueError:
         result = {}
@@ -67,14 +91,15 @@ def _perform_once(c):
         )
 
 
-def _perform(c, retry):
+def _post(path: str, body: bytes, content_type: str, retry: bool) -> None:
     try:
-        _perform_once(c)
+        _post_once(path, body, content_type)
         return
 
-    except pycurl.error as e:
-        # Telegram may have it once it was sent, even if the reply is lost or late
-        if not retry or c.getinfo(c.SIZE_UPLOAD) > 0:
+    except _NotConnected as e:
+        # once something was sent, Telegram may have it even if the reply is lost
+        # or late, so only a request that never went out is sent again
+        if not retry:
             raise
 
         delay = 5
@@ -91,49 +116,60 @@ def _perform(c, retry):
         logging.warning(f'{e}, retrying in {delay}s')
 
     time.sleep(delay)
-    _perform_once(c)
+    _post_once(path, body, content_type)
+
+
+def _photo_form(chat_id, caption: str, filename: str) -> tuple[bytes, str]:
+    boundary = token_hex(16)
+    name = os.path.basename(filename).replace('"', '')
+    with open(filename, 'rb') as f:
+        photo = f.read()
+
+    lines = [
+        f'--{boundary}',
+        'Content-Disposition: form-data; name="chat_id"',
+        '',
+        str(chat_id),
+        f'--{boundary}',
+        'Content-Disposition: form-data; name="caption"',
+        '',
+        caption,
+        f'--{boundary}',
+        f'Content-Disposition: form-data; name="photo"; filename="{name}"',
+        'Content-Type: application/octet-stream',
+        '',
+    ]
+    head = '\r\n'.join(lines).encode() + b'\r\n'
+    body = head + photo + f'\r\n--{boundary}--\r\n'.encode()
+
+    return body, f'multipart/form-data; boundary={boundary}'
 
 
 def send_message(api_key, chat_id, message, files, retry=True):
-    telegram_message_url = f'https://api.telegram.org/bot{api_key}/sendMessage'
-    telegram_photo_url = f'https://api.telegram.org/bot{api_key}/sendPhoto'
-    c = pycurl.Curl()
-    c.setopt(c.POST, 1)
-    c.setopt(c.CONNECTTIMEOUT, 10)
-    c.setopt(c.LOW_SPEED_LIMIT, 1)
-    c.setopt(c.LOW_SPEED_TIME, 60)
-    c.setopt(c.URL, telegram_message_url)
-    try:
-        if not files:
-            logging.info('no files')
-            c.setopt(c.POSTFIELDS, urlencode({'chat_id': chat_id, 'text': message}))
-            _perform(c, retry)
-        else:
-            logging.info('files present')
-            failed = 0
-            for f in files:
-                c.setopt(c.URL, telegram_photo_url)
-                # Send photos
-                c.setopt(
-                    c.HTTPPOST,
-                    [
-                        ("chat_id", chat_id),
-                        ("caption", message.encode()),
-                        ("photo", (c.FORM_FILE, os.fsencode(f))),
-                    ],
-                )
-                try:
-                    _perform(c, retry)
+    if not files:
+        logging.info('no files')
+        body = urlencode({'chat_id': chat_id, 'text': message}).encode()
+        _post(
+            f'/bot{api_key}/sendMessage',
+            body,
+            'application/x-www-form-urlencoded',
+            retry,
+        )
 
-                except (RuntimeError, pycurl.error) as e:
-                    logging.error(f'failed to send "{os.path.basename(f)}": {e}')
-                    failed += 1
+    else:
+        logging.info('files present')
+        failed = 0
+        for f in files:
+            try:
+                body, content_type = _photo_form(chat_id, message, f)
+                _post(f'/bot{api_key}/sendPhoto', body, content_type, retry)
 
-            if failed > 0:
-                raise RuntimeError(f'{failed} of {len(files)} pictures not sent')
+            except (RuntimeError, OSError, HTTPException) as e:
+                logging.error(f'failed to send "{os.path.basename(f)}": {e}')
+                failed += 1
 
-    finally:
-        c.close()
+        if failed > 0:
+            raise RuntimeError(f'{failed} of {len(files)} pictures not sent')
 
     logging.debug('sending telegram')
 
