@@ -24,7 +24,7 @@ curl -sSfO 'https://bootstrap.pypa.io/get-pip.py'
 python3 get-pip.py
 
 # Install motionEye
-python3 -m pip install -U /tmp/motioneye
+python3 -m pip install -U /tmp/motioneye boto3
 motioneye_init --skip-systemd --skip-apt-update
 
 # Setup default config and data dir

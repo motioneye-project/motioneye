@@ -12,7 +12,6 @@ dependencies = [
   "pillow",
   "pycurl",
   "babel",
-  "boto3",
   "argon2-cffi",
 ]
 requires-python = ">=3.9"
