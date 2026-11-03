@@ -287,7 +287,9 @@ class LoginHandler(BaseHandler):
             ),
             httponly=True,
             secure=should_use_secure_cookie(self),
-            samesite='Strict',
+            # Lax, not Strict: with Strict, Chrome for Android logs an installed
+            # web app out whenever it is opened again
+            samesite='Lax',
         )
 
         response: dict[str, Any] = {'user': user_type}
