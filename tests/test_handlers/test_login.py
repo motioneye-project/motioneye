@@ -575,6 +575,16 @@ class LoginHandlerTest(HandlerTestCase):
                 response = self._login_remember(remember, json_body)
                 self._assert_session_lifetime(response, 'admin', 24 * 3600)
 
+    def test_session_cookie_is_lax(self):
+        # with Strict, an installed web app is logged out when opened again
+        for remember in ('0', '1'):
+            with self.subTest(remember=remember):
+                response = self._login_remember(remember, False)
+                cookie = SimpleCookie()
+                cookie.load(response.headers.get('Set-Cookie', ''))
+                self.assertEqual('Lax', cookie['user']['samesite'])
+                self.assertTrue(cookie['user']['httponly'])
+
     def test_logout(self):
         cookie = self.make_session_cookie('admin')
 
