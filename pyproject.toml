@@ -58,30 +58,9 @@ version = {attr = "motioneye.VERSION"}
 # skip hardcoded password, MD5/SHA1 hashes, import subprocess, subprocess.run(..., shell=False)
 skips = ["B105", "B324", "B404", "B603"]
 
-[tool.black]
-skip-string-normalization = true
-target-version = ["py39", "py310", "py311", "py312", "py313", "py314", "py315"]
-
 [tool.codespell]
 ignore-words-list = "ot"
 skip = "*.html,*.js,*.json,*.po,*.pot"
-
-[tool.flake8]
-builtins = ["_"]
-count = true
-max-complexity = 68
-max-line-length = 125
-# flake8-return rules to add after its next release: https://github.com/afonasev/flake8-return/pull/139
-# => R501,R502,R503,R504,R505,R506,R507,R508
-select = ["C901", "E501", "E9", "F63", "F7", "F82"]
-show-source = true
-statistics = true
-
-[tool.isort]
-profile = "black"
-
-[tool.pyupgrade]
-py39-plus = true
 
 [tool.ruff]
 builtins = ["_"]
@@ -91,4 +70,14 @@ target-version = "py39"
 quote-style = "preserve"
 
 [tool.ruff.lint]
+# C901 and E501 as flake8 had them, I as isort, UP as pyupgrade
+# flake8-return rules to add later: RET501 to RET508
+extend-select = ["C901", "E501", "I", "UP"]
 ignore = ["E722", "LOG015", "BLE001"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 68
+
+[tool.ruff.lint.pycodestyle]
+# only for E501, the formatter keeps its own line length
+max-line-length = 125
