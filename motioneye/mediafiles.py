@@ -1203,7 +1203,7 @@ def get_prepared_cache(key):
 
 
 def set_prepared_cache(data):
-    key = sha1(str(time()).encode()).hexdigest()  # nosec: B324
+    key = sha1(str(time()).encode(), usedforsecurity=False).hexdigest()
 
     if key in _prepared_files:
         logging.warning(f'key "{key}" already present in prepared cache')

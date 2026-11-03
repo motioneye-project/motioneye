@@ -55,8 +55,8 @@ motioneye = ["extra/*", "static/*.*", "static/*/*", "templates/*", "scripts/*", 
 version = {attr = "motioneye.VERSION"}
 
 [tool.bandit]
-# skip hardcoded password, MD5/SHA1 hashes, import subprocess, subprocess.run(..., shell=False)
-skips = ["B105", "B324", "B404", "B603"]
+# skip hardcoded password, import subprocess, subprocess.run(..., shell=False)
+skips = ["B105", "B404", "B603"]
 
 [tool.codespell]
 ignore-words-list = "ot"

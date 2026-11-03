@@ -1288,7 +1288,7 @@ class S3(UploadService):
 
         if self._sse_c_key:
             sse_key_md5 = b64encode(
-                md5(b64decode(self._sse_c_key)).digest()  # nosec: B324
+                md5(b64decode(self._sse_c_key), usedforsecurity=False).digest()
             ).decode()
             extra_args = {
                 'SSECustomerAlgorithm': 'AES256',
