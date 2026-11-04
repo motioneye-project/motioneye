@@ -1,10 +1,9 @@
 import logging
 from asyncio import sleep
-from importlib.util import find_spec
-from unittest import mock, skipUnless
+from unittest import mock
 
 from tornado.concurrent import Future
-from tornado.httpclient import AsyncHTTPClient, HTTPResponse
+from tornado.httpclient import HTTPResponse
 from tornado.iostream import StreamClosedError
 from tornado.tcpserver import TCPServer
 from tornado.testing import bind_unused_port, gen_test, main
@@ -13,6 +12,7 @@ from tornado.web import RequestHandler
 from motioneye import settings
 from motioneye.utils.mjpeg import test_mjpeg_url
 from tests import WebTestCase
+from tests.test_utils import digest_params, digest_response
 
 
 class RawStreamServer(TCPServer):
@@ -51,7 +51,15 @@ class UtilsMjpegTest(WebTestCase):
                 except StreamClosedError:
                     pass
 
-        return [('/', MjpegHandler), ('/stream', EndlessMjpegHandler)]
+        class RedirectHandler(RequestHandler):
+            def get(self):
+                self.redirect(test.location)
+
+        return [
+            ('/', MjpegHandler),
+            ('/stream', EndlessMjpegHandler),
+            ('/redirect', RedirectHandler),
+        ]
 
     def test_test_mjpeg_url_invalid_data(self):
         self.data = 'Some random string'
@@ -197,14 +205,120 @@ class UtilsMjpegTest(WebTestCase):
         self.assertIsNot(False, request.validate_cert)
         self.assertEqual('not a supported network camera', resp.error)
 
+    @gen_test
+    async def test_an_unsupported_scheme_error_leaves_out_the_query(self):
+        camera = {'scheme': 'mjpeg', 'port': 80, 'path': '/video.cgi?pwd=s3cret'}
+        with self.assertLogs(level='ERROR') as logs:
+            resp = await test_mjpeg_url(camera, auth_modes=['basic'], allow_jpeg=True)
 
-@skipUnless(find_spec('pycurl'), 'pycurl is not installed')
-class UtilsMjpegCurlTest(UtilsMjpegTest):
-    # the same tests with the curl client that motionEye's server uses
+        self.assertIsNone(resp.cameras)
+        self.assertNotIn('s3cret', resp.error + str(logs.output))
+
+    @gen_test
+    async def test_a_redirect_is_reported_not_followed(self):
+        sock, port = bind_unused_port()
+        sock.close()  # where it redirects to nothing answers
+        self.location = f'http://user:pw@127.0.0.1:{port}/video.cgi?pwd=s3cret'
+
+        camera = {'port': self.get_http_port(), 'path': '/redirect'}
+        with self.assertLogs(level='ERROR') as logs:
+            resp = await test_mjpeg_url(camera, auth_modes=['basic'], allow_jpeg=True)
+
+        self.assertIsNone(resp.cameras)
+        self.assertEqual(
+            f'the camera redirects to http://127.0.0.1:{port}/video.cgi', resp.error
+        )
+        self.assertNotIn('s3cret', str(logs.output))
+
+
+class DigestCameraTest(WebTestCase):
+    """A camera asking for digest, which Tornado's client leaves to motionEye."""
+
     def setUp(self) -> None:
-        AsyncHTTPClient.configure('tornado.curl_httpclient.CurlAsyncHTTPClient')
-        self.addCleanup(AsyncHTTPClient.configure, None)
         super().setUp()
+        self.algorithm = 'MD5'
+        self.authorizations: list[str] = []
+
+    def get_handlers(self):
+        test = self
+
+        class DigestHandler(RequestHandler):
+            def get(self):
+                authorization = self.request.headers.get('Authorization', '')
+                test.authorizations.append(authorization)
+                if authorization.startswith('Digest '):
+                    params = digest_params(authorization)
+                    response = digest_response(params, 'GET', 'pw')
+                    if (params['uri'], params['response']) == (
+                        self.request.uri,
+                        response,
+                    ):
+                        self.set_header('Content-Type', 'multipart/x-mixed-replace')
+                        self.write('mjpeg')
+                        return
+
+                self.set_status(401)
+                self.add_header('WWW-Authenticate', 'Basic realm="cam"')
+                self.add_header(
+                    'WWW-Authenticate',
+                    'Digest realm="cam", qop="auth,auth-int", nonce="n0nce", '
+                    f'algorithm={test.algorithm}',
+                )
+
+        return [(r'/.*', DigestHandler)]
+
+    def check(self, password, path='/video.cgi?res=hi', auth_modes=('basic', 'digest')):
+        camera = {
+            'port': self.get_http_port(),
+            'path': path,
+            'username': 'user',
+            'password': password,
+        }
+        return test_mjpeg_url(camera, auth_modes=list(auth_modes), allow_jpeg=False)
+
+    @gen_test
+    async def test_digest_is_answered_after_basic_was_refused(self):
+        for algorithm in ('MD5', 'SHA-256'):
+            with self.subTest(algorithm):
+                self.algorithm = algorithm
+                self.authorizations.clear()
+
+                resp = await self.check('pw')
+
+                self.assertIsNone(resp.error)
+                self.assertEqual('MJPEG Network Camera', resp.cameras[0]['name'])
+                self.assertEqual(
+                    ['Basic', 'Digest'], [a.split()[0] for a in self.authorizations]
+                )
+
+    @gen_test
+    async def test_an_empty_path_is_answered_for_the_slash_sent(self):
+        resp = await self.check('pw', path='')
+
+        self.assertIsNone(resp.error)
+
+    @gen_test
+    async def test_a_wrong_password_fails_authentication(self):
+        with self.assertLogs(level='ERROR'):
+            resp = await self.check('wrong')
+
+        self.assertEqual('authentication failed', resp.error)
+        self.assertEqual(2, len(self.authorizations))
+
+    @gen_test
+    async def test_no_digest_without_a_usable_challenge(self):
+        for case, algorithm, auth_modes in (
+            ('a network camera tries basic only', 'MD5', ['basic']),
+            ('an unsupported algorithm', 'SHA-512-256', ['basic', 'digest']),
+        ):
+            with self.subTest(case):
+                self.algorithm = algorithm
+                self.authorizations.clear()
+                with self.assertLogs(level='ERROR'):
+                    resp = await self.check('pw', auth_modes=auth_modes)
+
+                self.assertEqual('authentication failed', resp.error)
+                self.assertEqual(1, len(self.authorizations))
 
 
 if __name__ == '__main__':
