@@ -15,14 +15,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations
+
 import json
 import logging
+from base64 import b64decode
 from secrets import token_hex
 from time import time
 
 from tornado.web import HTTPError, RequestHandler
 
-from motioneye import VERSION, config, template
+from motioneye import VERSION, apikeys, config, template
 from motioneye.settings import NORMAL_SESSION_EXPIRY_HOURS
 from motioneye.utils.authstate import verify_hmac_signature
 
@@ -95,6 +98,9 @@ def invalidate_user_sessions(user_type):
 
 
 class BaseHandler(RequestHandler):
+    # set once the request has been authenticated with an API key
+    api_key_used: bool = False
+
     def get_all_arguments(self) -> dict:
         keys = list(self.request.arguments.keys())
         arguments = {key: self.get_argument(key) for key in keys}
@@ -167,7 +173,48 @@ class BaseHandler(RequestHandler):
         self.set_header('Content-Type', 'application/json')
         return self.finish(json.dumps(data))
 
+    def get_api_key(self) -> str | None:
+        """Return the API key sent with the request, if any.
+
+        Bearer is the usual way. The password of HTTP basic auth is accepted
+        too, for clients that can send nothing else, such as the still image
+        URL of a generic camera in Home Assistant; the user name is ignored.
+        """
+
+        header = self.request.headers.get('Authorization')
+        if not isinstance(header, str):
+            return None
+
+        scheme, _, value = header.partition(' ')
+        scheme = scheme.lower()
+        value = value.strip()
+
+        # Only keys count: a bearer token meant for something else, such as a
+        # proxy in front of motionEye, leaves the request to its session.
+        if scheme == 'bearer' and value.startswith(apikeys.TOKEN_PREFIX):
+            return value
+
+        if scheme == 'basic' and value:
+            try:
+                password = b64decode(value).decode('utf-8').partition(':')[2]
+
+            except (ValueError, UnicodeDecodeError):
+                return None
+
+            if password.startswith(apikeys.TOKEN_PREFIX):
+                return password
+
+        return None
+
     def get_current_user(self):
+        # Check for API key authentication (scripts and integrations). A key
+        # that is sent but not valid is a failed login, with no fallback to
+        # whatever cookie came with it.
+        api_key = self.get_api_key()
+        if api_key is not None:
+            self.api_key_used = True
+            return apikeys.verify(api_key)
+
         # Check for session-based authentication (via secure cookie)
         session_id = get_session_id(self)
         if session_id:

@@ -15,14 +15,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import annotations
 
+import json
 import os
 import tarfile
 import unittest
 from io import BytesIO
 from shutil import rmtree
 from tempfile import mkdtemp
+from unittest.mock import patch
 
-from motioneye import config, settings
+from motioneye import apikeys, config, settings
 
 
 class TestBackup(unittest.TestCase):
@@ -75,6 +77,12 @@ class TestBackup(unittest.TestCase):
 
         data = config.backup()
         self._assert_tarball_members(data, ['mask_1.pgm', 'mask_2.pgm'])
+
+    def test_backup_includes_api_keys(self):
+        self._create_files('api_keys.json')
+        data = config.backup()
+
+        self._assert_tarball_members(data, ['api_keys.json'])
 
     def test_backup_excludes_other_files(self):
         self._create_files(
@@ -155,6 +163,41 @@ class TestRestore(unittest.TestCase):
 
         config.restore(tarball)
         self._assert_restored_files('mask_1.pgm', 'mask_2.pgm')
+
+    def test_restore_extracts_api_keys_and_reloads_them(self):
+        tarball = self._make_tarball('api_keys.json')
+
+        with patch('motioneye.apikeys.reset') as reset:
+            config.restore(tarball)
+
+        self._assert_restored_files('api_keys.json')
+        reset.assert_called_once()
+
+    def test_restore_uses_the_restored_api_keys_also_before_a_reboot(self):
+        restored = json.dumps(
+            [{'id': 'abcd0123', 'name': 'restored', 'role': 'admin', 'hash': '0' * 64}]
+        ).encode()
+        member = tarfile.TarInfo('api_keys.json')
+        member.size = len(restored)
+        buf = BytesIO()
+        with tarfile.open(fileobj=buf, mode='w:gz') as tf:
+            tf.addfile(member, BytesIO(restored))
+
+        apikeys.reset()
+        try:
+            _, token = apikeys.add('in use before the restore', 'normal')
+            with (
+                patch('motioneye.settings.ENABLE_REBOOT', True),
+                patch('motioneye.config.IOLoop'),
+            ):
+                self.assertEqual({'reboot': True}, config.restore(buf.getvalue()))
+
+            # a key used before the reboot must not save the old keys over these
+            self.assertIsNone(apikeys.verify(token))
+            self.assertEqual(['restored'], [k['name'] for k in apikeys.list_keys()])
+
+        finally:
+            apikeys.reset()
 
     def test_restore_ignores_non_matching_files(self):
         tarball = self._make_tarball(
