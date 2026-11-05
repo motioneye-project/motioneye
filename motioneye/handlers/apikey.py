@@ -11,9 +11,9 @@ __all__ = ('ApiKeyHandler',)
 class ApiKeyHandler(BaseHandler):
     """Lists, adds and removes API keys.
 
-    Only the admin, signed in through the web UI, manages keys. A request made
-    with a key is refused here even when that key has the admin role, so a
-    leaked key cannot mint new ones and removing it is the end of it.
+    Only the admin, signed in through the web UI, manages keys: a request made
+    with a key is refused here, so a leaked key cannot mint new ones. Failures
+    are answered with an "error" field, which the web UI shows.
     """
 
     def check_session(self) -> None:
@@ -27,28 +27,32 @@ class ApiKeyHandler(BaseHandler):
         if op != 'list':
             raise HTTPError(400, 'unknown operation')
 
-        self.finish_json({'keys': apikeys.list_keys()})
+        try:
+            self.finish_json({'keys': apikeys.list_keys()})
+
+        except apikeys.ApiKeyError as e:
+            self.finish_json({'error': str(e)})
 
     @BaseHandler.auth(admin=True)
     def post(self, op, key_id=None):
         self.check_session()
 
-        if op == 'add':
-            try:
+        try:
+            if op == 'add':
                 key, token = apikeys.add(
                     self.get_argument('name'), self.get_argument('role')
                 )
+                self.finish_json({'key': key, 'token': token})
 
-            except apikeys.ApiKeyError as e:
-                raise HTTPError(400, str(e)) from e
+            elif op == 'rem':
+                if apikeys.remove(key_id):
+                    self.finish_json()
 
-            self.finish_json({'key': key, 'token': token})
+                else:
+                    self.finish_json({'error': 'no such API key'})
 
-        elif op == 'rem':
-            if not apikeys.remove(key_id):
-                raise HTTPError(404, 'no such API key')
+            else:
+                raise HTTPError(400, 'unknown operation')
 
-            self.finish_json()
-
-        else:
-            raise HTTPError(400, 'unknown operation')
+        except apikeys.ApiKeyError as e:
+            self.finish_json({'error': str(e)})

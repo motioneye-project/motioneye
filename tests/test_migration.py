@@ -335,7 +335,7 @@ class StartupTest(_ConfigCase):
         self._write(1, self.old)
         backup = config.backup()
         self._write(1, self.camera)  # what is there before restoring
-        handler = Mock(current_user='admin')
+        handler = Mock(current_user='admin', api_key_used=False)
         handler.get_argument.return_value = None
         handler.request.files = {'files': [{'body': backup}]}
 
@@ -355,7 +355,7 @@ class StartupTest(_ConfigCase):
     def test_restore_converts_only_without_reboot(self):
         # caches are not invalidated then, migrate_cameras() would save old configs
         migrate = self._patch('motioneye.migration.migrate_cameras')
-        handler = Mock(current_user='admin')
+        handler = Mock(current_user='admin', api_key_used=False)
         handler.get_argument.return_value = None
         handler.request.files = {'files': [{'body': b''}]}
         for result in ({'reboot': True}, None):

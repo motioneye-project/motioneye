@@ -309,6 +309,13 @@ class ConfigHandler(BaseHandler):
             if self.current_user != 'admin':
                 raise HTTPError(403, 'access denied to write the main config')
 
+            # A key that could set a password could sign in with it and create
+            # another key, outliving its own removal.
+            if self.api_key_used and (
+                ui_config.get('admin_password') or ui_config.get('normal_password')
+            ):
+                raise HTTPError(403, 'passwords cannot be changed with an API key')
+
             logging.debug('setting main config...')
 
             old_main_config = config.get_main()
@@ -709,6 +716,10 @@ class ConfigHandler(BaseHandler):
 
     @BaseHandler.auth(admin=True)
     def restore(self):
+        # a backup carries the passwords and the API keys, see set_main_config()
+        if self.api_key_used:
+            raise HTTPError(403, 'the configuration cannot be restored with an API key')
+
         try:
             content = self.request.files['files'][0]['body']
 

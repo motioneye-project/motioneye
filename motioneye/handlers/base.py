@@ -189,7 +189,9 @@ class BaseHandler(RequestHandler):
         scheme = scheme.lower()
         value = value.strip()
 
-        if scheme == 'bearer' and value:
+        # Only keys count: a bearer token meant for something else, such as a
+        # proxy in front of motionEye, leaves the request to its session.
+        if scheme == 'bearer' and value.startswith(apikeys.TOKEN_PREFIX):
             return value
 
         if scheme == 'basic' and value:

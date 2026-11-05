@@ -21,6 +21,7 @@ import unittest
 from io import BytesIO
 from shutil import rmtree
 from tempfile import mkdtemp
+from unittest.mock import patch
 
 from motioneye import config, settings
 
@@ -75,6 +76,12 @@ class TestBackup(unittest.TestCase):
 
         data = config.backup()
         self._assert_tarball_members(data, ['mask_1.pgm', 'mask_2.pgm'])
+
+    def test_backup_includes_api_keys(self):
+        self._create_files('api_keys.json')
+        data = config.backup()
+
+        self._assert_tarball_members(data, ['api_keys.json'])
 
     def test_backup_excludes_other_files(self):
         self._create_files(
@@ -155,6 +162,15 @@ class TestRestore(unittest.TestCase):
 
         config.restore(tarball)
         self._assert_restored_files('mask_1.pgm', 'mask_2.pgm')
+
+    def test_restore_extracts_api_keys_and_reloads_them(self):
+        tarball = self._make_tarball('api_keys.json')
+
+        with patch('motioneye.apikeys.reset') as reset:
+            config.restore(tarball)
+
+        self._assert_restored_files('api_keys.json')
+        reset.assert_called_once()
 
     def test_restore_ignores_non_matching_files(self):
         tarball = self._make_tarball(

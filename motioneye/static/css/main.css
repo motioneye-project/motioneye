@@ -574,6 +574,11 @@ table.edit-credentials-dialog input[type=password] {
     width: 17em;
 }
 
+div.api-keys-list-wrapper {
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
 table.api-keys-list {
     margin: auto;
     border-collapse: collapse;

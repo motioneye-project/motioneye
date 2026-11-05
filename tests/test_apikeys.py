@@ -67,6 +67,41 @@ class ApiKeysTest(TestCase):
         apikeys.reset()
         self.assertEqual([], apikeys.list_keys())
 
+    def test_an_unreadable_file_is_never_overwritten(self):
+        path = os.path.join(self.conf_path, 'api_keys.json')
+        truncated = '[{"id": "1234abcd", "name": "Home Assis'
+        with open(path, 'w') as f:
+            f.write(truncated)
+
+        self.assertIsNone(apikeys.verify('meye_anything'))
+        for call in (apikeys.list_keys, lambda: apikeys.add('script', 'normal')):
+            with self.assertRaises(apikeys.ApiKeyError):
+                call()
+
+        with open(path) as f:
+            self.assertEqual(truncated, f.read())
+
+        # once the file is dealt with, keys work again without a restart
+        os.remove(path)
+        _, token = apikeys.add('script', 'normal')
+        self.assertEqual('normal', apikeys.verify(token))
+
+    def test_a_failed_save_leaves_the_keys_as_they_were(self):
+        key, token = apikeys.add('script', 'admin')
+
+        with patch('motioneye.apikeys.os.replace', side_effect=OSError('disk full')):
+            with self.assertRaises(apikeys.ApiKeyError):
+                apikeys.add('another script', 'admin')
+            with self.assertRaises(apikeys.ApiKeyError):
+                apikeys.remove(key['id'])
+
+        self.assertEqual([key['id']], [k['id'] for k in apikeys.list_keys()])
+        self.assertEqual('admin', apikeys.verify(token))
+        self.assertEqual(['api_keys.json'], os.listdir(self.conf_path))
+
+        apikeys.reset()
+        self.assertEqual([key['id']], [k['id'] for k in apikeys.list_keys()])
+
     def test_last_use_is_recorded_to_the_hour(self):
         _, token = apikeys.add('camera poller', 'normal')
 
@@ -102,13 +137,6 @@ class ApiKeysTest(TestCase):
     def test_name_is_stripped(self):
         key, _ = apikeys.add('  script  ', 'normal')
         self.assertEqual('script', key['name'])
-
-    def test_unreadable_file_means_no_keys(self):
-        with open(os.path.join(self.conf_path, 'api_keys.json'), 'w') as f:
-            f.write('{not json')
-
-        self.assertEqual([], apikeys.list_keys())
-        self.assertIsNone(apikeys.verify(apikeys.TOKEN_PREFIX + 'x'))
 
     def test_entries_without_a_valid_role_are_ignored(self):
         with open(os.path.join(self.conf_path, 'api_keys.json'), 'w') as f:

@@ -1,3 +1,4 @@
+import os
 from base64 import b64encode
 from json import dumps, loads
 from shutil import rmtree
@@ -6,9 +7,10 @@ from unittest.mock import AsyncMock, patch
 
 import tornado.testing
 
-from motioneye import apikeys
+from motioneye import apikeys, config
 from motioneye.handlers.apikey import ApiKeyHandler
 from motioneye.handlers.base import BaseHandler
+from motioneye.handlers.config import ConfigHandler
 from motioneye.handlers.picture import PictureHandler
 from tests.test_handlers import _FAKE_CAMERA_CONFIG, HandlerTestCase
 
@@ -89,6 +91,17 @@ class ApiKeyAuthTest(ApiKeyTestCase):
         apikeys.remove(key['id'])
         self.assertEqual(403, self.fetch_current(bearer(token)).code)
 
+    def test_other_bearer_tokens_are_left_to_the_session(self):
+        # such as one a proxy in front of motionEye adds for itself
+        headers = bearer('proxy-issued-token')
+        headers['Cookie'] = self.make_session_cookie('admin')
+
+        response = self.fetch_current(headers)
+        self.assertEqual(200, response.code)
+        self.assertEqual('admin', loads(response.body)['user'])
+
+        self.assertEqual(403, self.fetch_current(bearer('proxy-issued-token')).code)
+
     def test_wrong_key_does_not_fall_back_to_the_session_cookie(self):
         headers = bearer('meye_unknown')
         headers['Cookie'] = self.make_session_cookie('admin')
@@ -145,21 +158,41 @@ class ApiKeyHandlerTest(ApiKeyTestCase):
         self.assertIsNone(apikeys.verify(token))
 
         response = self.post(f'/apikey/{key["id"]}/rem/', {}, self.admin())
-        self.assertEqual(404, response.code)
+        self.assertEqual(200, response.code)
+        self.assertEqual('no such API key', loads(response.body)['error'])
 
     def test_invalid_key_settings_are_refused(self):
+        # answered with 200 and an error, which the web UI shows; ajax() would
+        # replace the message of an error status with a generic one
         response = self.post(
             '/apikey/add/', {'name': '', 'role': 'admin'}, self.admin()
         )
-        self.assertEqual(400, response.code)
+        self.assertEqual(200, response.code)
         self.assertIn('name', loads(response.body)['error'])
 
         response = self.post(
             '/apikey/add/', {'name': 'x', 'role': 'root'}, self.admin()
         )
-        self.assertEqual(400, response.code)
+        self.assertIn('role', loads(response.body)['error'])
 
         self.assertEqual([], apikeys.list_keys())
+
+    def test_an_unreadable_keys_file_is_reported_and_left_alone(self):
+        path = os.path.join(self.conf_path, 'api_keys.json')
+        with open(path, 'w') as f:
+            f.write('[{"id": "1234abcd", "na')
+
+        response = self.fetch('/apikey/list/', headers=self.admin())
+        self.assertEqual(200, response.code)
+        self.assertIn('cannot be read', loads(response.body)['error'])
+
+        response = self.post(
+            '/apikey/add/', {'name': 'script', 'role': 'normal'}, self.admin()
+        )
+        self.assertIn('cannot be read', loads(response.body)['error'])
+
+        with open(path) as f:
+            self.assertEqual('[{"id": "1234abcd", "na', f.read())
 
     def test_only_the_admin_manages_keys(self):
         normal = {'Cookie': self.make_session_cookie('normal')}
@@ -189,6 +222,74 @@ class ApiKeyHandlerTest(ApiKeyTestCase):
     def test_peers_cannot_manage_keys(self):
         with patch.object(ApiKeyHandler, 'get_current_user', return_value='peer'):
             self.assertEqual(403, self.fetch('/apikey/list/').code)
+
+
+_MAIN_CONFIG = {
+    '@admin_username': 'admin',
+    '@admin_password': 'old-hash',
+    '@normal_username': 'user',
+    '@normal_password': '',
+    '@lang': 'en',
+}
+
+
+class KeyCredentialsTest(ApiKeyTestCase):
+    """A key must not leave behind a way in that outlives it."""
+
+    handler_cls = ConfigHandler
+
+    def setUp(self):
+        super().setUp()
+        _, self.token = apikeys.add('script', 'admin')
+        self._main_patch = patch.object(config, 'get_main', return_value=_MAIN_CONFIG)
+        self._main_patch.start()
+
+    def tearDown(self):
+        self._main_patch.stop()
+        super().tearDown()
+
+    def post(self, path, body):
+        headers = dict(bearer(self.token), **{'Content-Type': 'application/json'})
+        return self.fetch(path, method='POST', body=dumps(body), headers=headers)
+
+    def test_admin_key_cannot_set_passwords(self):
+        with (
+            patch.object(config, 'set_main') as set_main,
+            patch.object(config, 'set_camera') as set_camera,
+        ):
+            main = {'admin_username': 'admin', 'normal_username': 'user'}
+            for body, path in (
+                ({**main, 'admin_password': 'known'}, '/config/main/set/'),
+                (
+                    {'main': {**main, 'normal_password': 'known'}, '1': {}},
+                    '/config/0/set/',
+                ),
+            ):
+                response = self.post(path, body)
+                self.assertEqual(403, response.code)
+                self.assertIn('passwords', loads(response.body)['error'])
+
+        set_main.assert_not_called()
+        set_camera.assert_not_called()
+
+    def test_admin_key_can_change_other_main_settings(self):
+        with patch.object(config, 'set_main') as set_main:
+            response = self.post(
+                '/config/main/set/',
+                {'admin_username': 'admin', 'normal_username': 'viewer', 'lang': 'en'},
+            )
+
+        self.assertEqual(200, response.code)
+        self.assertEqual('viewer', set_main.call_args.args[0]['@normal_username'])
+
+    def test_admin_key_cannot_restore_a_backup(self):
+        with patch.object(config, 'restore') as restore:
+            response = self.fetch(
+                '/config/restore/', method='POST', body='', headers=bearer(self.token)
+            )
+
+        self.assertEqual(403, response.code)
+        restore.assert_not_called()
 
 
 class DetectionActionTest(ApiKeyTestCase):

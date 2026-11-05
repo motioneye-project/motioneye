@@ -2801,7 +2801,7 @@ function doBackup() {
 function doApiKeys() {
     var content =
             $('<div class="api-keys-dialog">' +
-                '<table class="api-keys-list"></table>' +
+                '<div class="api-keys-list-wrapper"><table class="api-keys-list"></table></div>' +
                 '<div class="dialog-item-separator"></div>' +
                 '<table class="api-keys-add">' +
                     '<tr>' +
