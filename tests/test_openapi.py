@@ -40,7 +40,9 @@ def handler_methods(handler: type[RequestHandler]) -> set[str]:
 
 
 def load_spec() -> dict:
-    with open(os.path.join(settings.PROJECT_PATH, 'openapi.json')) as f:
+    with open(
+        os.path.join(settings.PROJECT_PATH, 'openapi.json'), encoding='utf-8'
+    ) as f:
         return json.load(f)
 
 

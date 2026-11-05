@@ -251,35 +251,56 @@
             "in": "query",
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "With `proto` `netcam`, `mjpeg` or `motioneye`: the host."
           },
           {
             "name": "port",
             "in": "query",
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "With `proto` `netcam`, `mjpeg` or `motioneye`: the port; empty for the default of the scheme."
           },
           {
             "name": "path",
             "in": "query",
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "With `proto` `netcam`, `mjpeg` or `motioneye`: the path of the URL."
           },
           {
             "name": "username",
             "in": "query",
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "With `proto` `netcam` or `mjpeg`: the camera login."
           },
           {
             "name": "password",
             "in": "query",
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "With `proto` `netcam` or `mjpeg`: the camera login."
+          },
+          {
+            "name": "remote_secret",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "With `proto=motioneye`: the other motionEye's client secret, from its General Settings. Without it, that server answers that authentication failed."
+          },
+          {
+            "name": "remote_verify",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "With `proto=motioneye`: whether to check the other motionEye's certificate."
           }
         ]
       }
@@ -347,7 +368,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "oneOf": [
+                  "anyOf": [
                     {
                       "$ref": "#/components/schemas/CameraConfig"
                     },
@@ -417,7 +438,7 @@
                   },
                   "remote_secret": {
                     "type": "string",
-                    "description": "`motioneye`: the other motionEye's client secret."
+                    "description": "`motioneye`: the other motionEye's client secret, from its General Settings. Without it, that server refuses the camera."
                   },
                   "remote_verify": {
                     "type": "boolean",
@@ -491,7 +512,8 @@
                     },
                     "then": {
                       "required": [
-                        "remote_camera_id"
+                        "remote_camera_id",
+                        "remote_secret"
                       ]
                     }
                   }
@@ -668,7 +690,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "oneOf": [
+                "anyOf": [
                   {
                     "$ref": "#/components/schemas/CameraConfig"
                   },
@@ -809,6 +831,16 @@
           "302": {
             "description": "A redirect to the service's own authorization page."
           },
+          "400": {
+            "description": "No `service`, or one without an authorization page.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
@@ -941,6 +973,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/NotForThisCamera"
+          },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
@@ -995,6 +1030,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/NotForThisCamera"
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
@@ -1101,6 +1139,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/NotForThisCamera"
+          },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
@@ -1149,6 +1190,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/NotForThisCamera"
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
@@ -1214,6 +1258,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/NotForThisCamera"
+          },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
@@ -1261,6 +1308,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/NotForThisCamera"
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
@@ -1324,6 +1374,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/NotForThisCamera"
+          },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
@@ -1384,11 +1437,12 @@
                   "type": "object",
                   "properties": {
                     "key": {
-                      "type": "string"
+                      "type": "string",
+                      "description": "Download the finished movie with it."
                     },
                     "progress": {
                       "type": "number",
-                      "description": "From 0 to 1 while the movie is being made; -1 once it is ready, together with its `key`."
+                      "description": "From 0 to 1 while the movie is being made. -1 once it has stopped: ready when `key` comes with it, failed when it does not."
                     },
                     "error": {
                       "type": "string"
@@ -1404,6 +1458,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/NotForThisCamera"
+          },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
@@ -1418,7 +1475,7 @@
             }
           }
         },
-        "description": "Start it with `interval` and `framerate`; poll with `check=true` until a `key` is returned; then download the movie with `key`.\n\nOpen to both users.",
+        "description": "Start it with `interval` and `framerate`, then poll with `check=true` while `progress` is between 0 and 1. At `-1` it has stopped: with a `key`, download the movie with it; without one, making it failed, or the group has no pictures.\n\nOpen to both users.",
         "parameters": [
           {
             "name": "camera_id",
@@ -1494,6 +1551,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/NotForThisCamera"
+          },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
@@ -1554,6 +1614,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/NotForThisCamera"
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
@@ -1623,6 +1686,9 @@
           "206": {
             "description": "Part of the movie, for a range request."
           },
+          "400": {
+            "$ref": "#/components/responses/NotForThisCamera"
+          },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
@@ -1672,6 +1738,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/NotForThisCamera"
+          },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
@@ -1720,6 +1789,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/NotForThisCamera"
+          },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
@@ -1767,6 +1839,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/NotForThisCamera"
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
@@ -1886,7 +1961,14 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "404": {
-            "description": "No such log, or logging to files is off."
+            "description": "No such log, or logging to files is off.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         },
         "description": "**Requires the admin.**",
@@ -1974,6 +2056,16 @@
       },
       "NoSuchCamera": {
         "description": "No such camera.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotForThisCamera": {
+        "description": "Not for this type of camera: an MJPEG camera has no snapshots, pictures or movies here.",
         "content": {
           "application/json": {
             "schema": {
