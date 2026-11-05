@@ -428,5 +428,37 @@ class TestS3Verify(unittest.TestCase):
                 self.assertIsNone(kwargs['verify'])
 
 
+class TestSFTPTestAccess(unittest.TestCase):
+    """The SFTP test removes its file and folder afterwards with lower case
+    commands, as libcurl 8 refuses upper case ones ("Unknown SFTP command")."""
+
+    @patch('motioneye.uploadservices.time', return_value=1700000000.5)
+    @patch('pycurl.Curl')
+    def test_removes_the_test_file_and_folder(self, curl, _):
+        service = uploadservices.SFTP('1')
+        service.load(
+            {
+                'server': 'sftp.example',
+                'port': 22,
+                'username': 'cam',
+                'password': 'x',
+                'location': '/up',
+            }
+        )
+
+        self.assertIs(True, service.test_access())
+
+        conn = curl.return_value
+        options = {call.args[0]: call.args[1] for call in conn.setopt.call_args_list}
+        self.assertEqual(
+            'sftp://sftp.example:22//up//motioneye_test/1700000000.5',
+            options[conn.URL],
+        )
+        self.assertEqual(
+            ['rm /up//motioneye_test/1700000000.5', 'rmdir /up/motioneye_test'],
+            options[conn.POSTQUOTE],
+        )
+
+
 if __name__ == '__main__':
     unittest.main()

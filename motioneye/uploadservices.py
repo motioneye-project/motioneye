@@ -1141,8 +1141,8 @@ class SFTP(UploadService):
 
         # list of commands to send after upload.
         rm_operations = [
-            f'RM {self._location}/{test_file}',
-            f'RMDIR {self._location}/{test_folder}',
+            f'rm {self._location}/{test_file}',
+            f'rmdir {self._location}/{test_folder}',
         ]
 
         conn = self._get_conn(test_file)
