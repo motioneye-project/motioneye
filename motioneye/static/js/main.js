@@ -917,6 +917,9 @@ function initUI() {
     $('div#backupButton').on('click', doBackup);
     $('div#restoreButton').on('click', doRestore);
 
+    /* API keys */
+    $('div#apiKeysButton').on('click', doApiKeys);
+
     /* test buttons */
     $('div#uploadTestButton').on('click', doTestUpload);
     $('div#emailTestButton').on('click', doTestEmail);
@@ -2793,6 +2796,145 @@ function doRemCamera() {
 
 function doBackup() {
     downloadFile('config/backup/');
+}
+
+function doApiKeys() {
+    var content =
+            $('<div class="api-keys-dialog">' +
+                '<table class="api-keys-list"></table>' +
+                '<div class="dialog-item-separator"></div>' +
+                '<table class="api-keys-add">' +
+                    '<tr>' +
+                        '<td class="dialog-item-label"><span class="dialog-item-label">' + i18n.gettext("Name") + '</span></td>' +
+                        '<td class="dialog-item-value"><input type="text" class="styled" id="apiKeyNameEntry" maxlength="64"></td>' +
+                        '<td><span class="help-mark" title="' + i18n.gettext("what the key is for, such as Home Assistant") + '">?</span></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                        '<td class="dialog-item-label"><span class="dialog-item-label">' + i18n.gettext("Acts as") + '</span></td>' +
+                        '<td class="dialog-item-value"><select class="styled" id="apiKeyRoleSelect">' +
+                            '<option value="normal">' + i18n.gettext("Surveillance") + '</option>' +
+                            '<option value="admin">' + i18n.gettext("Admin") + '</option>' +
+                        '</select></td>' +
+                        '<td><span class="help-mark" title="' + i18n.gettext("a key can do what this user can do") + '">?</span></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                        '<td></td>' +
+                        '<td class="dialog-item-value"><div class="button normal-button api-key-add-button" id="apiKeyAddButton">' + i18n.gettext("Add Key") + '</div></td>' +
+                    '</tr>' +
+                '</table>' +
+            '</div>');
+
+    var list = content.find('table.api-keys-list');
+    var nameEntry = content.find('#apiKeyNameEntry');
+    var roleSelect = content.find('#apiKeyRoleSelect');
+
+    function formatTime(seconds) {
+        if (!seconds) {
+            return i18n.gettext("never");
+        }
+
+        return new Date(seconds * 1000).toLocaleString();
+    }
+
+    function showKeys(keys) {
+        list.empty();
+
+        if (!keys.length) {
+            list.append($('<tr><td class="api-keys-empty"></td></tr>').find('td')
+                    .text(i18n.gettext("No API keys yet.")).end());
+            return;
+        }
+
+        list.append('<tr>' +
+                '<th>' + i18n.gettext("Name") + '</th>' +
+                '<th>' + i18n.gettext("Acts as") + '</th>' +
+                '<th>' + i18n.gettext("Ends in") + '</th>' +
+                '<th>' + i18n.gettext("Last used") + '</th>' +
+                '<th></th>' +
+            '</tr>');
+
+        keys.forEach(function (key) {
+            var row = $('<tr><td></td><td></td><td></td><td></td>' +
+                    '<td><div class="button normal-button api-key-remove-button">' + i18n.gettext("Revoke") + '</div></td></tr>');
+            var cells = row.find('td');
+            cells.eq(0).text(key.name);
+            cells.eq(1).text(key.role == 'admin' ? i18n.gettext("Admin") : i18n.gettext("Surveillance"));
+            cells.eq(2).text('…' + key.hint);
+            cells.eq(3).text(formatTime(key.last_used));
+            row.find('.api-key-remove-button').on('click', function () {
+                runConfirmDialog(i18n.gettext("Revoke this key? Anything using it will stop working."), function () {
+                    ajax('POST', basePath + 'apikey/' + key.id + '/rem/', {}, function (data) {
+                        if (data == null || data.error) {
+                            showErrorMessage(data && data.error);
+                            return;
+                        }
+
+                        loadKeys();
+                    });
+                }, {stack: true});
+            });
+
+            list.append(row);
+        });
+    }
+
+    function loadKeys() {
+        ajax('GET', basePath + 'apikey/list/', null, function (data) {
+            if (data == null || data.error) {
+                showErrorMessage(data && data.error);
+                return;
+            }
+
+            showKeys(data.keys);
+            updateModalDialogPosition();
+        });
+    }
+
+    function showToken(token) {
+        var tokenContent = $('<div class="api-key-token">' +
+                '<input type="text" class="styled" readonly="readonly" id="apiKeyTokenEntry">' +
+                '<div class="api-key-token-note"></div>' +
+            '</div>');
+        tokenContent.find('input').val(token);
+        tokenContent.find('.api-key-token-note').text(
+                i18n.gettext("Copy the key now: it will not be shown again. Send it as \"Authorization: Bearer <key>\", or as the password of HTTP basic auth."));
+
+        runModalDialog({
+            title: i18n.gettext("New API Key"),
+            buttons: 'ok',
+            content: tokenContent,
+            stack: true,
+            onShow: function () {
+                tokenContent.find('input').focus().select();
+            }
+        });
+    }
+
+    content.find('#apiKeyAddButton').on('click', function () {
+        var name = nameEntry.val().trim();
+        if (!name) {
+            nameEntry.focus();
+            return;
+        }
+
+        ajax('POST', basePath + 'apikey/add/', {name: name, role: roleSelect.val()}, function (data) {
+            if (data == null || data.error) {
+                showErrorMessage(data && data.error);
+                return;
+            }
+
+            nameEntry.val('');
+            loadKeys();
+            showToken(data.token);
+        });
+    });
+
+    runModalDialog({
+        title: i18n.gettext("API Keys"),
+        closeButton: true,
+        content: content,
+        onShow: loadKeys
+    });
 }
 
 function doRestore() {

@@ -383,6 +383,8 @@ div.normal-button {
     padding-right: 0.5em;
 }
 
+div.api-keys-button,
+div.api-key-add-button,
 div.backup-button,
 div.restore-button,
 div.edit-credentials-button,
@@ -398,11 +400,14 @@ div.clear-mask-button {
     display: none;
 }
 
+div.api-key-remove-button,
 div.shut-down-button,
 div.reboot-button {
     background: #c0392b;
 }
 
+div.api-keys-button:HOVER,
+div.api-key-add-button:HOVER,
 div.backup-button:HOVER,
 div.restore-button:HOVER,
 div.edit-credentials-button:HOVER,
@@ -413,11 +418,14 @@ div.test-button:HOVER {
     background: #3498db;
 }
 
+div.api-key-remove-button:HOVER,
 div.shut-down-button:HOVER,
 div.reboot-button:HOVER {
     background: #D43F2F;
 }
 
+div.api-keys-button:ACTIVE,
+div.api-key-add-button:ACTIVE,
 div.backup-button:ACTIVE,
 div.restore-button:ACTIVE,
 div.edit-credentials-button:ACTIVE,
@@ -428,6 +436,7 @@ div.test-button:ACTIVE {
     background: #317CAD;
 }
 
+div.api-key-remove-button:ACTIVE,
 div.shut-down-button:ACTIVE,
 div.reboot-button:ACTIVE {
     background: #B03427;
@@ -563,6 +572,48 @@ table.add-camera-dialog input[type=password],
 table.edit-credentials-dialog input[type=text],
 table.edit-credentials-dialog input[type=password] {
     width: 17em;
+}
+
+table.api-keys-list {
+    margin: auto;
+    border-collapse: collapse;
+}
+
+table.api-keys-list th {
+    font-weight: normal;
+    font-size: 0.8em;
+    opacity: 0.7;
+    text-align: left;
+    padding: 0 0.6em;
+}
+
+table.api-keys-list td {
+    padding: 0.2em 0.6em;
+}
+
+td.api-keys-empty {
+    opacity: 0.7;
+    text-align: center;
+}
+
+table.api-keys-add {
+    margin: auto;
+}
+
+table.api-keys-add input[type=text] {
+    width: 17em;
+}
+
+div.api-key-token input {
+    width: 30em;
+    max-width: 80vw;
+    font-family: monospace;
+}
+
+div.api-key-token-note {
+    max-width: 30em;
+    margin: 0.6em auto 0;
+    font-size: 0.9em;
 }
 
 div.add-camera-progress {

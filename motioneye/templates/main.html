@@ -138,6 +138,11 @@
                             <td><span class="help-mark" title="{{ _("Auto-generated secret for this motionEye server. Copy this value into the Remote Secret field when adding this server as a remote camera on another motionEye server.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("API Keys") }}</span></td>
+                            <td class="settings-item-value"><div class="button normal-button api-keys-button" id="apiKeysButton">{{ _("Manage") }}</div></td>
+                            <td><span class="help-mark" title="{{ _("keys that let scripts and integrations, such as Home Assistant, use the HTTP API without logging in") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item">

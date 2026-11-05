@@ -32,6 +32,7 @@ from tornado.web import Application
 from motioneye import config, migration, settings, template
 from motioneye.controls import smbctl, v4l2ctl
 from motioneye.handlers.action import ActionHandler
+from motioneye.handlers.apikey import ApiKeyHandler
 from motioneye.handlers.base import ManifestHandler, NotFoundHandler
 from motioneye.handlers.config import ConfigHandler
 from motioneye.handlers.log import LogHandler
@@ -217,6 +218,8 @@ handler_mapping: Sequence[tuple] = [
         {'path': r''},
     ),
     (r'^/action/(?P<camera_id>\d+)/(?P<action>\w+)/?$', ActionHandler),
+    (r'^/apikey/(?P<op>list|add)/?$', ApiKeyHandler),
+    (r'^/apikey/(?P<key_id>[0-9a-f]+)/(?P<op>rem)/?$', ApiKeyHandler),
     (r'^/_relay_event/?$', RelayEventHandler),
     (r'^/log/(?P<name>\w+)/?$', LogHandler),
     (r'^/power/(?P<op>shutdown|reboot)/?$', PowerHandler),
