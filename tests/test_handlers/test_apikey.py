@@ -282,6 +282,37 @@ class KeyCredentialsTest(ApiKeyTestCase):
         self.assertEqual(200, response.code)
         self.assertEqual('viewer', set_main.call_args.args[0]['@normal_username'])
 
+    def test_admin_key_does_not_get_the_client_secret(self):
+        main = dict(_MAIN_CONFIG, **{'@client_secret': 'peer-secret'})
+        with patch.object(config, 'get_main', return_value=main):
+            for path in ('/config/main/get/', '/config/0/get/'):
+                with self.subTest(path=path):
+                    response = self.fetch(path, headers=bearer(self.token))
+                    self.assertEqual(200, response.code)
+                    body = loads(response.body)
+                    self.assertEqual('user', body['normal_username'])
+                    self.assertNotIn('_client_secret', body)
+
+            # the admin, signed in, still sees it, to set up another motionEye
+            response = self.fetch(
+                '/config/main/get/',
+                headers={'Cookie': self.make_session_cookie('admin')},
+            )
+            self.assertEqual('peer-secret', loads(response.body)['_client_secret'])
+
+    def test_admin_key_cannot_download_a_backup(self):
+        with patch.object(config, 'backup', return_value=b'archive') as backup:
+            response = self.fetch('/config/backup/', headers=bearer(self.token))
+            self.assertEqual(403, response.code)
+            backup.assert_not_called()
+
+            # the admin, signed in, still can
+            response = self.fetch(
+                '/config/backup/', headers={'Cookie': self.make_session_cookie('admin')}
+            )
+            self.assertEqual(200, response.code)
+            self.assertEqual(b'archive', response.body)
+
     def test_admin_key_cannot_restore_a_backup(self):
         with patch.object(config, 'restore') as restore:
             response = self.fetch(

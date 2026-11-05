@@ -233,6 +233,12 @@ class ConfigHandler(BaseHandler):
             logging.debug('getting main config')
 
             ui_config = config.main_dict_to_ui(config.get_main())
+
+            # The client secret signs requests as a peer for as long as it stays
+            # unchanged, so a key could keep access after its removal.
+            if self.api_key_used:
+                ui_config.pop('_client_secret', None)
+
             return self.finish_json(ui_config)
 
     @BaseHandler.auth(admin=True)
@@ -703,6 +709,14 @@ class ConfigHandler(BaseHandler):
 
     @BaseHandler.auth(admin=True)
     def backup(self):
+        # A backup carries the password hashes and the API keys, and a legacy
+        # password hash still signs in, which would let a key outlive itself;
+        # see set_main_config().
+        if self.api_key_used:
+            raise HTTPError(
+                403, 'the configuration cannot be backed up with an API key'
+            )
+
         content = config.backup()
 
         if not content:
@@ -716,7 +730,7 @@ class ConfigHandler(BaseHandler):
 
     @BaseHandler.auth(admin=True)
     def restore(self):
-        # a backup carries the passwords and the API keys, see set_main_config()
+        # a backup carries the passwords and the API keys, see backup()
         if self.api_key_used:
             raise HTTPError(403, 'the configuration cannot be restored with an API key')
 

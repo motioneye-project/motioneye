@@ -2289,12 +2289,15 @@ def restore(content: bytes) -> dict | None:
 
         logging.debug('configuration restored successfully')
 
+        # Also before a reboot: until then, a key in use would otherwise save
+        # the cached keys over the restored ones.
+        apikeys.reset()
+
         if settings.ENABLE_REBOOT:
             IOLoop.current().call_later(2, PowerControl.reboot)
 
         else:
             invalidate()
-            apikeys.reset()
 
         return {'reboot': settings.ENABLE_REBOOT}
 
