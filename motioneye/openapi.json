@@ -1181,12 +1181,17 @@
         ],
         "responses": {
           "200": {
-            "description": "The thumbnail.",
+            "description": "The thumbnail, or a placeholder image when none can be made.",
             "content": {
               "image/jpeg": {
                 "schema": {
                   "type": "string",
                   "contentEncoding": "binary"
+                }
+              },
+              "image/svg+xml": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -1430,7 +1435,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The progress or the key of the movie, or, with `key`, the movie.",
+            "description": "The progress or the key of the movie, or, with `key`, the movie, in the format of the camera's movies.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1450,7 +1455,7 @@
                   }
                 }
               },
-              "video/mp4": {
+              "video/*": {
                 "schema": {
                   "type": "string",
                   "contentEncoding": "binary"
@@ -1475,7 +1480,7 @@
             }
           }
         },
-        "description": "Start it with `interval` and `framerate`, then poll with `check=true` while `progress` is between 0 and 1. At `-1` it has stopped: with a `key`, download the movie with it; without one, making it failed, or the group has no pictures.\n\nOpen to both users.",
+        "description": "Start it with `interval` and `framerate`. That answer is `{\"progress\": -1}`, before the movie exists, so ignore it and poll with `check=true` while `progress` is between 0 and 1. At `-1` it has stopped: with a `key`, download the movie with it; without one, making it failed, or the group has no pictures.\n\nOpen to both users.",
         "parameters": [
           {
             "name": "camera_id",
@@ -1605,12 +1610,17 @@
         ],
         "responses": {
           "200": {
-            "description": "The thumbnail.",
+            "description": "The thumbnail, or a placeholder image when none can be made.",
             "content": {
               "image/jpeg": {
                 "schema": {
                   "type": "string",
                   "contentEncoding": "binary"
+                }
+              },
+              "image/svg+xml": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
