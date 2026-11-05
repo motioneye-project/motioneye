@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-10-31 10:37+0000\n"
+"PO-Revision-Date: 2026-11-02 23:57+0000\n"
 "Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/ko/>\n"
 "Language: ko\n"
@@ -20,88 +20,88 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.1.dev0\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/cleanup.py:47
 msgid "purigado komenciĝis"
 msgstr "정리가 시작됐습니다"
 
-#: motioneye/config.py:1055
+#: motioneye/config.py:1060
 #, fuzzy
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
 msgstr "장치는 알파벳 문자, 하이픈, 밑줄, 플러스 +, 공간에만 사용할 수 있습니다"
 
-#: motioneye/config.py:1059
+#: motioneye/config.py:1064
 #, fuzzy
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 msgstr "파일 이름에는 영숫자, 괄호 (), 슬래시 /, 점 ., 밑줄 _, 하이픈 -, 공백 및 모션 변환 지정자 일부(%C %Y %m %d %H %M %S %I %p %l %q %v %$)만 포함될 수 있습니다"
 
-#: motioneye/config.py:1064
+#: motioneye/config.py:1069
 #, fuzzy
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
 msgstr "디렉터리 이름에는 영숫자, 공백, 괄호 (), 슬래시 /, 점 ., 밑줄 _, 하이픈 -만 포함될 수 있습니다"
 
-#: motioneye/config.py:1069
+#: motioneye/config.py:1074
 #, fuzzy
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
 msgstr "이메일 주소는 영숫자, 밑줄(_), 더하기(+), 점(.), 앳(@), 캐럿(^), 물결표(~), 각괄호(<>), 하이픈(-)만 포함할 수 있으며, 쉼표와 공백으로 구분될 수 있습니다"
 
-#: motioneye/config.py:1074
+#: motioneye/config.py:1079
 #, fuzzy
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr "URL에는 캐럿(^) 기호, 세미콜론(;) 기호 또는 아포스트로피(')를 포함할 수 없습니다"
 
-#: motioneye/server.py:236
+#: motioneye/server.py:234
 msgid "interrompa signalo ricevita, fermanta …"
 msgstr "중단 신호가 수신되었으며, 닫는 중입니다…"
 
-#: motioneye/server.py:278
+#: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
 msgstr "SMB 파일공유에는 root 권한이 필요합니다"
 
-#: motioneye/server.py:285
+#: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
 msgstr "3.1버전 이상의 tornado를 설치해 주십시오"
 
-#: motioneye/server.py:292
+#: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
 msgstr "ninja2를 설치해 주십시오"
 
-#: motioneye/server.py:299
+#: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
 msgstr "pillow나 PIL을 설치해 주십시오"
 
-#: motioneye/server.py:306
+#: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
 msgstr "pycurl을 설치해주세요"
 
-#: motioneye/server.py:428
+#: motioneye/server.py:426
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "안녕하세요! motionEye 서버입니다. "
 
-#: motioneye/server.py:443
+#: motioneye/server.py:441
 #, fuzzy
 msgid "The admin and/or surveillance user has no password assigned. Please login to the web interface to set both passwords."
 msgstr "관리자 및 / 또는 Windows에는 사용자가 없습니다. 웹 인터페이스에 로그인하여 암호를 모두 설정하십시오."
 
-#: motioneye/server.py:464
+#: motioneye/server.py:462
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "mjpeg customer garbage collector가 시작됐습니다"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:479
 msgid "servilo komenciĝis"
 msgstr "서버가 시작됐습니다"
 
-#: motioneye/server.py:489
+#: motioneye/server.py:487
 msgid "servilo haltis"
 msgstr "서버가 정지됐습니다"
 
-#: motioneye/server.py:497
+#: motioneye/server.py:495
 msgid "motion haltis"
 msgstr "motion이 정지됐습니다"
 
-#: motioneye/server.py:503
+#: motioneye/server.py:501
 msgid "adiaŭ!"
 msgstr "다음에 만나요!"
 
@@ -113,7 +113,7 @@ msgstr "작업이 시작됐습니다"
 msgid "taskoj haltis"
 msgstr "작업이 정지됐습니다"
 
-#: motioneye/wsswitch.py:36
+#: motioneye/wsswitch.py:46
 msgid "wsswitch komenciĝis"
 msgstr "wsswitch가 시작됐습니다"
 
@@ -683,8 +683,9 @@ msgid "Rajtiga ŝlosilo"
 msgstr "승인 키"
 
 #: motioneye/templates/main.html:471
-msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "업로드 서비스로 인증하는 데 사용되는 키 (일반적으로 구성 중에 만 필요)"
+#, fuzzy
+msgid "the key used to authenticate with the upload service, usually only needed during setup; for Google, the whole address of the page that cannot be loaded after allowing access"
+msgstr "서비스 업로드를 인증하는 데 사용되는 키는 설정 중에만 필요합니다. Google의 경우 눈 액세스 후로드 된 페이지의 전체 주소"
 
 #: motioneye/templates/main.html:477
 msgid "Akiri ŝlosilon"
