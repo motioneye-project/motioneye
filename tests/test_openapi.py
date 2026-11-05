@@ -5,8 +5,10 @@ from itertools import product
 from unittest import TestCase
 
 from tornado.testing import AsyncHTTPTestCase
+from tornado.web import RequestHandler
 
 from motioneye import VERSION, settings
+from motioneye.handlers.base import BaseHandler
 from motioneye.server import handler_mapping, make_app
 
 # routes that are not part of the API: the web UI itself, and what only
@@ -20,6 +22,21 @@ _NOT_DOCUMENTED = {
 }
 
 _GROUP = re.compile(r'\(\?P<(\w+)>([^()]*)\)(\?)?')
+
+
+_METHODS = ('get', 'head', 'post', 'put', 'patch', 'delete', 'options')
+
+
+def handler_methods(handler: type[RequestHandler]) -> set[str]:
+    """The HTTP methods a handler implements itself, rather than answering with
+    the 400 of BaseHandler or the 405 of RequestHandler."""
+
+    return {
+        m
+        for m in _METHODS
+        if getattr(handler, m)
+        not in (getattr(RequestHandler, m), getattr(BaseHandler, m, None))
+    }
 
 
 def load_spec() -> dict:
@@ -67,6 +84,22 @@ class OpenApiSpecTest(TestCase):
 
         self.assertEqual(set(), routes - spec_paths, 'routes missing from the spec')
         self.assertEqual(set(), spec_paths - routes, 'spec paths with no route')
+
+    def test_documented_methods_are_implemented(self):
+        # A handler serves all the paths of its route with the same methods, and
+        # picks the operation from the path, so a route's methods can only be
+        # checked together; the parameters of each operation are not checked.
+        spec_paths = load_spec()['paths']
+        for route in handler_mapping:
+            if route[0] in _NOT_DOCUMENTED:
+                continue
+            documented = {
+                method
+                for path in documented_paths(route[0])
+                for method in spec_paths.get(path, {})
+            }
+            with self.subTest(route=route[0]):
+                self.assertLessEqual(documented, handler_methods(route[1]))
 
     def test_route_expansion(self):
         self.assertEqual(

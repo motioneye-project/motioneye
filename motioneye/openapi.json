@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "/",
+      "url": "./",
       "description": "This motionEye server, including any base path it is served under."
     }
   ],
@@ -52,32 +52,25 @@
         ],
         "responses": {
           "200": {
-            "description": "The user of the session, or an error when there is none.",
+            "description": "The user of the session.",
             "content": {
               "application/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "user": {
-                          "type": "string",
-                          "enum": [
-                            "admin",
-                            "normal"
-                          ]
-                        },
-                        "username": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "user"
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "string",
+                      "enum": [
+                        "admin",
+                        "normal"
                       ]
                     },
-                    {
-                      "$ref": "#/components/schemas/Error"
+                    "username": {
+                      "type": "string"
                     }
+                  },
+                  "required": [
+                    "user"
                   ]
                 }
               }
@@ -95,7 +88,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Signed in; the `user` cookie set by this response carries the session. Or an error, for wrong credentials.",
+            "description": "Signed in; the `user` cookie set by this response carries the session.",
             "headers": {
               "Set-Cookie": {
                 "description": "The signed `user` session cookie.",
@@ -107,30 +100,43 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "type": "object",
-                      "properties": {
-                        "user": {
-                          "type": "string",
-                          "enum": [
-                            "admin",
-                            "normal"
-                          ]
-                        },
-                        "force_password_change": {
-                          "type": "boolean",
-                          "description": "True while the admin still has no password; the web UI then asks for one."
-                        }
-                      },
-                      "required": [
-                        "user"
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "string",
+                      "enum": [
+                        "admin",
+                        "normal"
                       ]
                     },
-                    {
-                      "$ref": "#/components/schemas/Error"
+                    "force_password_change": {
+                      "type": "boolean",
+                      "description": "True while the admin still has no password; the web UI then asks for one."
                     }
+                  },
+                  "required": [
+                    "user"
                   ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No user name.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong user name or password.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -310,14 +316,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Done.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SetConfigResult"
-                }
-              }
-            }
+            "description": "Saved; the response has no body."
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
@@ -344,11 +343,18 @@
         ],
         "responses": {
           "200": {
-            "description": "The new camera's settings.",
+            "description": "The new camera's settings, or an `error`, such as for a remote camera id that isn't a number.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CameraConfig"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/CameraConfig"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Error"
+                    }
+                  ]
                 }
               }
             }
@@ -369,13 +375,16 @@
                     "type": "string",
                     "enum": [
                       "v4l2",
+                      "mmal",
                       "netcam",
-                      "motioneye",
-                      "mjpeg"
-                    ]
+                      "mjpeg",
+                      "motioneye"
+                    ],
+                    "description": "A local video device, a Raspberry Pi camera, a network camera that motion reads, an MJPEG camera shown as it is, or a camera of another motionEye."
                   },
                   "path": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "`v4l2`: the device, such as `/dev/video0`. `mmal`: the camera name. Otherwise the path of the URL."
                   },
                   "scheme": {
                     "type": "string"
@@ -384,19 +393,109 @@
                     "type": "string"
                   },
                   "port": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "May be empty, for the default port of the scheme."
                   },
                   "username": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "`netcam`: may be empty, for a camera without a login."
                   },
                   "password": {
                     "type": "string"
+                  },
+                  "camera_index": {
+                    "type": "string",
+                    "description": "`netcam`: `udp` to read RTSP over UDP rather than TCP."
+                  },
+                  "keep_alive": {
+                    "type": "boolean",
+                    "description": "`netcam`: keep the connection open between frames."
+                  },
+                  "remote_camera_id": {
+                    "type": "integer",
+                    "description": "`motioneye`: the camera id on the other motionEye."
+                  },
+                  "remote_secret": {
+                    "type": "string",
+                    "description": "`motioneye`: the other motionEye's client secret."
+                  },
+                  "remote_verify": {
+                    "type": "boolean",
+                    "description": "`motioneye`: whether to check the other motionEye's certificate."
                   }
                 },
                 "required": [
                   "proto"
                 ],
-                "additionalProperties": true
+                "additionalProperties": true,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "proto": {
+                          "enum": [
+                            "v4l2",
+                            "mmal"
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "path"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "proto": {
+                          "enum": [
+                            "netcam",
+                            "mjpeg",
+                            "motioneye"
+                          ]
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "scheme",
+                        "host",
+                        "port",
+                        "path"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "proto": {
+                          "const": "netcam"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "username"
+                      ]
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "proto": {
+                          "const": "motioneye"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "remote_camera_id"
+                      ]
+                    }
+                  }
+                ]
               }
             }
           }
@@ -436,7 +535,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Done.",
+            "description": "Done, or `ok` is false when the archive could not be read.",
             "content": {
               "application/json": {
                 "schema": {
@@ -456,9 +555,19 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "400": {
+            "description": "No file attached.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         },
-        "description": "motionEye restarts to load the restored configuration.\n\n**Requires the admin.**",
+        "description": "The restored configuration takes effect at once. Where motionEye may reboot the system (its `enable_reboot` option), it reboots instead, and `reboot` is true.\n\n**Requires the admin.**",
         "requestBody": {
           "required": true,
           "content": {
@@ -497,6 +606,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "**Requires the admin.**",
@@ -522,7 +634,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Done.",
+            "description": "Done; `reload` says whether the web UI should reload the page.",
             "content": {
               "application/json": {
                 "schema": {
@@ -533,6 +645,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "Send the whole object that `/config/{camera_id}/get/` returns, changed where needed. Saving restarts motion when the camera needs it. To pause or resume motion detection for now, without saving it, use the `detectionpause` and `detectionstart` actions.\n\n**Requires the admin.**",
@@ -541,10 +656,10 @@
             "name": "camera_id",
             "in": "path",
             "required": true,
-            "description": "The camera id, as listed by `/config/list/`.",
+            "description": "The camera id, as listed by `/config/list/`, or `0` to save several at once, as the web UI does.",
             "schema": {
               "type": "integer",
-              "minimum": 1
+              "minimum": 0
             }
           }
         ],
@@ -553,7 +668,23 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CameraConfig"
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/CameraConfig"
+                  },
+                  {
+                    "type": "object",
+                    "description": "With camera id `0`: `main` for the general settings and camera ids for their settings, each as the separate save would take them.",
+                    "properties": {
+                      "main": {
+                        "$ref": "#/components/schemas/MainConfig"
+                      }
+                    },
+                    "additionalProperties": {
+                      "$ref": "#/components/schemas/CameraConfig"
+                    }
+                  }
+                ]
               }
             }
           }
@@ -615,6 +746,16 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "400": {
+            "description": "An unknown test, or one this type of camera has no settings for.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         },
         "description": "Tests the settings in the request body, not the saved ones, so they can be checked before saving.\n\n**Requires the admin.**",
@@ -672,7 +813,7 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "404": {
-            "description": "No such camera."
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "For upload services that sign in with OAuth, such as Google Drive and Dropbox. For a camera on another motionEye, that one makes the link.\n\n**Requires the admin.**",
@@ -700,7 +841,7 @@
     },
     "/config/{camera_id}/credentials/": {
       "post": {
-        "summary": "Save an upload service's credentials",
+        "summary": "Change a camera's address and credentials",
         "tags": [
           "Cameras"
         ],
@@ -710,16 +851,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Result"
+                  "$ref": "#/components/schemas/Empty"
                 }
               }
             }
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
+          },
+          "400": {
+            "description": "No `url`, or a type of camera this doesn't apply to.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         },
-        "description": "**Requires the admin.**",
+        "description": "Changes where the camera itself is read from, not an upload service. For a network camera this sets its URL and login and restarts motion; for an MJPEG camera, its URL; for a camera of another motionEye, its address, client secret and certificate check.\n\n**Requires the admin.**",
         "parameters": [
           {
             "name": "camera_id",
@@ -738,7 +892,31 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "additionalProperties": true
+                "required": [
+                  "url"
+                ],
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "The camera's URL."
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "Network cameras."
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Network cameras."
+                  },
+                  "remote_secret": {
+                    "type": "string",
+                    "description": "Cameras of another motionEye: its client secret."
+                  },
+                  "remote_verify": {
+                    "type": "boolean",
+                    "description": "Cameras of another motionEye: whether to check its certificate."
+                  }
+                }
               }
             }
           }
@@ -753,7 +931,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The latest frame of the camera.",
+            "description": "The latest frame of the camera; empty while there is none.",
             "content": {
               "image/jpeg": {
                 "schema": {
@@ -765,6 +943,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "The latest frame of a running camera, as a JPEG. This is what an integration polls for a still image; the normal user cannot see admin-only cameras.\n\nOpen to both users.",
@@ -817,6 +998,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "Open to both users.",
@@ -872,11 +1056,11 @@
               }
             }
           },
-          "403": {
-            "$ref": "#/components/responses/Unauthorized"
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
-        "description": "Open to both users.",
+        "description": "The page itself needs no login; the picture it shows asks for one, as the web UI does.",
         "parameters": [
           {
             "name": "camera_id",
@@ -919,6 +1103,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "Open to both users.",
@@ -965,6 +1152,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "Open to both users.",
@@ -1026,6 +1216,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "**Requires the admin.**",
@@ -1071,6 +1264,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "**Requires the admin.**",
@@ -1089,7 +1285,7 @@
             "name": "group",
             "in": "path",
             "required": true,
-            "description": "A folder of the camera's media, usually a date such as `2026-10-29`. Empty, or `ungrouped`, for files directly in the media folder.",
+            "description": "A folder of the camera's media, usually a date such as `2026-10-29`. `%2F`, an encoded `/`, for the files directly in the media folder.",
             "schema": {
               "type": "string"
             }
@@ -1132,7 +1328,14 @@
             "$ref": "#/components/responses/Unauthorized"
           },
           "404": {
-            "description": "No prepared archive has this key; prepare it again."
+            "description": "No such camera, or no prepared archive has this key; prepare it again.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         },
         "description": "Two requests: the first, without `key`, builds the archive and returns its key; the second, with that key, downloads it.\n\nOpen to both users.",
@@ -1151,7 +1354,7 @@
             "name": "group",
             "in": "path",
             "required": true,
-            "description": "A folder of the camera's media, usually a date such as `2026-10-29`. Empty, or `ungrouped`, for files directly in the media folder.",
+            "description": "A folder of the camera's media, usually a date such as `2026-10-29`. `%2F`, an encoded `/`, for the files directly in the media folder.",
             "schema": {
               "type": "string"
             }
@@ -1203,6 +1406,16 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "description": "No such camera, or no finished movie has this key; make it again.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         },
         "description": "Start it with `interval` and `framerate`; poll with `check=true` until a `key` is returned; then download the movie with `key`.\n\nOpen to both users.",
@@ -1221,7 +1434,7 @@
             "name": "group",
             "in": "path",
             "required": true,
-            "description": "A folder of the camera's media, usually a date such as `2026-10-29`. Empty, or `ungrouped`, for files directly in the media folder.",
+            "description": "A folder of the camera's media, usually a date such as `2026-10-29`. `%2F`, an encoded `/`, for the files directly in the media folder.",
             "schema": {
               "type": "string"
             }
@@ -1283,6 +1496,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "Open to both users.",
@@ -1341,6 +1557,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "Open to both users.",
@@ -1406,6 +1625,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "Open to both users.",
@@ -1452,6 +1674,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "Open to both users.",
@@ -1497,6 +1722,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "**Requires the admin.**",
@@ -1542,6 +1770,9 @@
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "**Requires the admin.**",
@@ -1560,7 +1791,7 @@
             "name": "group",
             "in": "path",
             "required": true,
-            "description": "A folder of the camera's media, usually a date such as `2026-10-29`. Empty, or `ungrouped`, for files directly in the media folder.",
+            "description": "A folder of the camera's media, usually a date such as `2026-10-29`. `%2F`, an encoded `/`, for the files directly in the media folder.",
             "schema": {
               "type": "string"
             }
@@ -1576,36 +1807,30 @@
         ],
         "responses": {
           "200": {
-            "description": "Done, or an `error` saying why not. Custom actions report the exit status of their command.",
+            "description": "A built-in action answers once it is done, with `error` saying why when it failed. A custom action answers as soon as its command has started, with an empty body; the command's exit status is only logged.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "description": "For custom actions: the exit status of the command."
-                    },
-                    "error": {
-                      "type": [
-                        "string",
-                        "null"
-                      ],
-                      "description": "For the built-in actions: why it failed, or null."
-                    }
-                  }
+                  "$ref": "#/components/schemas/Result"
                 }
               }
             }
           },
           "400": {
-            "description": "The camera has no such action, or doesn't save snapshots."
+            "description": "The camera has no such action, or doesn't save snapshots.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
           },
           "404": {
-            "description": "No such camera."
+            "$ref": "#/components/responses/NoSuchCamera"
           }
         },
         "description": "Built-in actions:\n\n- `snapshot`: save a picture now. Refused when the camera doesn't save snapshots.\n- `eventstart` and `eventend`: start or end a motion event as if motion had been detected.\n- `detectionpause` and `detectionstart`: pause or resume motion detection, as the camera's detection button does, for example to disarm and arm an alarm. It changes the running motion and isn't saved: a working schedule takes over again at its next change, and motion's own settings at its next restart.\n\nAny other name runs the camera's custom action script of that name, if it has one, such as `lock`, `unlock`, `light_on`, `alarm_on`, `up` or `preset1`.\n\nOpen to both users. The normal user cannot act on admin-only cameras.",
@@ -1688,14 +1913,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Done.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Empty"
-                }
-              }
-            }
+            "description": "Accepted; the response has no body, and the system shuts down two seconds later."
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
@@ -1712,14 +1930,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Done.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Empty"
-                }
-              }
-            }
+            "description": "Accepted; the response has no body, and the system reboots two seconds later."
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
@@ -1761,8 +1972,8 @@
           }
         }
       },
-      "BadRequest": {
-        "description": "The request is not valid.",
+      "NoSuchCamera": {
+        "description": "No such camera.",
         "content": {
           "application/json": {
             "schema": {
@@ -1807,7 +2018,11 @@
             "description": "Whether the web UI should reload the page."
           },
           "error": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Set when a setting could not be applied."
           }
         }
       },
@@ -1866,13 +2081,14 @@
           },
           "admin_password": {
             "type": "string",
-            "description": "Empty when read; leave empty to keep the password."
+            "description": "Present, as an empty string, only while the user has no password; left out once it has one. When saving, send a new password, or leave it out or empty to keep the current one."
           },
           "normal_username": {
             "type": "string"
           },
           "normal_password": {
-            "type": "string"
+            "type": "string",
+            "description": "Present, as an empty string, only while the user has no password; left out once it has one. When saving, send a new password, or leave it out or empty to keep the current one."
           },
           "lang": {
             "type": "string"

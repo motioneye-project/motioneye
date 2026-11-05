@@ -19,7 +19,7 @@ class OpenApiHandler(BaseHandler):
 
     def get(self):
         if OpenApiHandler._spec is None:
-            with open(_SPEC_PATH) as f:
+            with open(_SPEC_PATH, encoding='utf-8') as f:
                 spec = json.load(f)
 
             spec['info']['version'] = VERSION
