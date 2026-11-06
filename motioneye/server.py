@@ -40,6 +40,7 @@ from motioneye.handlers.logout import LogoutHandler
 from motioneye.handlers.main import MainHandler
 from motioneye.handlers.movie import MovieHandler
 from motioneye.handlers.movie_playback import MovieDownloadHandler, MoviePlaybackHandler
+from motioneye.handlers.openapi import OpenApiHandler
 from motioneye.handlers.picture import PictureHandler
 from motioneye.handlers.power import PowerHandler
 from motioneye.handlers.relay_event import RelayEventHandler
@@ -185,6 +186,7 @@ def _log_request(handler):
 handler_mapping: Sequence[tuple] = [
     (r'^/$', MainHandler),
     (r'^/manifest.json$', ManifestHandler),
+    (r'^/openapi.json$', OpenApiHandler),
     (r'^/config/main/(?P<op>set|get)/?$', ConfigHandler),
     (
         r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|test|authorize|credentials)/?$',
