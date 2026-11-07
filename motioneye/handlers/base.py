@@ -161,6 +161,19 @@ class BaseHandler(RequestHandler):
         content = template.render(template_name, **context)
         self.finish(content)
 
+    def refuse_navigation(self):
+        # the session cookie is SameSite=Lax, so it comes along when another site
+        # links here: such a navigation asks for text/html, motionEye's own requests
+        # do not, and a hub's neither
+        if 'text/html' in self.request.headers.get('Accept', ''):
+            raise HTTPError(403, 'this cannot be started by opening a link')
+
+    def refuse_cross_site(self):
+        # for a page motionEye itself opens in a new tab, which is a navigation too;
+        # browsers without Sec-Fetch-Site are let through
+        if self.request.headers.get('Sec-Fetch-Site') == 'cross-site':
+            raise HTTPError(403, 'this cannot be started from another site')
+
     def finish_json(self, data=None):
         if data is None:
             data = {}

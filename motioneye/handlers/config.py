@@ -501,6 +501,8 @@ class ConfigHandler(BaseHandler):
         proto = self.get_argument('proto', None)
         discovery_in_query = bool(proto and 'proto' in self.request.query_arguments)
         if discovery_in_query:
+            # discovery connects to the given address, so a link must not start it
+            self.refuse_navigation()
             logging.warning(
                 'camera discovery via query string is not recommended because it may expose credentials; '
                 'use POST body instead'
@@ -916,6 +918,9 @@ class ConfigHandler(BaseHandler):
 
     @BaseHandler.auth(admin=True)
     async def authorize(self, camera_id):
+        # a new link replaces the pending verifier, so another site must not open one
+        self.refuse_cross_site()
+
         service_name = self.get_argument('service')
         if not service_name:
             raise HTTPError(400, 'service_name required')
