@@ -918,8 +918,8 @@ class ConfigHandler(BaseHandler):
 
     @BaseHandler.auth(admin=True)
     async def authorize(self, camera_id):
-        # a new link replaces the pending verifier, so another site must not open one
-        self.refuse_cross_site()
+        # a new link replaces the pending verifier, so a link must not create one
+        self.refuse_navigation()
 
         service_name = self.get_argument('service')
         if not service_name:
@@ -940,6 +940,10 @@ class ConfigHandler(BaseHandler):
             raise HTTPError(
                 400, f'no authorization url for upload service {service_name}'
             )
+
+        if self.get_argument('json', None):
+            # motionEye's page opens the tab itself; a hub follows the redirect
+            return self.finish_json({'url': url})
 
         logging.debug(f'redirected to authorization url {url}')
         self.redirect(url)
