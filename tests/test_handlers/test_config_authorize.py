@@ -11,16 +11,36 @@ class AuthorizeTest(HandlerTestCase):
     """The link to obtain an upload service key comes from the server that redeems
     the key, as only that one has the PKCE verifier of the link (#2516)."""
 
-    def _authorize(self, camera):
+    def _authorize(self, camera, fetch_site=None):
+        headers = {'Cookie': self.make_session_cookie('admin')}
+        if fetch_site:
+            headers['Sec-Fetch-Site'] = fetch_site
         with (
             patch.object(config, 'get_camera_ids', return_value=[1, 2]),
             patch.object(config, 'get_camera', return_value=camera),
         ):
             return self.fetch(
                 f'/config/{camera["@id"]}/authorize/?service=gdrive',
-                headers={'Cookie': self.make_session_cookie('admin')},
+                headers=headers,
                 follow_redirects=False,
             )
+
+    def test_link_from_another_site_keeps_the_pending_verifier(self):
+        # a new link replaces the verifier, and the session cookie is SameSite=Lax
+        with patch.object(uploadservices, 'get_authorize_url') as local:
+            response = self._authorize(_LOCAL, 'cross-site')
+
+        self.assertEqual(403, response.code)
+        local.assert_not_called()
+
+    def test_tab_opened_by_motioneye_gets_the_link(self):
+        with patch.object(
+            uploadservices, 'get_authorize_url', return_value='https://g/local'
+        ):
+            response = self._authorize(_LOCAL, 'same-origin')
+
+        self.assertEqual(302, response.code)
+        self.assertEqual('https://g/local', response.headers['Location'])
 
     def test_local_camera_link_is_created_here(self):
         with (

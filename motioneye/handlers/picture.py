@@ -77,13 +77,6 @@ class PictureHandler(BaseHandler):
     def compute_etag(self):
         return None
 
-    def _refuse_navigation(self):
-        # the session cookie is SameSite=Lax, so it comes along when another site
-        # links here: such a navigation asks for text/html, motionEye's own requests
-        # do not, and a hub's neither
-        if 'text/html' in self.request.headers.get('Accept', ''):
-            raise HTTPError(403, 'this cannot be started by opening a link')
-
     async def get(
         self,
         camera_id: str,
@@ -531,7 +524,7 @@ class PictureHandler(BaseHandler):
                 raise HTTPError(400, 'unknown operation')
 
         else:  # prepare
-            self._refuse_navigation()
+            self.refuse_navigation()
 
             logging.debug(
                 f'preparing zip file for group "{group}" of camera {camera_id}'
@@ -659,7 +652,7 @@ class PictureHandler(BaseHandler):
                 raise HTTPError(400, 'unknown operation')
 
         else:  # start timelapse
-            self._refuse_navigation()
+            self.refuse_navigation()
 
             interval = int(self.get_argument('interval'))
             framerate = int(self.get_argument('framerate'))
