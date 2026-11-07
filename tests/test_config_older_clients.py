@@ -152,6 +152,7 @@ _NOT_FORWARDED = {
     'upload_tls': True,
     'upload_verify': False,
     'clean_uploaded': True,
+    'email_notifications_smtp_implicit_tls': True,
     'email_notifications_smtp_verify': False,
     'web_hook_notifications_verify': False,
     'web_hook_end_notifications_verify': False,

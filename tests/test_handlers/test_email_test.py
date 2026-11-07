@@ -67,6 +67,25 @@ class TestEmailTest(HandlerTestCase):
         self.assertEqual({}, answer)
         self.assertIs(False, send_mail.call_args.kwargs['verify'])
 
+    def test_the_test_email_uses_implicit_tls_when_chosen(self):
+        for fields, expected in (({}, False), ({'smtp_implicit_tls': True}, True)):
+            with self.subTest(**fields):
+                with patch('motioneye.sendmail.send_mail') as send_mail:
+                    answer = self._test_email(**fields)  # without it: an older UI
+
+                self.assertEqual({}, answer)
+                self.assertIs(expected, send_mail.call_args.kwargs['implicit_tls'])
+
+    def test_a_text_value_chooses_implicit_tls_as_a_notification_does(self):
+        # an API client may send the switch as text
+        for text, expected in (('false', False), ('False', False), ('true', True)):
+            with self.subTest(text=text):
+                with patch('motioneye.sendmail.send_mail') as send_mail:
+                    answer = self._test_email(smtp_implicit_tls=text)
+
+                self.assertEqual({}, answer)
+                self.assertIs(expected, send_mail.call_args.kwargs['implicit_tls'])
+
     def test_a_text_off_value_turns_the_check_off(self):
         # an API client may send the switch as text
         with patch('motioneye.sendmail.send_mail') as send_mail:
