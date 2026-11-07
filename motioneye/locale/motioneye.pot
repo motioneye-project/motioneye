@@ -1356,7 +1356,7 @@ msgid "SMTP Pasvorto"
 msgstr ""
 
 #: motioneye/templates/main.html:1033
-msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
+msgid "your SMTP account password; for Gmail, use an app password from your Google account, as Gmail refuses the account password itself"
 msgstr ""
 
 #: motioneye/templates/main.html:1036
