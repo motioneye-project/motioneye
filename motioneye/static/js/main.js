@@ -3679,7 +3679,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
 
     /* the handlers are registered once per dialog and read entries[pos] at
      * click time, so they always act on the currently displayed file */
-    playButton.on('click', function() {
+    function playEntry() {
         var entry = entries[pos];
         if (video_container.get(0).canPlayType(entry.mimeType) == '') {
             return;  /* the timelapse chain may trigger this on a non-playable entry */
@@ -3693,15 +3693,21 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
         video_container.off('canplay.pictureDialog').one('canplay.pictureDialog', function() {
            video_container.get(0).play();  /* Automatically play the video once the browser is ready */
         });
+    }
+
+    playButton.on('click', function() {
+        /* a plain play ends any chain started by the timelapse button */
+        video_container.off('ended.pictureDialog');
+        playEntry();
     });
 
     timelapseButton.on('click', function() {
-        playButton.trigger('click');
+        playEntry();
         video_container.get(0).playbackRate = 5;
         video_container.off('ended.pictureDialog').on('ended.pictureDialog', function() {
             if (pos > 0) {
                 nextArrow.trigger('click');
-                playButton.trigger('click');
+                playEntry();
                 video_container.get(0).playbackRate = 5;
             }
         });
