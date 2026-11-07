@@ -408,21 +408,22 @@ function openAuthorizeTab(url) {
      * and the link is asked for apart: the server refuses to create one when a
      * link from another site is followed */
     var tab = window.open('', '_blank');
-    if (tab) {
-        tab.opener = null;
+    if (!tab) {
+        /* asking for a link anyway would replace the pending one for nothing */
+        showErrorMessage(i18n.gettext("The browser did not open a new tab. Allow pop-ups for this page and try again."));
+        return;
     }
 
+    tab.opener = null;
     ajax('GET', url + '&json=1', null, function (data) {
-        if (data && data.url && tab) {
+        if (data && data.url) {
             tab.location = data.url;
         }
-        else if (tab) {
+        else {
             tab.close();
         }
     }, function () {
-        if (tab) {
-            tab.close();
-        }
+        tab.close();
         showErrorMessage();
     });
 }
