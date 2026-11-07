@@ -403,12 +403,36 @@ function doLogout() {
     });
 }
 
+function openAuthorizeTab(url) {
+    /* the tab is opened right away, as browsers allow it only during the click,
+     * and the link is asked for apart: the server refuses to create one when a
+     * link from another site is followed */
+    var tab = window.open('', '_blank');
+    if (tab) {
+        tab.opener = null;
+    }
+
+    ajax('GET', url + '&json=1', null, function (data) {
+        if (data && data.url && tab) {
+            tab.location = data.url;
+        }
+        else if (tab) {
+            tab.close();
+        }
+    }, function () {
+        if (tab) {
+            tab.close();
+        }
+        showErrorMessage();
+    });
+}
+
 function authorizeUpload() {
     var service = $('#uploadServiceSelect').val();
     var cameraId = $('#cameraSelect').val();
     var url = basePath + 'config/' + cameraId + '/authorize/?service=' + service;
     if (service != 'gdrive' && service != 'gphoto') {
-        window.open(url, '_blank');
+        openAuthorizeTab(url);
         return;
     }
 
@@ -431,7 +455,7 @@ function authorizeUpload() {
         content: content,
         buttons: 'okcancel',
         onOk: function () {
-            window.open(url, '_blank');
+            openAuthorizeTab(url);
         }
     });
 }

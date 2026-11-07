@@ -524,6 +524,8 @@ class PictureHandler(BaseHandler):
                 raise HTTPError(400, 'unknown operation')
 
         else:  # prepare
+            self.refuse_navigation()
+
             logging.debug(
                 f'preparing zip file for group "{group}" of camera {camera_id}'
             )
@@ -650,6 +652,8 @@ class PictureHandler(BaseHandler):
                 raise HTTPError(400, 'unknown operation')
 
         else:  # start timelapse
+            self.refuse_navigation()
+
             interval = int(self.get_argument('interval'))
             framerate = int(self.get_argument('framerate'))
 

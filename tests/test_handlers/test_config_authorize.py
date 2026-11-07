@@ -1,7 +1,10 @@
+from json import loads
 from unittest.mock import AsyncMock, patch
 
 from motioneye import config, remote, uploadservices
 from tests.test_handlers import HandlerTestCase
+
+NAVIGATION = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
 
 _LOCAL = {'@proto': 'v4l2', '@id': 1}
 _REMOTE = {'@proto': 'motioneye', '@id': 2, '@host': '192.168.1.20'}
@@ -11,16 +14,33 @@ class AuthorizeTest(HandlerTestCase):
     """The link to obtain an upload service key comes from the server that redeems
     the key, as only that one has the PKCE verifier of the link (#2516)."""
 
-    def _authorize(self, camera):
+    def _authorize(self, camera, accept='*/*', query=''):
         with (
             patch.object(config, 'get_camera_ids', return_value=[1, 2]),
             patch.object(config, 'get_camera', return_value=camera),
         ):
             return self.fetch(
-                f'/config/{camera["@id"]}/authorize/?service=gdrive',
-                headers={'Cookie': self.make_session_cookie('admin')},
+                f'/config/{camera["@id"]}/authorize/?service=gdrive{query}',
+                headers={'Accept': accept, 'Cookie': self.make_session_cookie('admin')},
                 follow_redirects=False,
             )
+
+    def test_link_keeps_the_pending_verifier(self):
+        # a new link replaces the verifier, and the session cookie is SameSite=Lax
+        with patch.object(uploadservices, 'get_authorize_url') as local:
+            response = self._authorize(_LOCAL, accept=NAVIGATION, query='&json=1')
+
+        self.assertEqual(403, response.code)
+        local.assert_not_called()
+
+    def test_page_gets_the_link_as_json(self):
+        with patch.object(
+            uploadservices, 'get_authorize_url', return_value='https://g/local'
+        ):
+            response = self._authorize(_LOCAL, query='&json=1')
+
+        self.assertEqual(200, response.code)
+        self.assertEqual({'url': 'https://g/local'}, loads(response.body))
 
     def test_local_camera_link_is_created_here(self):
         with (
