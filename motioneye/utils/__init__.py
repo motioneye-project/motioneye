@@ -496,9 +496,11 @@ def parse_editable_mask_file(
         f'parsing editable mask {mask_class} for camera with id {camera_id}: {file_name}'
     )
 
-    # read the image file
+    # read the image file; Image.open() only reads the header, so load the
+    # pixels here too, as a file cut short (e.g. by a full disk) fails only then
     try:
         im = Image.open(file_name)
+        im.load()
 
     except Exception as e:
         logging.error(f'failed to read mask file {file_name}: {e}')
