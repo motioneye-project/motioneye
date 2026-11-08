@@ -415,7 +415,7 @@ function openAuthorizeTab(url) {
     }
 
     tab.opener = null;
-    ajax('GET', url + '&json=1', null, function (data) {
+    ajax('GET', url, null, function (data) {
         if (data && data.url) {
             tab.location = data.url;
         }

@@ -164,8 +164,15 @@ class BaseHandler(RequestHandler):
     def refuse_navigation(self):
         # the session cookie is SameSite=Lax, so it comes along when another site
         # links here: such a navigation asks for text/html, motionEye's own requests
-        # do not, and a hub's neither
-        if 'text/html' in self.request.headers.get('Accept', ''):
+        # do not, and a hub's neither; to HTTPS and localhost, browsers also
+        # say so in Sec-Fetch-*
+        headers = self.request.headers
+        site = headers.get('Sec-Fetch-Site')
+        if (
+            headers.get('Sec-Fetch-Mode') == 'navigate'
+            or (site is not None and site != 'same-origin')
+            or 'text/html' in headers.get('Accept', '')
+        ):
             raise HTTPError(403, 'this cannot be started by opening a link')
 
     def finish_json(self, data=None):

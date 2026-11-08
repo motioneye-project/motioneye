@@ -941,9 +941,5 @@ class ConfigHandler(BaseHandler):
                 400, f'no authorization url for upload service {service_name}'
             )
 
-        if self.get_argument('json', None):
-            # motionEye's page opens the tab itself; a hub follows the redirect
-            return self.finish_json({'url': url})
-
-        logging.debug(f'redirected to authorization url {url}')
-        self.redirect(url)
+        # motionEye's page opens the tab itself, and a hub passes the link on
+        self.finish_json({'url': url})

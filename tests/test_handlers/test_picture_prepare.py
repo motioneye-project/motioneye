@@ -30,11 +30,35 @@ class PreparePictureHandlerTest(HandlerTestCase):
         for p in patches:
             self.addCleanup(p.stop)
 
-    def _fetch(self, path, accept):
+    def _fetch(self, path, accept, **headers):
         return self.fetch(
             path,
-            headers={'Accept': accept, 'Cookie': self.make_session_cookie('admin')},
+            headers={
+                'Accept': accept,
+                'Cookie': self.make_session_cookie('admin'),
+                **headers,
+            },
         )
+
+    def test_fetch_metadata_of_another_site_or_a_navigation_is_refused(self):
+        # what browsers send to HTTPS and localhost, whatever the Accept header
+        for headers in (
+            {'Sec-Fetch-Site': 'cross-site', 'Sec-Fetch-Mode': 'no-cors'},
+            {'Sec-Fetch-Site': 'same-site', 'Sec-Fetch-Mode': 'cors'},
+            {'Sec-Fetch-Site': 'none', 'Sec-Fetch-Mode': 'navigate'},
+            {'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'navigate'},
+        ):
+            with self.subTest(**headers):
+                response = self._fetch(TIMELAPSE, '*/*', **headers)
+                self.assertEqual(403, response.code)
+
+        self.make_timelapse.assert_not_called()
+
+    def test_the_page_own_request_with_fetch_metadata_still_starts_timelapse(self):
+        headers = {'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-Mode': 'cors'}
+        response = self._fetch(TIMELAPSE, '*/*', **headers)
+        self.assertEqual(200, response.code)
+        self.make_timelapse.assert_called_once()
 
     def test_navigation_does_not_start_timelapse(self):
         response = self._fetch(TIMELAPSE, NAVIGATION)

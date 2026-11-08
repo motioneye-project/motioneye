@@ -14,13 +14,13 @@ class AuthorizeTest(HandlerTestCase):
     """The link to obtain an upload service key comes from the server that redeems
     the key, as only that one has the PKCE verifier of the link (#2516)."""
 
-    def _authorize(self, camera, accept='*/*', query=''):
+    def _authorize(self, camera, accept='*/*'):
         with (
             patch.object(config, 'get_camera_ids', return_value=[1, 2]),
             patch.object(config, 'get_camera', return_value=camera),
         ):
             return self.fetch(
-                f'/config/{camera["@id"]}/authorize/?service=gdrive{query}',
+                f'/config/{camera["@id"]}/authorize/?service=gdrive',
                 headers={'Accept': accept, 'Cookie': self.make_session_cookie('admin')},
                 follow_redirects=False,
             )
@@ -28,19 +28,10 @@ class AuthorizeTest(HandlerTestCase):
     def test_link_keeps_the_pending_verifier(self):
         # a new link replaces the verifier, and the session cookie is SameSite=Lax
         with patch.object(uploadservices, 'get_authorize_url') as local:
-            response = self._authorize(_LOCAL, accept=NAVIGATION, query='&json=1')
+            response = self._authorize(_LOCAL, accept=NAVIGATION)
 
         self.assertEqual(403, response.code)
         local.assert_not_called()
-
-    def test_page_gets_the_link_as_json(self):
-        with patch.object(
-            uploadservices, 'get_authorize_url', return_value='https://g/local'
-        ):
-            response = self._authorize(_LOCAL, query='&json=1')
-
-        self.assertEqual(200, response.code)
-        self.assertEqual({'url': 'https://g/local'}, loads(response.body))
 
     def test_local_camera_link_is_created_here(self):
         with (
@@ -51,8 +42,9 @@ class AuthorizeTest(HandlerTestCase):
         ):
             response = self._authorize(_LOCAL)
 
-        self.assertEqual(302, response.code)
-        self.assertEqual('https://g/local', response.headers['Location'])
+        # as JSON, for the page and for a hub
+        self.assertEqual(200, response.code)
+        self.assertEqual({'url': 'https://g/local'}, loads(response.body))
         local.assert_called_once_with('gdrive')
         other.assert_not_called()
 
@@ -67,8 +59,8 @@ class AuthorizeTest(HandlerTestCase):
         ):
             response = self._authorize(_REMOTE)
 
-        self.assertEqual(302, response.code)
-        self.assertEqual('https://g/remote', response.headers['Location'])
+        self.assertEqual(200, response.code)
+        self.assertEqual({'url': 'https://g/remote'}, loads(response.body))
         other.assert_awaited_once_with(_REMOTE, 'gdrive')
         local.assert_not_called()
 
