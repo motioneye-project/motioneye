@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import annotations
 
+import asyncio
 import os
 import unittest
 from datetime import datetime
@@ -24,6 +25,8 @@ from tempfile import mkdtemp
 from time import time
 from typing import ClassVar
 from unittest.mock import patch
+
+from tornado.testing import AsyncTestCase, gen_test
 
 from motioneye import mediafiles
 from motioneye.mediafiles import _list_media_files
@@ -638,6 +641,45 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                     group,
                     'picture',
                 )
+
+
+class TestTimelapseMovie(AsyncTestCase):
+    """A timelapse that fails to start must not block the next one (#1081)."""
+
+    def setUp(self):
+        super().setUp()
+        self.target_dir = mkdtemp()
+        self.addCleanup(rmtree, self.target_dir, ignore_errors=True)
+        media_path = patch.object(mediafiles.settings, 'MEDIA_PATH', self.target_dir)
+        media_path.start()
+        self.addCleanup(media_path.stop)
+        process = patch.object(mediafiles, '_timelapse_process', None)
+        process.start()
+        self.addCleanup(process.stop)
+
+    @gen_test(timeout=30)
+    async def test_ffmpeg_that_cannot_start_ends_the_timelapse(self):
+        group = os.path.join(self.target_dir, '2024-01-01')
+        os.mkdir(group)
+        for i in range(5):
+            path = os.path.join(group, f'{i}.jpg')
+            Path(path).touch()
+            os.utime(path, (1000 + i * 10, 1000 + i * 10))
+
+        camera_config = {'target_dir': self.target_dir, 'movie_codec': 'mp4:h264'}
+        no_ffmpeg = patch.object(
+            mediafiles.subprocess, 'Popen', side_effect=FileNotFoundError('ffmpeg')
+        )
+        with no_ffmpeg, self.assertLogs(level='ERROR'):
+            mediafiles.make_timelapse_movie(camera_config, 20, 10, '2024-01-01')
+            for _ in range(100):
+                await asyncio.sleep(0.1)
+                if mediafiles.check_timelapse_movie()['progress'] == -1:
+                    break
+
+        self.assertEqual(
+            {'progress': -1, 'data': None}, mediafiles.check_timelapse_movie()
+        )
 
 
 class TestRemoveOlderFiles(unittest.TestCase):

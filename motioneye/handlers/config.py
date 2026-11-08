@@ -88,7 +88,7 @@ class ConfigHandler(BaseHandler):
             return self.backup()
 
         elif op == 'authorize':
-            return self.authorize()
+            return await self.authorize(camera_id)
 
         else:
             raise HTTPError(400, 'unknown operation')
@@ -915,12 +915,22 @@ class ConfigHandler(BaseHandler):
             raise HTTPError(400, 'cannot test features on this type of camera')
 
     @BaseHandler.auth(admin=True)
-    def authorize(self):
+    async def authorize(self, camera_id):
         service_name = self.get_argument('service')
         if not service_name:
             raise HTTPError(400, 'service_name required')
 
-        url = uploadservices.get_authorize_url(service_name)
+        if camera_id not in config.get_camera_ids():
+            raise HTTPError(404, 'no such camera')
+
+        camera_config = config.get_camera(camera_id)
+        if utils.is_remote_camera(camera_config):
+            # the remote redeems the key, so it has to create the link with the code
+            # verifier it keeps
+            url = await remote.get_authorize_url(camera_config, service_name)
+
+        else:
+            url = uploadservices.get_authorize_url(service_name)
         if not url:
             raise HTTPError(
                 400, f'no authorization url for upload service {service_name}'

@@ -894,12 +894,22 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
 
         logging.debug(f'running command {cmd}')
 
-        _timelapse_process = subprocess.Popen(
-            cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            stdin=subprocess.PIPE,
-        )
+        try:
+            process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                stdin=subprocess.PIPE,
+            )
+
+        except OSError as e:
+            logging.error(f'failed to start ffmpeg: {e}')
+            # end the timelapse, or every next one is refused as already running
+            _timelapse_process.progress = -1
+
+            return
+
+        _timelapse_process = process
         _timelapse_process.progress = 0.01  # 1%
 
         for p in pictures:
@@ -1203,7 +1213,7 @@ def get_prepared_cache(key):
 
 
 def set_prepared_cache(data):
-    key = sha1(str(time()).encode()).hexdigest()  # nosec: B324
+    key = sha1(str(time()).encode(), usedforsecurity=False).hexdigest()
 
     if key in _prepared_files:
         logging.warning(f'key "{key}" already present in prepared cache')

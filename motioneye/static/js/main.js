@@ -407,7 +407,33 @@ function authorizeUpload() {
     var service = $('#uploadServiceSelect').val();
     var cameraId = $('#cameraSelect').val();
     var url = basePath + 'config/' + cameraId + '/authorize/?service=' + service;
-    window.open(url, '_blank');
+    if (service != 'gdrive' && service != 'gphoto') {
+        window.open(url, '_blank');
+        return;
+    }
+
+    /* Google sends the browser to a loopback address that does not load, with the key in it */
+    var steps = $('<ol class="authorize-steps"></ol>');
+    [
+        i18n.gettext("Sign in to Google in the new tab, and allow access."),
+        i18n.gettext("The tab then shows a page that cannot be loaded, at an address starting with http://127.0.0.1/. This is expected."),
+        i18n.gettext("Copy the whole address from the address bar of that tab, and paste it as the authorization key."),
+    ].forEach(function (step) {
+        steps.append($('<li></li>').text(step));
+    });
+
+    var content = $('<div></div>').append(steps).append(
+        $('<p></p>').text(i18n.gettext("Testing the upload with the new key replaces the current Google authorization, even before the settings are applied."))
+    );
+
+    runModalDialog({
+        title: i18n.gettext("Obtaining the key from Google"),
+        content: content,
+        buttons: 'okcancel',
+        onOk: function () {
+            window.open(url, '_blank');
+        }
+    });
 }
 
 
@@ -3435,11 +3461,20 @@ function runLoginDialog(retry) {
                         +i18n.gettext("Pasvorto") + '</span></td>' +
                     '<td class="dialog-item-value"><input type="password" name="password" class="styled" id="passwordEntry"></td>' +
                 '</tr>' +
+                '<tr>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'
+                        +i18n.gettext("Remember me") + '</span></td>' +
+                    '<td class="dialog-item-value"><input type="checkbox" name="remember" class="styled" id="rememberCheck" checked></td>' +
+                    '<td><span class="help-mark" title="'+i18n.gettext("keeps you logged in after the browser is closed: for 24 hours as the admin, for 30 days as the surveillance user")+'">?</span></td>' +
+                '</tr>' +
             '</table></form>');
 
     var usernameEntry = form.find('#usernameEntry');
     var passwordEntry = form.find('#passwordEntry');
+    var rememberCheck = form.find('#rememberCheck');
     var errorTd = form.find('td.login-dialog-error');
+
+    makeCheckBox(rememberCheck);
 
     // A failed session check should prompt login prompt.
     if (window._loginRetry) {
@@ -3461,7 +3496,9 @@ function runLoginDialog(retry) {
                     type: 'POST',
                     data: {
                         username: username,
-                        password: password
+                        password: password,
+                        /* otherwise the session cookie is dropped when the browser is closed */
+                        remember: rememberCheck[0].checked ? 1 : 0
                     },
                     success: function(data) {
                         if (data.error) {
@@ -3642,7 +3679,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
 
     /* the handlers are registered once per dialog and read entries[pos] at
      * click time, so they always act on the currently displayed file */
-    playButton.on('click', function() {
+    function playEntry() {
         var entry = entries[pos];
         if (video_container.get(0).canPlayType(entry.mimeType) == '') {
             return;  /* the timelapse chain may trigger this on a non-playable entry */
@@ -3656,15 +3693,21 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
         video_container.off('canplay.pictureDialog').one('canplay.pictureDialog', function() {
            video_container.get(0).play();  /* Automatically play the video once the browser is ready */
         });
+    }
+
+    playButton.on('click', function() {
+        /* a plain play ends any chain started by the timelapse button */
+        video_container.off('ended.pictureDialog');
+        playEntry();
     });
 
     timelapseButton.on('click', function() {
-        playButton.trigger('click');
+        playEntry();
         video_container.get(0).playbackRate = 5;
         video_container.off('ended.pictureDialog').on('ended.pictureDialog', function() {
             if (pos > 0) {
                 nextArrow.trigger('click');
-                playButton.trigger('click');
+                playEntry();
                 video_container.get(0).playbackRate = 5;
             }
         });

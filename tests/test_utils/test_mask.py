@@ -77,6 +77,28 @@ class TestEditableMask(unittest.TestCase):
                     utils.parse_editable_mask_file(1, 'motion'),
                 )
 
+    def test_truncated_mask_file_gives_an_empty_mask(self):
+        # a full disk can leave the mask file shorter than its header says (#536)
+        file_name = utils.build_mask_file_name(1, 'motion')
+        with open(file_name, 'wb') as f:
+            f.write(b'P5\n800 600\n255\n' + b'\x00' * 1000)
+
+        for size in [(None, None), (640, 480)]:
+            with self.subTest(size=size):
+                with self.assertLogs(level='ERROR'):
+                    lines = utils.parse_editable_mask_file(1, 'motion', *size)
+
+                self.assertEqual([0] * (utils.MASK_WIDTH * 10), lines)
+
+    def test_saving_the_mask_of_a_missing_file_gives_no_mask(self):
+        # a mask that could not be read comes back with no size, and the web UI
+        # sends it back unchanged when the mask is not edited (#1277)
+        with self.assertLogs(level='ERROR'):
+            lines = utils.parse_editable_mask_file(1, 'motion')
+
+        self.assertEqual('', utils.build_editable_mask_file(1, 'motion', lines))
+        self.assertFalse(os.path.exists(utils.build_mask_file_name(1, 'motion')))
+
     def test_build_draws_the_remainder_column_and_row(self):
         width, height = 1000, 562
         _nx, rx, ny, _ry = mask_grid(width, height)

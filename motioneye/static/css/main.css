@@ -548,6 +548,15 @@ table.edit-credentials-dialog {
     margin: auto;
 }
 
+ol.authorize-steps,
+ol.authorize-steps ~ p {
+    max-width: 30em;
+}
+
+ol.authorize-steps li {
+    margin-bottom: 0.5em;
+}
+
 table.add-camera-dialog select,
 table.add-camera-dialog input[type=text],
 table.add-camera-dialog input[type=password],

@@ -325,6 +325,7 @@ class TestRemoteVerifyCertificate(unittest.IsolatedAsyncioTestCase):
         'del_media_content': ('a.jpg', 'picture'),
         'del_media_group': ('group', 'picture'),
         'exec_action': ('snapshot',),
+        'get_authorize_url': ('gdrive',),
     }
 
     @staticmethod
@@ -339,12 +340,22 @@ class TestRemoteVerifyCertificate(unittest.IsolatedAsyncioTestCase):
 
     async def _assert_every_request_verifies(self, local_config, expected):
         send = AsyncMock(return_value=self._answer())
-        with patch.object(remote, '_send_request', send):
+        # get_authorize_url() fetches by itself, as it wants the redirect
+        fetch = AsyncMock(return_value=self._answer())
+        with (
+            patch.object(remote, '_send_request', send),
+            patch.object(
+                remote, 'AsyncHTTPClient', return_value=SimpleNamespace(fetch=fetch)
+            ),
+        ):
             for name, args in self._CALLS.items():
                 with self.subTest(function=name):
+                    send.reset_mock()
+                    fetch.reset_mock()
                     await getattr(remote, name)(local_config, *args)
 
-                    self.assertIs(expected, send.call_args.args[0].validate_cert)
+                    request = (send.call_args or fetch.call_args).args[0]
+                    self.assertIs(expected, request.validate_cert)
 
     def test_every_function_of_the_module_is_covered(self):
         functions = {
@@ -422,6 +433,43 @@ class TestRemoteVerifyCertificate(unittest.IsolatedAsyncioTestCase):
         self.assertIsNone(resp.remote_ui_config)
         self.assertIn('CERTIFICATE_VERIFY_FAILED', resp.error)
         self.assertIn('self-signed certificate', resp.error)
+
+
+class TestRemoteAuthorizeUrl(unittest.IsolatedAsyncioTestCase):
+    """The remote redeems the upload service key, with the PKCE verifier it kept
+    when creating the link, so the link has to come from the remote (#2516)."""
+
+    _LOCAL_CONFIG: ClassVar[dict[str, str | int]] = {
+        '@host': '192.168.1.20',
+        '@port': 8765,
+        '@path': '',
+        '@remote_camera_id': 3,
+    }
+
+    def _answer(self, code, headers):
+        fetch = AsyncMock(return_value=SimpleNamespace(code=code, headers=headers))
+        return fetch, patch.object(
+            remote, 'AsyncHTTPClient', return_value=SimpleNamespace(fetch=fetch)
+        )
+
+    async def test_returns_where_the_remote_redirects(self):
+        fetch, client = self._answer(302, {'Location': 'https://accounts.google.com/x'})
+        with client:
+            url = await remote.get_authorize_url(self._LOCAL_CONFIG, 'gdrive')
+
+        self.assertEqual('https://accounts.google.com/x', url)
+        request = fetch.call_args[0][0]
+        self.assertEqual(
+            'http://192.168.1.20:8765/config/3/authorize/?service=gdrive', request.url
+        )
+        self.assertFalse(request.follow_redirects)
+
+    async def test_no_url_without_a_redirect(self):
+        _fetch, client = self._answer(400, {})
+        with client, self.assertLogs(level='ERROR'):
+            url = await remote.get_authorize_url(self._LOCAL_CONFIG, 'gdrive')
+
+        self.assertIsNone(url)
 
 
 if __name__ == '__main__':

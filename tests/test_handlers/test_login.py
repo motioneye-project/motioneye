@@ -336,7 +336,7 @@ class LoginHandlerTest(HandlerTestCase):
     def test_login_legacy_password_migrates(self):
         admin_user = 'admin'
         plain = 's3cret'
-        legacy_hash = sha1(plain.encode()).hexdigest()  # nosec: B324
+        legacy_hash = sha1(plain.encode(), usedforsecurity=False).hexdigest()
         main_config = {
             '@admin_username': admin_user,
             '@admin_password': legacy_hash,
@@ -519,6 +519,61 @@ class LoginHandlerTest(HandlerTestCase):
             )
         self.assertEqual(200, response.code)
         self.assertEqual({}, _session_store)
+
+    def _login_remember(self, remember, json_body=False):
+        main_config = {
+            '@admin_username': 'admin',
+            '@admin_password': ph.hash('s3cret'),
+            '@normal_username': '',
+            '@normal_password': '',
+        }
+        if json_body:
+            body = json.dumps(
+                {'username': 'admin', 'password': 's3cret', 'remember': remember}
+            )
+            content_type = 'application/json'
+
+        else:
+            body = f'username=admin&password=s3cret&remember={remember}'
+            content_type = 'application/x-www-form-urlencoded'
+
+        with patch.object(config, '_main_config_cache', main_config):
+            response = self.fetch(
+                '/login',
+                method='POST',
+                body=body,
+                headers={'Content-Type': content_type},
+            )
+        self.assertEqual(200, response.code)
+
+        return response
+
+    def test_session_cookie_without_remember_me(self):
+        for remember, json_body in [('0', False), (False, True)]:
+            with self.subTest(remember=remember):
+                _session_store.clear()
+                response = self._login_remember(remember, json_body)
+                after = time()
+
+                # no expiry date: the browser drops it when it is closed
+                cookie = SimpleCookie()
+                cookie.load(response.headers.get('Set-Cookie', ''))
+                self.assertIn('user', cookie)
+                self.assertEqual('', cookie['user']['expires'])
+
+                # the session still expires on the server, a day after the login;
+                # the Date header is set before it, and only to the second
+                session = next(iter(_session_store.values()))
+                before = parsedate_to_datetime(response.headers['Date']).timestamp()
+                self.assertLessEqual(before + 24 * 3600, session['expires'])
+                self.assertLessEqual(session['expires'], after + 24 * 3600)
+
+    def test_lasting_cookie_with_remember_me(self):
+        for remember, json_body in [('1', False), (True, True)]:
+            with self.subTest(remember=remember):
+                _session_store.clear()
+                response = self._login_remember(remember, json_body)
+                self._assert_session_lifetime(response, 'admin', 24 * 3600)
 
     def test_logout(self):
         cookie = self.make_session_cookie('admin')

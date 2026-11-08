@@ -468,7 +468,7 @@
                         <tr class="settings-item" depends="uploadEnabled uploadService=(gdrive|gphoto|dropbox)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Rajtiga ŝlosilo") }}</span></td>
                             <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled storage camera-config" id="uploadAuthorizationKeyEntry"></td>
-                            <td><span class="help-mark" title="{{ _("la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("the key used to authenticate with the upload service, usually only needed during setup; for Google, the whole address of the page that cannot be loaded after allowing access") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="uploadEnabled uploadService=(gdrive|gphoto|dropbox)">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
@@ -1030,7 +1030,7 @@
                         <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("SMTP Pasvorto") }}</span></td>
                             <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled notifications camera-config" id="smtpPasswordEntry"></td>
-                            <td><span class="help-mark" title="{{ _("Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton).") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("your SMTP account password; for Gmail, use an app password from your Google account, as Gmail refuses the account password itself") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("De adreso") }}</span></td>

@@ -25,15 +25,16 @@ from base64 import b64decode, b64encode
 from datetime import datetime
 from ftplib import FTP as FTPc  # nosec: B402
 from ftplib import FTP_TLS as FTPTLSc  # nosec: B402
-from hashlib import md5
+from hashlib import md5, sha256
 from inspect import isabstract
 from io import BytesIO, StringIO
 from mimetypes import guess_type
 from os import stat
+from secrets import token_urlsafe
 from stat import S_IMODE
 from time import time
 from urllib.error import HTTPError
-from urllib.parse import quote, urlencode
+from urllib.parse import parse_qs, quote, urlencode, urlparse
 from urllib.request import Request
 
 import boto3
@@ -43,6 +44,9 @@ from motioneye import settings, utils
 
 _STATE_FILE_NAME: str = 'uploadservices.json'
 _services: dict | None = None
+# PKCE code verifier per service, from creating its authorization link until its
+# key is redeemed, so that a code read from the redirect is of no use to others
+_code_verifiers: dict[str, str] = {}
 
 
 class UploadService(ABC):
@@ -143,6 +147,12 @@ class UploadService(ABC):
         pass
 
 
+def _authorization_code(key: str) -> str:
+    """Return the code from the address the browser was sent to, or the code."""
+    query = parse_qs(urlparse(key.strip()).query)
+    return query['code'][0] if 'code' in query else key.strip()
+
+
 class GoogleBase(UploadService, ABC):
     SCOPE: str
     AUTH_URL: str = 'https://accounts.google.com/o/oauth2/auth'
@@ -151,6 +161,9 @@ class GoogleBase(UploadService, ABC):
         '349038943026-m16svdadjrqc0c449u4qv71v1m1niu5o.apps.googleusercontent.com'
     )
     CLIENT_NOT_SO_SECRET: str = 'jjqbWmICpA0GvbhsJB3okX7s'
+    # Google blocked the out-of-band flow (urn:ietf:wg:oauth:2.0:oob). The browser
+    # cannot open this address, but the key is in the address it shows
+    REDIRECT_URI: str = 'http://127.0.0.1'
 
     def __init__(self, camera_id: str) -> None:
         self._location: str | None = None
@@ -162,12 +175,17 @@ class GoogleBase(UploadService, ABC):
 
     @classmethod
     def get_authorize_url(cls) -> str:
+        verifier = token_urlsafe(64)
+        _code_verifiers[cls.NAME] = verifier
+        challenge = b64encode(sha256(verifier.encode()).digest(), b'-_')
         query = {
             'scope': cls.SCOPE,
-            'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
+            'redirect_uri': cls.REDIRECT_URI,
             'response_type': 'code',
             'client_id': cls.CLIENT_ID,
             'access_type': 'offline',
+            'code_challenge': challenge.rstrip(b'=').decode(),
+            'code_challenge_method': 'S256',
         }
 
         return cls.AUTH_URL + '?' + urlencode(query)
@@ -271,11 +289,17 @@ class GoogleBase(UploadService, ABC):
         return response
 
     def _request_credentials(self, authorization_key):
+        verifier = _code_verifiers.get(self.NAME)
+        if not verifier:
+            # e.g. motionEye was restarted since the link was opened
+            raise RuntimeError('the key is from an older link, please obtain a new key')
+
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
         body = {
-            'code': authorization_key,
-            'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
+            'code': _authorization_code(authorization_key),
+            'code_verifier': verifier,
+            'redirect_uri': self.REDIRECT_URI,
             'client_id': self.CLIENT_ID,
             'client_secret': self.CLIENT_NOT_SO_SECRET,
             'scope': self.SCOPE,
@@ -295,6 +319,7 @@ class GoogleBase(UploadService, ABC):
             )
 
         data = json.load(response)
+        del _code_verifiers[self.NAME]
 
         return {
             'access_token': data['access_token'],
@@ -1116,8 +1141,8 @@ class SFTP(UploadService):
 
         # list of commands to send after upload.
         rm_operations = [
-            f'RM {self._location}/{test_file}',
-            f'RMDIR {self._location}/{test_folder}',
+            f'rm {self._location}/{test_file}',
+            f'rmdir {self._location}/{test_folder}',
         ]
 
         conn = self._get_conn(test_file)
@@ -1263,7 +1288,7 @@ class S3(UploadService):
 
         if self._sse_c_key:
             sse_key_md5 = b64encode(
-                md5(b64decode(self._sse_c_key)).digest()  # nosec: B324
+                md5(b64decode(self._sse_c_key), usedforsecurity=False).digest()
             ).decode()
             extra_args = {
                 'SSECustomerAlgorithm': 'AES256',
@@ -1350,7 +1375,16 @@ def test_access(camera_id: int, service_name: str, data: dict) -> bool | str:
 
     service: UploadService = cls(camera_id=str(camera_id))
     service.load(data)
-    return service.test_access()
+    result = service.test_access()
+    if result is True:
+        # the key is spent, so the credentials obtained with it go to the service in
+        # use and the state file, as with Apply; the other settings of the test
+        # stay unapplied until Apply
+        credentials: dict | None = service.dump().get('credentials')
+        if credentials:
+            update(camera_id, service_name, {'credentials': credentials})
+
+    return result
 
 
 def update(camera_id: int, service_name: str, settings: dict) -> None:

@@ -341,7 +341,7 @@ def build_digest_header(method, url, username, password, state):
     s += time.ctime().encode('utf-8')
     s += os.urandom(8)
 
-    cnonce = hashlib.sha1(s).hexdigest()[:16]  # nosec B324
+    cnonce = hashlib.sha1(s, usedforsecurity=False).hexdigest()[:16]
     if _algorithm.endswith('-SESS'):
         HA1 = hash_utf8(f'{HA1}:{nonce}:{cnonce}')
 
@@ -407,6 +407,11 @@ def build_editable_mask_file(
     width = mask_lines[0]
     height = mask_lines[1]
     mask_lines = mask_lines[2:]
+
+    # a mask file that could not be read gives lines with no size, which the
+    # web UI sends back as they are unless the mask is edited
+    if width <= 0 or height <= 0:
+        return ''
 
     logging.debug(
         f'building editable {mask_class} mask for camera with id {camera_id} ({width}x{height})'
@@ -516,9 +521,11 @@ def parse_editable_mask_file(
         f'parsing editable mask {mask_class} for camera with id {camera_id}: {file_name}'
     )
 
-    # read the image file
+    # read the image file; Image.open() only reads the header, so load the
+    # pixels here too, as a file cut short (e.g. by a full disk) fails only then
     try:
         im = Image.open(file_name)
+        im.load()
 
     except Exception as e:
         logging.error(f'failed to read mask file {file_name}: {e}')

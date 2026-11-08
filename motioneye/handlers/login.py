@@ -272,11 +272,19 @@ class LoginHandler(BaseHandler):
         if user_type == 'admin':
             _failed_logins.pop(self.login_key, None)
 
+        # without "remember me" the cookie has no expiry date, so the browser drops it
+        # when it is closed; the session expires on the server all the same. API
+        # clients which do not send "remember" get the lasting cookie, as before
+        remember = self.get_argument('remember', None)
+        remember_me = remember is None or str(remember).lower() in ('1', 'true', 'on')
+
         session_id = create_session(user_type)
         self.set_signed_cookie(
             'user',
             session_id,
-            expires_days=session_expiry_seconds(user_type) / 86400,
+            expires_days=(
+                session_expiry_seconds(user_type) / 86400 if remember_me else None
+            ),
             httponly=True,
             secure=should_use_secure_cookie(self),
             samesite='Strict',
