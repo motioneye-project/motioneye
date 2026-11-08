@@ -388,6 +388,11 @@ def build_editable_mask_file(
     height = mask_lines[1]
     mask_lines = mask_lines[2:]
 
+    # a mask file that could not be read gives lines with no size, which the
+    # web UI sends back as they are unless the mask is edited
+    if width <= 0 or height <= 0:
+        return ''
+
     logging.debug(
         f'building editable {mask_class} mask for camera with id {camera_id} ({width}x{height})'
     )
