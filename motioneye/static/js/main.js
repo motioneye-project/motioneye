@@ -1920,6 +1920,12 @@ function dict2MainUi(dict) {
     updateConfigUI();
 }
 
+function smtpTlsSetting() {
+    /* STARTTLS stays true, as older versions read it */
+    var value = $('#smtpTlsSelect').val();
+    return value == 'tls' ? 'implicit' : value == 'starttls';
+}
+
 function cameraUi2Dict() {
     if ($('#videoDeviceEnabledSwitch')[0].error) { /* config error */
         return {
@@ -2066,7 +2072,7 @@ function cameraUi2Dict() {
         'email_notifications_smtp_port': $('#smtpPortEntry').val(),
         'email_notifications_smtp_account': $('#smtpAccountEntry').val(),
         'email_notifications_smtp_password': $('#smtpPasswordEntry').val(),
-        'email_notifications_smtp_tls': $('#smtpTlsSwitch')[0].checked,
+        'email_notifications_smtp_tls': smtpTlsSetting(),
         'email_notifications_smtp_verify': $('#smtpVerifySwitch')[0].checked,
         'email_notifications_picture_time_span': $('#emailPictureTimeSpanEntry').val(),
         'telegram_notifications_enabled': $('#telegramNotificationsEnabledSwitch')[0].checked,
@@ -2431,7 +2437,8 @@ function dict2CameraUi(dict) {
     $('#smtpPortEntry').val(dict['email_notifications_smtp_port']);
     $('#smtpAccountEntry').val(dict['email_notifications_smtp_account']);
     $('#smtpPasswordEntry').val(dict['email_notifications_smtp_password']);
-    $('#smtpTlsSwitch')[0].checked = dict['email_notifications_smtp_tls'];
+    var smtpTls = dict['email_notifications_smtp_tls'];
+    $('#smtpTlsSelect').val(smtpTls == 'implicit' ? 'tls' : smtpTls ? 'starttls' : 'none');
     $('#smtpVerifySwitch')[0].checked = dict['email_notifications_smtp_verify'] !== false;
     $('#emailPictureTimeSpanEntry').val(dict['email_notifications_picture_time_span']);
 
@@ -2990,7 +2997,7 @@ function doTestEmail() {
         smtp_port: $('#smtpPortEntry').val(),
         smtp_account: $('#smtpAccountEntry').val(),
         smtp_password: $('#smtpPasswordEntry').val(),
-        smtp_tls: $('#smtpTlsSwitch')[0].checked,
+        smtp_tls: smtpTlsSetting(),
         smtp_verify: $('#smtpVerifySwitch')[0].checked
     };
 
