@@ -422,9 +422,6 @@ function openAuthorizeTab(url) {
         else {
             tab.close();
         }
-    }, function () {
-        tab.close();
-        showErrorMessage();
     });
 }
 

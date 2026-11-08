@@ -287,8 +287,7 @@ class LoginHandler(BaseHandler):
             ),
             httponly=True,
             secure=should_use_secure_cookie(self),
-            # Lax, not Strict: with Strict, Chrome for Android logs an installed
-            # web app out whenever it is opened again
+            # Lax: Strict causes problems on phones with PWAs
             samesite='Lax',
         )
 
