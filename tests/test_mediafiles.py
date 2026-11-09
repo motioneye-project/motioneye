@@ -24,7 +24,7 @@ from shutil import rmtree
 from tempfile import mkdtemp
 from time import time
 from typing import ClassVar
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from tornado.testing import AsyncTestCase, gen_test
 
@@ -925,6 +925,104 @@ class TestDelMedia(unittest.TestCase):
             mediafiles.del_media_group(self.camera_config, '', 'picture')
 
         self.assertEqual(os.listdir(self.target_dir), ['.keep'])
+
+
+class _FakeListingProcess:
+    """Stands in for the listing subprocess: alive until the test ends it."""
+
+    started: ClassVar[list[_FakeListingProcess]] = []
+    fail_start = False
+
+    def __init__(self, target, args):
+        self.pid = 100000 + len(self.started)
+        self.alive = False
+
+    def start(self):
+        if self.fail_start:
+            raise OSError(12, 'Cannot allocate memory')
+
+        self.alive = True
+        self.started.append(self)
+
+    def is_alive(self):
+        return self.alive
+
+
+class ListMediaParallelTest(AsyncTestCase):
+    """At most LIST_MEDIA_MAX_PARALLEL listings run at a time; the others wait."""
+
+    def setUp(self):
+        super().setUp()
+        self.camera_config = {'target_dir': mkdtemp()}
+        self.addCleanup(rmtree, self.camera_config['target_dir'])
+        _FakeListingProcess.started = []
+        _FakeListingProcess.fail_start = False
+        mediafiles._listings_waiting.clear()
+        self.kill = MagicMock()
+        for target, name, value in (
+            (mediafiles.multiprocessing, 'Process', _FakeListingProcess),
+            (mediafiles.multiprocessing, 'Pipe', self._pipe),
+            (mediafiles.settings, 'LIST_MEDIA_MAX_PARALLEL', 2),
+            (mediafiles.settings, 'LIST_MEDIA_TIMEOUT', 120),
+            (mediafiles, '_listings_running', 0),
+            (mediafiles.os, 'kill', self.kill),
+        ):
+            patcher = patch.object(target, name, value)
+            patcher.start()
+            self.addCleanup(patcher.stop)
+
+    @staticmethod
+    def _pipe(duplex=False):
+        return MagicMock(**{'poll.return_value': False}), MagicMock()
+
+    def list(self):
+        return mediafiles.list_media(self.camera_config, 'picture')
+
+    @gen_test
+    async def test_only_the_limit_runs_at_once_and_the_others_follow(self):
+        futures = [self.list() for _ in range(5)]
+        started = _FakeListingProcess.started
+
+        self.assertEqual(2, len(started))
+        self.assertFalse(any(f.done() for f in futures))
+
+        started[0].alive = False
+        await asyncio.sleep(0.6)  # the next poll sees it finished
+        self.assertEqual([], futures[0].result())
+        self.assertEqual(3, len(started))
+
+        started[1].alive = started[2].alive = False
+        await asyncio.sleep(0.6)
+        self.assertEqual(5, len(started))
+        self.assertTrue(all(f.done() for f in futures[:3]))
+        self.assertFalse(any(f.done() for f in futures[3:]))
+
+        started[3].alive = started[4].alive = False
+        await asyncio.sleep(0.6)
+        self.assertTrue(all(f.done() for f in futures))
+        self.assertEqual(0, mediafiles._listings_running)
+        self.assertEqual(0, len(mediafiles._listings_waiting))
+
+    def test_a_timeout_frees_the_slot(self):
+        with patch.object(mediafiles.settings, 'LIST_MEDIA_TIMEOUT', 0):
+            futures = [self.list() for _ in range(3)]
+
+        # each one timed out at its first poll, so all three ran in turn
+        self.assertEqual([None, None, None], [f.result() for f in futures])
+        self.assertEqual(3, len(_FakeListingProcess.started))
+        self.assertEqual(3, self.kill.call_count)
+        self.assertEqual(0, mediafiles._listings_running)
+
+    def test_a_failed_start_frees_the_slot(self):
+        _FakeListingProcess.fail_start = True
+        futures = [self.list() for _ in range(2)]
+        self.assertEqual([None, None], [f.result() for f in futures])
+        self.assertEqual(0, mediafiles._listings_running)
+
+        _FakeListingProcess.fail_start = False
+        self.list()
+        self.assertEqual(1, len(_FakeListingProcess.started))
+        self.assertEqual(1, mediafiles._listings_running)
 
 
 if __name__ == '__main__':
