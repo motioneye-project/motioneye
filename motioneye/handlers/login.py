@@ -287,7 +287,8 @@ class LoginHandler(BaseHandler):
             ),
             httponly=True,
             secure=should_use_secure_cookie(self),
-            samesite='Strict',
+            # Lax: Strict causes problems on phones with PWAs
+            samesite='Lax',
         )
 
         response: dict[str, Any] = {'user': user_type}

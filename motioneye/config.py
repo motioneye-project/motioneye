@@ -765,7 +765,8 @@ def _settings_to_ui(data: dict, keys: dict) -> dict:
     ui: dict = {key[1:]: str(data.get(key, '')) for key in keys.values()}
     for name, value in ui.items():
         if name.endswith('_tls'):
-            ui[name] = value.lower() == 'true'
+            # 'implicit' is TLS from the start, True STARTTLS
+            ui[name] = value if value == 'implicit' else value.lower() == 'true'
 
         elif name.endswith('_verify'):
             ui[name] = utils.verify_setting(value)
