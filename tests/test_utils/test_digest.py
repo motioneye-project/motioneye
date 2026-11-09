@@ -65,6 +65,22 @@ class ParseDigestChallengeTest(unittest.TestCase):
 
         self.assertEqual('n0nce', parse_digest_challenge(challenges)['nonce'])
 
+    def test_several_challenges_in_one_header_value(self):
+        header = f'Basic realm="cam", {_CHALLENGE}, Bearer'
+        self.assertEqual('n0nce', parse_digest_challenge([header])['nonce'])
+
+        header = f'{_CHALLENGE}, Basic realm="other"'
+        self.assertEqual('cam', parse_digest_challenge([header])['realm'])
+
+        self.assertIsNone(parse_digest_challenge(['Basic realm="cam", Bearer']))
+
+    def test_spaces_around_parameters_are_allowed(self):
+        challenge = parse_digest_challenge(
+            ['Digest realm = "cam" , nonce= "n" ,qop = auth']
+        )
+
+        self.assertEqual({'realm': 'cam', 'nonce': 'n', 'qop': 'auth'}, challenge)
+
     def test_an_empty_value_is_kept(self):
         challenge = parse_digest_challenge(['Digest realm="cam", nonce="n", opaque='])
 
@@ -88,12 +104,16 @@ class BuildDigestHeaderTest(unittest.TestCase):
         if algorithm:
             state['algorithm'] = algorithm
 
-        params = digest_params(build_digest_header('GET', url, 'user', 'pw', state))
+        header = build_digest_header('GET', url, 'user', 'pw', state)
+        params = digest_params(header)
 
         self.assertEqual(uri, params['uri'])
         self.assertEqual('auth', params['qop'])
         self.assertEqual('0paque', params['opaque'])
         self.assertEqual(digest_response(params, 'GET', 'pw'), params['response'])
+        if algorithm:
+            # algorithm, qop and nc are sent unquoted (RFC 7616, section 3.4)
+            self.assertIn(f', algorithm={algorithm},', header)
 
     def test_the_uri_is_the_path_and_query(self):
         self.check('http://cam:8080/video.cgi?res=hi', '/video.cgi?res=hi')

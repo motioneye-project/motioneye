@@ -263,26 +263,46 @@ def build_basic_header(username: str, password: str) -> str:
 
 
 def parse_digest_challenge(challenges: list[str]) -> dict | None:
-    """The parameters of the first Digest challenge among WWW-Authenticate
-    header values, None if there is none."""
-    for challenge in challenges:
-        scheme, _, params = challenge.strip().partition(' ')
-        if scheme.lower() != 'digest':
-            continue
-
-        state = {}
-        # quoted values may hold commas, e.g. qop="auth,auth-int"
-        for item in parse_http_list(params):
-            key, _, value = item.partition('=')
-            if len(value) > 1 and value[0] == value[-1] == '"':
-                value = value[1:-1]
-
-            state[key.strip().lower()] = value
-
-        if 'realm' in state and state.get('nonce', '') != '':
-            return state
+    """The parameters of the first usable Digest challenge among
+    WWW-Authenticate header values, None if there is none."""
+    for header in challenges:
+        for scheme, params in _split_challenges(header):
+            if (
+                scheme == 'digest'
+                and 'realm' in params
+                and params.get('nonce', '') != ''
+            ):
+                return params
 
     return None
+
+
+def _split_challenges(header: str) -> list[tuple[str, dict]]:
+    """The (scheme, parameters) of each challenge in a WWW-Authenticate header
+    value, which may hold several, e.g. `Basic realm="cam", Digest realm="cam",
+    nonce="n"`."""
+    found: list[tuple[str, dict]] = []
+    # quoted values may hold commas, e.g. qop="auth,auth-int"; an item whose first
+    # word is not a parameter is a scheme, which starts the next challenge
+    for item in parse_http_list(header):
+        head, _, rest = item.partition(' ')
+        if '=' not in head and not rest.lstrip().startswith('='):
+            found.append((head.lower(), {}))
+            item = rest.strip()
+            if not item:
+                continue
+
+        if not found:
+            break  # a parameter before any scheme: not a challenge
+
+        key, _, value = item.partition('=')
+        value = value.strip()
+        if len(value) > 1 and value[0] == value[-1] == '"':
+            value = value[1:-1]
+
+        found[-1][1][key.strip().lower()] = value
+
+    return found
 
 
 def build_digest_header(method, url, username, password, state):
@@ -312,7 +332,7 @@ def build_digest_header(method, url, username, password, state):
 
     def hash_utf8(x):
         if isinstance(x, str):
-            x = x.encode('utf-8')
+            x = x.encode()
         return hashlib.new(hash_name, x).hexdigest()  # nosec: B324
 
     def KD(s, d):
@@ -361,7 +381,8 @@ def build_digest_header(method, url, username, password, state):
     if opaque:
         base += f', opaque="{opaque}"'
     if algorithm:
-        base += f', algorithm="{algorithm}"'
+        # not quoted, like qop and nc (RFC 7616, section 3.4)
+        base += f', algorithm={algorithm}'
     if qop:
         base += f', qop=auth, nc={ncvalue}, cnonce="{cnonce}"'
 

@@ -26,12 +26,14 @@ class UtilsMjpegTest(WebTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.data = None
+        self.status = 200
 
     def get_handlers(self):
         test = self
 
         class MjpegHandler(RequestHandler):
             async def get(self):
+                self.set_status(test.status)
                 if 'image/jpeg' in test.data:
                     self.set_header('Content-Type', 'image/jpeg')
 
@@ -106,6 +108,26 @@ class UtilsMjpegTest(WebTestCase):
         self.assertDictEqual(
             {'id': 1, 'name': 'JPEG Network Camera', 'keep_alive': True}, cam
         )
+
+    def test_any_2xx_status_counts(self):
+        self.data = 'image/jpeg camera'
+        self.status = 203
+        callback_result = []
+
+        def mock_on_response(future: Future) -> None:
+            resp = future.result()
+            self.stop()
+            callback_result.append((resp.cameras, resp.error))
+
+        future = test_mjpeg_url(
+            {'port': self.get_http_port()}, auth_modes=['basic'], allow_jpeg=True
+        )
+        future.add_done_callback(mock_on_response)
+
+        self.wait()
+        self.assertEqual(1, len(callback_result))
+        self.assertIsNone(callback_result[0][1])
+        self.assertEqual('JPEG Network Camera', callback_result[0][0][0]['name'])
 
     def test_test_mjpeg_url_mjpeg_cam(self):
         self.data = 'mjpeg camera'

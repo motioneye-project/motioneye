@@ -132,7 +132,7 @@ def test_mjpeg_url(
             # check for the status header
             m = re.match(r'^http/1.(\d) (\d+) ', header)
             if m:
-                if int(m.group(2)) / 100 == 2:
+                if int(m.group(2)) // 100 == 2:
                     status_2xx[0] = True
 
                 if m.group(1) == '1':
