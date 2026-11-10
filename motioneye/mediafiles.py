@@ -641,7 +641,8 @@ def list_media(
             global _listings_running
             _listings_running -= 1
             fut.set_result(result)
-            _start_next_listing()
+            # on the loop, not here: a chain of failing starts would recurse
+            IOLoop.current().add_callback(_start_next_listing)
 
         logging.debug('starting media listing subprocess...')
         try:
@@ -706,6 +707,14 @@ def list_media(
 
         poll_process()
 
+    def give_up() -> None:
+        # still waiting after a whole timeout: answer like a timed-out listing
+        # rather than start one that the caller has given up on by now
+        if start in _listings_waiting:
+            _listings_waiting.remove(start)
+            logging.error('timeout waiting for a media listing slot')
+            fut.set_result(None)
+
     _listings_waiting.append(start)
     _start_next_listing()
     if start in _listings_waiting:
@@ -713,6 +722,7 @@ def list_media(
             f'media listing waits for a slot, {_listings_running} running, '
             f'{len(_listings_waiting)} waiting'
         )
+        IOLoop.current().call_later(settings.LIST_MEDIA_TIMEOUT, give_up)
 
     return fut
 
@@ -720,7 +730,8 @@ def list_media(
 # Each listing forks the whole server, so a burst of requests, e.g. a media
 # browser opening every camera at once, could exhaust the memory. At most
 # LIST_MEDIA_MAX_PARALLEL listings run at a time; the others wait their turn,
-# and the timeout counts from when one actually starts.
+# for one timeout at most, and the timeout of a listing counts from when it
+# actually starts.
 _listings_running: int = 0
 _listings_waiting: deque[Callable[[], None]] = deque()
 

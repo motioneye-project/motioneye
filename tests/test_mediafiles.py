@@ -1003,21 +1003,42 @@ class ListMediaParallelTest(AsyncTestCase):
         self.assertEqual(0, mediafiles._listings_running)
         self.assertEqual(0, len(mediafiles._listings_waiting))
 
-    def test_a_timeout_frees_the_slot(self):
+    @gen_test
+    async def test_a_timeout_frees_the_slot(self):
         with patch.object(mediafiles.settings, 'LIST_MEDIA_TIMEOUT', 0):
-            futures = [self.list() for _ in range(3)]
+            futures = [self.list() for _ in range(2)]
 
-        # each one timed out at its first poll, so all three ran in turn
-        self.assertEqual([None, None, None], [f.result() for f in futures])
-        self.assertEqual(3, len(_FakeListingProcess.started))
-        self.assertEqual(3, self.kill.call_count)
-        self.assertEqual(0, mediafiles._listings_running)
-
-    def test_a_failed_start_frees_the_slot(self):
-        _FakeListingProcess.fail_start = True
-        futures = [self.list() for _ in range(2)]
+        # both timed out at their first poll
         self.assertEqual([None, None], [f.result() for f in futures])
+        self.assertEqual(2, self.kill.call_count)
         self.assertEqual(0, mediafiles._listings_running)
+
+        await asyncio.sleep(0.1)  # the scheduled start of a next listing: none
+        self.list()
+        self.assertEqual(3, len(_FakeListingProcess.started))
+        self.assertEqual(1, mediafiles._listings_running)
+
+    @gen_test
+    async def test_waiting_longer_than_the_timeout_answers_none(self):
+        with patch.object(mediafiles.settings, 'LIST_MEDIA_TIMEOUT', 1):
+            futures = [self.list() for _ in range(3)]
+            self.assertEqual(2, len(_FakeListingProcess.started))
+            await asyncio.sleep(1.3)
+
+        # the two running ones timed out, the waiting one gave up without a start
+        self.assertEqual([None, None, None], [f.result() for f in futures])
+        self.assertEqual(2, len(_FakeListingProcess.started))
+        self.assertEqual(2, self.kill.call_count)
+        self.assertEqual(0, mediafiles._listings_running)
+        self.assertEqual(0, len(mediafiles._listings_waiting))
+
+    @gen_test
+    async def test_failed_starts_free_the_slot_without_recursing(self):
+        _FakeListingProcess.fail_start = True
+        futures = [self.list() for _ in range(600)]
+        self.assertEqual([None] * 600, await asyncio.gather(*futures))
+        self.assertEqual(0, mediafiles._listings_running)
+        self.assertEqual(0, len(mediafiles._listings_waiting))
 
         _FakeListingProcess.fail_start = False
         self.list()
