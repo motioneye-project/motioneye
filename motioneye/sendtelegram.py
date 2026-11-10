@@ -133,8 +133,9 @@ def _photo_form(
         fields['caption'] = caption
     if reply_to is not None:
         # a reply to the text sent first; still sent if that text is gone
-        fields['reply_to_message_id'] = str(reply_to)
-        fields['allow_sending_without_reply'] = 'true'
+        fields['reply_parameters'] = json.dumps(
+            {'message_id': reply_to, 'allow_sending_without_reply': True}
+        )
 
     lines = []
     for field, value in fields.items():

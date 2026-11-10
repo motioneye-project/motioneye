@@ -387,8 +387,10 @@ class SendMessageTest(unittest.TestCase):
 
         for connection in self._sent():
             fields = _form_fields(connection.request_args)
-            self.assertEqual((None, b'7'), fields['reply_to_message_id'])
-            self.assertEqual((None, b'true'), fields['allow_sending_without_reply'])
+            self.assertEqual(
+                {'message_id': 7, 'allow_sending_without_reply': True},
+                json.loads(fields['reply_parameters'][1]),
+            )
             self.assertNotIn('caption', fields)
             self.assertIn('photo', fields)
 
@@ -397,7 +399,7 @@ class SendMessageTest(unittest.TestCase):
 
         fields = _form_fields(self._sent()[0].request_args)
         self.assertEqual((None, b'message'), fields['caption'])
-        self.assertNotIn('reply_to_message_id', fields)
+        self.assertNotIn('reply_parameters', fields)
 
     def test_does_not_retry_when_told_not_to(self):
         with self.assertRaises(OSError):
