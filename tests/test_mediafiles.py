@@ -950,9 +950,10 @@ class _FakeListingProcess:
     def join(self):
         pass
 
-    def finish(self, chunks=()):
+    def finish(self, chunks=(), exitcode=0):
         for chunk in chunks:
             self.pipe.send(chunk)
+        self.exitcode = exitcode
         self.pipe.close()
 
 
@@ -1018,6 +1019,15 @@ class ListMediaParallelTest(AsyncTestCase):
         self.assertTrue(all(f.done() for f in futures))
         self.assertEqual(0, mediafiles._listings_running)
         self.assertEqual(0, len(mediafiles._listings_waiting))
+
+    @gen_test
+    async def test_a_child_that_died_answers_none_not_a_partial_list(self):
+        fut = self.list()
+        _FakeListingProcess.started[0].finish([[{'path': '/a'}]], exitcode=-9)
+        await asyncio.sleep(0.1)
+
+        self.assertIsNone(fut.result())
+        self.assertEqual(0, mediafiles._listings_running)
 
     @gen_test
     async def test_a_timeout_frees_the_slot(self):

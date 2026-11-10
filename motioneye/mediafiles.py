@@ -694,8 +694,15 @@ def list_media(
                 while parent_pipe.poll():
                     media_list.extend(parent_pipe.recv())
 
-            except EOFError:  # finished
+            except EOFError:  # finished, or killed, e.g. for lack of memory
                 process.join()
+                if process.exitcode != 0:
+                    logging.error(
+                        f'media listing process ended with code {process.exitcode}'
+                    )
+                    done(None)  # a partial list is no list, like after a timeout
+                    return
+
                 logging.debug(
                     f'media listing process has returned {len(media_list)} files'
                 )
