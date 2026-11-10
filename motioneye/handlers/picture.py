@@ -333,6 +333,7 @@ class PictureHandler(BaseHandler):
                     camera_config=camera_config,
                     title=self.get_argument('title', ''),
                     current_user=self.current_user,
+                    static_path='../../../static/',
                 )
 
             try:
@@ -359,6 +360,7 @@ class PictureHandler(BaseHandler):
                 camera_config=remote_config,
                 title=self.get_argument('title', remote_config['camera_name']),
                 current_user=self.current_user,
+                static_path='../../../static/',
             )
 
         return None
