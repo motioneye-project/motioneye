@@ -27,7 +27,6 @@ from datetime import datetime
 from ftplib import FTP as FTPc  # nosec: B402
 from ftplib import FTP_TLS as FTPTLSc  # nosec: B402
 from hashlib import md5, sha256
-from importlib import import_module
 from inspect import isabstract
 from io import BytesIO, StringIO
 from mimetypes import guess_type
@@ -35,7 +34,6 @@ from os import stat
 from secrets import token_urlsafe
 from stat import S_IMODE
 from time import time
-from types import ModuleType
 from urllib.error import HTTPError
 from urllib.parse import parse_qs, quote, urlencode, urlparse
 from urllib.request import Request
@@ -49,17 +47,13 @@ _services: dict | None = None
 _code_verifiers: dict[str, str] = {}
 
 
-def _import_optional(module: str, service: str) -> ModuleType:
+def _import_error(module: str, service: str) -> RuntimeError:
     # the modules of single upload services are optional and imported on use, so
     # a missing one fails only that service, saying what to install
-    try:
-        return import_module(module)
-
-    except ImportError as e:
-        raise RuntimeError(
-            f'{service} uploads need the Python module {module}, '
-            f'install it with: sudo {sys.executable} -m pip install {module}'
-        ) from e
+    return RuntimeError(
+        f'{service} uploads need the Python module {module}, '
+        f'install it with: sudo {sys.executable} -m pip install {module}'
+    )
 
 
 class UploadService(ABC):
@@ -1130,7 +1124,8 @@ class SFTP(UploadService):
         super().__init__(camera_id)
 
     def curl_perform_filetransfer(self, conn):
-        pycurl = _import_optional('pycurl', 'SFTP')
+        import pycurl  # imported by _get_conn() already
+
         curl_url = conn.getinfo(pycurl.EFFECTIVE_URL)
 
         try:
@@ -1161,8 +1156,10 @@ class SFTP(UploadService):
 
         try:
             conn = self._get_conn(test_file)
+            import pycurl  # imported by _get_conn() already
+
             conn.setopt(conn.POSTQUOTE, rm_operations)  # Executed after transfer.
-            conn.setopt(conn.READFUNCTION, StringIO().read)
+            conn.setopt(pycurl.READFUNCTION, StringIO().read)
             self.curl_perform_filetransfer(conn)
             return True
 
@@ -1173,7 +1170,9 @@ class SFTP(UploadService):
 
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
         conn = self._get_conn(filename)
-        conn.setopt(conn.READFUNCTION, BytesIO(data).read)
+        import pycurl  # imported by _get_conn() already
+
+        conn.setopt(pycurl.READFUNCTION, BytesIO(data).read)
 
         self.curl_perform_filetransfer(conn)
 
@@ -1205,9 +1204,15 @@ class SFTP(UploadService):
             f'creating sftp connection to {self._username}@{self._server}:{self._port}'
         )
 
-        self._conn = _import_optional('pycurl', 'SFTP').Curl()
+        try:
+            import pycurl
+
+        except ModuleNotFoundError as e:
+            raise _import_error('pycurl', 'SFTP') from e
+
+        self._conn = pycurl.Curl()
         self._conn.setopt(self._conn.URL, sftp_url)
-        self._conn.setopt(self._conn.CONNECTTIMEOUT, 10)
+        self._conn.setopt(pycurl.CONNECTTIMEOUT, 10)
         self._conn.setopt(
             self._conn.FTP_CREATE_MISSING_DIRS, 2
         )  # retry once if MKD fails
@@ -1278,7 +1283,13 @@ class S3(UploadService):
         if verify is False:
             # urllib3 would warn on every single request; the user chose that
             warnings.filterwarnings('ignore', message='Unverified HTTPS request')
-        return _import_optional('boto3', 'S3').client(
+        try:
+            import boto3
+
+        except ModuleNotFoundError as e:
+            raise _import_error('boto3', 'S3') from e
+
+        return boto3.client(
             's3',
             endpoint_url=self._endpoint_url,
             aws_access_key_id=self._access_key,

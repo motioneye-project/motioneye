@@ -45,10 +45,10 @@ _(Docker images are provided on [Docker Hub](https://hub.docker.com/r/motioneyep
     sudo /opt/motioneye/bin/motioneye_init
     ```
 
-    Uploads to Amazon S3 or another S3 service need the [boto3](https://pypi.org/project/boto3/) module, which is not installed with motionEye, as it is large:
+    Uploads to Amazon S3 or another S3 service need the [boto3](https://pypi.org/project/boto3/) module, and SFTP uploads the [PycURL](https://pypi.org/project/pycurl/) module. They are not installed with motionEye by default, but can be added with the `s3` and `sftp` extras:
 
     ```sh
-    sudo /opt/motioneye/bin/pip install boto3
+    sudo /opt/motioneye/bin/pip install 'motioneye[s3,sftp]'
     ```
 
     `motioneye_init` sets up a systemd service with its main executable `meyectl` from the `venv` path, respectively the Python environment the called `motioneye_init` belongs to. A custom `meyectl` path can be given with `--meyectl /path/to/meyectl`.

@@ -10,7 +10,6 @@ dependencies = [
   "tornado>=6.5.8",
   "jinja2",
   "pillow",
-  "pycurl",
   "babel",
   "argon2-cffi",
 ]
@@ -32,6 +31,11 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Topic :: Multimedia :: Video :: Capture",
 ]
+
+[project.optional-dependencies]
+# the modules of single upload services, imported when such an upload runs
+s3 = ["boto3"]
+sftp = ["pycurl"]
 
 [project.urls]
 Homepage = "https://github.com/motioneye-project/motioneye"

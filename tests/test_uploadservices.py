@@ -19,10 +19,18 @@ import ssl
 import subprocess
 import sys
 import unittest
+from importlib.util import find_spec
 from unittest.mock import MagicMock, patch
 from urllib.error import URLError
 
 from motioneye import uploadservices
+
+
+def _needs(module):
+    # optional modules; CI installs them, so it fails instead of skipping
+    return unittest.skipUnless(
+        find_spec(module) or os.environ.get('CI'), f'{module} is not installed'
+    )
 
 
 class TestUploadMediaFileCleanup(unittest.TestCase):
@@ -348,6 +356,7 @@ class TestWebdavVerify(unittest.TestCase):
         self.assertIn('webdav: <urlopen error', '\n'.join(logs.output))
 
 
+@_needs('boto3')
 class TestS3Verify(unittest.TestCase):
     """The S3 upload service's certificate check can be turned off for a custom
     endpoint only; AWS itself is always verified."""
@@ -430,6 +439,7 @@ class TestS3Verify(unittest.TestCase):
                 self.assertIsNone(kwargs['verify'])
 
 
+@_needs('pycurl')
 class TestSFTPTestAccess(unittest.TestCase):
     """The SFTP test removes its file and folder afterwards with lower case
     commands, as libcurl 8 refuses upper case ones ("Unknown SFTP command")."""
@@ -529,6 +539,7 @@ class TestOptionalModules(unittest.TestCase):
         self.assertIn('s3', names)
         self.assertIn('sftp', names)
 
+    @_needs('pycurl')
     def test_sftp_sets_its_options_on_a_real_curl_object(self):
         # the options are read from the Curl object, which has them all
         import pycurl

@@ -297,13 +297,6 @@ def test_requirements():
         logging.fatal(_('bonvolu instali pillow aŭ PIL'))
         sys.exit(-1)
 
-    try:
-        import pycurl  # noqa: F401
-
-    except ImportError:
-        logging.fatal(_('bonvolu instali pycurl'))
-        sys.exit(-1)
-
     from motioneye import motionctl
 
     has_motion = motionctl.find_motion()[0] is not None
