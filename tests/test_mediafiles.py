@@ -1020,17 +1020,19 @@ class ListMediaParallelTest(AsyncTestCase):
 
     @gen_test
     async def test_waiting_longer_than_the_timeout_answers_none(self):
-        with patch.object(mediafiles.settings, 'LIST_MEDIA_TIMEOUT', 1):
-            futures = [self.list() for _ in range(3)]
-            self.assertEqual(2, len(_FakeListingProcess.started))
-            await asyncio.sleep(1.3)
+        # both slots taken by listings that never finish, so the one queued here
+        # can only be answered by giving up
+        mediafiles._listings_running = 2
+        with patch.object(mediafiles.settings, 'LIST_MEDIA_TIMEOUT', 0.3):
+            fut = self.list()
+            self.assertEqual(1, len(mediafiles._listings_waiting))
+            self.assertFalse(fut.done())
+            await asyncio.sleep(0.5)
 
-        # the two running ones timed out, the waiting one gave up without a start
-        self.assertEqual([None, None, None], [f.result() for f in futures])
-        self.assertEqual(2, len(_FakeListingProcess.started))
-        self.assertEqual(2, self.kill.call_count)
-        self.assertEqual(0, mediafiles._listings_running)
+        self.assertIsNone(fut.result())
+        self.assertEqual(0, len(_FakeListingProcess.started))
         self.assertEqual(0, len(mediafiles._listings_waiting))
+        self.assertEqual(2, mediafiles._listings_running)
 
     @gen_test
     async def test_failed_starts_free_the_slot_without_recursing(self):
