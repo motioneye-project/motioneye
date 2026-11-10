@@ -19,6 +19,7 @@ import asyncio
 import os
 import unittest
 from datetime import datetime
+from multiprocessing.connection import Connection
 from pathlib import Path
 from shutil import rmtree
 from tempfile import mkdtemp
@@ -928,24 +929,31 @@ class TestDelMedia(unittest.TestCase):
 
 
 class _FakeListingProcess:
-    """Stands in for the listing subprocess: alive until the test ends it."""
+    """Stands in for the listing subprocess: it holds the pipe's child end, so it
+    runs until the test has it send its chunks and close the pipe."""
 
     started: ClassVar[list[_FakeListingProcess]] = []
     fail_start = False
 
     def __init__(self, target, args):
         self.pid = 100000 + len(self.started)
-        self.alive = False
+        # a child process would hold its own copy of the pipe's child end; the
+        # parent closes its copy right after the start
+        self.pipe = Connection(os.dup(args[0].fileno()), readable=False)
 
     def start(self):
         if self.fail_start:
             raise OSError(12, 'Cannot allocate memory')
 
-        self.alive = True
         self.started.append(self)
 
-    def is_alive(self):
-        return self.alive
+    def join(self):
+        pass
+
+    def finish(self, chunks=()):
+        for chunk in chunks:
+            self.pipe.send(chunk)
+        self.pipe.close()
 
 
 class ListMediaParallelTest(AsyncTestCase):
@@ -961,7 +969,6 @@ class ListMediaParallelTest(AsyncTestCase):
         self.kill = MagicMock()
         for target, name, value in (
             (mediafiles.multiprocessing, 'Process', _FakeListingProcess),
-            (mediafiles.multiprocessing, 'Pipe', self._pipe),
             (mediafiles.settings, 'LIST_MEDIA_MAX_PARALLEL', 2),
             (mediafiles.settings, 'LIST_MEDIA_TIMEOUT', 120),
             (mediafiles, '_listings_running', 0),
@@ -971,9 +978,13 @@ class ListMediaParallelTest(AsyncTestCase):
             patcher.start()
             self.addCleanup(patcher.stop)
 
-    @staticmethod
-    def _pipe(duplex=False):
-        return MagicMock(**{'poll.return_value': False}), MagicMock()
+    def tearDown(self):
+        # end the listings a test left running, so their pipes close in order
+        for process in _FakeListingProcess.started:
+            if not process.pipe.closed:
+                process.finish()
+        self.io_loop.run_sync(lambda: asyncio.sleep(0.05))
+        super().tearDown()
 
     def list(self):
         return mediafiles.list_media(self.camera_config, 'picture')
@@ -986,34 +997,40 @@ class ListMediaParallelTest(AsyncTestCase):
         self.assertEqual(2, len(started))
         self.assertFalse(any(f.done() for f in futures))
 
-        started[0].alive = False
-        await asyncio.sleep(0.6)  # the next poll sees it finished
+        started[0].finish()
+        await asyncio.sleep(0.1)  # the pipe is read as soon as it closes
         self.assertEqual([], futures[0].result())
         self.assertEqual(3, len(started))
 
-        started[1].alive = started[2].alive = False
-        await asyncio.sleep(0.6)
+        started[1].finish([[{'path': '/a'}, {'path': '/b'}], [{'path': '/c'}]])
+        started[2].finish()
+        await asyncio.sleep(0.1)
         self.assertEqual(5, len(started))
+        self.assertEqual(
+            [{'path': '/a'}, {'path': '/b'}, {'path': '/c'}], futures[1].result()
+        )
         self.assertTrue(all(f.done() for f in futures[:3]))
         self.assertFalse(any(f.done() for f in futures[3:]))
 
-        started[3].alive = started[4].alive = False
-        await asyncio.sleep(0.6)
+        started[3].finish()
+        started[4].finish()
+        await asyncio.sleep(0.1)
         self.assertTrue(all(f.done() for f in futures))
         self.assertEqual(0, mediafiles._listings_running)
         self.assertEqual(0, len(mediafiles._listings_waiting))
 
     @gen_test
     async def test_a_timeout_frees_the_slot(self):
-        with patch.object(mediafiles.settings, 'LIST_MEDIA_TIMEOUT', 0):
+        with patch.object(mediafiles.settings, 'LIST_MEDIA_TIMEOUT', 0.1):
             futures = [self.list() for _ in range(2)]
+            self.assertFalse(any(f.done() for f in futures))
+            await asyncio.sleep(0.3)
 
-        # both timed out at their first poll
+        # both were killed and answered None, and both slots are free again
         self.assertEqual([None, None], [f.result() for f in futures])
         self.assertEqual(2, self.kill.call_count)
         self.assertEqual(0, mediafiles._listings_running)
 
-        await asyncio.sleep(0.1)  # the scheduled start of a next listing: none
         self.list()
         self.assertEqual(3, len(_FakeListingProcess.started))
         self.assertEqual(1, mediafiles._listings_running)
@@ -1046,6 +1063,27 @@ class ListMediaParallelTest(AsyncTestCase):
         self.list()
         self.assertEqual(1, len(_FakeListingProcess.started))
         self.assertEqual(1, mediafiles._listings_running)
+
+
+class ListMediaChunksTest(unittest.TestCase):
+    """The listing subprocess sends its entries in chunks, not one by one."""
+
+    def test_the_entries_come_in_chunks(self):
+        target_dir = mkdtemp()
+        self.addCleanup(rmtree, target_dir)
+        for i in range(450):
+            Path(target_dir, f'{i:04d}.jpg').write_bytes(b'x')
+        pipe = MagicMock()
+
+        mediafiles._do_list_media(pipe, target_dir, ['.jpg'])
+
+        chunks = [call.args[0] for call in pipe.send.call_args_list]
+        self.assertEqual([200, 200, 50], [len(c) for c in chunks])
+        self.assertEqual(
+            [f'/{i:04d}.jpg' for i in range(450)],
+            sorted(e['path'] for c in chunks for e in c),
+        )
+        pipe.close.assert_called_once()
 
 
 if __name__ == '__main__':

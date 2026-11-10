@@ -43,6 +43,10 @@ from motioneye.utils.dtconv import pretty_date_time
 _PICTURE_EXTS = ['.jpg']
 _MOVIE_EXTS = ['.avi', '.mp4', '.mov', '.swf', '.flv', '.mkv', '.mpg']
 
+# entries per message from the listing subprocess: one per file made the child wait
+# for the parent at every pipe buffer, the whole list at once costs it the memory
+_LIST_CHUNK = 200
+
 FFMPEG_CODEC_MAPPING = {
     'mpeg4': 'mpeg4',
     'msmpeg4': 'msmpeg4v2',
@@ -287,6 +291,7 @@ def _do_list_media(
         min_timestamp=min_timestamp,
         max_timestamp=max_timestamp,
     )
+    chunk: list[dict] = []
     for p, st in mf:
         path = p[len(target_dir) :]
         if not path.startswith('/'):
@@ -296,7 +301,7 @@ def _do_list_media(
             timestamp = st.st_mtime
             size = st.st_size
 
-            pipe.send(
+            chunk.append(
                 {
                     'path': path,
                     'mimeType': (
@@ -314,7 +319,14 @@ def _do_list_media(
             )
         else:
             # When stat is not available, only send the path
-            pipe.send({'path': path})
+            chunk.append({'path': path})
+
+        if len(chunk) >= _LIST_CHUNK:
+            pipe.send(chunk)
+            chunk = []
+
+    if chunk:
+        pipe.send(chunk)
 
     pipe.close()
 
@@ -667,45 +679,41 @@ def list_media(
             finish(None)
             return
 
-        # poll the subprocess to see when it has finished
-        started = datetime.now()
+        # read the pipe as the child fills it; the child's exit closes the pipe
+        loop = IOLoop.current()
+        fd = parent_pipe.fileno()
 
-        def read_media_list():
-            while parent_pipe.poll():
-                try:
-                    media_list.append(parent_pipe.recv())
+        def done(result) -> None:
+            loop.remove_handler(fd)
+            loop.remove_timeout(timeout_handle)
+            parent_pipe.close()
+            finish(result)
 
-                except EOFError:
-                    break
+        def on_readable(fd, events) -> None:
+            try:
+                while parent_pipe.poll():
+                    media_list.extend(parent_pipe.recv())
 
-        def poll_process():
-            if process.is_alive():  # not finished yet
-                now = datetime.now()
-                delta = now - started
-                if delta.seconds < settings.LIST_MEDIA_TIMEOUT:
-                    IOLoop.current().call_later(0.5, poll_process)
-                    read_media_list()
-
-                else:  # process did not finish in time
-                    logging.error(
-                        'timeout waiting for the media listing process to finish'
-                    )
-                    try:
-                        os.kill(process.pid, SIGKILL)
-
-                    except Exception:  # nosec: B110 # noqa: S110
-                        pass  # nevermind
-
-                    finish(None)
-
-            else:  # finished
-                read_media_list()
+            except EOFError:  # finished
+                process.join()
                 logging.debug(
                     f'media listing process has returned {len(media_list)} files'
                 )
-                finish(media_list)
+                done(media_list)
 
-        poll_process()
+        def on_timeout() -> None:
+            logging.error('timeout waiting for the media listing process to finish')
+            try:
+                if process.pid is not None:
+                    os.kill(process.pid, SIGKILL)
+
+            except Exception:  # nosec: B110 # noqa: S110
+                pass  # nevermind
+
+            done(None)
+
+        timeout_handle = loop.call_later(settings.LIST_MEDIA_TIMEOUT, on_timeout)
+        loop.add_handler(fd, on_readable, IOLoop.READ)
 
     def give_up() -> None:
         # still waiting after a whole timeout: answer like a timed-out listing
