@@ -27,8 +27,9 @@ done
 if (( ! SKIP_SYSTEMD )); then
   if [[ $MEYECTL ]]; then
     [[ -f $MEYECTL ]] || Error_Out "meyectl executable \"$MEYECTL\" given with --meyectl does not exist."
+    [[ -x $MEYECTL ]] || Error_Out "meyectl file \"$MEYECTL\" given with --meyectl is not executable."
   else
-    MEYECTL=$(command -v meyectl)
+    MEYECTL=$(command -v meyectl) || :
     if [[ ! $MEYECTL ]]; then
       if [[ -f '/usr/local/bin/meyectl' ]]; then
         MEYECTL='/usr/local/bin/meyectl'
@@ -37,7 +38,7 @@ if (( ! SKIP_SYSTEMD )); then
       fi
     fi
   fi
-  [[ $MEYECTL =~ ^/(home|root)/ ]] && Error_Out 'This venv is located in a user home directory below /home or /root. This is not supported, as it violates basic security concepts. Move the venv to an approprioate directory like /opt, which is better suited for access by system services.'
+  [[ $MEYECTL =~ ^/(home|root)/ ]] && Error_Out 'This venv is located in a user home directory below /home or /root. This is not supported, as it violates basic security concepts. Move the venv to an appropriate directory like /opt, which is better suited for access by system services.'
 fi
 
 # Install dependencies
