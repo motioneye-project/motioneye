@@ -19,6 +19,7 @@ import json
 import logging
 import os.path
 import ssl
+import sys
 import warnings
 from abc import ABC, abstractmethod
 from base64 import b64decode, b64encode
@@ -37,9 +38,6 @@ from urllib.error import HTTPError
 from urllib.parse import parse_qs, quote, urlencode, urlparse
 from urllib.request import Request
 
-import boto3
-import pycurl
-
 from motioneye import settings, utils
 
 _STATE_FILE_NAME: str = 'uploadservices.json'
@@ -47,6 +45,15 @@ _services: dict | None = None
 # PKCE code verifier per service, from creating its authorization link until its
 # key is redeemed, so that a code read from the redirect is of no use to others
 _code_verifiers: dict[str, str] = {}
+
+
+def _import_error(module: str, service: str) -> RuntimeError:
+    # the modules of single upload services are optional and imported on use, so
+    # a missing one fails only that service, saying what to install
+    return RuntimeError(
+        f'{service} uploads need the Python module {module}, '
+        f'install it with: sudo {sys.executable} -m pip install {module}'
+    )
 
 
 class UploadService(ABC):
@@ -1117,6 +1124,8 @@ class SFTP(UploadService):
         super().__init__(camera_id)
 
     def curl_perform_filetransfer(self, conn):
+        import pycurl  # imported by _get_conn() already
+
         curl_url = conn.getinfo(pycurl.EFFECTIVE_URL)
 
         try:
@@ -1145,11 +1154,12 @@ class SFTP(UploadService):
             f'rmdir {self._location}/{test_folder}',
         ]
 
-        conn = self._get_conn(test_file)
-        conn.setopt(conn.POSTQUOTE, rm_operations)  # Executed after transfer.
-        conn.setopt(pycurl.READFUNCTION, StringIO().read)
-
         try:
+            conn = self._get_conn(test_file)
+            import pycurl  # imported by _get_conn() already
+
+            conn.setopt(conn.POSTQUOTE, rm_operations)  # Executed after transfer.
+            conn.setopt(pycurl.READFUNCTION, StringIO().read)
             self.curl_perform_filetransfer(conn)
             return True
 
@@ -1160,6 +1170,8 @@ class SFTP(UploadService):
 
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
         conn = self._get_conn(filename)
+        import pycurl  # imported by _get_conn() already
+
         conn.setopt(pycurl.READFUNCTION, BytesIO(data).read)
 
         self.curl_perform_filetransfer(conn)
@@ -1191,6 +1203,12 @@ class SFTP(UploadService):
         self.debug(
             f'creating sftp connection to {self._username}@{self._server}:{self._port}'
         )
+
+        try:
+            import pycurl
+
+        except ModuleNotFoundError as e:
+            raise _import_error('pycurl', 'SFTP') from e
 
         self._conn = pycurl.Curl()
         self._conn.setopt(self._conn.URL, sftp_url)
@@ -1265,6 +1283,12 @@ class S3(UploadService):
         if verify is False:
             # urllib3 would warn on every single request; the user chose that
             warnings.filterwarnings('ignore', message='Unverified HTTPS request')
+        try:
+            import boto3
+
+        except ModuleNotFoundError as e:
+            raise _import_error('boto3', 'S3') from e
+
         return boto3.client(
             's3',
             endpoint_url=self._endpoint_url,
