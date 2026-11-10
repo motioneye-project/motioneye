@@ -58,7 +58,7 @@ def _import_optional(module: str, service: str) -> ModuleType:
     except ImportError as e:
         raise RuntimeError(
             f'{service} uploads need the Python module {module}, '
-            f'install it with: {sys.executable} -m pip install {module}'
+            f'install it with: sudo {sys.executable} -m pip install {module}'
         ) from e
 
 

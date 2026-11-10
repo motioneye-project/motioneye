@@ -504,7 +504,7 @@ class TestOptionalModules(unittest.TestCase):
 
                 self.assertIsInstance(result, str)
                 self.assertIn(f'Python module {module}', result)
-                self.assertIn(f'{sys.executable} -m pip install {module}', result)
+                self.assertIn(f'sudo {sys.executable} -m pip install {module}', result)
 
     def test_an_upload_fails_and_keeps_the_file(self):
         for module, service in (('boto3', self._s3()), ('pycurl', self._sftp())):
