@@ -291,6 +291,7 @@ def _do_list_media(
         min_timestamp=min_timestamp,
         max_timestamp=max_timestamp,
     )
+    mime_types: dict[str, str] = {}  # by extension: the same for thousands of files
     chunk: list[dict] = []
     for p, st in mf:
         path = p[len(target_dir) :]
@@ -300,19 +301,17 @@ def _do_list_media(
         if with_stat and st is not None:
             timestamp = st.st_mtime
             size = st.st_size
+            ext = os.path.splitext(path)[1].lower()
+            if ext not in mime_types:
+                mime_types[ext] = guess_type(path)[0] or 'video/mpeg'
 
+            moment = datetime.fromtimestamp(timestamp)
             chunk.append(
                 {
                     'path': path,
-                    'mimeType': (
-                        guess_type(path)[0]
-                        if guess_type(path)[0] is not None
-                        else 'video/mpeg'
-                    ),
-                    'momentStr': pretty_date_time(datetime.fromtimestamp(timestamp)),
-                    'momentStrShort': pretty_date_time(
-                        datetime.fromtimestamp(timestamp), short=True
-                    ),
+                    'mimeType': mime_types[ext],
+                    'momentStr': pretty_date_time(moment),
+                    'momentStrShort': pretty_date_time(moment, short=True),
                     'sizeStr': utils.pretty_size(size),
                     'timestamp': timestamp,
                 }
