@@ -341,9 +341,9 @@ def configure_logging(cmd):
 def configure_tornado():
     from tornado.httpclient import AsyncHTTPClient
 
-    AsyncHTTPClient.configure(
-        'tornado.curl_httpclient.CurlAsyncHTTPClient', max_clients=16
-    )
+    # Tornado's own client; remote movies and zip files may exceed its 100 MB
+    # default body size
+    AsyncHTTPClient.configure(None, max_clients=16, max_body_size=sys.maxsize)
 
 
 def make_arg_parser(command=None):

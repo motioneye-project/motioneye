@@ -18,12 +18,19 @@ from __future__ import annotations
 
 import logging
 import re
+from urllib.parse import urlsplit
 
 from tornado.concurrent import Future
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest, HTTPResponse
 
 from motioneye import settings
-from motioneye.utils import GetCamerasResponse, cast_future, pretty_http_error
+from motioneye.utils import (
+    GetCamerasResponse,
+    build_digest_header,
+    cast_future,
+    parse_digest_challenge,
+    pretty_http_error,
+)
 from motioneye.utils.http import MjpegUrl
 
 __all__ = ('test_mjpeg_url',)
@@ -42,7 +49,7 @@ def test_mjpeg_url(
 
     future: Future = Future()
 
-    def do_request() -> Future[HTTPResponse]:
+    def do_request(authorization: str | None = None) -> Future[HTTPResponse]:
         if url_obj.username:
             auth = auth_modes[0]
 
@@ -51,15 +58,30 @@ def test_mjpeg_url(
 
         logging.debug(f'testing (m)jpg netcam at {log_url} using {auth} authentication')
 
-        request = HTTPRequest(
-            url,
-            auth_username=url_obj.username,
-            auth_password=url_obj.password or '',
-            auth_mode=auth_modes.pop(0),
-            connect_timeout=settings.REMOTE_REQUEST_TIMEOUT,
-            request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
-            header_callback=on_header,
-        )
+        # redirects are reported, not followed: Tornado's client never answers when
+        # the redirected request fails, and a digest answer is for one URL only
+        auth_modes.pop(0)
+        if authorization is not None:  # Tornado's client does basic only
+            request = HTTPRequest(
+                url,
+                headers={'Authorization': authorization},
+                follow_redirects=False,
+                connect_timeout=settings.REMOTE_REQUEST_TIMEOUT,
+                request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
+                header_callback=on_header,
+            )
+
+        else:
+            request = HTTPRequest(
+                url,
+                auth_username=url_obj.username,
+                auth_password=url_obj.password or '',
+                auth_mode='basic',
+                follow_redirects=False,
+                connect_timeout=settings.REMOTE_REQUEST_TIMEOUT,
+                request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
+                header_callback=on_header,
+            )
 
         fetch_future = cast_future(
             AsyncHTTPClient(force_instance=True).fetch(request, raise_error=False)
@@ -110,7 +132,7 @@ def test_mjpeg_url(
             # check for the status header
             m = re.match(r'^http/1.(\d) (\d+) ', header)
             if m:
-                if int(m.group(2)) / 100 == 2:
+                if int(m.group(2)) // 100 == 2:
                     status_2xx[0] = True
 
                 if m.group(1) == '1':
@@ -120,23 +142,48 @@ def test_mjpeg_url(
         try:
             response = res_future.result()
         except Exception as e:
-            # network errors and timeouts raise, even after a stream was recognized
-            response = HTTPResponse(HTTPRequest(url), 599, error=e)
+            # network errors and timeouts raise, even after a stream was recognized;
+            # some name the whole URL, whose query may hold a password
+            safe = Exception(str(e).replace(url, log_url))
+            response = HTTPResponse(HTTPRequest(url), 599, error=safe)
 
-        if not called[0]:
-            if response.code == 401 and auth_modes and url_obj.username:
-                status_2xx[0] = False
+        if called[0]:
+            return
+
+        if response.code == 401 and auth_modes and url_obj.username:
+            status_2xx[0] = False
+            if auth_modes[0] != 'digest':
                 do_request()
+                return
 
-            else:
-                called[0] = True
-                error = (
-                    pretty_http_error(response)
-                    if response.error
-                    else 'not a supported network camera'
+            challenge = parse_digest_challenge(
+                response.headers.get_list('WWW-Authenticate')
+            )
+            if challenge is not None:
+                authorization = build_digest_header(
+                    'GET', url, url_obj.username, url_obj.password or '', challenge
                 )
-                logging.error(f'testing (m)jpg netcam at {log_url} failed: {error}')
-                future.set_result(GetCamerasResponse(None, error=error))
+                if authorization is not None:
+                    do_request(authorization)
+                    return
+
+        called[0] = True
+        if 300 <= response.code < 400:
+            # without a query or credentials, which may hold a password
+            location = urlsplit(response.headers.get('Location', ''))
+            location = location._replace(
+                netloc=location.netloc.rpartition('@')[2], query='', fragment=''
+            )
+            error = f'the camera redirects to {location.geturl()}'
+
+        elif response.error:
+            error = pretty_http_error(response)
+
+        else:
+            error = 'not a supported network camera'
+
+        logging.error(f'testing (m)jpg netcam at {log_url} failed: {error}')
+        future.set_result(GetCamerasResponse(None, error=error))
 
     do_request()
 

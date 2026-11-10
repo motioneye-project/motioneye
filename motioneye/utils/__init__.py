@@ -29,8 +29,8 @@ from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from http.client import HTTPResponse
 from typing import Any, cast
-from urllib.parse import urlparse, urlsplit
-from urllib.request import Request
+from urllib.parse import urlsplit
+from urllib.request import Request, parse_http_list
 from urllib.request import urlopen as _urlopen
 
 from PIL import Image, ImageDraw
@@ -262,6 +262,49 @@ def build_basic_header(username: str, password: str) -> str:
     return f'Basic {base64.b64encode(f"{username}:{password}".encode()).decode()}'
 
 
+def parse_digest_challenge(challenges: list[str]) -> dict | None:
+    """The parameters of the first usable Digest challenge among
+    WWW-Authenticate header values, None if there is none."""
+    for header in challenges:
+        for scheme, params in _split_challenges(header):
+            if (
+                scheme == 'digest'
+                and 'realm' in params
+                and params.get('nonce', '') != ''
+            ):
+                return params
+
+    return None
+
+
+def _split_challenges(header: str) -> list[tuple[str, dict]]:
+    """The (scheme, parameters) of each challenge in a WWW-Authenticate header
+    value, which may hold several, e.g. `Basic realm="cam", Digest realm="cam",
+    nonce="n"`."""
+    found: list[tuple[str, dict]] = []
+    # quoted values may hold commas, e.g. qop="auth,auth-int"; an item whose first
+    # word is not a parameter is a scheme, which starts the next challenge
+    for item in parse_http_list(header):
+        head, _, rest = item.partition(' ')
+        if '=' not in head and not rest.lstrip().startswith('='):
+            found.append((head.lower(), {}))
+            item = rest.strip()
+            if not item:
+                continue
+
+        if not found:
+            break  # a parameter before any scheme: not a challenge
+
+        key, _, value = item.partition('=')
+        value = value.strip()
+        if len(value) > 1 and value[0] == value[-1] == '"':
+            value = value[1:-1]
+
+        found[-1][1][key.strip().lower()] = value
+
+    return found
+
+
 def build_digest_header(method, url, username, password, state):
     realm = state['realm']
     nonce = state['nonce']
@@ -277,29 +320,26 @@ def build_digest_header(method, url, username, password, state):
     else:
         _algorithm = algorithm.upper()
 
-    if _algorithm == 'MD5' or _algorithm == 'MD5-SESS':
+    hash_name = {
+        'MD5': 'md5',
+        'MD5-SESS': 'md5',
+        'SHA': 'sha1',
+        'SHA-256': 'sha256',
+        'SHA-256-SESS': 'sha256',
+    }.get(_algorithm)
+    if hash_name is None:
+        return None
 
-        def md5_utf8(x):
-            if isinstance(x, str):
-                x = x.encode('utf-8')
-            return hashlib.md5(x).hexdigest()  # nosec: B324
-
-        hash_utf8 = md5_utf8
-
-    else:  # _algorithm == 'SHA'
-
-        def sha_utf8(x):
-            if isinstance(x, str):
-                x = x.encode('utf-8')
-            return hashlib.sha1(x).hexdigest()  # nosec: B324
-
-        hash_utf8 = sha_utf8
+    def hash_utf8(x):
+        if isinstance(x, str):
+            x = x.encode()
+        return hashlib.new(hash_name, x).hexdigest()  # nosec: B324
 
     def KD(s, d):
         return hash_utf8(f"{s}:{d}")
 
-    p_parsed = urlparse(url)
-    path = p_parsed.path
+    p_parsed = urlsplit(url)  # keeps ;params in the path, as sent
+    path = p_parsed.path or '/'  # what clients send for an empty path
     if p_parsed.query:
         path += '?' + p_parsed.query
 
@@ -322,13 +362,13 @@ def build_digest_header(method, url, username, password, state):
     s += os.urandom(8)
 
     cnonce = hashlib.sha1(s, usedforsecurity=False).hexdigest()[:16]
-    if _algorithm == 'MD5-SESS':
+    if _algorithm.endswith('-SESS'):
         HA1 = hash_utf8(f'{HA1}:{nonce}:{cnonce}')
 
     if qop is None:
         respdig = KD(HA1, f"{nonce}:{HA2}")
 
-    elif qop == 'auth' or 'auth' in qop.split(','):
+    elif 'auth' in [q.strip() for q in qop.split(',')]:
         noncebit = "{}:{}:{}:{}:{}".format(nonce, ncvalue, cnonce, 'auth', HA2)
         respdig = KD(HA1, noncebit)
 
@@ -341,7 +381,8 @@ def build_digest_header(method, url, username, password, state):
     if opaque:
         base += f', opaque="{opaque}"'
     if algorithm:
-        base += f', algorithm="{algorithm}"'
+        # not quoted, like qop and nc (RFC 7616, section 3.4)
+        base += f', algorithm={algorithm}'
     if qop:
         base += f', qop=auth, nc={ncvalue}, cnonce="{cnonce}"'
 
