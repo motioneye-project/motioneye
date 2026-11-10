@@ -52,7 +52,7 @@ class _NotConnected(OSError):
     """Nothing of the request was sent, so it can be sent again."""
 
 
-def _post_once(path: str, body: bytes, content_type: str) -> None:
+def _post_once(path: str, body: bytes, content_type: str) -> dict:
     # a new connection per request: none is reused after a stalled one
     conn = HTTPSConnection(_HOST, timeout=_CONNECT_TIMEOUT)
     try:
@@ -90,11 +90,12 @@ def _post_once(path: str, body: bytes, content_type: str) -> None:
             else None,
         )
 
+    return result
 
-def _post(path: str, body: bytes, content_type: str, retry: bool) -> None:
+
+def _post(path: str, body: bytes, content_type: str, retry: bool) -> dict:
     try:
-        _post_once(path, body, content_type)
-        return
+        return _post_once(path, body, content_type)
 
     except _NotConnected as e:
         # once something was sent, Telegram may have it even if the reply is lost
@@ -116,24 +117,34 @@ def _post(path: str, body: bytes, content_type: str, retry: bool) -> None:
         logging.warning(f'{e}, retrying in {delay}s')
 
     time.sleep(delay)
-    _post_once(path, body, content_type)
+    return _post_once(path, body, content_type)
 
 
-def _photo_form(chat_id, caption: str, filename: str) -> tuple[bytes, str]:
+def _photo_form(
+    chat_id, caption: str, filename: str, reply_to: int | None = None
+) -> tuple[bytes, str]:
     boundary = token_hex(16)
     name = os.path.basename(filename).replace('"', '')
     with open(filename, 'rb') as f:
         photo = f.read()
 
-    lines = [
-        f'--{boundary}',
-        'Content-Disposition: form-data; name="chat_id"',
-        '',
-        str(chat_id),
-        f'--{boundary}',
-        'Content-Disposition: form-data; name="caption"',
-        '',
-        caption,
+    fields = {'chat_id': str(chat_id)}
+    if caption:
+        fields['caption'] = caption
+    if reply_to is not None:
+        # a reply to the text sent first; still sent if that text is gone
+        fields['reply_to_message_id'] = str(reply_to)
+        fields['allow_sending_without_reply'] = 'true'
+
+    lines = []
+    for field, value in fields.items():
+        lines += [
+            f'--{boundary}',
+            f'Content-Disposition: form-data; name="{field}"',
+            '',
+            value,
+        ]
+    lines += [
         f'--{boundary}',
         f'Content-Disposition: form-data; name="photo"; filename="{name}"',
         'Content-Type: application/octet-stream',
@@ -145,33 +156,42 @@ def _photo_form(chat_id, caption: str, filename: str) -> tuple[bytes, str]:
     return body, f'multipart/form-data; boundary={boundary}'
 
 
-def send_message(api_key, chat_id, message, files, retry=True):
+def send_message(
+    api_key, chat_id, message, files, retry=True, *, reply_to: int | None = None
+) -> int | None:
+    """Send the message as text when there are no files, else the files as photos.
+
+    With reply_to, the photos are replies to that message, which carried the text
+    already, so they have no caption. Returns the id of a text message sent."""
     if not files:
         logging.info('no files')
         body = urlencode({'chat_id': chat_id, 'text': message}).encode()
-        _post(
+        result = _post(
             f'/bot{api_key}/sendMessage',
             body,
             'application/x-www-form-urlencoded',
             retry,
         )
+        message_id = (result.get('result') or {}).get('message_id')
+        return message_id if isinstance(message_id, int) else None
 
-    else:
-        logging.info('files present')
-        failed = 0
-        for f in files:
-            try:
-                body, content_type = _photo_form(chat_id, message, f)
-                _post(f'/bot{api_key}/sendPhoto', body, content_type, retry)
+    logging.info('files present')
+    caption = '' if reply_to is not None else message
+    failed = 0
+    for f in files:
+        try:
+            body, content_type = _photo_form(chat_id, caption, f, reply_to)
+            _post(f'/bot{api_key}/sendPhoto', body, content_type, retry)
 
-            except (RuntimeError, OSError, HTTPException) as e:
-                logging.error(f'failed to send "{os.path.basename(f)}": {e}')
-                failed += 1
+        except (RuntimeError, OSError, HTTPException) as e:
+            logging.error(f'failed to send "{os.path.basename(f)}": {e}')
+            failed += 1
 
-        if failed > 0:
-            raise RuntimeError(f'{failed} of {len(files)} pictures not sent')
+    if failed > 0:
+        raise RuntimeError(f'{failed} of {len(files)} pictures not sent')
 
     logging.debug('sending telegram')
+    return None
 
 
 def make_message(
@@ -180,11 +200,24 @@ def make_message(
     moment: datetime,
     timespan: int,
     callback: Callable,
+    text_first: bool = False,
 ) -> None:
+    """Call back with the message and the pictures of the event, once the time
+    span for them has passed. With text_first, call back with the message and
+    None right away, so the text goes out before the wait for the pictures."""
     camera_config = config.get_camera(camera_id)
 
     # we must start the IO loop for the media list subprocess polling
     io_loop = IOLoop.current()
+
+    format_dict = {
+        'camera': camera_config['camera_name'],
+        'hostname': socket.gethostname(),
+        'moment': moment.strftime('%Y-%m-%d %H:%M:%S'),
+        'timezone': datetime.now().astimezone().tzname() or 'local time',
+    }
+    logging.debug('creating telegram message')
+    m = message % format_dict
 
     def on_media_files(media_files):
         io_loop.stop()
@@ -210,24 +243,15 @@ def make_message(
             ]
             logging.debug(f'selected {len(files)} pictures')
 
-        format_dict = {
-            'camera': camera_config['camera_name'],
-            'hostname': socket.gethostname(),
-            'moment': moment.strftime('%Y-%m-%d %H:%M:%S'),
-        }
-
-        format_dict['timezone'] = datetime.now().astimezone().tzname() or 'local time'
-
-        logging.debug('creating telegram message')
-
-        m = message % format_dict
-
         callback(m, files)
 
     if not timespan:
         on_media_files([])
 
         return
+
+    if text_first:
+        callback(m, None)
 
     logging.debug(f'waiting {timespan}s for pictures to be taken')
     time.sleep(timespan)  # give motion some time to create motion pictures
@@ -313,11 +337,29 @@ def main(parser, args):
         options.timespan = 0
 
     settings.LIST_MEDIA_TIMEOUT = settings.LIST_MEDIA_TIMEOUT_TELEGRAM
+    text_first = str(getattr(options, 'text_first', '')).lower() == 'true'
+    text_id: list[int | None] = []  # the id of the text sent first, if any
 
     def on_message(message, files):
         try:
+            if files is None:  # the text, before the wait for the pictures
+                logging.info(f'sending telegram : {message}')
+                text_id.append(send_message(options.api, options.chatid, message, []))
+                logging.info('telegram text sent')
+                return
+
+            if text_id and not files:
+                logging.info('no pictures to add to the text sent')
+                return
+
             logging.info(f'sending telegram : {message}')
-            send_message(options.api, options.chatid, message, files or [])
+            send_message(
+                options.api,
+                options.chatid,
+                message,
+                files or [],
+                reply_to=text_id[0] if text_id else None,
+            )
             logging.info('telegram sent')
 
         except Exception:
@@ -325,4 +367,11 @@ def main(parser, args):
 
         logging.debug('bye!')
 
-    make_message(message, camera_id, options.moment, options.timespan, on_message)
+    make_message(
+        message,
+        camera_id,
+        options.moment,
+        options.timespan,
+        on_message,
+        text_first=text_first,
+    )
