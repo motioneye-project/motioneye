@@ -1067,8 +1067,8 @@ class ListMediaParallelTest(AsyncTestCase):
         started = _FakeListingProcess.started
         futures[0].cancel()  # e.g. its caller stopped waiting
 
-        started[0].alive = False
-        await asyncio.sleep(0.6)  # the next poll sees it finished
+        started[0].finish()
+        await asyncio.sleep(0.1)  # the pipe is read as soon as it closes
 
         self.assertEqual(3, len(started))  # the one waiting took the freed slot
         self.assertEqual(2, mediafiles._listings_running)
