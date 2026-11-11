@@ -21,6 +21,7 @@ import unittest
 from io import BytesIO
 from shutil import rmtree
 from tempfile import mkdtemp
+from unittest.mock import patch
 
 from motioneye import config, settings
 
@@ -286,3 +287,25 @@ class TestDefaultMotion(unittest.TestCase):
         config._set_default_motion(data)
 
         self.assertEqual(2, data['webcontrol_parms'])
+
+
+class TestDefaultMovieCodec(unittest.TestCase):
+    def _default(self):
+        data = {}
+        config._set_default_motion_camera(1, data)
+        return data['movie_codec']
+
+    def test_new_cameras_record_h264_in_software(self):
+        # ffmpeg lists these encoders without the hardware behind them (#2504)
+        for encoder in ('has_h264_omx_support', 'has_h264_v4l2m2m_support'):
+            with (
+                self.subTest(encoder),
+                patch(f'motioneye.motionctl.{encoder}', return_value=True),
+            ):
+                self.assertEqual('mp4', self._default())
+
+    def test_keeps_a_stored_codec(self):
+        data = {'movie_codec': 'mp4:h264_v4l2m2m'}
+        config._set_default_motion_camera(1, data)
+
+        self.assertEqual('mp4:h264_v4l2m2m', data['movie_codec'])
