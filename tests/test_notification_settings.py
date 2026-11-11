@@ -125,8 +125,8 @@ def _short(name):
 def _new_lines():
     # motion's lines for _UI: the senders read their settings, webhooks as on dev
     hook = _find_command('webhook')
-    start = [f'{_RELAY} start %t', _short('sendmail'), _short('sendtelegram')]
-    start += [f"{hook} 'POSTj' '{_MOTION_URL}'", _CUSTOM]
+    start = [f'{_RELAY} start %t', f"{hook} 'POSTj' '{_MOTION_URL}'"]
+    start += [_short('sendmail'), _short('sendtelegram'), _CUSTOM]
     storage = f"{hook} 'POSTj' '{_STORAGE_URL}'"
     return {
         'on_event_start': '; '.join(start),
@@ -225,6 +225,19 @@ class ConfigTest(_ConfigCase):
                 for line in lines.values():
                     for value in _HIDDEN:
                         self.assertNotIn(value, line)
+
+    def test_the_senders_run_after_the_webhook_and_before_the_command(self):
+        # motion runs the line in order: the senders wait for the pictures of their
+        # time span, which held up the webhook (#2543), and a custom command that
+        # exits the shell or does not return would stop them
+        data = self._save(**_UI)
+        line = data['on_event_start']
+        hook = line.index(f"'{_MOTION_URL}'")
+        command = line.index(_CUSTOM)
+        for name in ('sendmail', 'sendtelegram'):
+            with self.subTest(name):
+                self.assertGreater(line.index(_short(name)), hook)
+                self.assertLess(line.index(_short(name)), command)
 
     def test_a_webhook_with_the_check_off_carries_the_flag_on_its_line(self):
         off = {'web_hook_end_notifications_verify': False}
