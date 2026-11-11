@@ -250,18 +250,62 @@ def netcam_params(v: str, data: dict) -> dict:
     return params
 
 
+# what motion itself takes from video_params, next to the camera's controls; motion
+# 4.4 made them entries there, out of v4l2_palette, input, norm and frequency
+_VIDEO_PARAMS_MOTION = ('palette', 'input', 'norm', 'frequency')
+
+
+def _split_video_params(v: str) -> list[str]:
+    # by commas outside double quotes, as motion allows a name like "Gain, Automatic"
+    params, start, quoted = [], 0, False
+    for i, c in enumerate(v):
+        if c == '"':
+            quoted = not quoted
+
+        elif c == ',' and not quoted:
+            params.append(v[start:i])
+            start = i + 1
+
+    params.append(v[start:])
+    return params
+
+
+def _is_video_params_motion(param: str) -> bool:
+    return param.split('=')[0].strip().strip('"').lower() in _VIDEO_PARAMS_MOTION
+
+
+def vid_control_video_params(v: str, data: dict) -> dict:
+    # an extra video_params option holds motion's own entries, see video_params()
+    params = [p for p in (data.get('video_params', ''), v) if p]
+    return {'video_params': ','.join(params)}
+
+
+def video_params(v: str, data: dict) -> dict:
+    # the controls are rebuilt from the camera on each save; motion's own entries,
+    # e.g. a palette, are kept as an extra video_params option, which saving writes
+    # back together with the controls
+    params = _split_video_params(v)
+    controls = [p for p in params if not _is_video_params_motion(p)]
+    others = [p for p in params if _is_video_params_motion(p)]
+    result = {'vid_control_params': ','.join(controls)}
+    if others:
+        result['video_params'] = ','.join(others)
+
+    return result
+
+
 _MOTION_43_TO_44_OPTIONS_MAPPING = {
     'netcam_keepalive': netcam_keepalive_params,
     'netcam_tolerant_check': netcam_tolerant_check_params,
     'netcam_use_tcp': netcam_use_tcp_params,
-    'vid_control_params': 'video_params',
+    'vid_control_params': vid_control_video_params,
     'videodevice': 'video_device',
 }
 
 
 _MOTION_44_TO_43_OPTIONS_MAPPING = {
     'netcam_params': netcam_params,
-    'video_params': 'vid_control_params',
+    'video_params': video_params,
     'video_device': 'videodevice',
 }
 

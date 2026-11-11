@@ -286,6 +286,122 @@ class TestThresholdPixels(unittest.TestCase):
         self.assertEqual(1, config._threshold_pixels(0.1, 32, 24))
 
 
+class TestVideoParams(unittest.TestCase):
+    def test_keeps_motion_parameters_as_an_extra_option(self):
+        data = {'video_params': 'palette=15,brightness=10, input = 1,"Gain"=50'}
+        config.adapt_config_directives(data, config._MOTION_44_TO_43_OPTIONS_MAPPING)
+
+        self.assertEqual(
+            {
+                'vid_control_params': 'brightness=10,"Gain"=50',
+                'video_params': 'palette=15, input = 1',
+            },
+            data,
+        )
+
+    def test_writes_motion_parameters_back_with_the_controls(self):
+        line = 'palette=15,norm=0,brightness=10,"Gain, Automatic"=1'
+        data = {'video_params': line}
+        config.adapt_config_directives(data, config._MOTION_44_TO_43_OPTIONS_MAPPING)
+        config.adapt_config_directives(data, config._MOTION_43_TO_44_OPTIONS_MAPPING)
+
+        self.assertEqual({'video_params': line}, data)
+
+    def test_a_quoted_control_name_may_hold_a_comma(self):
+        data = {'video_params': '"Norm, Auto"=1,norm=0'}
+        config.adapt_config_directives(data, config._MOTION_44_TO_43_OPTIONS_MAPPING)
+
+        self.assertEqual(
+            {'vid_control_params': '"Norm, Auto"=1', 'video_params': 'norm=0'}, data
+        )
+
+    def test_adds_no_extra_option_with_controls_only(self):
+        data = {'video_params': 'brightness=10,contrast=20'}
+        config.adapt_config_directives(data, config._MOTION_44_TO_43_OPTIONS_MAPPING)
+
+        self.assertEqual({'vid_control_params': 'brightness=10,contrast=20'}, data)
+
+    def test_writes_an_extra_option_without_controls(self):
+        data = {'vid_control_params': '', 'video_params': 'palette=8'}
+        config.adapt_config_directives(data, config._MOTION_43_TO_44_OPTIONS_MAPPING)
+
+        self.assertEqual({'video_params': 'palette=8'}, data)
+
+
+class TestVideoParamsSave(unittest.TestCase):
+    # a V4L2 camera with a palette set through Extra Options, saved through its file
+    def setUp(self):
+        self.conf_dir = mkdtemp()
+        self.addCleanup(rmtree, self.conf_dir)
+        config.invalidate()
+        self.addCleanup(config.invalidate)
+        main_config = {}
+        config._set_default_motion(main_config)
+        controls = {
+            'brightness': {
+                'min': 0,
+                'max': 255,
+                'value': 128,
+                'control_id': 'ID09963776',
+            }
+        }
+        for target, kwargs in (
+            ('builtins._', {'new': str, 'create': True}),
+            ('motioneye.config.get_main', {'return_value': main_config}),
+            ('motioneye.config.set_main', {}),
+            ('motioneye.settings.CONF_PATH', {'new': self.conf_dir}),
+            ('motioneye.meyectl.find_command', {'return_value': 'meyectl'}),
+            ('motioneye.mediafiles.find_ffmpeg', {'return_value': (None, None, None)}),
+            ('motioneye.motionctl.is_motion_pre42', {'return_value': False}),
+            ('motioneye.motionctl.is_motion_post43', {'return_value': True}),
+            ('motioneye.utils.get_disk_usage', {'return_value': None}),
+            ('motioneye.controls.diskctl.list_mounted_disks', {'return_value': []}),
+            ('motioneye.controls.v4l2ctl.list_ctrls', {'return_value': controls}),
+            (
+                'motioneye.controls.v4l2ctl.list_resolutions',
+                {'return_value': [(640, 480)]},
+            ),
+        ):
+            patcher = patch(target, **kwargs)
+            self.addCleanup(patcher.stop)
+            patcher.start()
+
+        camera = {'@id': 1, '@enabled': True, 'videodevice': '/dev/video0'}
+        camera.update(width=640, height=480)
+        config._set_default_motion_camera(1, camera)
+        camera['target_dir'] = self.conf_dir
+        camera['video_params'] = 'palette=15,ID09963776=10'
+        config.adapt_config_directives(camera, config._MOTION_44_TO_43_OPTIONS_MAPPING)
+        config.set_camera(1, camera)
+
+    def _get(self):
+        config._camera_config_cache.pop(1, None)
+        return config.motion_camera_dict_to_ui(config.get_camera(1))
+
+    def _video_params(self):
+        with open(os.path.join(self.conf_dir, 'camera-1.conf')) as f:
+            return [
+                line
+                for line in f.read().splitlines()
+                if line.startswith('video_params')
+            ]
+
+    def test_the_palette_shows_in_extra_options(self):
+        ui = self._get()
+
+        self.assertIn(('video_params', 'palette=15'), ui['extra_options'])
+        self.assertEqual(10, ui['video_controls']['brightness']['value'])
+
+    def test_a_save_keeps_the_palette(self):
+        ui = self._get()
+        ui['video_controls']['brightness']['value'] = 20
+        config.set_camera(1, config.motion_camera_ui_to_dict(ui, config.get_camera(1)))
+
+        self.assertEqual(
+            ['video_params palette=15,ID09963776=20'], self._video_params()
+        )
+
+
 class TestDefaultMotion(unittest.TestCase):
     def test_control_interface_cannot_change_parameters_by_default(self):
         data = {}
