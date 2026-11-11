@@ -22,7 +22,8 @@ import multiprocessing
 import os.path
 import re
 import subprocess
-from collections.abc import Awaitable
+from collections import deque
+from collections.abc import Awaitable, Callable
 from contextlib import suppress
 from datetime import datetime, timedelta
 from errno import EAGAIN, ENOENT
@@ -629,59 +630,115 @@ def list_media(
     elif media_type == 'movie':
         exts = _MOVIE_EXTS
 
-    logging.debug('starting media listing subprocess...')
+    fut: Future = Future()
 
-    parent_pipe, child_pipe = multiprocessing.Pipe(duplex=False)
-    process = multiprocessing.Process(
-        target=_do_list_media,
-        args=(
-            child_pipe,
-            target_dir,
-            exts,
-            prefix,
-            with_stat,
-            min_timestamp,
-            max_timestamp,
-        ),
-    )
-    process.start()
-    child_pipe.close()
+    def start() -> None:
+        media_list: list = []
 
-    # poll the subprocess to see when it has finished
-    started = datetime.now()
-    media_list = []
+        def finish(result) -> None:
+            global _listings_running
+            _listings_running -= 1
+            # on the loop, not here: a chain of failing starts would recurse
+            IOLoop.current().add_callback(_start_next_listing)
+            if not fut.done():
+                fut.set_result(result)
 
-    def read_media_list():
-        while parent_pipe.poll():
-            try:
-                media_list.append(parent_pipe.recv())
+        logging.debug('starting media listing subprocess...')
+        try:
+            parent_pipe, child_pipe = multiprocessing.Pipe(duplex=False)
+            process = multiprocessing.Process(
+                target=_do_list_media,
+                args=(
+                    child_pipe,
+                    target_dir,
+                    exts,
+                    prefix,
+                    with_stat,
+                    min_timestamp,
+                    max_timestamp,
+                ),
+            )
+            process.start()
+            child_pipe.close()
 
-            except EOFError:
-                break
+        except Exception as e:  # e.g. the fork itself fails for lack of memory
+            logging.error(f'could not start the media listing process: {e}')
+            finish(None)
+            return
 
-    def poll_process():
-        if process.is_alive():  # not finished yet
-            now = datetime.now()
-            delta = now - started
-            if delta.seconds < settings.LIST_MEDIA_TIMEOUT:
-                IOLoop.current().call_later(0.5, poll_process)
+        # poll the subprocess to see when it has finished
+        started = datetime.now()
+
+        def read_media_list():
+            while parent_pipe.poll():
+                try:
+                    media_list.append(parent_pipe.recv())
+
+                except EOFError:
+                    break
+
+        def poll_process():
+            if process.is_alive():  # not finished yet
+                now = datetime.now()
+                delta = now - started
+                if delta.seconds < settings.LIST_MEDIA_TIMEOUT:
+                    IOLoop.current().call_later(0.5, poll_process)
+                    read_media_list()
+
+                else:  # process did not finish in time
+                    logging.error(
+                        'timeout waiting for the media listing process to finish'
+                    )
+                    with suppress(Exception):  # nevermind
+                        os.kill(process.pid, SIGKILL)
+
+                    finish(None)
+
+            else:  # finished
                 read_media_list()
+                logging.debug(
+                    f'media listing process has returned {len(media_list)} files'
+                )
+                finish(media_list)
 
-            else:  # process did not finish in time
-                logging.error('timeout waiting for the media listing process to finish')
-                with suppress(Exception):  # nevermind
-                    os.kill(process.pid, SIGKILL)
+        poll_process()
 
+    def give_up() -> None:
+        # still waiting after a whole timeout: answer like a timed-out listing
+        # rather than start one that the caller has given up on by now
+        if start in _listings_waiting:
+            _listings_waiting.remove(start)
+            logging.error('timeout waiting for a media listing slot')
+            if not fut.done():
                 fut.set_result(None)
 
-        else:  # finished
-            read_media_list()
-            logging.debug(f'media listing process has returned {len(media_list)} files')
-            fut.set_result(media_list)
+    _listings_waiting.append(start)
+    _start_next_listing()
+    if start in _listings_waiting:
+        logging.debug(
+            f'media listing waits for a slot, {_listings_running} running, '
+            f'{len(_listings_waiting)} waiting'
+        )
+        IOLoop.current().call_later(settings.LIST_MEDIA_TIMEOUT, give_up)
 
-    fut: Future = Future()
-    poll_process()
     return fut
+
+
+# Each listing forks the whole server, so a burst of requests, e.g. a media
+# browser opening every camera at once, could exhaust the memory. At most
+# LIST_MEDIA_MAX_PARALLEL listings run at a time; the others wait their turn,
+# for one timeout at most, and the timeout of a listing counts from when it
+# actually starts.
+_listings_running: int = 0
+_listings_waiting: deque[Callable[[], None]] = deque()
+
+
+def _start_next_listing() -> None:
+    global _listings_running
+    limit = max(1, settings.LIST_MEDIA_MAX_PARALLEL)
+    while _listings_waiting and _listings_running < limit:
+        _listings_running += 1
+        _listings_waiting.popleft()()
 
 
 def get_media_path(camera_config: dict, path: str):

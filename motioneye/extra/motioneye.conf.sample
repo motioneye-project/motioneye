@@ -98,6 +98,10 @@ list_media_timeout_email 10
 # timeout in seconds to wait for media files list, when sending a telegram
 list_media_timeout_telegram 10
 
+# how many media file listings may run at the same time; the others wait their turn,
+# and that wait, of one list_media_timeout at most, adds to the timeout of the listing
+list_media_max_parallel 2
+
 # timeout in seconds to wait for zip file creation
 zip_timeout 500
 
