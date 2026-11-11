@@ -164,6 +164,7 @@ def _old_sendtelegram(e: list) -> dict | None:
         keys['api']: e[-5],
         keys['chatid']: e[-4],
         keys['timespan']: _time_span(e[-1]),
+        keys['text_first']: False,
     }
 
 

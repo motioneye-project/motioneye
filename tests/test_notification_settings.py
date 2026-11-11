@@ -69,6 +69,7 @@ _UI = {
     'telegram_notifications_api': '123456:FAKE-token',
     'telegram_notifications_chat_id': '-1001234567',
     'telegram_notifications_picture_time_span': 10,
+    'telegram_notifications_text_first': False,
     'web_hook_notifications_enabled': True,
     'web_hook_notifications_http_method': 'POSTj',
     'web_hook_notifications_url': _MOTION_URL,
@@ -101,6 +102,7 @@ _STORED = {
     'telegram_notifications_api': '123456:FAKE-token',
     'telegram_notifications_chat_id': '-1001234567',
     'telegram_notifications_picture_time_span': '10',
+    'telegram_notifications_text_first': 'False',
 }
 _STORED_LINES = ('# @email_notifications', '# @telegram_notifications')
 
@@ -345,6 +347,16 @@ class ConfigTest(_ConfigCase):
         self._post(got)
         self.assertEqual(text, self._read(1))
 
+    def test_text_first_survives_a_round_trip_through_the_camera_file(self):
+        self._write(1, self.camera)
+        self._post({**self._get(), **_UI, 'telegram_notifications_text_first': True})
+        self.assertIn('\n# @telegram_notifications_text_first True\n', self._read(1))
+
+        got = self._get()
+        self.assertIs(True, got['telegram_notifications_text_first'])
+        self._post(got)
+        self.assertIs(True, self._get()['telegram_notifications_text_first'])
+
     def test_a_file_without_the_mail_verify_key_shows_the_check_on(self):
         data = self._save(**_UI)
         del data['@email_notifications_smtp_verify']  # as older releases saved it
@@ -447,7 +459,7 @@ class ConfigTest(_ConfigCase):
         self._post(dict(self._get(), **_UI))
         lines = self._read(1).splitlines()
         stored = [line for line in lines if line.startswith(_STORED_LINES)]
-        self.assertEqual(12, len(stored))
+        self.assertEqual(len(_STORED), len(stored))
 
         off = {'email_notifications_enabled': False}
         off['telegram_notifications_enabled'] = False
