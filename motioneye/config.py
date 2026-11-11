@@ -1474,6 +1474,9 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
 
     # event start
     on_event_start = [f"{meyectl.find_command('relayevent')} start %t"]
+    # motion runs these one after another, and the senders wait for the pictures
+    # of their time span, so they go last, not to hold up the rest (#2543)
+    senders = []
     # kept for a client that does not send the key
     stored_mail_verify = prev_config.get(SENDMAIL_KEYS['verify'])
     stored_text_first = prev_config.get(SENDTELEGRAM_KEYS['text_first'])
@@ -1512,7 +1515,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         )
         values['@email_notifications_addresses'] = emails
         values['@email_notifications_from'] = email_from
-        on_event_start.append(notification_command(data, 'sendmail', values))
+        senders.append(notification_command(data, 'sendmail', values))
 
     if ui['telegram_notifications_enabled']:
         values = {
@@ -1525,7 +1528,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
             str(ui.get('telegram_notifications_text_first', stored_text_first)).lower()
             == 'true'
         )
-        on_event_start.append(notification_command(data, 'sendtelegram', values))
+        senders.append(notification_command(data, 'sendtelegram', values))
 
     if ui['web_hook_notifications_enabled']:
         url = sub(
@@ -1557,7 +1560,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
     if ui['command_notifications_enabled']:
         on_event_start += utils.split_semicolon(ui['command_notifications_exec'])
 
-    data['on_event_start'] = '; '.join(on_event_start)
+    data['on_event_start'] = '; '.join(on_event_start + senders)
 
     # event end
     on_event_end = [f"{meyectl.find_command('relayevent')} stop %t"]
