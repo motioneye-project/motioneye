@@ -41,6 +41,12 @@ port 8765
 # path to the motion binary to use (automatically detected if commented)
 #motion_binary /usr/bin/motion
 
+# path to libcamerify (from the libcamera-tools package), for Raspberry Pi camera
+# modules on the libcamera camera stack, added as V4L2 cameras: motionEye then runs
+# under it, so motion and the camera detection see the camera through libcamera's
+# V4L2 layer; needs motion 4.7.0 or newer
+#libcamerify /usr/bin/libcamerify
+
 # whether motion HTTP control interface listens on
 # localhost or on all interfaces
 motion_control_localhost true

@@ -42,6 +42,73 @@ def _removed_warning(name, path):
     )
 
 
+class RunUnderLibcamerifyTest(unittest.TestCase):
+    """With libcamerify set, the server runs itself under it, once."""
+
+    def setUp(self):
+        self.tmp = mkdtemp()
+        self.addCleanup(rmtree, self.tmp)
+        self.libcamerify = os.path.join(self.tmp, 'libcamerify')
+        with open(self.libcamerify, 'w') as f:
+            f.write('#!/bin/sh\nexec "$@"\n')
+
+        os.chmod(self.libcamerify, 0o700)
+        env = patch.dict(os.environ)
+        env.start()
+        self.addCleanup(env.stop)
+        os.environ.pop('MOTIONEYE_LIBCAMERIFY', None)
+        execv = patch('os.execv')
+        self.execv = execv.start()
+        self.addCleanup(execv.stop)
+
+    def _run(self, path):
+        with patch.object(settings, 'LIBCAMERIFY', path):
+            meyectl.run_under_libcamerify()
+
+    def test_not_set_starts_as_it_is(self):
+        self._run(None)
+
+        self.execv.assert_not_called()
+
+    def test_set_starts_the_server_again_under_it(self):
+        self._run(self.libcamerify)
+
+        self.execv.assert_called_once_with(
+            self.libcamerify, [self.libcamerify, sys.executable, *sys.argv]
+        )
+        self.assertEqual(self.libcamerify, os.environ['MOTIONEYE_LIBCAMERIFY'])
+
+    def test_not_again_once_under_it(self):
+        os.environ['MOTIONEYE_LIBCAMERIFY'] = self.libcamerify
+        self._run(self.libcamerify)
+
+        self.execv.assert_not_called()
+
+    def test_a_missing_libcamerify_is_reported_and_the_server_starts(self):
+        missing = os.path.join(self.tmp, 'missing')
+        with self.assertLogs(level='ERROR') as logs:
+            self._run(missing)
+
+        self.execv.assert_not_called()
+        self.assertIn(f'libcamerify not found at {missing}', logs.output[0])
+
+    def test_only_the_server_runs_under_it(self):
+        # the commands that motion runs inherit it from the server anyway
+        for command, module in (('startserver', 'server'), ('webhook', 'webhook')):
+            with (
+                self.subTest(command),
+                patch.object(sys, 'argv', ['meyectl', command]),
+                patch('motioneye.meyectl.run_under_libcamerify') as run,
+                patch('motioneye.meyectl.load_settings'),
+                patch('motioneye.meyectl.load_l10n'),
+                patch('motioneye.meyectl.configure_multiprocessing'),
+                patch(f'motioneye.{module}.main'),
+            ):
+                meyectl.main()
+
+            self.assertEqual(command == 'startserver', run.called)
+
+
 class ConfigureTornadoTest(AsyncTestCase):
     def test_tornados_own_client_without_its_body_size_limit(self):
         self.addCleanup(AsyncHTTPClient.configure, None)
