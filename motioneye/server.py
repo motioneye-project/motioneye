@@ -467,7 +467,7 @@ def run():
     # motion relays its events to 127.0.0.1 (see relayevent.sh), and the relay
     # event API only accepts local requests, so listen there as well when the
     # configured address does not include it
-    if settings.LISTEN not in ('', '0.0.0.0', '127.0.0.1', 'localhost'):  # nosec: B104
+    if settings.LISTEN not in ('', '0.0.0.0', '127.0.0.1', 'localhost'):  # noqa: S104
         application.listen(settings.PORT, '127.0.0.1')
     logging.info(_('servilo komenciĝis'))
 

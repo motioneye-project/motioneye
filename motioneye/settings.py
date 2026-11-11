@@ -63,7 +63,7 @@ LOG_TO_FILE = False
 
 # the IP address to listen on
 # (0.0.0.0 for all interfaces, 127.0.0.1 for localhost)
-LISTEN = '0.0.0.0'  # nosec: B104
+LISTEN = '0.0.0.0'  # noqa: S104
 
 # the TCP port to listen on
 PORT = 8765

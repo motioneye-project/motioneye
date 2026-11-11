@@ -88,7 +88,7 @@ def list_resolutions(device):
     logging.debug(f'running command "{cmd}"')
 
     try:
-        output = utils.call_subprocess(cmd, shell=True, check=False)  # nosec: B604
+        output = utils.call_subprocess(cmd, shell=True, check=False)  # noqa: S604
 
     except Exception:
         logging.error(f'failed to list resolutions of device "{device}"')

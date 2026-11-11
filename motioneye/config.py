@@ -721,7 +721,7 @@ SENDMAIL_KEYS = {
     'server': '@email_notifications_smtp_server',
     'port': '@email_notifications_smtp_port',
     'account': '@email_notifications_smtp_account',
-    'password': '@email_notifications_smtp_password',  # nosec: B105
+    'password': '@email_notifications_smtp_password',
     'tls': '@email_notifications_smtp_tls',
     'verify': '@email_notifications_smtp_verify',
     'sender': '@email_notifications_from',
@@ -1002,10 +1002,10 @@ def main_dict_to_ui(data: dict) -> dict:
     # input box in the frontend. If a password is set, transmit nothing, in
     # which case the input box will show "*****".
     if data['@admin_password'] == '':
-        ui['admin_password'] = ''  # nosec: B105
+        ui['admin_password'] = ''
 
     if data['@normal_password'] == '':
-        ui['normal_password'] = ''  # nosec: B105
+        ui['normal_password'] = ''
 
     ui['_client_secret'] = data.get('@client_secret', '')
 
@@ -1810,8 +1810,8 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
     # Only transmit an empty string if no password is set, to show an empty
     # input box in the frontend. If a password is set, transmit nothing, in
     # which case the input box will show "*****".
-    if streaming_password == '':  # nosec: B105
-        ui['streaming_password'] = ''  # nosec: B105
+    if streaming_password == '':
+        ui['streaming_password'] = ''
 
     if utils.is_net_camera(data):
         ui['device_url'] = data['netcam_url']
@@ -2293,7 +2293,7 @@ def restore(content: bytes) -> dict | None:
                 if any(fnmatchcase(name, p) for p in patterns):
                     members.append(m)
 
-            tf.extractall(settings.CONF_PATH, members=members)  # nosec B202
+            tf.extractall(settings.CONF_PATH, members=members)  # noqa: S202
 
         logging.debug('configuration restored successfully')
 
