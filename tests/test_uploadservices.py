@@ -16,11 +16,21 @@
 
 import os
 import ssl
+import subprocess
+import sys
 import unittest
+from importlib.util import find_spec
 from unittest.mock import MagicMock, patch
 from urllib.error import URLError
 
 from motioneye import uploadservices
+
+
+def _needs(module):
+    # optional modules; CI installs them, so it fails instead of skipping
+    return unittest.skipUnless(
+        find_spec(module) or os.environ.get('CI'), f'{module} is not installed'
+    )
 
 
 class TestUploadMediaFileCleanup(unittest.TestCase):
@@ -346,6 +356,7 @@ class TestWebdavVerify(unittest.TestCase):
         self.assertIn('webdav: <urlopen error', '\n'.join(logs.output))
 
 
+@_needs('boto3')
 class TestS3Verify(unittest.TestCase):
     """The S3 upload service's certificate check can be turned off for a custom
     endpoint only; AWS itself is always verified."""
@@ -367,7 +378,7 @@ class TestS3Verify(unittest.TestCase):
 
     def _clients(self, service):
         # the keyword arguments of the boto3 client that each call site builds
-        with patch('motioneye.uploadservices.boto3.client') as client:
+        with patch('boto3.client') as client:
             service.test_access()
             service.upload_file(None, '/data/x.jpg', 'cam')
 
@@ -428,6 +439,7 @@ class TestS3Verify(unittest.TestCase):
                 self.assertIsNone(kwargs['verify'])
 
 
+@_needs('pycurl')
 class TestSFTPTestAccess(unittest.TestCase):
     """The SFTP test removes its file and folder afterwards with lower case
     commands, as libcurl 8 refuses upper case ones ("Unknown SFTP command")."""
@@ -458,6 +470,86 @@ class TestSFTPTestAccess(unittest.TestCase):
             ['rm /up//motioneye_test/1700000000.5', 'rmdir /up/motioneye_test'],
             options[conn.POSTQUOTE],
         )
+
+
+class TestOptionalModules(unittest.TestCase):
+    """boto3 and pycurl are needed by the S3 and SFTP uploads only: they are
+    imported on use, and without them only that service fails, saying what to
+    install."""
+
+    def _s3(self):
+        service = uploadservices.S3('1')
+        service.load({'access_key': 'AKIAFAKEKEY', 'secret_key': 'x', 'bucket': 'cam'})
+        return service
+
+    def _sftp(self):
+        service = uploadservices.SFTP('1')
+        service.load(
+            {
+                'server': 'sftp.example',
+                'port': 22,
+                'username': 'cam',
+                'password': 'x',
+                'location': '/up',
+            }
+        )
+        return service
+
+    def test_importing_the_module_does_not_import_them(self):
+        code = (
+            'import sys, motioneye.uploadservices; '
+            'print(sorted(m for m in ("boto3", "pycurl") if m in sys.modules))'
+        )
+        out = subprocess.run(
+            [sys.executable, '-c', code], capture_output=True, text=True, check=True
+        ).stdout
+
+        self.assertEqual('[]', out.strip())
+
+    def test_test_access_says_what_to_install(self):
+        for module, service in (('boto3', self._s3()), ('pycurl', self._sftp())):
+            with self.subTest(module), patch.dict(sys.modules, {module: None}):
+                with self.assertLogs(level='ERROR'):
+                    result = service.test_access()
+
+                self.assertIsInstance(result, str)
+                self.assertIn(f'Python module {module}', result)
+                self.assertIn(f'sudo {sys.executable} -m pip install {module}', result)
+
+    def test_an_upload_fails_and_keeps_the_file(self):
+        for module, service in (('boto3', self._s3()), ('pycurl', self._sftp())):
+            with self.subTest(module), patch.dict(sys.modules, {module: None}):
+                with self.assertRaisesRegex(RuntimeError, f'Python module {module}'):
+                    service.upload_file(None, __file__, 'cam')
+
+                get = patch.object(uploadservices, '_get_service', return_value=service)
+                deleting = patch('motioneye.mediafiles.del_media_content')
+                with get, deleting as delete, self.assertLogs(level='ERROR') as logs:
+                    uploadservices.upload_media_file(
+                        1, 'cam', '/data', service.NAME, __file__, True
+                    )
+
+                delete.assert_not_called()
+                self.assertIn(f'Python module {module}', '\n'.join(logs.output))
+
+    def test_the_services_are_still_offered(self):
+        with patch.dict(sys.modules, {'boto3': None, 'pycurl': None}):
+            names = uploadservices._get_service_classes()
+
+        self.assertIn('s3', names)
+        self.assertIn('sftp', names)
+
+    @_needs('pycurl')
+    def test_sftp_sets_its_options_on_a_real_curl_object(self):
+        # the options are read from the Curl object, which has them all
+        import pycurl
+
+        conn = pycurl.Curl()
+        for name in ('URL', 'CONNECTTIMEOUT', 'READFUNCTION', 'POSTQUOTE', 'UPLOAD'):
+            with self.subTest(name):
+                self.assertEqual(getattr(pycurl, name), getattr(conn, name))
+
+        conn.close()
 
 
 if __name__ == '__main__':
