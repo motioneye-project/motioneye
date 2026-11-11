@@ -39,7 +39,15 @@ from argon2 import PasswordHasher
 from tornado.ioloop import IOLoop
 
 import motioneye
-from motioneye import meyectl, motionctl, settings, tasks, uploadservices, utils
+from motioneye import (
+    apikeys,
+    meyectl,
+    motionctl,
+    settings,
+    tasks,
+    uploadservices,
+    utils,
+)
 from motioneye.controls import diskctl, smbctl, v4l2ctl
 from motioneye.controls.powerctl import PowerControl
 
@@ -2236,7 +2244,7 @@ def backup() -> bytes | None:
 
     files = [
         f
-        for p in ('motion.conf', 'camera-*.conf', 'mask_*.pgm')
+        for p in ('motion.conf', 'camera-*.conf', 'mask_*.pgm', 'api_keys.json')
         for f in glob(os.path.join(settings.CONF_PATH, p))
     ]
 
@@ -2257,7 +2265,7 @@ def backup() -> bytes | None:
 def restore(content: bytes) -> dict | None:
     logging.info('restoring config from backup file')
 
-    patterns = ['motion.conf', 'camera-*.conf', 'mask_*.pgm']
+    patterns = ['motion.conf', 'camera-*.conf', 'mask_*.pgm', 'api_keys.json']
 
     try:
         with tarfile.open(fileobj=BytesIO(content)) as tf:
@@ -2281,6 +2289,10 @@ def restore(content: bytes) -> dict | None:
             tf.extractall(settings.CONF_PATH, members=members)  # nosec B202
 
         logging.debug('configuration restored successfully')
+
+        # Also before a reboot: until then, a key in use would otherwise save
+        # the cached keys over the restored ones.
+        apikeys.reset()
 
         if settings.ENABLE_REBOOT:
             IOLoop.current().call_later(2, PowerControl.reboot)
