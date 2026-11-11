@@ -640,9 +640,10 @@ def list_media(
         def finish(result) -> None:
             global _listings_running
             _listings_running -= 1
-            fut.set_result(result)
             # on the loop, not here: a chain of failing starts would recurse
             IOLoop.current().add_callback(_start_next_listing)
+            if not fut.done():
+                fut.set_result(result)
 
         logging.debug('starting media listing subprocess...')
         try:
@@ -713,7 +714,8 @@ def list_media(
         if start in _listings_waiting:
             _listings_waiting.remove(start)
             logging.error('timeout waiting for a media listing slot')
-            fut.set_result(None)
+            if not fut.done():
+                fut.set_result(None)
 
     _listings_waiting.append(start)
     _start_next_listing()
