@@ -1475,7 +1475,9 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
     # event start
     on_event_start = [f"{meyectl.find_command('relayevent')} start %t"]
     # motion runs these one after another, and the senders wait for the pictures
-    # of their time span, so they go last, not to hold up the rest (#2543)
+    # of their time span, so the webhook comes first, not to be held up (#2543);
+    # the senders still come before the custom command, which could exit the
+    # shell or not return
     senders = []
     # kept for a client that does not send the key
     stored_mail_verify = prev_config.get(SENDMAIL_KEYS['verify'])
@@ -1557,10 +1559,11 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
             )
         )
 
+    on_event_start += senders
     if ui['command_notifications_enabled']:
         on_event_start += utils.split_semicolon(ui['command_notifications_exec'])
 
-    data['on_event_start'] = '; '.join(on_event_start + senders)
+    data['on_event_start'] = '; '.join(on_event_start)
 
     # event end
     on_event_end = [f"{meyectl.find_command('relayevent')} stop %t"]
