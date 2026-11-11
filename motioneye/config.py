@@ -732,9 +732,11 @@ SENDTELEGRAM_KEYS = {
     'api': '@telegram_notifications_api',
     'chatid': '@telegram_notifications_chat_id',
     'timespan': '@telegram_notifications_picture_time_span',
+    'text_first': '@telegram_notifications_text_first',
 }
 _NOTIFICATION_KEYS = [*SENDMAIL_KEYS.values(), *SENDTELEGRAM_KEYS.values()]
-_OPTIONAL_NOTIFICATION_KEYS = {SENDMAIL_KEYS['verify']}  # absent in older camera files
+# absent in older camera files
+_OPTIONAL_NOTIFICATION_KEYS = {SENDMAIL_KEYS['verify'], SENDTELEGRAM_KEYS['text_first']}
 MOMENT = '%Y-%m-%dT%H:%M:%S'  # the event time, expanded by motion
 _SHORT = f" %t '{MOMENT}'"
 
@@ -770,6 +772,9 @@ def _settings_to_ui(data: dict, keys: dict) -> dict:
 
         elif name.endswith('_verify'):
             ui[name] = utils.verify_setting(value)
+
+        elif name.endswith('_text_first'):
+            ui[name] = value.lower() == 'true'
 
         elif name.endswith('_time_span'):
             ui[name] = int(value) if value.isdigit() else 0
@@ -1471,6 +1476,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
     on_event_start = [f"{meyectl.find_command('relayevent')} start %t"]
     # kept for a client that does not send the key
     stored_mail_verify = prev_config.get(SENDMAIL_KEYS['verify'])
+    stored_text_first = prev_config.get(SENDTELEGRAM_KEYS['text_first'])
     for key in _NOTIFICATION_KEYS:  # stored only while enabled
         prev_config.pop(key, None)
 
@@ -1509,7 +1515,16 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         on_event_start.append(notification_command(data, 'sendmail', values))
 
     if ui['telegram_notifications_enabled']:
-        values = {key: ui[key[1:]] for key in SENDTELEGRAM_KEYS.values()}
+        values = {
+            key: ui[key[1:]]
+            for key in SENDTELEGRAM_KEYS.values()
+            if key != SENDTELEGRAM_KEYS['text_first']
+        }
+        # absent from what an older hub posts: keep the stored choice
+        values[SENDTELEGRAM_KEYS['text_first']] = (
+            str(ui.get('telegram_notifications_text_first', stored_text_first)).lower()
+            == 'true'
+        )
         on_event_start.append(notification_command(data, 'sendtelegram', values))
 
     if ui['web_hook_notifications_enabled']:
