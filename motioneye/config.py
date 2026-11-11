@@ -2633,14 +2633,11 @@ def _set_default_motion_camera(camera_id: int, data: dict) -> None:
     data.setdefault('movie_output', False)
     data.setdefault('movie_passthrough', False)
 
-    if motionctl.has_h264_omx_support():
-        data.setdefault('movie_codec', 'mp4:h264_omx')  # will use h264 codec
-
-    elif motionctl.has_h264_v4l2m2m_support():
-        data.setdefault('movie_codec', 'mp4:h264_v4l2m2m')  # will use h264 codec
-
-    else:
-        data.setdefault('movie_codec', 'mp4')  # will use h264 codec
+    # H.264 in software: ffmpeg lists the OMX and V4L2 M2M encoders when it is built
+    # with them, not when the hardware has one (Debian's ffmpeg lists h264_v4l2m2m
+    # on any machine), and they fail to encode where it has not; they stay
+    # selectable in the UI
+    data.setdefault('movie_codec', 'mp4')
 
     data.setdefault('movie_quality', 75)  # 75%
 
