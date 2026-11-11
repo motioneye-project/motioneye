@@ -524,9 +524,7 @@ def build_mask_file_name(camera_id, mask_class):
         if mask_class == 'motion'
         else f'mask_{camera_id}_{mask_class}.pgm'
     )
-    full_path = os.path.join(settings.CONF_PATH, file_name)
-
-    return full_path
+    return os.path.join(settings.CONF_PATH, file_name)
 
 
 def parse_editable_mask_file(

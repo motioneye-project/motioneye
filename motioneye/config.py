@@ -919,9 +919,7 @@ def add_camera(device_details: dict) -> dict:
     _camera_ids_cache = None
     _camera_config_cache.clear()
 
-    camera_config = get_camera(camera_id)
-
-    return camera_config
+    return get_camera(camera_id)
 
 
 def rem_camera(camera_id: int) -> None:
@@ -1029,10 +1027,9 @@ def input_sanity_check(regex: str, value: str, key: str, msg: str) -> str:
     if match(regex, value):
         return value
 
-    else:
-        raise ValueError(
-            f'Value "{value}" for setting "{key}" did not match regex "{regex}": {msg}'
-        )
+    raise ValueError(
+        f'Value "{value}" for setting "{key}" did not match regex "{regex}": {msg}'
+    )
 
 
 def input_or_stored(ui: dict, key: str, prev_config: dict, default):
@@ -2332,7 +2329,7 @@ def _value_to_python(value: str) -> bool | float | str:
     if value_lower == 'off':
         return False
 
-    elif value_lower == 'on':
+    if value_lower == 'on':
         return True
 
     try:
@@ -2350,17 +2347,16 @@ def _python_to_value(value: bool | float | str) -> str:
     if value is True:
         return 'on'
 
-    elif value is False:
+    if value is False:
         return 'off'
 
-    elif isinstance(value, (int, float)):
+    if isinstance(value, (int, float)):
         return str(value)
 
-    elif isinstance(value, str):
+    if isinstance(value, str):
         return value.replace('\r', ' ').replace('\n', ' ')
 
-    else:
-        return value
+    return value
 
 
 def _conf_to_dict(
