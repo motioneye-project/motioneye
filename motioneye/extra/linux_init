@@ -33,11 +33,13 @@ if (( ! SKIP_SYSTEMD )); then
     if [[ ! $MEYECTL ]]; then
       if [[ -f '/usr/local/bin/meyectl' ]]; then
         MEYECTL='/usr/local/bin/meyectl'
+        [[ -x $MEYECTL ]] || Error_Out "$MEYECTL is not executable. Please check your motionEye installation."
       else
         Error_Out 'meyectl executable has not been found. Please check your motionEye installation.'
       fi
     fi
   fi
+  MEYECTL=$(realpath "$MEYECTL")
   [[ $MEYECTL =~ ^/(home|root)/ ]] && Error_Out 'This venv is located in a user home directory below /home or /root. This is not supported, as it violates basic security concepts. Move the venv to an appropriate directory like /opt, which is better suited for access by system services.'
 fi
 
