@@ -88,7 +88,7 @@ fi
 
 # Stop and mask conflicting motion.service
 if systemctl -q is-active motion 2> /dev/null || systemctl -q is-enabled motion 2> /dev/null; then
-  systemctl --no-reload mask --now motion
+  systemctl mask --now motion
 fi
 
 # Pre-create config and data dirs and install configuration files
