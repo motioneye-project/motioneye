@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import logging
 import socket
+from contextlib import suppress
 from errno import ECONNREFUSED
 from re import findall, match
 from time import time
@@ -139,11 +140,8 @@ class MjpgClient(IOStream):
             f'mjpg client for camera {self._camera_id} on port {self._port} error: {error!s}',
         )
 
-        try:
+        with suppress(Exception):  # already closed or closing failed, nothing we can do
             self.close()
-
-        except Exception:  # nosec: B110 # noqa: S110
-            pass  # already closed or closing failed, nothing we can do
 
     def _get_future_result(self, future: Future) -> tuple[bool, Any]:
         try:
