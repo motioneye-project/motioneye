@@ -24,6 +24,7 @@ import re
 import subprocess
 from collections import deque
 from collections.abc import Awaitable, Callable
+from contextlib import suppress
 from datetime import datetime, timedelta
 from errno import EAGAIN, ENOENT
 from hashlib import sha1
@@ -614,11 +615,8 @@ def make_movie_preview(camera_config: dict, rel_path: str) -> str | None:
 
     if st.st_size == 0:
         logging.error(f'failed to create movie preview for {full_path}')
-        try:
+        with suppress(Exception):  # nothing we can do about it
             os.remove(thumb_path)
-
-        except Exception:  # nosec: B110 # noqa: S110
-            pass  # nothing we can do about it
 
         return None
 
@@ -710,12 +708,9 @@ def list_media(
 
         def on_timeout() -> None:
             logging.error('timeout waiting for the media listing process to finish')
-            try:
+            with suppress(Exception):  # nevermind
                 if process.pid is not None:
                     os.kill(process.pid, SIGKILL)
-
-            except Exception:  # nosec: B110 # noqa: S110
-                pass  # nevermind
 
             done(None)
 
@@ -815,11 +810,8 @@ def get_zipped_content(camera_config: dict, media_type: str, group: str) -> Awai
 
             else:  # process did not finish in time
                 logging.error('timeout waiting for the zip process to finish')
-                try:
+                with suppress(Exception):  # nevermind
                     os.kill(process.pid, SIGTERM)
-
-                except Exception:  # nosec: B110 # noqa: S110
-                    pass  # nevermind
 
                 fut.set_result(None)
 
@@ -890,11 +882,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
 
             else:  # process did not finish in time
                 logging.error('timeout waiting for the media listing process to finish')
-                try:
+                with suppress(Exception):  # nevermind
                     os.kill(_timelapse_process.pid, SIGTERM)
-
-                except Exception:  # nosec: B110 # noqa: S110
-                    pass  # nevermind
 
                 _timelapse_process.progress = -1
 
@@ -1061,11 +1050,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                 )
                 _timelapse_data = None
 
-                try:
+                with suppress(Exception):  # nothing we can do about it
                     os.remove(tmp_filename)
-
-                except Exception:  # nosec: B110 # noqa: S110
-                    pass  # nothing we can do about it
 
             else:
                 logging.debug(
@@ -1086,11 +1072,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                     )
 
                 finally:
-                    try:
+                    with suppress(Exception):  # nothing we can do about it
                         os.remove(tmp_filename)
-
-                    except Exception:  # nosec: B110 # noqa: S110
-                        pass  # nothing we can do about it
 
     poll_media_list_process()
 
@@ -1176,11 +1159,8 @@ def del_media_content(camera_config: dict, path: str):
         os.remove(full_path)
 
         # remove the thumb file
-        try:
+        with suppress(Exception):  # thumb file may not exist
             os.remove(full_path + '.thumb')
-
-        except Exception:  # nosec: B110 # noqa: S110
-            pass  # thumb file may not exist
 
         # remove the parent directories if empty or contains only thumb files
         dir_path = os.path.dirname(full_path)
