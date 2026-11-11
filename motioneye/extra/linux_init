@@ -2,10 +2,12 @@
 
 set -e
 
-if (( UID )); then
-  echo 'ERROR: Root permissions required. Please run this command as root user, via "sudo" or "su". Aborting ...'
+Error_Out(){
+  echo "ERROR: $1 Aborting ..." >&2
   exit 1
-fi
+}
+
+(( UID )) && Error_Out 'Root permissions required. Please run this command as root user, via "sudo" or "su".'
 
 # Process CLI arguments
 SKIP_SYSTEMD=0
@@ -15,14 +17,30 @@ while (( $# )); do
   case "$1" in
     '--skip-systemd') SKIP_SYSTEMD=1;;
     '--skip-apt-update') SKIP_APT_UPDATE=1;;
-    '--meyectl') (( $# > 1 )) || { echo 'ERROR: Missing path after "--meyectl". Aborting ...'; exit 1; }; MEYECTL=$2; shift;;
-    *) echo "ERROR: Invalid command-line argument \"$1\". Aborting ..."; exit 1;;
+    '--meyectl') (( $# > 1 )) || Error_Out 'Missing path after "--meyectl".'; MEYECTL=$2; shift;;
+    *) Error_Out "Invalid command-line argument \"$1\".";;
   esac
   shift
 done
-if [[ $MEYECTL && ! ( -f $MEYECTL && -x $MEYECTL ) ]]; then
-  echo "ERROR: meyectl executable \"$MEYECTL\" given with --meyectl does not exist. Aborting ..."
-  exit 1
+
+# Check meyectl path for the systemd unit
+if (( ! SKIP_SYSTEMD )); then
+  if [[ $MEYECTL ]]; then
+    [[ -f $MEYECTL ]] || Error_Out "meyectl executable \"$MEYECTL\" given with --meyectl does not exist."
+    [[ -x $MEYECTL ]] || Error_Out "meyectl file \"$MEYECTL\" given with --meyectl is not executable."
+  else
+    MEYECTL=$(command -v meyectl) || :
+    if [[ ! $MEYECTL ]]; then
+      if [[ -f '/usr/local/bin/meyectl' ]]; then
+        MEYECTL='/usr/local/bin/meyectl'
+        [[ -x $MEYECTL ]] || Error_Out "$MEYECTL is not executable. Please check your motionEye installation."
+      else
+        Error_Out 'meyectl executable has not been found. Please check your motionEye installation.'
+      fi
+    fi
+  fi
+  MEYECTL=$(realpath "$MEYECTL")
+  [[ $MEYECTL =~ ^/(home|root)/ ]] && Error_Out 'This venv is located in a user home directory below /home or /root. This is not supported, as it violates basic security concepts. Move the venv to an appropriate directory like /opt, which is better suited for access by system services.'
 fi
 
 # Install dependencies
@@ -68,9 +86,9 @@ else
   motion v4l-utils ffmpeg curl'
 fi
 
-# Stop and disable conflicting motion.service
+# Stop and mask conflicting motion.service
 if systemctl -q is-active motion 2> /dev/null || systemctl -q is-enabled motion 2> /dev/null; then
-  systemctl disable --now motion
+  systemctl mask --now motion
 fi
 
 # Pre-create config and data dirs and install configuration files
@@ -84,24 +102,16 @@ else
 fi
 chown -R motion:motion /etc/motioneye
 # The settings may contain credentials (motion_control_authentication), and motionEye is not supposed to write to this file
-chown root:motion /etc/motioneye/motioneye.conf
+chown 0:motion /etc/motioneye/motioneye.conf
 chmod 0640 /etc/motioneye/motioneye.conf
 
 (( SKIP_SYSTEMD )) && exit 0
 
 # Install service
 cp extra/motioneye.systemd /etc/systemd/system/motioneye.service
-# - Update meyectl path if given, e.g. by motioneye_init from a venv, or if expected /usr/local/bin/meyectl does not exist, found on Arch Linux: https://github.com/motioneye-project/motioneye/issues/3005
-if [[ $MEYECTL || ! -f '/usr/local/bin/meyectl' ]]
-then
-  if meyectl_path=${MEYECTL:-$(command -v meyectl)}
-  then
-    echo "Using $meyectl_path for systemd service"
-    sed -i "s|^ExecStart=/usr/local/bin/meyectl|ExecStart=$meyectl_path|" /etc/systemd/system/motioneye.service
-  else
-    echo 'ERROR: meyectl executable has not been found. systemd service will fail to start. Please check your motionEye installation.'
-  fi
-fi
+# - Update meyectl path
+sed -i "s|^ExecStart=/usr/local/bin/meyectl|ExecStart=$MEYECTL|" /etc/systemd/system/motioneye.service
+
 systemctl daemon-reload
 systemctl enable motioneye
 systemctl restart motioneye
