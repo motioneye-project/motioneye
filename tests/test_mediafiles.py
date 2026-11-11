@@ -1062,6 +1062,36 @@ class ListMediaParallelTest(AsyncTestCase):
         self.assertEqual(2, mediafiles._listings_running)
 
     @gen_test
+    async def test_a_cancelled_listing_does_not_stall_the_queue(self):
+        futures = [self.list() for _ in range(3)]
+        started = _FakeListingProcess.started
+        futures[0].cancel()  # e.g. its caller stopped waiting
+
+        started[0].alive = False
+        await asyncio.sleep(0.6)  # the next poll sees it finished
+
+        self.assertEqual(3, len(started))  # the one waiting took the freed slot
+        self.assertEqual(2, mediafiles._listings_running)
+
+    @gen_test
+    async def test_giving_up_on_a_cancelled_listing_does_not_fail(self):
+        mediafiles._listings_running = 2
+        with (
+            patch.object(mediafiles.settings, 'LIST_MEDIA_TIMEOUT', 0.3),
+            self.assertLogs(level='ERROR') as logs,
+        ):
+            fut = self.list()
+            fut.cancel()
+            await asyncio.sleep(0.5)
+
+        # the timeout only, no exception from a callback
+        self.assertEqual(
+            ['timeout waiting for a media listing slot'],
+            [record.getMessage() for record in logs.records],
+        )
+        self.assertEqual(0, len(mediafiles._listings_waiting))
+
+    @gen_test
     async def test_failed_starts_free_the_slot_without_recursing(self):
         _FakeListingProcess.fail_start = True
         futures = [self.list() for _ in range(600)]
