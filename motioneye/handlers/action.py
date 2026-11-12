@@ -122,6 +122,5 @@ class ActionHandler(BaseHandler):
 
             return self.finish_json({'status': exit_status})
 
-        else:
-            self.io_loop.call_later(0.1, self.check_command)
-            return None
+        self.io_loop.call_later(0.1, self.check_command)
+        return None

@@ -333,7 +333,7 @@ def build_digest_header(method, url, username, password, state):
     def hash_utf8(x):
         if isinstance(x, str):
             x = x.encode()
-        return hashlib.new(hash_name, x).hexdigest()  # nosec: B324
+        return hashlib.new(hash_name, x).hexdigest()
 
     def KD(s, d):
         return hash_utf8(f"{s}:{d}")
@@ -416,7 +416,7 @@ def urlopen(request: Request, *, verify: bool = True, **kwargs) -> HTTPResponse:
         context.verify_mode = ssl.CERT_NONE
         kwargs['context'] = context
 
-    return _urlopen(request, **kwargs)  # nosec: B310
+    return _urlopen(request, **kwargs)  # noqa: S310
 
 
 def build_editable_mask_file(
@@ -524,9 +524,7 @@ def build_mask_file_name(camera_id, mask_class):
         if mask_class == 'motion'
         else f'mask_{camera_id}_{mask_class}.pgm'
     )
-    full_path = os.path.join(settings.CONF_PATH, file_name)
-
-    return full_path
+    return os.path.join(settings.CONF_PATH, file_name)
 
 
 def parse_editable_mask_file(
@@ -667,7 +665,7 @@ def call_subprocess(
         stdout=stdout,
         stderr=stderr,
         capture_output=capture_output,
-        shell=shell,  # nosec: B602
+        shell=shell,
         cwd=cwd,
         timeout=timeout,
         check=check,

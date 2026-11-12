@@ -103,7 +103,7 @@ async def _switch_motion_detection_status(
 
         return await motionctl.set_motion_detection(camera_id, 'pause')
 
-    elif not motion_detection_resp.enabled and must_be_enabled:
+    if not motion_detection_resp.enabled and must_be_enabled:
         logging.debug(
             f'must enable motion detection for camera with id {camera_id} ({working_schedule_type} working schedule)'
         )

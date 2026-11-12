@@ -24,8 +24,8 @@ import warnings
 from abc import ABC, abstractmethod
 from base64 import b64decode, b64encode
 from datetime import datetime
-from ftplib import FTP as FTPc  # nosec: B402
-from ftplib import FTP_TLS as FTPTLSc  # nosec: B402
+from ftplib import FTP as FTPc
+from ftplib import FTP_TLS as FTPTLSc
 from hashlib import md5, sha256
 from inspect import isabstract
 from io import BytesIO, StringIO
@@ -438,8 +438,8 @@ class GoogleDrive(GoogleBase):
 
             return parent_id
 
-        else:  # root folder
-            return self._get_folder_id_by_name(None, 'root')
+        # root folder
+        return self._get_folder_id_by_name(None, 'root')
 
     def _get_folder_id_by_name(
         self, parent_id: str | None, child_name: str, create: bool | None = True
@@ -479,10 +479,9 @@ class GoogleDrive(GoogleBase):
                 self._create_folder(parent_id, child_name)
                 return self._get_folder_id_by_name(parent_id, child_name, create=False)
 
-            else:
-                msg = f'folder with name "{child_name}" does not exist'
-                self.error(msg)
-                raise RuntimeError(msg)
+            msg = f'folder with name "{child_name}" does not exist'
+            self.error(msg)
+            raise RuntimeError(msg)
 
         return items[0]['id']
 
@@ -959,7 +958,7 @@ class _FTPTLSSessionReuse(FTPTLSc):
     and refuse the transfer otherwise; ftplib does not do it (python/cpython#63699)."""
 
     def ntransfercmd(self, cmd, rest=None):
-        conn, size = FTPc.ntransfercmd(self, cmd, rest)
+        conn, size = FTPc.ntransfercmd(self, cmd, rest)  # noqa: S321
         if self._prot_p:
             conn = self.context.wrap_socket(
                 conn, server_hostname=self.host, session=self.sock.session
@@ -1073,7 +1072,7 @@ class FTP(UploadService):
                     context.verify_mode = ssl.CERT_NONE
                 conn = _FTPTLSSessionReuse(context=context, timeout=self.SOCKET_TIMEOUT)
             else:
-                conn = FTPc(timeout=self.SOCKET_TIMEOUT)  # nosec: B321
+                conn = FTPc(timeout=self.SOCKET_TIMEOUT)  # noqa: S321
             conn.set_pasv(True)
             conn.connect(self._server, port=self._port)
             conn.login(self._username or 'anonymous', self._password)

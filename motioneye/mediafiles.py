@@ -470,7 +470,7 @@ def cleanup_media(media_type: str) -> None:
         if media_type == 'picture' and not still_images_enabled:
             continue  # only cleanup pictures for cameras with still images enabled
 
-        elif media_type == 'movie' and not movies_enabled:
+        if media_type == 'movie' and not movies_enabled:
             continue  # only cleanup movies for cameras with movies enabled
 
         preserve_moment = datetime.now() - timedelta(days=preserve_media)
@@ -519,8 +519,7 @@ def get_movie_duration_seconds(path: str) -> int:
 
     try:
         result = utils.call_subprocess(cmd, stderr=None)
-        duration_seconds = int(float(result))
-        return duration_seconds
+        return int(float(result))
 
     except Exception as e:
         logging.error(f'failed to determine duration of {path}: {e}')
@@ -1087,11 +1086,9 @@ def check_timelapse_movie():
         ):
             return {'progress': _timelapse_process.progress, 'data': None}
 
-        else:
-            return {'progress': _timelapse_process.progress, 'data': _timelapse_data}
+        return {'progress': _timelapse_process.progress, 'data': _timelapse_data}
 
-    else:
-        return {'progress': -1, 'data': _timelapse_data}
+    return {'progress': -1, 'data': _timelapse_data}
 
 
 def get_media_preview(

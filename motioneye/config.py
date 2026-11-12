@@ -721,7 +721,7 @@ SENDMAIL_KEYS = {
     'server': '@email_notifications_smtp_server',
     'port': '@email_notifications_smtp_port',
     'account': '@email_notifications_smtp_account',
-    'password': '@email_notifications_smtp_password',  # nosec: B105
+    'password': '@email_notifications_smtp_password',
     'tls': '@email_notifications_smtp_tls',
     'verify': '@email_notifications_smtp_verify',
     'sender': '@email_notifications_from',
@@ -919,9 +919,7 @@ def add_camera(device_details: dict) -> dict:
     _camera_ids_cache = None
     _camera_config_cache.clear()
 
-    camera_config = get_camera(camera_id)
-
-    return camera_config
+    return get_camera(camera_id)
 
 
 def rem_camera(camera_id: int) -> None:
@@ -1002,10 +1000,10 @@ def main_dict_to_ui(data: dict) -> dict:
     # input box in the frontend. If a password is set, transmit nothing, in
     # which case the input box will show "*****".
     if data['@admin_password'] == '':
-        ui['admin_password'] = ''  # nosec: B105
+        ui['admin_password'] = ''
 
     if data['@normal_password'] == '':
-        ui['normal_password'] = ''  # nosec: B105
+        ui['normal_password'] = ''
 
     ui['_client_secret'] = data.get('@client_secret', '')
 
@@ -1029,10 +1027,9 @@ def input_sanity_check(regex: str, value: str, key: str, msg: str) -> str:
     if match(regex, value):
         return value
 
-    else:
-        raise ValueError(
-            f'Value "{value}" for setting "{key}" did not match regex "{regex}": {msg}'
-        )
+    raise ValueError(
+        f'Value "{value}" for setting "{key}" did not match regex "{regex}": {msg}'
+    )
 
 
 def input_or_stored(ui: dict, key: str, prev_config: dict, default):
@@ -1474,6 +1471,11 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
 
     # event start
     on_event_start = [f"{meyectl.find_command('relayevent')} start %t"]
+    # motion runs these one after another, and the senders wait for the pictures
+    # of their time span, so the webhook comes first, not to be held up (#2543);
+    # the senders still come before the custom command, which could exit the
+    # shell or not return
+    senders = []
     # kept for a client that does not send the key
     stored_mail_verify = prev_config.get(SENDMAIL_KEYS['verify'])
     stored_text_first = prev_config.get(SENDTELEGRAM_KEYS['text_first'])
@@ -1512,7 +1514,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         )
         values['@email_notifications_addresses'] = emails
         values['@email_notifications_from'] = email_from
-        on_event_start.append(notification_command(data, 'sendmail', values))
+        senders.append(notification_command(data, 'sendmail', values))
 
     if ui['telegram_notifications_enabled']:
         values = {
@@ -1525,7 +1527,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
             str(ui.get('telegram_notifications_text_first', stored_text_first)).lower()
             == 'true'
         )
-        on_event_start.append(notification_command(data, 'sendtelegram', values))
+        senders.append(notification_command(data, 'sendtelegram', values))
 
     if ui['web_hook_notifications_enabled']:
         url = sub(
@@ -1554,6 +1556,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
             )
         )
 
+    on_event_start += senders
     if ui['command_notifications_enabled']:
         on_event_start += utils.split_semicolon(ui['command_notifications_exec'])
 
@@ -1810,8 +1813,8 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
     # Only transmit an empty string if no password is set, to show an empty
     # input box in the frontend. If a password is set, transmit nothing, in
     # which case the input box will show "*****".
-    if streaming_password == '':  # nosec: B105
-        ui['streaming_password'] = ''  # nosec: B105
+    if streaming_password == '':
+        ui['streaming_password'] = ''
 
     if utils.is_net_camera(data):
         ui['device_url'] = data['netcam_url']
@@ -2293,7 +2296,7 @@ def restore(content: bytes) -> dict | None:
                 if any(fnmatchcase(name, p) for p in patterns):
                     members.append(m)
 
-            tf.extractall(settings.CONF_PATH, members=members)  # nosec B202
+            tf.extractall(settings.CONF_PATH, members=members)  # noqa: S202
 
         logging.debug('configuration restored successfully')
 
@@ -2326,7 +2329,7 @@ def _value_to_python(value: str) -> bool | float | str:
     if value_lower == 'off':
         return False
 
-    elif value_lower == 'on':
+    if value_lower == 'on':
         return True
 
     try:
@@ -2344,17 +2347,16 @@ def _python_to_value(value: bool | float | str) -> str:
     if value is True:
         return 'on'
 
-    elif value is False:
+    if value is False:
         return 'off'
 
-    elif isinstance(value, (int, float)):
+    if isinstance(value, (int, float)):
         return str(value)
 
-    elif isinstance(value, str):
+    if isinstance(value, str):
         return value.replace('\r', ' ').replace('\n', ' ')
 
-    else:
-        return value
+    return value
 
 
 def _conf_to_dict(
