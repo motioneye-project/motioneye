@@ -45,7 +45,9 @@ def list_devices():
 
     try:
         output = utils.call_subprocess(
-            ['v4l2-ctl', '--list-devices'], stderr=subprocess.STDOUT
+            ['v4l2-ctl', '--list-devices'],
+            stderr=subprocess.STDOUT,
+            env=utils.libcamera_v4l2_env(),
         )
 
     except Exception:
@@ -88,7 +90,9 @@ def list_resolutions(device):
     logging.debug(f'running command "{cmd}"')
 
     try:
-        output = utils.call_subprocess(cmd, shell=True, check=False)  # noqa: S604
+        output = utils.call_subprocess(  # noqa: S604
+            cmd, shell=True, check=False, env=utils.libcamera_v4l2_env()
+        )
 
     except Exception:
         logging.error(f'failed to list resolutions of device "{device}"')
@@ -169,7 +173,9 @@ def list_ctrls(device):
     logging.debug(f'running command "{" ".join(cmd)}"')
 
     try:
-        output = utils.call_subprocess(cmd, stderr=subprocess.STDOUT)
+        output = utils.call_subprocess(
+            cmd, stderr=subprocess.STDOUT, env=utils.libcamera_v4l2_env()
+        )
     except Exception:
         logging.error(f'failed to list controls of device "{device}"')
 

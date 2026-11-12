@@ -124,7 +124,12 @@ def start(deferred=False):
         output = None
 
     process = Popen(
-        args, stdout=output, stderr=output, close_fds=True, cwd=settings.CONF_PATH
+        args,
+        stdout=output,
+        stderr=output,
+        close_fds=True,
+        cwd=settings.CONF_PATH,
+        env=utils.libcamera_v4l2_env(),
     )
 
     # wait 2 seconds to see that the process has successfully started

@@ -425,25 +425,6 @@ def configure_multiprocessing():
     multiprocessing.set_start_method('fork', force=True)
 
 
-_LIBCAMERIFY_ENV = 'MOTIONEYE_LIBCAMERIFY'
-
-
-def run_under_libcamerify():
-    # Raspberry Pi camera modules on the libcamera stack are reached through
-    # libcamerify's V4L2 layer; the whole server runs under it, so that motion and
-    # the v4l2-ctl calls of the camera detection see the camera the same way
-    path = settings.LIBCAMERIFY
-    if not path or os.environ.get(_LIBCAMERIFY_ENV) == path:
-        return
-
-    if not os.access(path, os.X_OK):
-        logging.error(f'libcamerify not found at {path}, starting without it')
-        return
-
-    os.environ[_LIBCAMERIFY_ENV] = path  # set once, not again under libcamerify
-    os.execv(path, [path, sys.executable, *sys.argv])  # noqa: S606
-
-
 def main():
     for a in sys.argv:
         if a == '-v':
@@ -456,9 +437,6 @@ def main():
     load_settings()
 
     command = sys.argv[1]
-    if command == 'startserver':
-        run_under_libcamerify()
-
     arg_parser = make_arg_parser(command)
 
     load_l10n()

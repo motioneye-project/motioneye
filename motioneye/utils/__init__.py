@@ -676,6 +676,39 @@ def call_subprocess(
     ).stdout.strip()
 
 
+_libcamera_v4l2_missing_reported = False
+
+
+def libcamera_v4l2_env() -> dict[str, str] | None:
+    """The environment for motion and v4l2-ctl, with libcamera's V4L2 layer preloaded
+
+    Raspberry Pi camera modules on the libcamera camera stack are seen as V4L2
+    devices through it (what libcamerify does). None, to inherit motionEye's own,
+    when libcamera_v4l2 is not set or the file is missing.
+    """
+    global _libcamera_v4l2_missing_reported
+
+    path = settings.LIBCAMERA_V4L2
+    if not path:
+        return None
+
+    if not os.path.isfile(path):
+        if not _libcamera_v4l2_missing_reported:
+            logging.error(f'libcamera_v4l2: {path} not found, starting without it')
+            _libcamera_v4l2_missing_reported = True
+
+        return None
+
+    env = dict(os.environ)
+    preload = [p for p in re.split(r'[\s:]+', env.get('LD_PRELOAD', '')) if p]
+    # already preloaded, e.g. with motionEye itself started under libcamerify
+    if not any(os.path.basename(p) == 'v4l2-compat.so' for p in preload):
+        preload.append(path)
+
+    env['LD_PRELOAD'] = ' '.join(preload)
+    return env
+
+
 def validate_paths(
     *paths: str | None,
     camera_id: str | None = None,

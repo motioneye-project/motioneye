@@ -13,13 +13,13 @@ Error_Out(){
 SKIP_SYSTEMD=0
 SKIP_APT_UPDATE=0
 MEYECTL=''
-LIBCAMERIFY=''
+LIBCAMERA=''
 while (( $# )); do
   case "$1" in
     '--skip-systemd') SKIP_SYSTEMD=1;;
     '--skip-apt-update') SKIP_APT_UPDATE=1;;
-    '--libcamerify') LIBCAMERIFY=1;;
-    '--no-libcamerify') LIBCAMERIFY=0;;
+    '--libcamera') LIBCAMERA=1;;
+    '--no-libcamera') LIBCAMERA=0;;
     '--meyectl') (( $# > 1 )) || Error_Out 'Missing path after "--meyectl".'; MEYECTL=$2; shift;;
     *) Error_Out "Invalid command-line argument \"$1\".";;
   esac
@@ -46,12 +46,12 @@ if (( ! SKIP_SYSTEMD )); then
   [[ $MEYECTL =~ ^/(home|root)/ ]] && Error_Out 'This venv is located in a user home directory below /home or /root. This is not supported, as it violates basic security concepts. Move the venv to an appropriate directory like /opt, which is better suited for access by system services.'
 fi
 
-# Run motionEye under libcamerify, for Raspberry Pi camera modules on the libcamera camera stack
-if [[ ! $LIBCAMERIFY ]]; then
-  LIBCAMERIFY=0
+# Preload libcamera's V4L2 layer for motion and v4l2-ctl, for Raspberry Pi camera modules on the libcamera camera stack
+if [[ ! $LIBCAMERA ]]; then
+  LIBCAMERA=0
   if [[ -t 0 ]] && grep -qa 'Raspberry Pi' /proc/device-tree/model 2> /dev/null; then
-    read -rp 'Raspberry Pi detected. Use a camera module through libcamerify (installs libcamera-tools)? [y/N] ' REPLY
-    [[ $REPLY == [Yy]* ]] && LIBCAMERIFY=1
+    read -rp 'Raspberry Pi detected. Use a camera module through libcamera (installs libcamera-v4l2)? [y/N] ' REPLY
+    [[ $REPLY == [Yy]* ]] && LIBCAMERA=1
   fi
 fi
 
@@ -88,9 +88,9 @@ if command -v apt-get > /dev/null; then
   else
     echo 'WARNING: Distribution version could not be detected, installing motion from APT repository'
   fi
-  LIBCAMERA=()
-  (( LIBCAMERIFY )) && LIBCAMERA=('libcamera-tools' 'libcamera-v4l2')
-  DEBIAN_FRONTEND='noninteractive' apt-get -y --no-install-recommends install "${MOTION}" v4l-utils ffmpeg curl "${LIBCAMERA[@]}"
+  LIBCAMERA_PACKAGES=()
+  (( LIBCAMERA )) && LIBCAMERA_PACKAGES=('libcamera-v4l2')
+  DEBIAN_FRONTEND='noninteractive' apt-get -y --no-install-recommends install "${MOTION}" v4l-utils ffmpeg curl "${LIBCAMERA_PACKAGES[@]}"
   [[ $TMPDIR ]] && rm -R "$TMPDIR"
 elif command -v yum > /dev/null; then
   echo 'INFO: YUM-based distribution detected, installing motionEye dependencies'
@@ -118,16 +118,17 @@ chown -R motion:motion /etc/motioneye
 # The settings may contain credentials (motion_control_authentication), and motionEye is not supposed to write to this file
 chown 0:motion /etc/motioneye/motioneye.conf
 chmod 0640 /etc/motioneye/motioneye.conf
-if (( LIBCAMERIFY )); then
-  if [[ ! -x '/usr/bin/libcamerify' ]]; then
-    echo 'WARNING: /usr/bin/libcamerify has not been found, please install it (libcamera-tools package) and set "libcamerify" in /etc/motioneye/motioneye.conf'
-  elif ! grep -q '^libcamerify ' /etc/motioneye/motioneye.conf; then
-    echo 'INFO: Enabling libcamerify in /etc/motioneye/motioneye.conf'
-    if grep -q '^#libcamerify ' /etc/motioneye/motioneye.conf; then
-      sed -i '/^#libcamerify /c\libcamerify /usr/bin/libcamerify' /etc/motioneye/motioneye.conf
+if (( LIBCAMERA )); then
+  V4L2_COMPAT=$(dpkg -L libcamera-v4l2 2> /dev/null | grep -m1 '/v4l2-compat\.so$' || :)
+  if [[ ! -f $V4L2_COMPAT ]]; then
+    echo 'WARNING: v4l2-compat.so has not been found, please install the libcamera-v4l2 package and set "libcamera_v4l2" in /etc/motioneye/motioneye.conf to its path'
+  elif ! grep -q '^libcamera_v4l2 ' /etc/motioneye/motioneye.conf; then
+    echo "INFO: Enabling libcamera's V4L2 layer in /etc/motioneye/motioneye.conf"
+    if grep -q '^#libcamera_v4l2 ' /etc/motioneye/motioneye.conf; then
+      sed -i "/^#libcamera_v4l2 /c\libcamera_v4l2 $V4L2_COMPAT" /etc/motioneye/motioneye.conf
     else
       [[ -n $(tail -c1 /etc/motioneye/motioneye.conf) ]] && echo >> /etc/motioneye/motioneye.conf
-      echo 'libcamerify /usr/bin/libcamerify' >> /etc/motioneye/motioneye.conf
+      echo "libcamera_v4l2 $V4L2_COMPAT" >> /etc/motioneye/motioneye.conf
     fi
   fi
 fi
