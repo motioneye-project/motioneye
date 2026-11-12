@@ -283,7 +283,7 @@ def _send_entries(pipe, entries: list[dict]) -> None:
     """Send the entries as one message, or in halves while that is too big for one
     atomic pipe write. Only a single entry bigger than that, with a path of some
     kB, is sent as it is."""
-    data = ForkingPickler.dumps(entries)  # as pipe.send() does
+    data = bytes(ForkingPickler.dumps(entries))  # pickled as pipe.send() does
     if len(data) > _LIST_MESSAGE_MAX and len(entries) > 1:
         half = len(entries) // 2
         _send_entries(pipe, entries[:half])

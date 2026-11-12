@@ -1133,7 +1133,7 @@ class ListMediaChunksTest(unittest.TestCase):
 
     @staticmethod
     def _messages(pipe):
-        return [bytes(call.args[0]) for call in pipe.send_bytes.call_args_list]
+        return [call.args[0] for call in pipe.send_bytes.call_args_list]
 
     def _list(self, names):
         target_dir = mkdtemp()
