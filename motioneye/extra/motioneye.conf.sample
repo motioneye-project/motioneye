@@ -44,7 +44,8 @@ port 8765
 # path to libcamerify (from the libcamera-tools package), for Raspberry Pi camera
 # modules on the libcamera camera stack, added as V4L2 cameras: motionEye then runs
 # under it, so motion and the camera detection see the camera through libcamera's
-# V4L2 layer; needs motion 4.7.0 or newer
+# V4L2 layer; motion 4.7.0 or newer is recommended: older versions leave zombie
+# processes behind, and before 4.6.0 they fail on arm64
 #libcamerify /usr/bin/libcamerify
 
 # whether motion HTTP control interface listens on
