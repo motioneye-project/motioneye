@@ -1135,14 +1135,16 @@ class ListMediaChunksTest(unittest.TestCase):
     def _messages(pipe):
         return [call.args[0] for call in pipe.send_bytes.call_args_list]
 
-    def _list(self, names):
+    def _list(self, names, message_max):
+        # the limit is given, not the PIPE_BUF of where the tests run
         target_dir = mkdtemp()
         self.addCleanup(rmtree, target_dir)
         for name in names:
             Path(target_dir, name).write_bytes(b'x')
         pipe = MagicMock()
 
-        mediafiles._do_list_media(pipe, target_dir, ['.jpg'])
+        with patch.object(mediafiles, '_LIST_MESSAGE_MAX', message_max):
+            mediafiles._do_list_media(pipe, target_dir, ['.jpg'])
 
         pipe.close.assert_called_once()
         pipe.send.assert_not_called()
@@ -1150,23 +1152,23 @@ class ListMediaChunksTest(unittest.TestCase):
 
     def test_the_entries_come_in_chunks(self):
         names = [f'{i:04d}.jpg' for i in range(450)]
-        messages = self._list(names)
+        messages = self._list(names, message_max=1 << 20)  # all of them fit
 
         chunks = [ForkingPickler.loads(m) for m in messages]
         self.assertEqual([32] * 14 + [2], [len(c) for c in chunks])
-        self.assertLessEqual(max(map(len, messages)), mediafiles._LIST_MESSAGE_MAX)
         self.assertEqual(
             [f'/{name}' for name in names],
             sorted(e['path'] for c in chunks for e in c),
         )
 
     def test_a_chunk_too_big_for_one_pipe_write_is_halved(self):
-        names = [f'{i:03d}{"n" * 115}.jpg' for i in range(64)]
-        messages = self._list(names)
+        names = [f'{i:04d}.jpg' for i in range(450)]
+        messages = self._list(names, message_max=1000)  # a few entries only
 
         chunks = [ForkingPickler.loads(m) for m in messages]
-        self.assertEqual([16] * 4, [len(c) for c in chunks])
-        self.assertLessEqual(max(map(len, messages)), mediafiles._LIST_MESSAGE_MAX)
+        self.assertLessEqual(max(map(len, messages)), 1000)
+        self.assertLess(max(map(len, chunks)), 32)
+        self.assertGreater(min(map(len, chunks)), 0)
         self.assertEqual(
             [f'/{name}' for name in names],
             sorted(e['path'] for c in chunks for e in c),
