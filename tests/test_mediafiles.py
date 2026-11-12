@@ -17,9 +17,11 @@ from __future__ import annotations
 
 import asyncio
 import os
+import struct
 import unittest
 from datetime import datetime
 from multiprocessing.connection import Connection
+from multiprocessing.reduction import ForkingPickler
 from pathlib import Path
 from shutil import rmtree
 from tempfile import mkdtemp
@@ -956,6 +958,11 @@ class _FakeListingProcess:
         self.exitcode = exitcode
         self.pipe.close()
 
+    def die_in_a_message(self):
+        # the length of a message of 100 bytes, of which only 3 follow
+        os.write(self.pipe.fileno(), struct.pack('!i', 100) + b'abc')
+        self.finish(exitcode=-9)
+
 
 class ListMediaParallelTest(AsyncTestCase):
     """At most LIST_MEDIA_MAX_PARALLEL listings run at a time; the others wait."""
@@ -1026,6 +1033,21 @@ class ListMediaParallelTest(AsyncTestCase):
         _FakeListingProcess.started[0].finish([[{'path': '/a'}]], exitcode=-9)
         await asyncio.sleep(0.1)
 
+        self.assertIsNone(fut.result())
+        self.assertEqual(0, mediafiles._listings_running)
+
+    @gen_test
+    async def test_a_child_that_died_in_a_message_answers_none(self):
+        fut = self.list()
+        with self.assertLogs(level='ERROR') as logs:
+            _FakeListingProcess.started[0].die_in_a_message()
+            await asyncio.sleep(0.1)
+
+        # the exit code only, no exception from the pipe's handler
+        self.assertEqual(
+            ['media listing process ended with code -9'],
+            [record.getMessage() for record in logs.records],
+        )
         self.assertIsNone(fut.result())
         self.assertEqual(0, mediafiles._listings_running)
 
@@ -1106,24 +1128,58 @@ class ListMediaParallelTest(AsyncTestCase):
 
 
 class ListMediaChunksTest(unittest.TestCase):
-    """The listing subprocess sends its entries in chunks, not one by one."""
+    """The listing subprocess sends its entries several a message, and no message
+    is bigger than one atomic pipe write."""
 
-    def test_the_entries_come_in_chunks(self):
+    @staticmethod
+    def _messages(pipe):
+        return [bytes(call.args[0]) for call in pipe.send_bytes.call_args_list]
+
+    def _list(self, names):
         target_dir = mkdtemp()
         self.addCleanup(rmtree, target_dir)
-        for i in range(450):
-            Path(target_dir, f'{i:04d}.jpg').write_bytes(b'x')
+        for name in names:
+            Path(target_dir, name).write_bytes(b'x')
         pipe = MagicMock()
 
         mediafiles._do_list_media(pipe, target_dir, ['.jpg'])
 
-        chunks = [call.args[0] for call in pipe.send.call_args_list]
-        self.assertEqual([200, 200, 50], [len(c) for c in chunks])
+        pipe.close.assert_called_once()
+        pipe.send.assert_not_called()
+        return self._messages(pipe)
+
+    def test_the_entries_come_in_chunks(self):
+        names = [f'{i:04d}.jpg' for i in range(450)]
+        messages = self._list(names)
+
+        chunks = [ForkingPickler.loads(m) for m in messages]
+        self.assertEqual([32] * 14 + [2], [len(c) for c in chunks])
+        self.assertLessEqual(max(map(len, messages)), mediafiles._LIST_MESSAGE_MAX)
         self.assertEqual(
-            [f'/{i:04d}.jpg' for i in range(450)],
+            [f'/{name}' for name in names],
             sorted(e['path'] for c in chunks for e in c),
         )
-        pipe.close.assert_called_once()
+
+    def test_a_chunk_too_big_for_one_pipe_write_is_halved(self):
+        names = [f'{i:03d}{"n" * 115}.jpg' for i in range(64)]
+        messages = self._list(names)
+
+        chunks = [ForkingPickler.loads(m) for m in messages]
+        self.assertEqual([16] * 4, [len(c) for c in chunks])
+        self.assertLessEqual(max(map(len, messages)), mediafiles._LIST_MESSAGE_MAX)
+        self.assertEqual(
+            [f'/{name}' for name in names],
+            sorted(e['path'] for c in chunks for e in c),
+        )
+
+    def test_an_entry_too_big_for_one_pipe_write_is_sent_alone(self):
+        entries = [{'path': '/' + c * 5000} for c in 'ab']
+        pipe = MagicMock()
+
+        mediafiles._send_entries(pipe, entries)
+
+        chunks = [ForkingPickler.loads(m) for m in self._messages(pipe)]
+        self.assertEqual([[entries[0]], [entries[1]]], chunks)
 
 
 if __name__ == '__main__':

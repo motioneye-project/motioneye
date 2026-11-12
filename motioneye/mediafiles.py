@@ -29,6 +29,8 @@ from datetime import datetime, timedelta
 from errno import EAGAIN, ENOENT
 from hashlib import sha1
 from io import BytesIO
+from multiprocessing.reduction import ForkingPickler
+from select import PIPE_BUF
 from signal import SIGKILL, SIGTERM
 from time import time
 from typing import Any
@@ -46,7 +48,11 @@ _MOVIE_EXTS = ['.avi', '.mp4', '.mov', '.swf', '.flv', '.mkv', '.mpg']
 
 # entries per message from the listing subprocess: one per file made the child wait
 # for the parent at every pipe buffer, the whole list at once costs it the memory
-_LIST_CHUNK = 200
+_LIST_CHUNK = 32
+# a message has to fit one pipe write of PIPE_BUF bytes, which is atomic: the parent
+# then never finds a part of a message in the pipe, to wait for the rest of it
+# (4 bytes are the length that multiprocessing puts in front)
+_LIST_MESSAGE_MAX = PIPE_BUF - 4
 
 FFMPEG_CODEC_MAPPING = {
     'mpeg4': 'mpeg4',
@@ -273,6 +279,20 @@ def _remove_older_files(
         uploadservices.clean_cloud(directory, {}, clean_cloud_info)
 
 
+def _send_entries(pipe, entries: list[dict]) -> None:
+    """Send the entries as one message, or in halves while that is too big for one
+    atomic pipe write. Only a single entry bigger than that, with a path of some
+    kB, is sent as it is."""
+    data = ForkingPickler.dumps(entries)  # as pipe.send() does
+    if len(data) > _LIST_MESSAGE_MAX and len(entries) > 1:
+        half = len(entries) // 2
+        _send_entries(pipe, entries[:half])
+        _send_entries(pipe, entries[half:])
+        return
+
+    pipe.send_bytes(data)
+
+
 def _do_list_media(
     pipe,
     target_dir: str,
@@ -322,11 +342,11 @@ def _do_list_media(
             chunk.append({'path': path})
 
         if len(chunk) >= _LIST_CHUNK:
-            pipe.send(chunk)
+            _send_entries(pipe, chunk)
             chunk = []
 
     if chunk:
-        pipe.send(chunk)
+        _send_entries(pipe, chunk)
 
     pipe.close()
 
@@ -691,7 +711,7 @@ def list_media(
                 while parent_pipe.poll():
                     media_list.extend(parent_pipe.recv())
 
-            except EOFError:  # finished, or killed, e.g. for lack of memory
+            except (EOFError, OSError):  # finished, or killed, e.g. for lack of memory
                 process.join()
                 if process.exitcode != 0:
                     logging.error(
