@@ -59,10 +59,9 @@ class RelayEventHandler(BaseHandler):
             self.finish_json()
             return None
 
-        else:
-            logging.debug(
-                f'received relayed event {event} for motion camera id {motion_camera_id} (camera id {camera_id})'
-            )
+        logging.debug(
+            f'received relayed event {event} for motion camera id {motion_camera_id} (camera id {camera_id})'
+        )
 
         camera_config: dict = config.get_camera(camera_id)
         if not utils.is_local_motion_camera(camera_config):

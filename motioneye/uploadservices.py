@@ -438,8 +438,8 @@ class GoogleDrive(GoogleBase):
 
             return parent_id
 
-        else:  # root folder
-            return self._get_folder_id_by_name(None, 'root')
+        # root folder
+        return self._get_folder_id_by_name(None, 'root')
 
     def _get_folder_id_by_name(
         self, parent_id: str | None, child_name: str, create: bool | None = True
@@ -479,10 +479,9 @@ class GoogleDrive(GoogleBase):
                 self._create_folder(parent_id, child_name)
                 return self._get_folder_id_by_name(parent_id, child_name, create=False)
 
-            else:
-                msg = f'folder with name "{child_name}" does not exist'
-                self.error(msg)
-                raise RuntimeError(msg)
+            msg = f'folder with name "{child_name}" does not exist'
+            self.error(msg)
+            raise RuntimeError(msg)
 
         return items[0]['id']
 

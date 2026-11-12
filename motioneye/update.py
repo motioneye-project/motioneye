@@ -70,14 +70,13 @@ def compare_versions(version1: str, version2: str) -> int:
         if p1 < p2:
             return -1
 
-        elif p1 > p2:
+        if p1 > p2:
             return 1
 
     if len1 < len2:
         return -1
 
-    elif len1 > len2:
+    if len1 > len2:
         return 1
 
-    else:
-        return 0
+    return 0

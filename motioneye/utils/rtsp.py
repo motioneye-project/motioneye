@@ -84,8 +84,7 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
             logging.exception('[ON_CONNECT] Stream connection error occurred')
             if _timeout:
                 return handle_error('timeout connecting to rtsp netcam')
-            else:
-                return handle_error('failed to connect to rtsp netcam')
+            return handle_error('failed to connect to rtsp netcam')
         else:
             logging.debug('connected to rtsp netcam')
 

@@ -83,11 +83,11 @@ def _list_disks():
     if os.path.exists('/dev/disk/by-id/'):
         return _list_disks_dev_by_id()
 
-    elif sys.platform.startswith('freebsd'):
+    if sys.platform.startswith('freebsd'):
         return _list_disks_geom()
 
-    else:  # fall back to fdisk -l
-        return _list_disks_fdisk()
+    # fall back to fdisk -l
+    return _list_disks_fdisk()
 
 
 def _parse_geom_list(output: str) -> list[dict]:

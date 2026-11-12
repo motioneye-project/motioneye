@@ -146,9 +146,8 @@ class Daemon:
                     sys.stdout.write('server stopped\n')
                     break
 
-                else:
-                    sys.stderr.write(f'failed to terminate server: {e}\n')
-                    sys.exit(-11)
+                sys.stderr.write(f'failed to terminate server: {e}\n')
+                sys.exit(-11)
 
         else:
             sys.stderr.write('server failed to stop, killing it\n')

@@ -86,7 +86,7 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
             await StaticFileHandler.get(self, filename, include_body=include_body)
             return None
 
-        elif utils.is_remote_camera(camera_config):
+        if utils.is_remote_camera(camera_config):
             # we will cache the movie since it takes a while to fetch from the remote camera
             # and we may be going to play it back in the browser, which will fetch the video in chunks
             tmpfile: str = os.path.join(
@@ -117,8 +117,8 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
             await StaticFileHandler.get(self, tmpfile, include_body=include_body)
             return None
 
-        else:  # assuming simple mjpeg camera
-            raise HTTPError(400, 'unknown operation')
+        # assuming simple mjpeg camera
+        raise HTTPError(400, 'unknown operation')
 
     def on_finish(self):
         # delete any cached file older than an hour
