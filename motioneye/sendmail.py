@@ -135,10 +135,19 @@ def make_message(
             media_files.result() if hasattr(media_files, 'result') else media_files
         )
         if files is None:
-            logging.warning(
-                f'picture listing timed out after {settings.LIST_MEDIA_TIMEOUT}s; sending '
-                'notification without pictures; consider raising list_media_timeout_email'
-            )
+            # mediafiles has logged why; the hint only helps after a timeout
+            if time.monotonic() - listing_started >= settings.LIST_MEDIA_TIMEOUT:
+                logging.warning(
+                    f'picture listing timed out after {settings.LIST_MEDIA_TIMEOUT}s; '
+                    'sending notification without pictures; consider raising '
+                    'list_media_timeout_email'
+                )
+
+            else:
+                logging.warning(
+                    'picture listing failed; sending notification without pictures'
+                )
+
             files = []
 
         if files:
@@ -199,6 +208,7 @@ def make_message(
     # so let the listing skip the rest instead of formatting and piping a
     # whole day of snapshots
     event_timestamp: float = time.mktime(moment.timetuple())
+    listing_started = time.monotonic()
     fut = utils.cast_future(
         mediafiles.list_media(
             camera_config,

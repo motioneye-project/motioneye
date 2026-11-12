@@ -228,10 +228,19 @@ def make_message(
             media_files.result() if hasattr(media_files, 'result') else media_files
         )
         if files is None:
-            logging.warning(
-                f'picture listing timed out after {settings.LIST_MEDIA_TIMEOUT}s; sending '
-                'notification without pictures; consider raising list_media_timeout_telegram'
-            )
+            # mediafiles has logged why; the hint only helps after a timeout
+            if time.monotonic() - listing_started >= settings.LIST_MEDIA_TIMEOUT:
+                logging.warning(
+                    f'picture listing timed out after {settings.LIST_MEDIA_TIMEOUT}s; '
+                    'sending notification without pictures; consider raising '
+                    'list_media_timeout_telegram'
+                )
+
+            else:
+                logging.warning(
+                    'picture listing failed; sending notification without pictures'
+                )
+
             files = []
 
         if files:
@@ -273,6 +282,7 @@ def make_message(
 
     # only pictures within +/- timespan are used, see on_media_files()
     event_timestamp: float = time.mktime(moment.timetuple())
+    listing_started = time.monotonic()
     fut = utils.cast_future(
         mediafiles.list_media(
             camera_config,
