@@ -119,11 +119,17 @@ class BaseHandler(RequestHandler):
 
     def get_json(self):
         if not hasattr(self, '_json'):
-            self._json = None
-            if self.request.headers.get('Content-Type', '').startswith(
-                'application/json'
-            ):
-                self._json = json.loads(self.request.body)
+            data = None
+            # a request without a body has no JSON, whatever its Content-Type
+            if self.request.body and self.request.headers.get(
+                'Content-Type', ''
+            ).startswith('application/json'):
+                try:
+                    data = json.loads(self.request.body)
+                except ValueError:
+                    raise HTTPError(400, 'invalid json body') from None
+
+            self._json = data
 
         return self._json
 

@@ -4,6 +4,7 @@ from time import time
 from unittest.mock import MagicMock, patch
 
 import tornado.testing
+from tornado.web import HTTPError
 
 from motioneye import config
 from motioneye.handlers.base import _CSP, BaseHandler
@@ -31,8 +32,30 @@ class BaseHandlerTest(HandlerTestCase):
 
     def test_get_argument_invalid_json(self):
         handler = self.get_handler(MagicMock(body='{{{{'))
-        with self.assertRaises(json.decoder.JSONDecodeError):
+        with self.assertRaises(HTTPError) as cm:
             handler.get_argument('myarg')
+        self.assertEqual(400, cm.exception.status_code)
+
+    def test_get_argument_json_type_without_body(self):
+        handler = self.get_handler(
+            MagicMock(body=b'', headers={'Content-Type': 'application/json'})
+        )
+        self.assertIsNone(handler.get_argument('myarg'))
+
+    def test_get_with_json_type_and_no_body_is_answered(self):
+        # as without the header: unauthorized, not a server error
+        response = self.fetch('/login', headers={'Content-Type': 'application/json'})
+        self.assertEqual(403, response.code)
+
+    def test_post_with_broken_json_is_a_bad_request(self):
+        response = self.fetch(
+            '/login',
+            method='POST',
+            body='{"username": ',
+            headers={'Content-Type': 'application/json'},
+        )
+        self.assertEqual(400, response.code)
+        self.assertEqual({'error': 'invalid json body'}, json.loads(response.body))
 
     def test_pages_send_csp(self):
         with patch('motioneye.template.render', return_value=''):
