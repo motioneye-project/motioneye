@@ -151,11 +151,18 @@ def load_settings():
             return
 
         parts = line.split(' ', 1)
-        if len(parts) != 2:
-            raise ValueError(f'invalid configuration line: {line}')
-
-        name, value = parts
+        name = parts[0]
         upper_name = name.upper().replace('-', '_')
+        if len(parts) == 2:
+            value = parts[1]
+
+        # a text option without a value is empty: "listen" alone listens on all
+        # IPv4 and IPv6 addresses (#779)
+        elif isinstance(getattr(settings, upper_name, None), str):
+            value = ''
+
+        else:
+            raise ValueError(f'invalid configuration line: {line}')
 
         if upper_name == 'VALIDATE_CERTS':
             logging.warning(
