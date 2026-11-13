@@ -3682,7 +3682,9 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
             timelapseButton.show();
         }
 
-        img.on('load', function () {
+        /* replace the handler of the previous picture: added on each picture, they piled
+         * up and all ran on every load, slowing down the dialog (#2214) */
+        img.off('load.pictureDialog').on('load.pictureDialog', function () {
             var aspectRatio = this.naturalWidth / this.naturalHeight;
             var sizeWidth = width * width / aspectRatio;
             var sizeHeight = height * aspectRatio * height;
