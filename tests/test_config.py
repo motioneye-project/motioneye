@@ -274,6 +274,18 @@ class TestNetcamParams(unittest.TestCase):
         )
 
 
+class TestThresholdPixels(unittest.TestCase):
+    def test_percent_of_the_frame(self):
+        self.assertEqual(4608, config._threshold_pixels('1.5', 640, 480))
+
+    def test_zero_percent_is_one_pixel(self):
+        # with threshold 0, Motion does not detect motion at all (#1895)
+        self.assertEqual(1, config._threshold_pixels('0', 640, 480))
+
+    def test_less_than_a_pixel_is_one_pixel(self):
+        self.assertEqual(1, config._threshold_pixels(0.1, 32, 24))
+
+
 class TestDefaultMotion(unittest.TestCase):
     def test_control_interface_cannot_change_parameters_by_default(self):
         data = {}

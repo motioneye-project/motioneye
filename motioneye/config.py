@@ -1052,6 +1052,11 @@ def _hook_verified(prev_config: dict, option: str) -> bool:
     return '--no-verify' not in str(prev_config.get(option, ''))
 
 
+def _threshold_pixels(percent: float | str, width: int, height: int) -> int:
+    # Motion skips motion detection with threshold 0: 0 % is the most sensitive setting, 1 pixel
+    return max(1, int(float(percent) * width * height / 100))
+
+
 def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
     prev_config = dict(prev_config or {})
     main_config = get_main()  # needed for surveillance password
@@ -1232,7 +1237,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         data['width'] = width
         data['height'] = height
 
-        threshold = int(float(ui['frame_change_threshold']) * width * height / 100)
+        threshold = _threshold_pixels(ui['frame_change_threshold'], width, height)
 
         if proto == 'v4l2':
             # video controls, control_id is the ID Motion actually matches against (see v4l2-ctl --list-ctrls)
@@ -1262,10 +1267,10 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
             data['width'] = width
             data['height'] = height
 
-            threshold = int(float(ui['frame_change_threshold']) * width * height / 100)
+            threshold = _threshold_pixels(ui['frame_change_threshold'], width, height)
 
         else:  # width & height are not available for other netcams
-            threshold = int(float(ui['frame_change_threshold']) * 640 * 480 / 100)
+            threshold = _threshold_pixels(ui['frame_change_threshold'], 640, 480)
 
     data['threshold'] = threshold
 
