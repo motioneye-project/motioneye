@@ -61,8 +61,8 @@ LOG_LEVEL = logging.INFO
 # error where there is no syslog, e.g. in a container)
 LOG_TO_FILE = False
 
-# the IP address to listen on
-# (0.0.0.0 for all interfaces, 127.0.0.1 for localhost)
+# the IP address to listen on: 0.0.0.0 for all IPv4 addresses, :: for all IPv6
+# addresses, empty for both; 127.0.0.1 or ::1 for localhost only
 LISTEN = '0.0.0.0'  # noqa: S104
 
 # the TCP port to listen on
