@@ -122,7 +122,7 @@ chown -R motion:motion /etc/motioneye
 # The settings may contain credentials (motion_control_authentication), and motionEye is not supposed to write to this file
 chown 0:motion /etc/motioneye/motioneye.conf
 chmod 0640 /etc/motioneye/motioneye.conf
-if (( LIBCAMERA )); then
+if [[ -n ${LIBCAMERA_PACKAGES[0]} ]]; then
   V4L2_COMPAT=$(dpkg -L libcamera-v4l2 2> /dev/null | grep -m1 '/v4l2-compat\.so$' || :)
   if [[ ! -f $V4L2_COMPAT ]]; then
     echo 'WARNING: v4l2-compat.so has not been found, please install the libcamera-v4l2 package and set "libcamera_v4l2" in /etc/motioneye/motioneye.conf to its path'
