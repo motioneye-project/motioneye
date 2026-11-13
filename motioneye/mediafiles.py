@@ -29,6 +29,8 @@ from datetime import datetime, timedelta
 from errno import EAGAIN, ENOENT
 from hashlib import sha1
 from io import BytesIO
+from multiprocessing.reduction import ForkingPickler
+from select import PIPE_BUF
 from signal import SIGKILL, SIGTERM
 from time import time
 from typing import Any
@@ -43,6 +45,14 @@ from motioneye.utils.dtconv import pretty_date_time
 
 _PICTURE_EXTS = ['.jpg']
 _MOVIE_EXTS = ['.avi', '.mp4', '.mov', '.swf', '.flv', '.mkv', '.mpg']
+
+# entries per message from the listing subprocess: one per file made the child wait
+# for the parent at every pipe buffer, the whole list at once costs it the memory
+_LIST_CHUNK = 32
+# a message has to fit one pipe write of PIPE_BUF bytes, which is atomic: the parent
+# then never finds a part of a message in the pipe, to wait for the rest of it
+# (4 bytes are the length that multiprocessing puts in front)
+_LIST_MESSAGE_MAX = PIPE_BUF - 4
 
 FFMPEG_CODEC_MAPPING = {
     'mpeg4': 'mpeg4',
@@ -269,6 +279,20 @@ def _remove_older_files(
         uploadservices.clean_cloud(directory, {}, clean_cloud_info)
 
 
+def _send_entries(pipe, entries: list[dict]) -> None:
+    """Send the entries as one message, or in halves while that is too big for one
+    atomic pipe write. Only a single entry bigger than that, with a path of some
+    kB, is sent as it is."""
+    data = bytes(ForkingPickler.dumps(entries))  # pickled as pipe.send() does
+    if len(data) > _LIST_MESSAGE_MAX and len(entries) > 1:
+        half = len(entries) // 2
+        _send_entries(pipe, entries[:half])
+        _send_entries(pipe, entries[half:])
+        return
+
+    pipe.send_bytes(data)
+
+
 def _do_list_media(
     pipe,
     target_dir: str,
@@ -288,6 +312,8 @@ def _do_list_media(
         min_timestamp=min_timestamp,
         max_timestamp=max_timestamp,
     )
+    mime_types: dict[str, str] = {}  # by extension: the same for thousands of files
+    chunk: list[dict] = []
     for p, st in mf:
         path = p[len(target_dir) :]
         if not path.startswith('/'):
@@ -296,26 +322,31 @@ def _do_list_media(
         if with_stat and st is not None:
             timestamp = st.st_mtime
             size = st.st_size
+            ext = os.path.splitext(path)[1].lower()
+            if ext not in mime_types:
+                mime_types[ext] = guess_type(path)[0] or 'video/mpeg'
 
-            pipe.send(
+            moment = datetime.fromtimestamp(timestamp)
+            chunk.append(
                 {
                     'path': path,
-                    'mimeType': (
-                        guess_type(path)[0]
-                        if guess_type(path)[0] is not None
-                        else 'video/mpeg'
-                    ),
-                    'momentStr': pretty_date_time(datetime.fromtimestamp(timestamp)),
-                    'momentStrShort': pretty_date_time(
-                        datetime.fromtimestamp(timestamp), short=True
-                    ),
+                    'mimeType': mime_types[ext],
+                    'momentStr': pretty_date_time(moment),
+                    'momentStrShort': pretty_date_time(moment, short=True),
                     'sizeStr': utils.pretty_size(size),
                     'timestamp': timestamp,
                 }
             )
         else:
             # When stat is not available, only send the path
-            pipe.send({'path': path})
+            chunk.append({'path': path})
+
+        if len(chunk) >= _LIST_CHUNK:
+            _send_entries(pipe, chunk)
+            chunk = []
+
+    if chunk:
+        _send_entries(pipe, chunk)
 
     pipe.close()
 
@@ -665,42 +696,45 @@ def list_media(
             finish(None)
             return
 
-        # poll the subprocess to see when it has finished
-        started = datetime.now()
+        # read the pipe as the child fills it; the child's exit closes the pipe
+        loop = IOLoop.current()
+        fd = parent_pipe.fileno()
 
-        def read_media_list():
-            while parent_pipe.poll():
-                try:
-                    media_list.append(parent_pipe.recv())
+        def done(result) -> None:
+            loop.remove_handler(fd)
+            loop.remove_timeout(timeout_handle)
+            parent_pipe.close()
+            finish(result)
 
-                except EOFError:
-                    break
+        def on_readable(fd, events) -> None:
+            try:
+                while parent_pipe.poll():
+                    media_list.extend(parent_pipe.recv())
 
-        def poll_process():
-            if process.is_alive():  # not finished yet
-                now = datetime.now()
-                delta = now - started
-                if delta.seconds < settings.LIST_MEDIA_TIMEOUT:
-                    IOLoop.current().call_later(0.5, poll_process)
-                    read_media_list()
-
-                else:  # process did not finish in time
+            except (EOFError, OSError):  # finished, or killed, e.g. for lack of memory
+                process.join()
+                if process.exitcode != 0:
                     logging.error(
-                        'timeout waiting for the media listing process to finish'
+                        f'media listing process ended with code {process.exitcode}'
                     )
-                    with suppress(Exception):  # nevermind
-                        os.kill(process.pid, SIGKILL)
+                    done(None)  # a partial list is no list, like after a timeout
+                    return
 
-                    finish(None)
-
-            else:  # finished
-                read_media_list()
                 logging.debug(
                     f'media listing process has returned {len(media_list)} files'
                 )
-                finish(media_list)
+                done(media_list)
 
-        poll_process()
+        def on_timeout() -> None:
+            logging.error('timeout waiting for the media listing process to finish')
+            with suppress(Exception):  # nevermind
+                if process.pid is not None:
+                    os.kill(process.pid, SIGKILL)
+
+            done(None)
+
+        timeout_handle = loop.call_later(settings.LIST_MEDIA_TIMEOUT, on_timeout)
+        loop.add_handler(fd, on_readable, IOLoop.READ)
 
     def give_up() -> None:
         # still waiting after a whole timeout: answer like a timed-out listing

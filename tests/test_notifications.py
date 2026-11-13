@@ -60,6 +60,51 @@ class PictureTimespanTest(unittest.TestCase):
         sendtelegram.make_message('message', 1, _MOMENT, _TIMESPAN, None)
         self._assert_timespan(list_media)
 
+    def _assert_failed_listing_messages(self, list_media, module, send, setting):
+        # a listing answers None when it failed; only one that ran for the whole
+        # timeout is called a timeout, with the setting to raise
+        for timeout, expected in ((0, setting), (120, 'picture listing failed;')):
+            with (
+                self.subTest(timeout=timeout),
+                patch.object(module.settings, 'LIST_MEDIA_TIMEOUT', timeout),
+            ):
+                callback = Mock()
+                send(callback)
+                on_media_files = list_media.return_value.add_done_callback.call_args
+                with self.assertLogs(level='WARNING') as logs:
+                    on_media_files.args[0](None)
+
+                self.assertEqual(1, len(logs.output))
+                self.assertIn(expected, logs.output[0])
+                self.assertEqual('list_media_timeout' in logs.output[0], timeout == 0)
+                self.assertEqual([], callback.call_args.args[-1])  # no pictures
+
+    @patch('motioneye.sendmail.IOLoop')
+    def test_email_names_the_timeout_setting_only_after_a_timeout(
+        self, _loop, _sleep, list_media, _camera
+    ):
+        self._assert_failed_listing_messages(
+            list_media,
+            sendmail,
+            lambda callback: sendmail.make_message(
+                'subject', 'message', 1, _MOMENT, _TIMESPAN, callback
+            ),
+            'list_media_timeout_email',
+        )
+
+    @patch('motioneye.sendtelegram.IOLoop')
+    def test_telegram_names_the_timeout_setting_only_after_a_timeout(
+        self, _loop, _sleep, list_media, _camera
+    ):
+        self._assert_failed_listing_messages(
+            list_media,
+            sendtelegram,
+            lambda callback: sendtelegram.make_message(
+                'message', 1, _MOMENT, _TIMESPAN, callback
+            ),
+            'list_media_timeout_telegram',
+        )
+
     @patch('motioneye.sendtelegram.IOLoop')
     def test_telegram_sends_pictures_oldest_first(
         self, _loop, _sleep, list_media, _camera
