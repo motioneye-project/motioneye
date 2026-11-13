@@ -39,7 +39,14 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # ŝarĝante tradukojn
 def load_l10n():
-    locale.setlocale(locale.LC_ALL, '')
+    try:
+        locale.setlocale(locale.LC_ALL, '')
+
+    except locale.Error as e:
+        # e.g. LANG names a locale that was not generated, which the systemd service
+        # gets from /etc/locale.conf or /etc/default/locale while a shell may not (#2952)
+        logging.warning(f'could not set the system locale ({e}), keeping the C locale')
+
     pathname = os.path.dirname(__file__)
     main_config = config.get_main()
     lang = main_config.get('@lang')
