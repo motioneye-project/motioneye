@@ -868,6 +868,11 @@
                         <span class="minimize"></span>
                     </div>
                     <table class="settings">
+                        <tr class="settings-item">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Aŭtomata sojla agordo") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="autoThresholdTuningSwitch"></td>
+                            <td><span class="help-mark" title="{{ _("Ebligu tion aŭtomate ĝustigi la sojlon.") }}">?</span></td>
+                        </tr>
                         <tr class="settings-item" min="0" max="20" snap="0" ticksnum="5" decimals="1" unit="%" depends="!autoThresholdTuning">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Kadra ŝanĝo sojlo") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="frameChangeThresholdSlider"></td>
@@ -877,11 +882,6 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Maksimuma ŝanĝo sojlo") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="maxFrameChangeThresholdEntry"><span class="settings-item-unit">pixels</span></td>
                             <td><span class="help-mark" title="{{ _("Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon).") }}">?</span></td>
-                        </tr>
-                        <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Aŭtomata sojla agordo") }}</span></td>
-                            <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="autoThresholdTuningSwitch"></td>
-                            <td><span class="help-mark" title="{{ _("Ebligu tion aŭtomate ĝustigi la sojlon.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Aŭtomata bruo-detekto") }}</span></td>
