@@ -251,8 +251,13 @@ def netcam_params(v: str, data: dict) -> dict:
 
 
 # what motion itself takes from video_params, next to the camera's controls; motion
-# 4.4 made them entries there, out of v4l2_palette, input, norm and frequency
-_VIDEO_PARAMS_MOTION = ('palette', 'input', 'norm', 'frequency')
+# 4.4 made them entries there, out of these options, which we keep using internally
+_VIDEO_PARAMS_OPTIONS = {
+    'palette': 'v4l2_palette',
+    'input': 'input',
+    'norm': 'norm',
+    'frequency': 'frequency',
+}
 
 
 def _split_video_params(v: str) -> list[str]:
@@ -270,26 +275,48 @@ def _split_video_params(v: str) -> list[str]:
     return params
 
 
-def _is_video_params_motion(param: str) -> bool:
-    return param.split('=')[0].strip().strip('"').lower() in _VIDEO_PARAMS_MOTION
+def _video_params_name(param: str) -> str:
+    return param.split('=')[0].strip().strip('"')
 
 
-def vid_control_video_params(v: str, data: dict) -> dict:
-    # an extra video_params option holds motion's own entries, see video_params()
-    params = [p for p in (data.get('video_params', ''), v) if p]
+def _parse_video_params(v: str) -> tuple[str, dict]:
+    # the controls, and motion's own entries as the options they were before 4.4;
+    # motion matches the names of its own entries case-sensitively
+    controls, options = [], {}
+    for param in _split_video_params(v):
+        option = _VIDEO_PARAMS_OPTIONS.get(_video_params_name(param))
+        if option is None:
+            controls.append(param)
+
+        elif '=' in param:
+            options[option] = param.split('=', 1)[1].strip().strip('"')
+
+    return ','.join(controls), options
+
+
+def _add_video_params(v: str, data: dict) -> dict:
+    # motion's own entries first, then the controls
+    params = [p for p in _split_video_params(data.get('video_params', '')) if p]
+    if v:
+        params.append(v)
+
+    params.sort(key=lambda p: _video_params_name(p) not in _VIDEO_PARAMS_OPTIONS)
     return {'video_params': ','.join(params)}
 
 
+def _video_params_entry(name: str):
+    def mapper(v: bool | float | str, data: dict) -> dict:
+        return _add_video_params(f'{name}={_python_to_value(v)}', data)
+
+    return mapper
+
+
 def video_params(v: str, data: dict) -> dict:
-    # the controls are rebuilt from the camera on each save; motion's own entries,
-    # e.g. a palette, are kept as an extra video_params option, which saving writes
-    # back together with the controls
-    params = _split_video_params(v)
-    controls = [p for p in params if not _is_video_params_motion(p)]
-    others = [p for p in params if _is_video_params_motion(p)]
-    result = {'vid_control_params': ','.join(controls)}
-    if others:
-        result['video_params'] = ','.join(others)
+    controls, result = _parse_video_params(v)
+    # a file may hold vid_control_params next to this line, e.g. with video_params
+    # added as an extra option for motion < 4.4; without controls here, keep those
+    if controls or 'vid_control_params' not in data:
+        result['vid_control_params'] = controls
 
     return result
 
@@ -298,8 +325,9 @@ _MOTION_43_TO_44_OPTIONS_MAPPING = {
     'netcam_keepalive': netcam_keepalive_params,
     'netcam_tolerant_check': netcam_tolerant_check_params,
     'netcam_use_tcp': netcam_use_tcp_params,
-    'vid_control_params': vid_control_video_params,
+    'vid_control_params': _add_video_params,
     'videodevice': 'video_device',
+    **{o: _video_params_entry(n) for n, o in _VIDEO_PARAMS_OPTIONS.items()},
 }
 
 
@@ -388,6 +416,8 @@ def get_main(as_lines: bool = False) -> dict | list:
         lines,
         list_names=['camera'],
         no_convert=[
+            'vid_control_params',
+            'video_params',
             '@admin_username',
             '@admin_password',
             '@normal_username',
@@ -627,6 +657,9 @@ def get_camera(camera_id: int, as_lines: bool = False) -> dict | list:
     camera_config: dict = _conf_to_dict(
         lines,
         no_convert=[
+            # a lone number or on/off is still a list of parameters here
+            'vid_control_params',
+            'video_params',
             '@network_share_name',
             '@network_smb_ver',
             '@network_server',
@@ -1731,6 +1764,12 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
 
     extra_options = ui.get('extra_options', [])
     for name, value in extra_options:
+        if name == 'video_params':
+            # motion's own entries are kept as the options they were before 4.4, see
+            # _VIDEO_PARAMS_OPTIONS; controls are not taken from here, but from the UI
+            data.update(_parse_video_params(value or '')[1])
+            continue
+
         data[name] = value or ''
 
     prev_config.update(data)
@@ -2220,8 +2259,24 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
 
     # extra motion options
     extra_options = []
+    # shown as motion gets them: with motion >= 4.4, v4l2_palette, input, norm and
+    # frequency are entries of video_params, see _VIDEO_PARAMS_OPTIONS
+    video_params_entries = []
+    if motionctl.is_motion_post43():
+        video_params_entries = [
+            f'{n}={_python_to_value(data[o])}'
+            for n, o in _VIDEO_PARAMS_OPTIONS.items()
+            if o in data
+        ]
+
     for name, value in list(data.items()):
         if name not in _USED_MOTION_OPTIONS and not name.startswith('@'):
+            if video_params_entries and name in _VIDEO_PARAMS_OPTIONS.values():
+                if ('video_params', ','.join(video_params_entries)) in extra_options:
+                    continue
+
+                name, value = 'video_params', ','.join(video_params_entries)
+
             if isinstance(value, bool):
                 # boolean values should be transferred as on/off
                 value = ['off', 'on'][value]
