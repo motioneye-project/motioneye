@@ -278,6 +278,27 @@ class ConfigTest(_ConfigCase):
         with self.assertRaises(ValueError):
             config.motion_camera_ui_to_dict(dict(ui), self.camera)
 
+    def test_percent_encoding_in_a_webhook_url_reaches_the_service(self):
+        # motion reads the digits after % as a width and drops them, %20 becomes %
+        # (#2818); %% gives motion a plain %, its own conversion specifiers stay
+        url = 'http://192.168.20.31/cm?cmnd=power1%20on%2C%20cam%t'
+        motion = 'http://192.168.20.31/cm?cmnd=power1%%20on%%2C%%20cam%t'
+        names = (
+            'web_hook_notifications_url',
+            'web_hook_end_notifications_url',
+            'web_hook_storage_url',
+        )
+        data = self._save(**dict(_UI, **{name: url for name in names}))
+
+        for option in ('on_event_start', 'on_event_end', 'on_movie_end'):
+            with self.subTest(option):
+                self.assertIn(f"'{motion}'", data[option])
+                self.assertNotIn(f"'{url}'", data[option])
+
+        self._write(1, data)
+        got = self._get()
+        self.assertEqual({name: url for name in names}, {n: got[n] for n in names})
+
     def test_settings_round_trip_through_the_camera_file(self):
         numbers = {  # must stay text
             'email_notifications_smtp_server': 'on',

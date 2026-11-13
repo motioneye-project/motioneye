@@ -1057,6 +1057,16 @@ def _threshold_pixels(percent: float | str, width: int, height: int) -> int:
     return max(1, int(float(percent) * width * height / 100))
 
 
+def _webhook_url_to_motion(url: str) -> str:
+    # motion reads digits after % as the width of a conversion specifier and drops
+    # them, so %20 in a URL turns into %; %% is a plain % to motion (#2818)
+    return sub(r'(?<!%)%(?=[0-9][0-9A-Fa-f])', '%%', url)
+
+
+def _webhook_url_from_motion(url: str) -> str:
+    return sub(r'%%(?=[0-9][0-9A-Fa-f])', '%', url)
+
+
 def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
     prev_config = dict(prev_config or {})
     main_config = get_main()  # needed for surveillance password
@@ -1557,7 +1567,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
                 script=meyectl.find_command('webhook'),
                 flag='' if verify else ' --no-verify',
                 method=ui['web_hook_notifications_http_method'],
-                url=url,
+                url=_webhook_url_to_motion(url),
             )
         )
 
@@ -1593,7 +1603,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
                 script=meyectl.find_command('webhook'),
                 flag='' if verify else ' --no-verify',
                 method=ui['web_hook_end_notifications_http_method'],
-                url=url,
+                url=_webhook_url_to_motion(url),
             )
         )
 
@@ -1627,7 +1637,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
                 script=meyectl.find_command('webhook'),
                 flag='' if verify else ' --no-verify',
                 method=ui['web_hook_storage_http_method'],
-                url=url,
+                url=_webhook_url_to_motion(url),
             )
         )
 
@@ -1661,7 +1671,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
                 script=meyectl.find_command('webhook'),
                 flag='' if verify else ' --no-verify',
                 method=ui['web_hook_storage_http_method'],
-                url=url,
+                url=_webhook_url_to_motion(url),
             )
         )
 
@@ -2095,7 +2105,7 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
 
             ui['web_hook_notifications_enabled'] = True
             ui['web_hook_notifications_http_method'] = e[-2]
-            ui['web_hook_notifications_url'] = e[-1]
+            ui['web_hook_notifications_url'] = _webhook_url_from_motion(e[-1])
             ui['web_hook_notifications_verify'] = '--no-verify' not in e[:-2]
 
         elif 'relayevent' in e:
@@ -2123,7 +2133,7 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
 
             ui['web_hook_end_notifications_enabled'] = True
             ui['web_hook_end_notifications_http_method'] = e[-2]
-            ui['web_hook_end_notifications_url'] = e[-1]
+            ui['web_hook_end_notifications_url'] = _webhook_url_from_motion(e[-1])
             ui['web_hook_end_notifications_verify'] = '--no-verify' not in e[:-2]
 
         elif 'relayevent' in e or 'eventrelay.py' in e:
@@ -2151,7 +2161,7 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
 
             ui['web_hook_storage_enabled'] = True
             ui['web_hook_storage_http_method'] = e[-2]
-            ui['web_hook_storage_url'] = e[-1]
+            ui['web_hook_storage_url'] = _webhook_url_from_motion(e[-1])
             ui['web_hook_storage_verify'] = '--no-verify' not in e[:-2]
 
         elif 'relayevent' in e:
