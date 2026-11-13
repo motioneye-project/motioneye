@@ -1,4 +1,5 @@
 import os
+import subprocess
 import unittest
 from shutil import rmtree
 from tempfile import mkdtemp
@@ -89,6 +90,88 @@ class V4l2CtlEnvTest(unittest.TestCase):
         for c in call.call_args_list:
             with self.subTest(command=c.args[0]):
                 self.assertIs(env, c.kwargs['env'])
+                # libcamera logs to stderr, which must not end up in the parsed output
+                self.assertEqual(subprocess.PIPE, c.kwargs['stderr'])
+
+
+class V4l2CtlErrorTest(unittest.TestCase):
+    """A failing v4l2-ctl call logs why and keeps what it printed before."""
+
+    def setUp(self):
+        v4l2ctl._ctrls_cache.clear()
+
+    def test_list_devices_keeps_the_output_of_a_failed_call(self):
+        error = subprocess.CalledProcessError(
+            1,
+            ['v4l2-ctl', '--list-devices'],
+            output='USB Camera (usb-1):\n\t/dev/video0\n',
+            stderr='Cannot open device /dev/video1\n',
+        )
+        with (
+            patch.object(utils, 'call_subprocess', side_effect=error),
+            patch.object(v4l2ctl, 'find_persistent_device', side_effect=lambda d: d),
+            self.assertLogs(level='DEBUG') as logs,
+        ):
+            devices = v4l2ctl.list_devices()
+
+        self.assertEqual([('/dev/video0', '/dev/video0', 'USB Camera')], devices)
+        self.assertIn(
+            'DEBUG:root:v4l2-ctl error: Cannot open device /dev/video1', logs.output
+        )
+
+    def test_list_devices_logs_a_missing_v4l2_ctl(self):
+        error = FileNotFoundError(2, 'No such file or directory', 'v4l2-ctl')
+        with (
+            patch.object(utils, 'call_subprocess', side_effect=error),
+            self.assertLogs(level='DEBUG') as logs,
+        ):
+            self.assertEqual([], v4l2ctl.list_devices())
+
+        self.assertIn(f'DEBUG:root:v4l2-ctl error: {error}', logs.output)
+
+    def test_list_ctrls_keeps_the_output_of_a_failed_call(self):
+        error = subprocess.CalledProcessError(
+            1,
+            ['v4l2-ctl', '-d', '/dev/video0', '--list-ctrls'],
+            output='                     brightness 0x00980900 (int)    : '
+            'min=0 max=255 step=1 default=128 value=128\n',
+            stderr='VIDIOC_QUERYCTRL: failed: Input/output error\n',
+        )
+        with (
+            patch.object(utils, 'call_subprocess', side_effect=error),
+            self.assertLogs(level='ERROR') as logs,
+        ):
+            controls = v4l2ctl.list_ctrls('/dev/video0')
+
+        self.assertIn('brightness', controls)
+        self.assertEqual(
+            [
+                (
+                    'ERROR:root:failed to list controls of device "/dev/video0": '
+                    'VIDIOC_QUERYCTRL: failed: Input/output error'
+                )
+            ],
+            logs.output,
+        )
+
+    def test_list_resolutions_logs_why_it_failed(self):
+        v4l2ctl._resolutions_cache.clear()
+        error = OSError('cannot start the shell')
+        with (
+            patch.object(utils, 'call_subprocess', side_effect=error),
+            self.assertLogs(level='ERROR') as logs,
+        ):
+            v4l2ctl.list_resolutions('/dev/video0')
+
+        self.assertEqual(
+            [
+                (
+                    'ERROR:root:failed to list resolutions of device "/dev/video0": '
+                    'cannot start the shell'
+                )
+            ],
+            logs.output,
+        )
 
 
 if __name__ == '__main__':

@@ -49,7 +49,11 @@ fi
 # Preload libcamera's V4L2 layer for motion and v4l2-ctl, for Raspberry Pi camera modules on the libcamera camera stack
 if [[ ! $LIBCAMERA ]]; then
   LIBCAMERA=0
-  if [[ -t 0 ]] && grep -qa 'Raspberry Pi' /proc/device-tree/model 2> /dev/null; then
+  # Already set: install the package and update the path again, as a repair step
+  if [[ -f '/etc/motioneye/motioneye.conf' ]] && grep -q '^libcamera_v4l2 ' /etc/motioneye/motioneye.conf; then
+    LIBCAMERA=1
+  elif [[ -t 0 ]] && grep -qa 'Raspberry Pi' /proc/device-tree/model 2> /dev/null; then
+    echo "NOTE: Through libcamera's V4L2 layer, other V4L2 cameras like USB webcams lose their controls (brightness etc.) and are listed by their libcamera name."
     read -rp 'Raspberry Pi detected. Use a camera module through libcamera (installs libcamera-v4l2)? [y/N] ' REPLY
     [[ $REPLY == [Yy]* ]] && LIBCAMERA=1
   fi
@@ -122,7 +126,9 @@ if (( LIBCAMERA )); then
   V4L2_COMPAT=$(dpkg -L libcamera-v4l2 2> /dev/null | grep -m1 '/v4l2-compat\.so$' || :)
   if [[ ! -f $V4L2_COMPAT ]]; then
     echo 'WARNING: v4l2-compat.so has not been found, please install the libcamera-v4l2 package and set "libcamera_v4l2" in /etc/motioneye/motioneye.conf to its path'
-  elif ! grep -q '^libcamera_v4l2 ' /etc/motioneye/motioneye.conf; then
+  elif grep -q '^libcamera_v4l2 ' /etc/motioneye/motioneye.conf; then
+    sed -i "/^libcamera_v4l2 /c\libcamera_v4l2 $V4L2_COMPAT" /etc/motioneye/motioneye.conf
+  else
     echo "INFO: Enabling libcamera's V4L2 layer in /etc/motioneye/motioneye.conf"
     if grep -q '^#libcamera_v4l2 ' /etc/motioneye/motioneye.conf; then
       sed -i "/^#libcamera_v4l2 /c\libcamera_v4l2 $V4L2_COMPAT" /etc/motioneye/motioneye.conf
