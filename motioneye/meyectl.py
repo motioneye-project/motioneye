@@ -156,9 +156,9 @@ def load_settings():
         if len(parts) == 2:
             value = parts[1]
 
-        # a text option without a value is empty: "listen" alone listens on all
-        # IPv4 and IPv6 addresses (#779)
-        elif isinstance(getattr(settings, upper_name, None), str):
+        # "listen" without an address is the default, all IPv4 and IPv6 addresses
+        # (#779); other options still need a value
+        elif upper_name == 'LISTEN':
             value = ''
 
         else:
