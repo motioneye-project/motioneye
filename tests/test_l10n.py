@@ -1,5 +1,6 @@
 import builtins
 import json
+import locale
 import os
 import re
 import unittest
@@ -55,6 +56,17 @@ class L10nTest(unittest.TestCase):
         ):
             self.load('en')
         self.assertIsNone(settings.js_translations)
+
+    def test_an_unsupported_system_locale_is_only_reported(self):
+        # LANG naming a locale that was not generated stopped the server (#2952)
+        with (
+            patch('motioneye.meyectl.locale.setlocale', side_effect=locale.Error('x')),
+            self.assertLogs(level='WARNING') as logs,
+        ):
+            self.load('en')
+
+        self.assertEqual('en', settings.lingvo)
+        self.assertIn('could not set the system locale', logs.output[0])
 
     def test_page_embeds_translations(self):
         html = self.render('en')
