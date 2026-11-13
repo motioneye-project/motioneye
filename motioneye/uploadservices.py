@@ -792,27 +792,46 @@ class Dropbox(UploadService):
                     )
                     self.save()
 
-                    # retry the request with refreshed credentials
-                    return self._request(url, body, headers, retry_auth=False)
-
                 except Exception:
                     self.error('refreshing credentials failed')
                     raise
 
-            elif str(e).count('not_found'):
+                # retry the request with refreshed credentials; how it fails is its own
+                # error, not the refresh's (#3128)
+                return self._request(url, body, headers, retry_auth=False)
+
+            # Dropbox tells the reason in the body, e.g. "path/not_found/.."
+            summary = self._error_summary(e)
+            if 'not_found' in summary:
                 msg = f'folder "{self._location}" not found'
                 self.error(msg)
-                raise FileNotFoundError(msg)
+                raise FileNotFoundError(msg) from e
 
-            else:
-                self.error(f'request failed: {e}')
-                raise
+            self.error(f'request failed: {e}' + (f' ({summary})' if summary else ''))
+            raise
 
         except Exception as e:
             self.error(f'request failed: {e}')
             raise
 
         return response.read()
+
+    @staticmethod
+    def _error_summary(e: HTTPError) -> str:
+        try:
+            error = json.loads(e.read())
+
+        except Exception:  # no body, or not JSON
+            return ''
+
+        if not isinstance(error, dict):
+            return ''
+
+        summary = error.get('error_summary')
+        if isinstance(summary, str):
+            return summary
+
+        return json.dumps(error['error']) if 'error' in error else ''
 
     def _request_credentials(self, authorization_key):
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
