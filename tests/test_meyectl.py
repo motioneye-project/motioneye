@@ -146,10 +146,20 @@ class LoadSettingsLogToFileTest(unittest.TestCase):
         self._load_settings('log_to_file false\n', argv=('-l',))
         self.assertEqual(True, settings.LOG_TO_FILE)
 
-    def test_listen_without_an_address_listens_on_all(self):
+    def test_listen_defaults_to_all_addresses(self):
         # empty makes Tornado listen on all IPv4 and IPv6 addresses (#779)
-        self._load_settings('listen\n')
+        self._load_settings('log_level info\n')
         self.assertEqual('', settings.LISTEN)
+
+    def test_listen_without_an_address_is_the_default(self):
+        self._load_settings('listen 127.0.0.1\nlisten\n')
+        self.assertEqual('', settings.LISTEN)
+
+    def test_other_text_options_still_need_a_value(self):
+        with self.assertLogs(level='CRITICAL') as logs, self.assertRaises(SystemExit):
+            self._load_settings('media_path\n')
+
+        self.assertIn('invalid configuration line: media_path', logs.output[0])
 
     def test_listen_with_an_ipv6_address(self):
         self._load_settings('listen ::\n')
