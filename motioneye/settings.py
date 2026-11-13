@@ -74,6 +74,9 @@ TRUSTED_PROXIES: str = ''
 # path to the motion binary to use (automatically detected by default)
 MOTION_BINARY = None
 
+# path to libcamera's v4l2-compat.so, preloaded for motion and v4l2-ctl (see motioneye.conf)
+LIBCAMERA_V4L2 = None
+
 # whether motion HTTP control interface listens on
 # localhost or on all interfaces
 MOTION_CONTROL_LOCALHOST = True

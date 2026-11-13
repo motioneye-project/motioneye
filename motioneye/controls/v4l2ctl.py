@@ -41,15 +41,21 @@ def list_devices():
     global _resolutions_cache, _ctrls_cache
 
     logging.debug('listing V4L2 devices')
-    output = b''
+    output = ''
 
     try:
         output = utils.call_subprocess(
-            ['v4l2-ctl', '--list-devices'], stderr=subprocess.STDOUT
+            ['v4l2-ctl', '--list-devices'],
+            stderr=subprocess.PIPE,
+            env=utils.libcamera_v4l2_env(),
         )
 
-    except Exception:
-        logging.debug(f'v4l2-ctl error: {output}')
+    except subprocess.CalledProcessError as e:
+        logging.debug(f'v4l2-ctl error: {(e.stderr or "").strip()}')
+        output = e.stdout or ''  # keep what it listed before failing
+
+    except Exception as e:
+        logging.debug(f'v4l2-ctl error: {e}')
 
     name = None
     devices = []
@@ -83,15 +89,21 @@ def list_resolutions(device):
     logging.debug(f'listing resolutions of device {device}...')
 
     resolutions = set()
-    output = b''
+    output = ''
     cmd = f"v4l2-ctl -d {quote(device)} --list-formats-ext | grep -vi stepwise | grep -oE '[0-9]+x[0-9]+'"
     logging.debug(f'running command "{cmd}"')
 
     try:
-        output = utils.call_subprocess(cmd, shell=True, check=False)  # noqa: S604
+        output = utils.call_subprocess(  # noqa: S604
+            cmd,
+            stderr=subprocess.PIPE,
+            env=utils.libcamera_v4l2_env(),
+            shell=True,
+            check=False,
+        )
 
-    except Exception:
-        logging.error(f'failed to list resolutions of device "{device}"')
+    except Exception as e:
+        logging.error(f'failed to list resolutions of device "{device}": {e}')
 
     output = utils.make_str(output)
 
@@ -164,14 +176,23 @@ def list_ctrls(device):
     if device in _ctrls_cache:
         return _ctrls_cache[device]
 
-    output = b''
+    output = ''
     cmd = ['v4l2-ctl', '-d', device, '--list-ctrls']
     logging.debug(f'running command "{" ".join(cmd)}"')
 
     try:
-        output = utils.call_subprocess(cmd, stderr=subprocess.STDOUT)
-    except Exception:
-        logging.error(f'failed to list controls of device "{device}"')
+        output = utils.call_subprocess(
+            cmd, stderr=subprocess.PIPE, env=utils.libcamera_v4l2_env()
+        )
+
+    except subprocess.CalledProcessError as e:
+        logging.error(
+            f'failed to list controls of device "{device}": {(e.stderr or "").strip()}'
+        )
+        output = e.stdout or ''  # keep what it listed before failing
+
+    except Exception as e:
+        logging.error(f'failed to list controls of device "{device}": {e}')
 
     controls = {}
     logging.debug(f'command output: "{output}"')
