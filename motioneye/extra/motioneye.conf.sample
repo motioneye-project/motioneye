@@ -25,9 +25,10 @@ log_level info
 # the log_path setting above only has an effect when this is enabled
 log_to_file false
 
-# the IP address to listen on
-# (0.0.0.0 for all interfaces, 127.0.0.1 for localhost)
-listen 0.0.0.0
+# the IP address to listen on (all IPv4 and IPv6 addresses if commented):
+# 0.0.0.0 for all IPv4 addresses, :: for all IPv6 addresses, 127.0.0.1 or ::1 for
+# localhost only
+#listen 0.0.0.0
 
 # the TCP port to listen on
 port 8765
