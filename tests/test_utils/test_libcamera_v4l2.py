@@ -248,5 +248,80 @@ class V4l2CtlResolutionsTest(unittest.TestCase):
         self.assertEqual(self._list('')[0], resolutions)
 
 
+class V4l2CtlResolutionsBeforeMotionTest(unittest.TestCase):
+    """Through libcamera's V4L2 layer, a camera that motion uses lists no sizes, so
+    the ones read before motion started are offered."""
+
+    BUSY = ''  # what v4l2-ctl prints then
+    FREE = '\t\tSize: Discrete 640x480\n\t\tSize: Discrete 1280x720\n'
+
+    def setUp(self):
+        for cache in (v4l2ctl._resolutions_cache, v4l2ctl._resolutions_before_motion):
+            cache.clear()
+            self.addCleanup(cache.clear)
+
+    def _call(self, function, *args, output):
+        with patch.object(utils, 'call_subprocess', return_value=output):
+            return function(*args)
+
+    def _read_before_motion(self):
+        self._call(
+            v4l2ctl.read_resolutions_before_motion, ['/dev/video0'], output=self.FREE
+        )
+
+    def test_a_camera_in_use_gets_the_resolutions_read_before(self):
+        self._read_before_motion()
+
+        resolutions = self._call(
+            v4l2ctl.list_resolutions, '/dev/video0', output=self.BUSY
+        )
+
+        self.assertEqual([(640, 480), (1280, 720)], resolutions)
+
+    def test_they_are_kept_when_the_devices_are_listed_again(self):
+        self._read_before_motion()
+        self._call(v4l2ctl.list_devices, output=self.BUSY)
+
+        resolutions = self._call(
+            v4l2ctl.list_resolutions, '/dev/video0', output=self.BUSY
+        )
+
+        self.assertEqual([(640, 480), (1280, 720)], resolutions)
+
+    def test_reading_them_replaces_a_cached_common_list(self):
+        common = self._call(v4l2ctl.list_resolutions, '/dev/video0', output=self.BUSY)
+
+        self._read_before_motion()
+        resolutions = self._call(
+            v4l2ctl.list_resolutions, '/dev/video0', output=self.BUSY
+        )
+
+        self.assertNotEqual(common, resolutions)
+        self.assertEqual([(640, 480), (1280, 720)], resolutions)
+
+    def test_sizes_listed_now_come_first(self):
+        self._read_before_motion()
+
+        resolutions = self._call(
+            v4l2ctl.list_resolutions,
+            '/dev/video0',
+            output='\t\tSize: Discrete 320x240\n',
+        )
+
+        self.assertEqual([(320, 240)], resolutions)
+
+    def test_a_camera_without_sizes_keeps_the_common_list(self):
+        self._call(
+            v4l2ctl.read_resolutions_before_motion, ['/dev/video0'], output=self.BUSY
+        )
+        common = self._call(v4l2ctl.list_resolutions, '/dev/video1', output=self.BUSY)
+
+        resolutions = self._call(
+            v4l2ctl.list_resolutions, '/dev/video0', output=self.BUSY
+        )
+
+        self.assertEqual(common, resolutions)
+
+
 if __name__ == '__main__':
     unittest.main()
