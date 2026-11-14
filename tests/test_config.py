@@ -589,6 +589,57 @@ class TestRecordingMode(unittest.TestCase):
         self.assertEqual('motion-triggered', self._get()['recording_mode'])
 
 
+class TestContinuousRecordingPictures(unittest.TestCase):
+    # still images next to continuous recording (#2541)
+    motion_post43 = True
+    setUp = TestVideoParamsSave.setUp
+    _get = TestVideoParamsSave._get
+    _save = TestVideoParamsSave._save
+
+    def _save_modes(self, capture_mode, recording_mode='continuous', **kwargs):
+        ui = self._get()
+        ui.update(
+            still_images=True,
+            capture_mode=capture_mode,
+            movies=True,
+            recording_mode=recording_mode,
+            **kwargs,
+        )
+        self._save(ui)
+        return self._get(), config.get_camera(1)
+
+    def test_manual_pictures_with_continuous_recording(self):
+        ui, camera = self._save_modes('manual')
+
+        self.assertEqual('manual', ui['capture_mode'])
+        self.assertEqual('continuous', ui['recording_mode'])
+        self.assertTrue(camera['emulate_motion'])
+        self.assertFalse(camera['picture_output'])
+
+    def test_interval_snapshots_with_continuous_recording(self):
+        ui, camera = self._save_modes('interval-snapshots', snapshot_interval=60)
+
+        self.assertEqual('interval-snapshots', ui['capture_mode'])
+        self.assertEqual(60, ui['snapshot_interval'])
+        self.assertEqual('continuous', ui['recording_mode'])
+        self.assertTrue(camera['emulate_motion'])
+
+    def test_all_frames_with_continuous_recording(self):
+        ui, camera = self._save_modes('all-frames')
+
+        self.assertEqual('all-frames', ui['capture_mode'])
+        self.assertEqual('continuous', ui['recording_mode'])
+        self.assertTrue(camera['emulate_motion'])
+        self.assertTrue(camera['picture_output'])
+
+    def test_manual_pictures_with_motion_triggered_recording(self):
+        ui, camera = self._save_modes('manual', 'motion-triggered')
+
+        self.assertEqual('manual', ui['capture_mode'])
+        self.assertEqual('motion-triggered', ui['recording_mode'])
+        self.assertFalse(camera['emulate_motion'])
+
+
 class TestDefaultMotion(unittest.TestCase):
     def test_control_interface_cannot_change_parameters_by_default(self):
         data = {}
