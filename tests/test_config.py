@@ -562,3 +562,63 @@ class TestDefaultMovieCodec(unittest.TestCase):
         config._set_default_motion_camera(1, data)
 
         self.assertEqual('mp4:h264_v4l2m2m', data['movie_codec'])
+
+
+class TestCameraOrder(unittest.TestCase):
+    """Motion numbers the cameras by the order of their lines in motion.conf (#1887)."""
+
+    def setUp(self):
+        self.conf_dir = mkdtemp()
+        self.addCleanup(rmtree, self.conf_dir)
+        config.invalidate()
+        self.addCleanup(config.invalidate)
+        self.main_config = {
+            'camera': ['camera-1.conf', 'camera-2.conf', 'camera-3.conf']
+        }
+        for target, kwargs in (
+            ('motioneye.config.get_main', {'return_value': self.main_config}),
+            ('motioneye.config.set_main', {}),
+            ('motioneye.settings.CONF_PATH', {'new': self.conf_dir}),
+            ('motioneye.motionctl.is_motion_pre42', {'return_value': False}),
+            ('motioneye.motionctl.is_motion_post43', {'return_value': False}),
+        ):
+            patcher = patch(target, **kwargs)
+            self.addCleanup(patcher.stop)
+            patcher.start()
+
+    def _set_enabled(self, camera_id, enabled):
+        camera = {'@enabled': enabled, 'videodevice': f'/dev/video{camera_id}'}
+        config.set_camera(camera_id, camera)
+
+    def test_a_camera_enabled_again_keeps_its_place(self):
+        self._set_enabled(1, False)
+        self.assertEqual(['camera-2.conf', 'camera-3.conf'], self.main_config['camera'])
+
+        self._set_enabled(1, True)
+
+        self.assertEqual(
+            ['camera-1.conf', 'camera-2.conf', 'camera-3.conf'],
+            self.main_config['camera'],
+        )
+
+    def test_enabling_a_camera_puts_the_list_in_order(self):
+        # a list reordered by an earlier version of motionEye
+        self.main_config['camera'] = ['camera-2.conf', 'camera-3.conf', 'camera-1.conf']
+        self._set_enabled(1, False)
+
+        self._set_enabled(1, True)
+
+        self.assertEqual(
+            ['camera-1.conf', 'camera-2.conf', 'camera-3.conf'],
+            self.main_config['camera'],
+        )
+
+    def test_numbers_are_ordered_as_numbers(self):
+        self.main_config['camera'] = ['camera-2.conf', 'camera-10.conf']
+
+        self._set_enabled(9, True)
+
+        self.assertEqual(
+            ['camera-2.conf', 'camera-9.conf', 'camera-10.conf'],
+            self.main_config['camera'],
+        )

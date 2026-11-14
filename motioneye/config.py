@@ -524,6 +524,12 @@ def set_main(main_config: dict) -> None:
             raise
 
 
+def _camera_config_file_id(name: str) -> float:
+    # the camera id in a "camera" line of motion.conf, other names go last
+    _match = match(r'^camera-(\d+)\.conf$', name)
+    return int(_match.group(1)) if _match else float('inf')
+
+
 def get_camera_ids() -> list:
     global _camera_ids_cache
     if _camera_ids_cache is not None:
@@ -737,7 +743,10 @@ def set_camera(camera_id: int, camera_config: dict) -> None:
         cameras: list = main_config.setdefault('camera', [])
         config_file_name = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id}
         if camera_config['@enabled'] and config_file_name not in cameras:
+            # keep the order of the camera ids: Motion numbers the cameras by it,
+            # so a camera enabled again would otherwise change their numbers (#1887)
             cameras.append(config_file_name)
+            cameras.sort(key=_camera_config_file_id)
 
         elif not camera_config['@enabled']:
             cameras = [c for c in cameras if c != config_file_name]
