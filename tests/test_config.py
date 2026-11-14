@@ -472,6 +472,32 @@ class TestVideoParamsSave(unittest.TestCase):
         self.assertEqual(['video_params palette=8,ID09963776=10'], self._video_params())
         self.assertEqual([('video_params', 'palette=8')], self._get()['extra_options'])
 
+    def test_failing_to_list_the_shown_controls_is_a_warning(self):
+        ui = self._get()
+        ui['video_controls']['brightness']['value'] = 20
+        with (
+            patch('motioneye.controls.v4l2ctl.list_ctrls', return_value={}),
+            self.assertLogs(level='WARNING') as logs,
+        ):
+            self._save(ui)
+
+        self.assertEqual(
+            ['WARNING:root:camera 1 control listing failed, controls not updated'],
+            logs.output,
+        )
+        # the stored value is kept
+        self.assertEqual(10, self._get()['video_controls']['brightness']['value'])
+
+    def test_a_camera_without_controls_is_no_warning(self):
+        # as seen through libcamera's V4L2 layer, where the page shows no controls
+        with patch('motioneye.controls.v4l2ctl.list_ctrls', return_value={}):
+            ui = self._get()
+            with patch('motioneye.config.logging.warning') as warning:
+                self._save(ui)
+
+        self.assertEqual({}, ui['video_controls'])
+        warning.assert_not_called()
+
 
 class TestVideoParamsSavePre44(TestVideoParamsSave):
     # the same camera, with its file brought to a motion which has no video_params

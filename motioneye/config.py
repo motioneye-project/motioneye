@@ -1338,11 +1338,15 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
                 )
                 data['vid_control_params'] = ','.join(vid_control_params)
 
-            else:
+            elif ui['video_controls']:
                 logging.warning(
                     f'camera {prev_config["@id"]} control listing failed, '
                     'controls not updated'
                 )
+
+            else:
+                # e.g. through libcamera's V4L2 layer: there were no controls to change
+                logging.debug(f'camera {prev_config["@id"]} has no controls')
 
     else:  # assuming netcam
         if ui.get('resolution') and motion_resolution_support(
