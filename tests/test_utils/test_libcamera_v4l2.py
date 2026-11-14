@@ -156,7 +156,7 @@ class V4l2CtlErrorTest(unittest.TestCase):
 
     def test_list_resolutions_logs_why_it_failed(self):
         v4l2ctl._resolutions_cache.clear()
-        error = OSError('cannot start the shell')
+        error = OSError('v4l2-ctl not found')
         with (
             patch.object(utils, 'call_subprocess', side_effect=error),
             self.assertLogs(level='ERROR') as logs,
@@ -167,11 +167,66 @@ class V4l2CtlErrorTest(unittest.TestCase):
             [
                 (
                     'ERROR:root:failed to list resolutions of device "/dev/video0": '
-                    'cannot start the shell'
+                    'v4l2-ctl not found'
                 )
             ],
             logs.output,
         )
+
+
+class V4l2CtlResolutionsTest(unittest.TestCase):
+    """The resolutions come from the sizes that v4l2-ctl lists."""
+
+    OUTPUT = (
+        'ioctl: VIDIOC_ENUM_FMT\n'
+        '\tType: Video Capture\n'
+        '\n'
+        "\t[0]: 'YUYV' (YUYV 4:2:2)\n"
+        '\t\tSize: Discrete 640x480\n'
+        '\t\t\tInterval: Discrete 0.033s (30.000 fps)\n'
+        '\t\tSize: Discrete 1280x720\n'
+        '\t\tSize: Discrete 160x120\n'
+        '\t\tSize: Discrete 32x32\n'
+        "\t[1]: 'MJPG' (Motion-JPEG, compressed)\n"
+        '\t\tSize: Discrete 1280x720\n'
+        '\t\tSize: Discrete 1918x1080\n'
+        "\t[2]: 'YU12' (Planar YUV 4:2:0)\n"
+        '\t\tSize: Stepwise 16x16 - 2592x1944 with step 2/2\n'
+    )
+
+    def setUp(self):
+        v4l2ctl._resolutions_cache.clear()
+        self.addCleanup(v4l2ctl._resolutions_cache.clear)
+
+    def _list(self, output, device='/dev/video0'):
+        with patch.object(utils, 'call_subprocess', return_value=output) as call:
+            return v4l2ctl.list_resolutions(device), call
+
+    def test_lists_the_valid_sizes_once_and_in_order(self):
+        # 32x32 is too small and 1918x1080 not a multiple of 8
+        resolutions, _ = self._list(self.OUTPUT)
+
+        self.assertEqual([(160, 120), (640, 480), (1280, 720)], resolutions)
+
+    def test_the_range_of_a_stepwise_size_is_left_out(self):
+        resolutions, _ = self._list(
+            '\t\tSize: Stepwise 16x16 - 2592x1944 with step 2/2\n'
+        )
+        v4l2ctl._resolutions_cache.clear()
+        common, _ = self._list('')
+
+        # nothing found, so the common resolutions are offered
+        self.assertNotIn((2592, 1944), resolutions)
+        self.assertEqual(common, resolutions)
+
+    def test_the_device_is_one_argument_without_a_shell(self):
+        device = '/dev/v4l/by-id/usb-Cam $(x)'
+        _, call = self._list(self.OUTPUT, device=device)
+
+        self.assertEqual(
+            ['v4l2-ctl', '-d', device, '--list-formats-ext'], call.call_args.args[0]
+        )
+        self.assertFalse(call.call_args.kwargs.get('shell', False))
 
 
 if __name__ == '__main__':

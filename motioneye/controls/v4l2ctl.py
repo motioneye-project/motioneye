@@ -19,7 +19,6 @@ import os.path
 import re
 import stat
 import subprocess
-from shlex import quote
 
 from motioneye import utils
 
@@ -90,15 +89,14 @@ def list_resolutions(device):
 
     resolutions = set()
     output = ''
-    cmd = f"v4l2-ctl -d {quote(device)} --list-formats-ext | grep -vi stepwise | grep -oE '[0-9]+x[0-9]+'"
-    logging.debug(f'running command "{cmd}"')
+    cmd = ['v4l2-ctl', '-d', device, '--list-formats-ext']
+    logging.debug(f'running command "{" ".join(cmd)}"')
 
     try:
-        output = utils.call_subprocess(  # noqa: S604
+        output = utils.call_subprocess(
             cmd,
             stderr=subprocess.PIPE,
             env=utils.libcamera_v4l2_env(),
-            shell=True,
             check=False,
         )
 
@@ -107,11 +105,15 @@ def list_resolutions(device):
 
     output = utils.make_str(output)
 
-    for pair in output.split('\n'):
-        pair = pair.strip()
-        if not pair:
-            continue
+    # the sizes listed, except for the ranges of a stepwise size
+    pairs = [
+        pair
+        for line in output.split('\n')
+        if 'stepwise' not in line.lower()
+        for pair in re.findall(r'[0-9]+x[0-9]+', line)
+    ]
 
+    for pair in pairs:
         width, height = pair.split('x')
         width = int(width)
         height = int(height)
