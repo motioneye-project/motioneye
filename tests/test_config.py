@@ -553,6 +553,42 @@ class TestVideoParamsSavePre44(TestVideoParamsSave):
         self.assertEqual([('v4l2_palette', 8)], self._get()['extra_options'])
 
 
+class TestRecordingMode(unittest.TestCase):
+    # the recording mode chosen while movies are turned off (#2135)
+    motion_post43 = True
+    setUp = TestVideoParamsSave.setUp
+    _get = TestVideoParamsSave._get
+    _save = TestVideoParamsSave._save
+
+    def _save_movies(self, movies, **kwargs):
+        ui = self._get()
+        ui.update(still_images=False, movies=movies, **kwargs)
+        self._save(ui)
+
+    def test_turning_movies_off_keeps_the_recording_mode(self):
+        self._save_movies(True, recording_mode='continuous')
+        self._save_movies(False)
+
+        self.assertEqual('continuous', self._get()['recording_mode'])
+        self.assertFalse(config.get_camera(1)['emulate_motion'])
+
+    def test_turning_movies_on_again_records_in_that_mode(self):
+        self._save_movies(True, recording_mode='continuous')
+        self._save_movies(False)
+        self._save_movies(True)
+
+        self.assertEqual('continuous', self._get()['recording_mode'])
+        self.assertTrue(config.get_camera(1)['emulate_motion'])
+
+    def test_a_mode_chosen_while_movies_are_off_is_kept(self):
+        self._save_movies(False, recording_mode='continuous')
+
+        self.assertEqual('continuous', self._get()['recording_mode'])
+        self._save_movies(False, recording_mode='motion-triggered')
+
+        self.assertEqual('motion-triggered', self._get()['recording_mode'])
+
+
 class TestDefaultMotion(unittest.TestCase):
     def test_control_interface_cannot_change_parameters_by_default(self):
         data = {}
