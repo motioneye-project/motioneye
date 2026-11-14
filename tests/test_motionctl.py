@@ -25,7 +25,8 @@ from subprocess import DEVNULL, Popen, TimeoutExpired
 from tempfile import mkdtemp
 from unittest.mock import Mock, patch
 
-from motioneye import config, motionctl, settings, wsswitch
+from motioneye import config, motionctl, settings, utils, wsswitch
+from motioneye.controls import v4l2ctl
 
 
 class MotionLogFileTest(unittest.TestCase):
@@ -35,7 +36,7 @@ class MotionLogFileTest(unittest.TestCase):
     def tearDown(self):
         rmtree(self.tmp_dir)
 
-    def _start(self, log_to_file, syslog=True):
+    def _start(self, log_to_file, syslog=True, cameras=None):
         with ExitStack() as stack:
             stack.enter_context(
                 patch.multiple(
@@ -51,7 +52,7 @@ class MotionLogFileTest(unittest.TestCase):
                 patch.object(
                     config,
                     'get_enabled_local_motion_cameras',
-                    return_value=[{'@id': 1}],
+                    return_value=cameras or [{'@id': 1}],
                 )
             )
             for name, value in (
@@ -74,6 +75,7 @@ class MotionLogFileTest(unittest.TestCase):
             popen = stack.enter_context(patch.object(motionctl, 'Popen'))
             popen.return_value.poll.return_value = None
             popen.return_value.pid = 1234
+            self.popen = popen
             motionctl.start()
             self.process = motionctl._process
 
@@ -138,6 +140,34 @@ class MotionLogFileTest(unittest.TestCase):
             _args, kwargs = self._start(log_to_file=False)
 
         self.assertEqual(v4l2_compat, kwargs['env']['LD_PRELOAD'])
+
+    def _read_resolutions(self, libcamera_v4l2):
+        cameras = [
+            {'@id': 1, 'videodevice': '/dev/video0'},
+            {'@id': 2, 'netcam_url': 'http://camera/'},
+        ]
+        read = []
+
+        def record(devices):
+            # motion must not have been started yet: it would hold the cameras
+            read.append((list(devices), self.popen.called))
+
+        with (
+            patch.object(settings, 'LIBCAMERA_V4L2', libcamera_v4l2),
+            patch.object(utils, 'libcamera_v4l2_env', return_value=None),
+            patch.object(v4l2ctl, 'read_resolutions_before_motion', side_effect=record),
+        ):
+            self._start(log_to_file=False, cameras=cameras)
+
+        return read
+
+    def test_the_resolutions_are_read_before_motion_with_libcamera_v4l2(self):
+        read = self._read_resolutions('/v4l2-compat.so')
+
+        self.assertEqual([(['/dev/video0'], False)], read)
+
+    def test_the_resolutions_are_not_read_without_libcamera_v4l2(self):
+        self.assertEqual([], self._read_resolutions(None))
 
     def test_the_process_is_kept_without_a_pid_file(self):
         self._start(log_to_file=False)

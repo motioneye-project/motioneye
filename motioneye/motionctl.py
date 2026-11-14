@@ -123,6 +123,16 @@ def start(deferred=False):
     else:
         output = None
 
+    if settings.LIBCAMERA_V4L2:
+        # the cameras are still free now, so their resolutions can be read
+        from motioneye.controls import v4l2ctl
+
+        v4l2ctl.read_resolutions_before_motion(
+            c['videodevice']
+            for c in enabled_local_motion_cameras
+            if c.get('videodevice')
+        )
+
     process = Popen(
         args,
         stdout=output,
