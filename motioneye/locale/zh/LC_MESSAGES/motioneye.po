@@ -28,78 +28,78 @@ msgstr ""
 msgid "purigado komenciĝis"
 msgstr "开始清理"
 
-#: motioneye/config.py:1055
+#: motioneye/config.py:1060
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
 msgstr "给设备起名时，只能用字母、数字、连字符-、下划线_、加号+ 和空格"
 
-#: motioneye/config.py:1059
+#: motioneye/config.py:1064
 #, fuzzy
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 msgstr "文件名仅允许包含字母数字字符、圆括号 ()、正斜杠 /、点 .、下划线 _、连字符 -、空格，以及运动转换指定符的子集：%C %Y %m %d %H %M %S %I %p %l %q %v %$"
 
-#: motioneye/config.py:1064
+#: motioneye/config.py:1069
 #, fuzzy
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
 msgstr "目录名称仅允许包含字母数字字符、空格、圆括号 ()、正斜杠 /、点 .、下划线 _ 以及连字符 -"
 
-#: motioneye/config.py:1069
+#: motioneye/config.py:1074
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
 msgstr "电子邮件地址仅允许包含字母数字字符、下划线 _、加号 +、点号 .、@符号 @、脱字符 ^、波浪号 ~、尖括号 <>、连字符 -，多个邮箱地址之间可用逗号,和空格分隔"
 
-#: motioneye/config.py:1074
+#: motioneye/config.py:1079
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr "URL（网址）中不允许包含以下三个字符：脱字符^、分号;、单引号'"
 
-#: motioneye/server.py:236
+#: motioneye/server.py:234
 msgid "interrompa signalo ricevita, fermanta …"
 msgstr "收到中断信号，关闭中…"
 
-#: motioneye/server.py:278
+#: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
 msgstr "SMB共享需要root权限"
 
-#: motioneye/server.py:285
+#: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
 msgstr "请安装 tornado 3.1版本或更高的版本"
 
-#: motioneye/server.py:292
+#: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
 msgstr "请安装 jinja2"
 
-#: motioneye/server.py:299
+#: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
 msgstr "请安装 pillow 或 PIL"
 
-#: motioneye/server.py:306
+#: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
 msgstr "请安装 pycurl"
 
-#: motioneye/server.py:428
+#: motioneye/server.py:426
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "你好！这是一个motionEye服务器 "
 
-#: motioneye/server.py:443
+#: motioneye/server.py:441
 #, fuzzy
 msgid "The admin and/or surveillance user has no password assigned. Please login to the web interface to set both passwords."
 msgstr "行政和(或)Windows没有用户。 请登录网络接口,列出两个密码."
 
-#: motioneye/server.py:464
+#: motioneye/server.py:462
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "mjpg客户端垃圾回收已启动"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:479
 msgid "servilo komenciĝis"
 msgstr "服务器已启动"
 
-#: motioneye/server.py:489
+#: motioneye/server.py:487
 msgid "servilo haltis"
 msgstr "服务器已停止"
 
-#: motioneye/server.py:497
+#: motioneye/server.py:495
 msgid "motion haltis"
 msgstr "motion已停止"
 
-#: motioneye/server.py:503
+#: motioneye/server.py:501
 msgid "adiaŭ!"
 msgstr "再见！"
 
@@ -111,7 +111,7 @@ msgstr "任务已开始"
 msgid "taskoj haltis"
 msgstr "任务已停止"
 
-#: motioneye/wsswitch.py:36
+#: motioneye/wsswitch.py:46
 msgid "wsswitch komenciĝis"
 msgstr "wsswitch 已启动"
 
@@ -678,8 +678,8 @@ msgid "Rajtiga ŝlosilo"
 msgstr "授权密钥"
 
 #: motioneye/templates/main.html:471
-msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "密钥用于上传服务的身份验证（通常仅用于配置过程）"
+msgid "the key used to authenticate with the upload service, usually only needed during setup; for Google, the whole address of the page that cannot be loaded after allowing access"
+msgstr ""
 
 #: motioneye/templates/main.html:477
 msgid "Akiri ŝlosilon"
