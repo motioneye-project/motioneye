@@ -340,7 +340,6 @@ class TestRemoteVerifyCertificate(unittest.IsolatedAsyncioTestCase):
 
     async def _assert_every_request_verifies(self, local_config, expected):
         send = AsyncMock(return_value=self._answer())
-        # get_authorize_url() fetches by itself, as it wants the redirect
         fetch = AsyncMock(return_value=self._answer())
         with (
             patch.object(remote, '_send_request', send),
@@ -446,14 +445,16 @@ class TestRemoteAuthorizeUrl(unittest.IsolatedAsyncioTestCase):
         '@remote_camera_id': 3,
     }
 
-    def _answer(self, code, headers):
-        fetch = AsyncMock(return_value=SimpleNamespace(code=code, headers=headers))
+    def _answer(self, code, body):
+        headers = HTTPHeaders({'Content-Type': 'application/json'})
+        answer = SimpleNamespace(code=code, headers=headers, body=body, error=None)
+        fetch = AsyncMock(return_value=answer)
         return fetch, patch.object(
             remote, 'AsyncHTTPClient', return_value=SimpleNamespace(fetch=fetch)
         )
 
-    async def test_returns_where_the_remote_redirects(self):
-        fetch, client = self._answer(302, {'Location': 'https://accounts.google.com/x'})
+    async def test_returns_the_link_the_remote_sends(self):
+        fetch, client = self._answer(200, b'{"url": "https://accounts.google.com/x"}')
         with client:
             url = await remote.get_authorize_url(self._LOCAL_CONFIG, 'gdrive')
 
@@ -464,12 +465,18 @@ class TestRemoteAuthorizeUrl(unittest.IsolatedAsyncioTestCase):
         )
         self.assertFalse(request.follow_redirects)
 
-    async def test_no_url_without_a_redirect(self):
-        _fetch, client = self._answer(400, {})
-        with client, self.assertLogs(level='ERROR'):
-            url = await remote.get_authorize_url(self._LOCAL_CONFIG, 'gdrive')
+    async def test_no_url_without_one_in_the_answer(self):
+        for code, body in (
+            (400, b'{"error": "no authorization url for upload service gdrive"}'),
+            (200, b'{}'),
+            (302, b''),  # a 0.45.0b1 remote redirects instead
+        ):
+            with self.subTest(code=code):
+                _fetch, client = self._answer(code, body)
+                with client, self.assertLogs(level='ERROR'):
+                    url = await remote.get_authorize_url(self._LOCAL_CONFIG, 'gdrive')
 
-        self.assertIsNone(url)
+                self.assertIsNone(url)
 
 
 if __name__ == '__main__':

@@ -15,15 +15,21 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import annotations
 
+import asyncio
 import os
+import struct
 import unittest
 from datetime import datetime
+from multiprocessing.connection import Connection
+from multiprocessing.reduction import ForkingPickler
 from pathlib import Path
 from shutil import rmtree
 from tempfile import mkdtemp
 from time import time
 from typing import ClassVar
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
+
+from tornado.testing import AsyncTestCase, gen_test
 
 from motioneye import mediafiles
 from motioneye.mediafiles import _list_media_files
@@ -640,6 +646,45 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                 )
 
 
+class TestTimelapseMovie(AsyncTestCase):
+    """A timelapse that fails to start must not block the next one (#1081)."""
+
+    def setUp(self):
+        super().setUp()
+        self.target_dir = mkdtemp()
+        self.addCleanup(rmtree, self.target_dir, ignore_errors=True)
+        media_path = patch.object(mediafiles.settings, 'MEDIA_PATH', self.target_dir)
+        media_path.start()
+        self.addCleanup(media_path.stop)
+        process = patch.object(mediafiles, '_timelapse_process', None)
+        process.start()
+        self.addCleanup(process.stop)
+
+    @gen_test(timeout=30)
+    async def test_ffmpeg_that_cannot_start_ends_the_timelapse(self):
+        group = os.path.join(self.target_dir, '2024-01-01')
+        os.mkdir(group)
+        for i in range(5):
+            path = os.path.join(group, f'{i}.jpg')
+            Path(path).touch()
+            os.utime(path, (1000 + i * 10, 1000 + i * 10))
+
+        camera_config = {'target_dir': self.target_dir, 'movie_codec': 'mp4:h264'}
+        no_ffmpeg = patch.object(
+            mediafiles.subprocess, 'Popen', side_effect=FileNotFoundError('ffmpeg')
+        )
+        with no_ffmpeg, self.assertLogs(level='ERROR'):
+            mediafiles.make_timelapse_movie(camera_config, 20, 10, '2024-01-01')
+            for _ in range(100):
+                await asyncio.sleep(0.1)
+                if mediafiles.check_timelapse_movie()['progress'] == -1:
+                    break
+
+        self.assertEqual(
+            {'progress': -1, 'data': None}, mediafiles.check_timelapse_movie()
+        )
+
+
 class TestRemoveOlderFiles(unittest.TestCase):
     _CLOUD_INFO: ClassVar[dict] = {
         'camera_id': 1,
@@ -883,6 +928,260 @@ class TestDelMedia(unittest.TestCase):
             mediafiles.del_media_group(self.camera_config, '', 'picture')
 
         self.assertEqual(os.listdir(self.target_dir), ['.keep'])
+
+
+class _FakeListingProcess:
+    """Stands in for the listing subprocess: it holds the pipe's child end, so it
+    runs until the test has it send its chunks and close the pipe."""
+
+    started: ClassVar[list[_FakeListingProcess]] = []
+    fail_start = False
+
+    def __init__(self, target, args):
+        self.pid = 100000 + len(self.started)
+        # a child process would hold its own copy of the pipe's child end; the
+        # parent closes its copy right after the start
+        self.pipe = Connection(os.dup(args[0].fileno()), readable=False)
+
+    def start(self):
+        if self.fail_start:
+            raise OSError(12, 'Cannot allocate memory')
+
+        self.started.append(self)
+
+    def join(self):
+        pass
+
+    def finish(self, chunks=(), exitcode=0):
+        for chunk in chunks:
+            self.pipe.send(chunk)
+        self.exitcode = exitcode
+        self.pipe.close()
+
+    def die_in_a_message(self):
+        # the length of a message of 100 bytes, of which only 3 follow
+        os.write(self.pipe.fileno(), struct.pack('!i', 100) + b'abc')
+        self.finish(exitcode=-9)
+
+
+class ListMediaParallelTest(AsyncTestCase):
+    """At most LIST_MEDIA_MAX_PARALLEL listings run at a time; the others wait."""
+
+    def setUp(self):
+        super().setUp()
+        self.camera_config = {'target_dir': mkdtemp()}
+        self.addCleanup(rmtree, self.camera_config['target_dir'])
+        _FakeListingProcess.started = []
+        _FakeListingProcess.fail_start = False
+        mediafiles._listings_waiting.clear()
+        self.kill = MagicMock()
+        for target, name, value in (
+            (mediafiles.multiprocessing, 'Process', _FakeListingProcess),
+            (mediafiles.settings, 'LIST_MEDIA_MAX_PARALLEL', 2),
+            (mediafiles.settings, 'LIST_MEDIA_TIMEOUT', 120),
+            (mediafiles, '_listings_running', 0),
+            (mediafiles.os, 'kill', self.kill),
+        ):
+            patcher = patch.object(target, name, value)
+            patcher.start()
+            self.addCleanup(patcher.stop)
+
+    def tearDown(self):
+        # end the listings a test left running, so their pipes close in order
+        for process in _FakeListingProcess.started:
+            if not process.pipe.closed:
+                process.finish()
+        self.io_loop.run_sync(lambda: asyncio.sleep(0.05))
+        super().tearDown()
+
+    def list(self):
+        return mediafiles.list_media(self.camera_config, 'picture')
+
+    @gen_test
+    async def test_only_the_limit_runs_at_once_and_the_others_follow(self):
+        futures = [self.list() for _ in range(5)]
+        started = _FakeListingProcess.started
+
+        self.assertEqual(2, len(started))
+        self.assertFalse(any(f.done() for f in futures))
+
+        started[0].finish()
+        await asyncio.sleep(0.1)  # the pipe is read as soon as it closes
+        self.assertEqual([], futures[0].result())
+        self.assertEqual(3, len(started))
+
+        started[1].finish([[{'path': '/a'}, {'path': '/b'}], [{'path': '/c'}]])
+        started[2].finish()
+        await asyncio.sleep(0.1)
+        self.assertEqual(5, len(started))
+        self.assertEqual(
+            [{'path': '/a'}, {'path': '/b'}, {'path': '/c'}], futures[1].result()
+        )
+        self.assertTrue(all(f.done() for f in futures[:3]))
+        self.assertFalse(any(f.done() for f in futures[3:]))
+
+        started[3].finish()
+        started[4].finish()
+        await asyncio.sleep(0.1)
+        self.assertTrue(all(f.done() for f in futures))
+        self.assertEqual(0, mediafiles._listings_running)
+        self.assertEqual(0, len(mediafiles._listings_waiting))
+
+    @gen_test
+    async def test_a_child_that_died_answers_none_not_a_partial_list(self):
+        fut = self.list()
+        _FakeListingProcess.started[0].finish([[{'path': '/a'}]], exitcode=-9)
+        await asyncio.sleep(0.1)
+
+        self.assertIsNone(fut.result())
+        self.assertEqual(0, mediafiles._listings_running)
+
+    @gen_test
+    async def test_a_child_that_died_in_a_message_answers_none(self):
+        fut = self.list()
+        with self.assertLogs(level='ERROR') as logs:
+            _FakeListingProcess.started[0].die_in_a_message()
+            await asyncio.sleep(0.1)
+
+        # the exit code only, no exception from the pipe's handler
+        self.assertEqual(
+            ['media listing process ended with code -9'],
+            [record.getMessage() for record in logs.records],
+        )
+        self.assertIsNone(fut.result())
+        self.assertEqual(0, mediafiles._listings_running)
+
+    @gen_test
+    async def test_a_timeout_frees_the_slot(self):
+        with patch.object(mediafiles.settings, 'LIST_MEDIA_TIMEOUT', 0.1):
+            futures = [self.list() for _ in range(2)]
+            self.assertFalse(any(f.done() for f in futures))
+            await asyncio.sleep(0.3)
+
+        # both were killed and answered None, and both slots are free again
+        self.assertEqual([None, None], [f.result() for f in futures])
+        self.assertEqual(2, self.kill.call_count)
+        self.assertEqual(0, mediafiles._listings_running)
+
+        self.list()
+        self.assertEqual(3, len(_FakeListingProcess.started))
+        self.assertEqual(1, mediafiles._listings_running)
+
+    @gen_test
+    async def test_waiting_longer_than_the_timeout_answers_none(self):
+        # both slots taken by listings that never finish, so the one queued here
+        # can only be answered by giving up
+        mediafiles._listings_running = 2
+        with patch.object(mediafiles.settings, 'LIST_MEDIA_TIMEOUT', 0.3):
+            fut = self.list()
+            self.assertEqual(1, len(mediafiles._listings_waiting))
+            self.assertFalse(fut.done())
+            await asyncio.sleep(0.5)
+
+        self.assertIsNone(fut.result())
+        self.assertEqual(0, len(_FakeListingProcess.started))
+        self.assertEqual(0, len(mediafiles._listings_waiting))
+        self.assertEqual(2, mediafiles._listings_running)
+
+    @gen_test
+    async def test_a_cancelled_listing_does_not_stall_the_queue(self):
+        futures = [self.list() for _ in range(3)]
+        started = _FakeListingProcess.started
+        futures[0].cancel()  # e.g. its caller stopped waiting
+
+        started[0].finish()
+        await asyncio.sleep(0.1)  # the pipe is read as soon as it closes
+
+        self.assertEqual(3, len(started))  # the one waiting took the freed slot
+        self.assertEqual(2, mediafiles._listings_running)
+
+    @gen_test
+    async def test_giving_up_on_a_cancelled_listing_does_not_fail(self):
+        mediafiles._listings_running = 2
+        with (
+            patch.object(mediafiles.settings, 'LIST_MEDIA_TIMEOUT', 0.3),
+            self.assertLogs(level='ERROR') as logs,
+        ):
+            fut = self.list()
+            fut.cancel()
+            await asyncio.sleep(0.5)
+
+        # the timeout only, no exception from a callback
+        self.assertEqual(
+            ['timeout waiting for a media listing slot'],
+            [record.getMessage() for record in logs.records],
+        )
+        self.assertEqual(0, len(mediafiles._listings_waiting))
+
+    @gen_test
+    async def test_failed_starts_free_the_slot_without_recursing(self):
+        _FakeListingProcess.fail_start = True
+        futures = [self.list() for _ in range(600)]
+        self.assertEqual([None] * 600, await asyncio.gather(*futures))
+        self.assertEqual(0, mediafiles._listings_running)
+        self.assertEqual(0, len(mediafiles._listings_waiting))
+
+        _FakeListingProcess.fail_start = False
+        self.list()
+        self.assertEqual(1, len(_FakeListingProcess.started))
+        self.assertEqual(1, mediafiles._listings_running)
+
+
+class ListMediaChunksTest(unittest.TestCase):
+    """The listing subprocess sends its entries several a message, and no message
+    is bigger than one atomic pipe write."""
+
+    @staticmethod
+    def _messages(pipe):
+        return [call.args[0] for call in pipe.send_bytes.call_args_list]
+
+    def _list(self, names, message_max):
+        # the limit is given, not the PIPE_BUF of where the tests run
+        target_dir = mkdtemp()
+        self.addCleanup(rmtree, target_dir)
+        for name in names:
+            Path(target_dir, name).write_bytes(b'x')
+        pipe = MagicMock()
+
+        with patch.object(mediafiles, '_LIST_MESSAGE_MAX', message_max):
+            mediafiles._do_list_media(pipe, target_dir, ['.jpg'])
+
+        pipe.close.assert_called_once()
+        pipe.send.assert_not_called()
+        return self._messages(pipe)
+
+    def test_the_entries_come_in_chunks(self):
+        names = [f'{i:04d}.jpg' for i in range(450)]
+        messages = self._list(names, message_max=1 << 20)  # all of them fit
+
+        chunks = [ForkingPickler.loads(m) for m in messages]
+        self.assertEqual([32] * 14 + [2], [len(c) for c in chunks])
+        self.assertEqual(
+            [f'/{name}' for name in names],
+            sorted(e['path'] for c in chunks for e in c),
+        )
+
+    def test_a_chunk_too_big_for_one_pipe_write_is_halved(self):
+        names = [f'{i:04d}.jpg' for i in range(450)]
+        messages = self._list(names, message_max=1000)  # a few entries only
+
+        chunks = [ForkingPickler.loads(m) for m in messages]
+        self.assertLessEqual(max(map(len, messages)), 1000)
+        self.assertLess(max(map(len, chunks)), 32)
+        self.assertGreater(min(map(len, chunks)), 0)
+        self.assertEqual(
+            [f'/{name}' for name in names],
+            sorted(e['path'] for c in chunks for e in c),
+        )
+
+    def test_an_entry_too_big_for_one_pipe_write_is_sent_alone(self):
+        entries = [{'path': '/' + c * 5000} for c in 'ab']
+        pipe = MagicMock()
+
+        mediafiles._send_entries(pipe, entries)
+
+        chunks = [ForkingPickler.loads(m) for m in self._messages(pipe)]
+        self.assertEqual([[entries[0]], [entries[1]]], chunks)
 
 
 if __name__ == '__main__':

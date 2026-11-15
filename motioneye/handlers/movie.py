@@ -60,12 +60,11 @@ class MovieHandler(BaseHandler):
             await self.list(camera_id_int)
             return
 
-        elif op == 'preview':
+        if op == 'preview':
             await self.preview(camera_id_int, filename)
             return
 
-        else:
-            raise HTTPError(400, 'unknown operation')
+        raise HTTPError(400, 'unknown operation')
 
     async def post(
         self,
@@ -106,12 +105,11 @@ class MovieHandler(BaseHandler):
             await self.delete(camera_id_int, filename)
             return
 
-        elif op == 'delete_all':
+        if op == 'delete_all':
             await self.delete_all(camera_id_int, group)
             return
 
-        else:
-            raise HTTPError(400, 'unknown operation')
+        raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
@@ -137,7 +135,7 @@ class MovieHandler(BaseHandler):
                 {'mediaList': media_list, 'cameraName': camera_config['camera_name']}
             )
 
-        elif utils.is_remote_camera(camera_config):
+        if utils.is_remote_camera(camera_config):
             resp = await remote.list_media(
                 camera_config,
                 media_type='movie',
@@ -152,8 +150,8 @@ class MovieHandler(BaseHandler):
 
             return self.finish_json(resp.media_list)
 
-        else:  # assuming simple mjpeg camera
-            raise HTTPError(400, 'unknown operation')
+        # assuming simple mjpeg camera
+        raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()

@@ -56,13 +56,24 @@ def send_mail(
     *,
     verify: bool = True,
 ):
-    conn = smtplib.SMTP(server, port, timeout=settings.SMTP_TIMEOUT)
+    # tls: False, True for STARTTLS or 'implicit' for TLS from the start
+    context = None
     if tls:
         context = ssl.create_default_context()
         if not verify:
             context.check_hostname = False
             context.verify_mode = ssl.CERT_NONE
-        conn.starttls(context=context)
+
+    conn: smtplib.SMTP
+    if tls == 'implicit':  # encrypted from the start, usually on port 465
+        conn = smtplib.SMTP_SSL(
+            server, port, timeout=settings.SMTP_TIMEOUT, context=context
+        )
+
+    else:
+        conn = smtplib.SMTP(server, port, timeout=settings.SMTP_TIMEOUT)
+        if tls:  # STARTTLS, usually on port 587
+            conn.starttls(context=context)
 
     if account and password:
         conn.login(account, password)
@@ -124,10 +135,19 @@ def make_message(
             media_files.result() if hasattr(media_files, 'result') else media_files
         )
         if files is None:
-            logging.warning(
-                f'picture listing timed out after {settings.LIST_MEDIA_TIMEOUT}s; sending '
-                'notification without pictures; consider raising list_media_timeout_email'
-            )
+            # mediafiles has logged why; the hint only helps after a timeout
+            if time.monotonic() - listing_started >= settings.LIST_MEDIA_TIMEOUT:
+                logging.warning(
+                    f'picture listing timed out after {settings.LIST_MEDIA_TIMEOUT}s; '
+                    'sending notification without pictures; consider raising '
+                    'list_media_timeout_email'
+                )
+
+            else:
+                logging.warning(
+                    'picture listing failed; sending notification without pictures'
+                )
+
             files = []
 
         if files:
@@ -188,6 +208,7 @@ def make_message(
     # so let the listing skip the rest instead of formatting and piping a
     # whole day of snapshots
     event_timestamp: float = time.mktime(moment.timetuple())
+    listing_started = time.monotonic()
     fut = utils.cast_future(
         mediafiles.list_media(
             camera_config,
@@ -245,7 +266,8 @@ def main(parser, args):
         options.sender = f'motionEye on {socket.gethostname()} <{address}>'
 
     options.port = int(options.port)
-    options.tls = options.tls.lower() == 'true'
+    if options.tls != 'implicit':
+        options.tls = options.tls.lower() == 'true'
     options.verify = utils.verify_setting(options.verify)
     options.timespan = int(options.timespan)
     message = messages.get(options.msg_id)

@@ -63,7 +63,7 @@ LOG_TO_FILE = False
 
 # the IP address to listen on
 # (0.0.0.0 for all interfaces, 127.0.0.1 for localhost)
-LISTEN = '0.0.0.0'  # nosec: B104
+LISTEN = '0.0.0.0'  # noqa: S104
 
 # the TCP port to listen on
 PORT = 8765
@@ -73,6 +73,9 @@ TRUSTED_PROXIES: str = ''
 
 # path to the motion binary to use (automatically detected by default)
 MOTION_BINARY = None
+
+# path to libcamera's v4l2-compat.so, preloaded for motion and v4l2-ctl (see motioneye.conf)
+LIBCAMERA_V4L2 = None
 
 # whether motion HTTP control interface listens on
 # localhost or on all interfaces
@@ -128,6 +131,10 @@ LIST_MEDIA_TIMEOUT_EMAIL = 10
 
 # timeout in seconds to wait for media files list, when sending telegrams
 LIST_MEDIA_TIMEOUT_TELEGRAM = 10
+
+# how many media file listings may run at the same time; the others wait their turn,
+# and that wait, of one LIST_MEDIA_TIMEOUT at most, adds to the timeout of the listing
+LIST_MEDIA_MAX_PARALLEL = 2
 
 # timeout in seconds to wait for zip file creation
 ZIP_TIMEOUT = 500

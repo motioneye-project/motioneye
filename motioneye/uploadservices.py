@@ -19,12 +19,13 @@ import json
 import logging
 import os.path
 import ssl
+import sys
 import warnings
 from abc import ABC, abstractmethod
 from base64 import b64decode, b64encode
 from datetime import datetime
-from ftplib import FTP as FTPc  # nosec: B402
-from ftplib import FTP_TLS as FTPTLSc  # nosec: B402
+from ftplib import FTP as FTPc
+from ftplib import FTP_TLS as FTPTLSc
 from hashlib import md5, sha256
 from inspect import isabstract
 from io import BytesIO, StringIO
@@ -37,9 +38,6 @@ from urllib.error import HTTPError
 from urllib.parse import parse_qs, quote, urlencode, urlparse
 from urllib.request import Request
 
-import boto3
-import pycurl
-
 from motioneye import settings, utils
 
 _STATE_FILE_NAME: str = 'uploadservices.json'
@@ -47,6 +45,15 @@ _services: dict | None = None
 # PKCE code verifier per service, from creating its authorization link until its
 # key is redeemed, so that a code read from the redirect is of no use to others
 _code_verifiers: dict[str, str] = {}
+
+
+def _import_error(module: str, service: str) -> RuntimeError:
+    # the modules of single upload services are optional and imported on use, so
+    # a missing one fails only that service, saying what to install
+    return RuntimeError(
+        f'{service} uploads need the Python module {module}, '
+        f'install it with: sudo {sys.executable} -m pip install {module}'
+    )
 
 
 class UploadService(ABC):
@@ -254,7 +261,9 @@ class GoogleBase(UploadService, ABC):
                     self.save()
 
                     # retry the request with refreshed credentials
-                    return self._request(url, body, headers, retry_auth=False)
+                    return self._request(
+                        url, body, headers, retry_auth=False, method=method
+                    )
 
                 except Exception:
                     self.error('refreshing credentials failed')
@@ -431,8 +440,8 @@ class GoogleDrive(GoogleBase):
 
             return parent_id
 
-        else:  # root folder
-            return self._get_folder_id_by_name(None, 'root')
+        # root folder
+        return self._get_folder_id_by_name(None, 'root')
 
     def _get_folder_id_by_name(
         self, parent_id: str | None, child_name: str, create: bool | None = True
@@ -472,10 +481,9 @@ class GoogleDrive(GoogleBase):
                 self._create_folder(parent_id, child_name)
                 return self._get_folder_id_by_name(parent_id, child_name, create=False)
 
-            else:
-                msg = f'folder with name "{child_name}" does not exist'
-                self.error(msg)
-                raise RuntimeError(msg)
+            msg = f'folder with name "{child_name}" does not exist'
+            self.error(msg)
+            raise RuntimeError(msg)
 
         return items[0]['id']
 
@@ -494,10 +502,12 @@ class GoogleDrive(GoogleBase):
 
     def clean_cloud(self, cloud_dir: str, local_folders: list) -> int:
         # remove old cloud folder that does not exist in local.
-        # assumes 'cloud_dir' is a direct child of the 'root'.
+        # 'cloud_dir' is the upload location, e.g. 'motioneye/Camera1'.
 
         removed_count: int = 0
-        folder_id = self._get_folder_id_by_name('root', cloud_dir, False)
+        folder_id = 'root'
+        for name in cloud_dir.split('/'):
+            folder_id = self._get_folder_id_by_name(folder_id, name, False)
         children: list = self._get_children(folder_id)
         self.info(
             f'found {len(local_folders)}/{len(children)} folder(s) in local/cloud'
@@ -531,7 +541,8 @@ class GoogleDrive(GoogleBase):
     def _delete_file(self, file_id) -> bool:
         url = f'{self.CREATE_FOLDER_URL}/{file_id}'
         response = self._request(url, None, None, True, 'DELETE')
-        return response == ''
+        # the answer is empty, as bytes
+        return not response
 
     def _get_file_metadata(self, file_id) -> dict:
         url = f'{self.CREATE_FOLDER_URL}/{file_id}'
@@ -952,7 +963,7 @@ class _FTPTLSSessionReuse(FTPTLSc):
     and refuse the transfer otherwise; ftplib does not do it (python/cpython#63699)."""
 
     def ntransfercmd(self, cmd, rest=None):
-        conn, size = FTPc.ntransfercmd(self, cmd, rest)
+        conn, size = FTPc.ntransfercmd(self, cmd, rest)  # noqa: S321
         if self._prot_p:
             conn = self.context.wrap_socket(
                 conn, server_hostname=self.host, session=self.sock.session
@@ -1066,7 +1077,7 @@ class FTP(UploadService):
                     context.verify_mode = ssl.CERT_NONE
                 conn = _FTPTLSSessionReuse(context=context, timeout=self.SOCKET_TIMEOUT)
             else:
-                conn = FTPc(timeout=self.SOCKET_TIMEOUT)  # nosec: B321
+                conn = FTPc(timeout=self.SOCKET_TIMEOUT)  # noqa: S321
             conn.set_pasv(True)
             conn.connect(self._server, port=self._port)
             conn.login(self._username or 'anonymous', self._password)
@@ -1117,6 +1128,8 @@ class SFTP(UploadService):
         super().__init__(camera_id)
 
     def curl_perform_filetransfer(self, conn):
+        import pycurl  # imported by _get_conn() already
+
         curl_url = conn.getinfo(pycurl.EFFECTIVE_URL)
 
         try:
@@ -1141,15 +1154,16 @@ class SFTP(UploadService):
 
         # list of commands to send after upload.
         rm_operations = [
-            f'RM {self._location}/{test_file}',
-            f'RMDIR {self._location}/{test_folder}',
+            f'rm {self._location}/{test_file}',
+            f'rmdir {self._location}/{test_folder}',
         ]
 
-        conn = self._get_conn(test_file)
-        conn.setopt(conn.POSTQUOTE, rm_operations)  # Executed after transfer.
-        conn.setopt(pycurl.READFUNCTION, StringIO().read)
-
         try:
+            conn = self._get_conn(test_file)
+            import pycurl  # imported by _get_conn() already
+
+            conn.setopt(conn.POSTQUOTE, rm_operations)  # Executed after transfer.
+            conn.setopt(pycurl.READFUNCTION, StringIO().read)
             self.curl_perform_filetransfer(conn)
             return True
 
@@ -1160,6 +1174,8 @@ class SFTP(UploadService):
 
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
         conn = self._get_conn(filename)
+        import pycurl  # imported by _get_conn() already
+
         conn.setopt(pycurl.READFUNCTION, BytesIO(data).read)
 
         self.curl_perform_filetransfer(conn)
@@ -1191,6 +1207,12 @@ class SFTP(UploadService):
         self.debug(
             f'creating sftp connection to {self._username}@{self._server}:{self._port}'
         )
+
+        try:
+            import pycurl
+
+        except ModuleNotFoundError as e:
+            raise _import_error('pycurl', 'SFTP') from e
 
         self._conn = pycurl.Curl()
         self._conn.setopt(self._conn.URL, sftp_url)
@@ -1265,6 +1287,12 @@ class S3(UploadService):
         if verify is False:
             # urllib3 would warn on every single request; the user chose that
             warnings.filterwarnings('ignore', message='Unverified HTTPS request')
+        try:
+            import boto3
+
+        except ModuleNotFoundError as e:
+            raise _import_error('boto3', 'S3') from e
+
         return boto3.client(
             's3',
             endpoint_url=self._endpoint_url,
@@ -1288,7 +1316,7 @@ class S3(UploadService):
 
         if self._sse_c_key:
             sse_key_md5 = b64encode(
-                md5(b64decode(self._sse_c_key)).digest()  # nosec: B324
+                md5(b64decode(self._sse_c_key), usedforsecurity=False).digest()
             ).decode()
             extra_args = {
                 'SSECustomerAlgorithm': 'AES256',
@@ -1548,8 +1576,10 @@ def _save(services: dict[str, dict[str, UploadService]]) -> None:
 def clean_cloud(local_dir: str, data: dict, info: dict) -> None:
     camera_id: int = info['camera_id']
     service_name: str = info['service_name']
-    cloud_dir_user: str = info['cloud_dir']
-    cloud_dir: str = next(p.strip() for p in cloud_dir_user.split('/') if p.strip())
+    # the whole upload location, not only its first folder (#1463); never the root
+    cloud_dir: str = '/'.join(
+        p.strip() for p in info['cloud_dir'].split('/') if p.strip()
+    )
 
     logging.debug(f'clean_cloud({camera_id}, {service_name}, {local_dir}, {cloud_dir})')
 

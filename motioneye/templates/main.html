@@ -868,6 +868,11 @@
                         <span class="minimize"></span>
                     </div>
                     <table class="settings">
+                        <tr class="settings-item">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Aŭtomata sojla agordo") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="autoThresholdTuningSwitch"></td>
+                            <td><span class="help-mark" title="{{ _("Ebligu tion aŭtomate ĝustigi la sojlon.") }}">?</span></td>
+                        </tr>
                         <tr class="settings-item" min="0" max="20" snap="0" ticksnum="5" decimals="1" unit="%" depends="!autoThresholdTuning">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Kadra ŝanĝo sojlo") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="frameChangeThresholdSlider"></td>
@@ -877,11 +882,6 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Maksimuma ŝanĝo sojlo") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="maxFrameChangeThresholdEntry"><span class="settings-item-unit">pixels</span></td>
                             <td><span class="help-mark" title="{{ _("Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon).") }}">?</span></td>
-                        </tr>
-                        <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Aŭtomata sojla agordo") }}</span></td>
-                            <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="autoThresholdTuningSwitch"></td>
-                            <td><span class="help-mark" title="{{ _("Ebligu tion aŭtomate ĝustigi la sojlon.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Aŭtomata bruo-detekto") }}</span></td>
@@ -1020,7 +1020,7 @@
                         <tr class="settings-item" min="1" max="65535" depends="emailNotificationsEnabled motionDetectionEnabled" required="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("SMTP Haveno") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled number notifications camera-config" id="smtpPortEntry" placeholder="{{ _("ekz. 587") }}"></td>
-                            <td><span class="help-mark" title="{{ _("Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj).") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("the port of your SMTP server: usually 465 for TLS, 587 for STARTTLS, and 25 without encryption; e.g. Gmail accepts 465 with TLS and 587 with STARTTLS") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("SMTP-Konto") }}</span></td>
@@ -1030,7 +1030,7 @@
                         <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("SMTP Pasvorto") }}</span></td>
                             <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled notifications camera-config" id="smtpPasswordEntry"></td>
-                            <td><span class="help-mark" title="{{ _("Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton).") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("your SMTP account password; for Gmail, use an app password from your Google account, as Gmail refuses the account password itself") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("De adreso") }}</span></td>
@@ -1038,11 +1038,17 @@
                             <td><span class="help-mark" title="{{ _("Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena).") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Uzi TLS") }}</span></td>
-                            <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="smtpTlsSwitch"></td>
-                            <td><span class="help-mark" title="{{ _("Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi).") }}">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Encryption") }}</span></td>
+                            <td class="settings-item-value">
+                                <select class="styled notifications camera-config" id="smtpTlsSelect">
+                                    <option value="none">{{ _("none") }}</option>
+                                    <option value="starttls">STARTTLS</option>
+                                    <option value="tls">TLS</option>
+                                </select>
+                            </td>
+                            <td><span class="help-mark" title="{{ _("how the connection to your SMTP server is encrypted: TLS encrypts it from the start (usually port 465), STARTTLS connects unencrypted and then switches to encryption (usually port 587); choose what your provider names") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled smtpTls">
+                        <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled smtpTls!=none">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Verify certificate") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="smtpVerifySwitch"></td>
                             <td><span class="help-mark" title="{{ _("check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated") }}">?</span></td>
@@ -1079,6 +1085,11 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Alkroĉitaj Bildoj Tempo") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="number styled notifications camera-config" id="telegramPictureTimeSpanEntry"><span class="settings-item-unit">seconds</span></td>
                             <td><span class="help-mark" title="{{ _("difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte.") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item" depends="telegramNotificationsEnabled motionDetectionEnabled telegramPictureTimeSpan!=0">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Send the text first") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="telegramTextFirstSwitch"></td>
+                            <td><span class="help-mark" title="{{ _("send the message as soon as motion is detected, and the pictures afterwards as replies to it; otherwise the whole notification waits for the pictures") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><a href="https://core.telegram.org/bots#6-botfather" target="_blank"><div class="button normal-button test-button" id="apiInstructionButton">{{ _("API-Informoj") }}</div></a></td>

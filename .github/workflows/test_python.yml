@@ -24,9 +24,9 @@ jobs:
           python-version: ${{ matrix.python }}
           check-latest: true
       # --only-deps is supported from pip 26.2 on, which requires Python >=3.10
-      - run: pip install -U mypy pytest setuptools build 'tornado>=6.5.8' jinja2 pillow pycurl babel boto3 boto3-stubs argon2-cffi
+      - run: pip install -U mypy pytest setuptools build 'tornado>=6.5.8' jinja2 pillow pycurl types-pycurl babel boto3 boto3-stubs argon2-cffi
         id: deps
-      - run: mypy --install-types --non-interactive --enable-error-code import-untyped .
+      - run: mypy .
       - run: pytest
         if: always() && steps.deps.outcome == 'success'
       - run: python3 -m build

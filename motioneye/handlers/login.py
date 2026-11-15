@@ -156,7 +156,7 @@ def verify_argon2_password(stored_hash, plaintext_password):
 
 
 def verify_legacy_sha1_password(stored_hash, plaintext_password):
-    candidate = sha1(plaintext_password.encode()).hexdigest()  # nosec: B324
+    candidate = sha1(plaintext_password.encode()).hexdigest()  # noqa: S324
     return compare_digest(candidate, stored_hash)
 
 
@@ -255,7 +255,7 @@ class LoginHandler(BaseHandler):
                 mark_user_migrated(user_type)
 
             elif hash_type == 'missing':
-                if password != '':  # nosec: B105
+                if password != '':
                     self.set_status(401)
                     return self.finish_json({'error': 'invalid credentials'})
 
@@ -287,7 +287,8 @@ class LoginHandler(BaseHandler):
             ),
             httponly=True,
             secure=should_use_secure_cookie(self),
-            samesite='Strict',
+            # Lax: Strict causes problems on phones with PWAs
+            samesite='Lax',
         )
 
         response: dict[str, Any] = {'user': user_type}

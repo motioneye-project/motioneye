@@ -153,6 +153,7 @@ _NOT_FORWARDED = {
     'upload_verify': False,
     'clean_uploaded': True,
     'email_notifications_smtp_verify': False,
+    'telegram_notifications_text_first': True,
     'web_hook_notifications_verify': False,
     'web_hook_end_notifications_verify': False,
     'web_hook_storage_verify': False,

@@ -23,6 +23,10 @@ from shutil import rmtree
 from tempfile import mkdtemp
 from unittest.mock import patch
 
+from tornado.httpclient import AsyncHTTPClient
+from tornado.simple_httpclient import SimpleAsyncHTTPClient
+from tornado.testing import AsyncTestCase
+
 from motioneye import meyectl, settings
 
 # load_settings() changes these, restore them after each test
@@ -36,6 +40,20 @@ def _removed_warning(name, path):
         'check off per remote camera, upload service or webhook (Verify '
         'certificate) where needed'
     )
+
+
+class ConfigureTornadoTest(AsyncTestCase):
+    def test_tornados_own_client_without_its_body_size_limit(self):
+        self.addCleanup(AsyncHTTPClient.configure, None)
+        meyectl.configure_tornado()
+
+        client = AsyncHTTPClient(force_instance=True)
+        self.addCleanup(client.close)
+
+        self.assertIsInstance(client, SimpleAsyncHTTPClient)
+        self.assertEqual(16, client.max_clients)
+        # remote movies and zip files may be larger than Tornado's 100 MB default
+        self.assertGreater(client.max_body_size, 100 * 1024 * 1024)
 
 
 class LogLevelTest(unittest.TestCase):

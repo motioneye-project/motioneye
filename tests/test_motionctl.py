@@ -125,6 +125,20 @@ class MotionLogFileTest(unittest.TestCase):
 
             self.assertEqual({}, wsswitch._ws_state)
 
+    def test_motion_inherits_the_environment_by_default(self):
+        _args, kwargs = self._start(log_to_file=False)
+
+        self.assertIsNone(kwargs['env'])
+
+    def test_motion_gets_libcamera_v4l2_preloaded(self):
+        v4l2_compat = os.path.join(self.tmp_dir, 'v4l2-compat.so')
+        open(v4l2_compat, 'w').close()
+
+        with patch.object(settings, 'LIBCAMERA_V4L2', v4l2_compat):
+            _args, kwargs = self._start(log_to_file=False)
+
+        self.assertEqual(v4l2_compat, kwargs['env']['LD_PRELOAD'])
+
     def test_the_process_is_kept_without_a_pid_file(self):
         self._start(log_to_file=False)
 
