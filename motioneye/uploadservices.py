@@ -261,7 +261,9 @@ class GoogleBase(UploadService, ABC):
                     self.save()
 
                     # retry the request with refreshed credentials
-                    return self._request(url, body, headers, retry_auth=False)
+                    return self._request(
+                        url, body, headers, retry_auth=False, method=method
+                    )
 
                 except Exception:
                     self.error('refreshing credentials failed')
@@ -500,10 +502,12 @@ class GoogleDrive(GoogleBase):
 
     def clean_cloud(self, cloud_dir: str, local_folders: list) -> int:
         # remove old cloud folder that does not exist in local.
-        # assumes 'cloud_dir' is a direct child of the 'root'.
+        # 'cloud_dir' is the upload location, e.g. 'motioneye/Camera1'.
 
         removed_count: int = 0
-        folder_id = self._get_folder_id_by_name('root', cloud_dir, False)
+        folder_id = 'root'
+        for name in cloud_dir.split('/'):
+            folder_id = self._get_folder_id_by_name(folder_id, name, False)
         children: list = self._get_children(folder_id)
         self.info(
             f'found {len(local_folders)}/{len(children)} folder(s) in local/cloud'
@@ -537,7 +541,8 @@ class GoogleDrive(GoogleBase):
     def _delete_file(self, file_id) -> bool:
         url = f'{self.CREATE_FOLDER_URL}/{file_id}'
         response = self._request(url, None, None, True, 'DELETE')
-        return response == ''
+        # the answer is empty, as bytes
+        return not response
 
     def _get_file_metadata(self, file_id) -> dict:
         url = f'{self.CREATE_FOLDER_URL}/{file_id}'
@@ -1571,8 +1576,10 @@ def _save(services: dict[str, dict[str, UploadService]]) -> None:
 def clean_cloud(local_dir: str, data: dict, info: dict) -> None:
     camera_id: int = info['camera_id']
     service_name: str = info['service_name']
-    cloud_dir_user: str = info['cloud_dir']
-    cloud_dir: str = next(p.strip() for p in cloud_dir_user.split('/') if p.strip())
+    # the whole upload location, not only its first folder (#1463); never the root
+    cloud_dir: str = '/'.join(
+        p.strip() for p in info['cloud_dir'].split('/') if p.strip()
+    )
 
     logging.debug(f'clean_cloud({camera_id}, {service_name}, {local_dir}, {cloud_dir})')
 

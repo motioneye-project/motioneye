@@ -15,13 +15,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
+import os
+import shutil
 import tempfile
 import unittest
 from base64 import urlsafe_b64encode
 from hashlib import sha256
 from io import BytesIO
 from unittest.mock import patch
-from urllib.parse import parse_qs, urlparse
+from urllib.error import HTTPError
+from urllib.parse import parse_qs, unquote, urlparse
 
 from motioneye import uploadservices
 from motioneye.uploadservices import GoogleDrive, GooglePhoto
@@ -177,6 +180,134 @@ class TestCredentialsFromTheTest(unittest.TestCase):
         self.assertEqual('invalid_grant', result)
         stored = uploadservices._get_service(1, 'gdrive').dump()
         self.assertEqual(('/cams', None), (stored['location'], stored['credentials']))
+
+
+class _DriveFolders:
+    """Google Drive folders, as id: (title, parent id), answering the requests of
+    GoogleDrive._request."""
+
+    def __init__(self, paths):
+        self.folders = {}
+        for path in paths:
+            parent = 'root'
+            for name in path.split('/'):
+                parent = self._find(parent, name) or self._add(parent, name)
+
+    def _find(self, parent, name):
+        return next(
+            (i for i, (t, p) in self.folders.items() if (t, p) == (name, parent)), None
+        )
+
+    def _add(self, parent, name):
+        folder_id = f'id{len(self.folders)}'
+        self.folders[folder_id] = (name, parent)
+        return folder_id
+
+    def paths(self):
+        def path(folder_id):
+            title, parent = self.folders[folder_id]
+            return title if parent == 'root' else f'{path(parent)}/{title}'
+
+        return sorted(path(i) for i in self.folders)
+
+    def _children(self, parent):
+        return [i for i, (_, p) in self.folders.items() if p == parent]
+
+    def _remove(self, folder_id):
+        for child in self._children(folder_id):
+            self._remove(child)
+        del self.folders[folder_id]
+
+    def request(self, url, body=None, headers=None, retry_auth=True, method='GET'):
+        # the answers are bytes, as from the real _request
+        path, _, query = url.partition('?q=')
+        folder_id = path.split('/files/')[1].split('/')[0]
+        if method == 'DELETE':
+            self._remove(folder_id)
+            return b''
+        if query:
+            name = unquote(query).split("title = '")[1].split("'")[0]
+            found = self._find(folder_id, name)
+            answer = {'items': [{'id': found}] if found else []}
+        elif path.endswith('/children'):
+            answer = {'items': [{'id': i} for i in self._children(folder_id)]}
+        else:
+            answer = {'title': self.folders[folder_id][0]}
+        return json.dumps(answer).encode()
+
+
+class TestCleanCloud(unittest.TestCase):
+    """Clean Cloud removes the day folders of the upload location that are gone
+    locally."""
+
+    def _clean(self, location, cloud_paths, local_folders):
+        drive = _DriveFolders(cloud_paths)
+        service = GoogleDrive('1')
+        local_dir = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, local_dir)
+        for name in local_folders:
+            os.mkdir(os.path.join(local_dir, name))
+
+        with (
+            patch.object(service, '_request', side_effect=drive.request),
+            patch.object(uploadservices, '_get_service', return_value=service),
+        ):
+            uploadservices.clean_cloud(
+                local_dir,
+                {},
+                {'camera_id': 1, 'service_name': 'gdrive', 'cloud_dir': location},
+            )
+
+        return drive.paths()
+
+    def test_old_days_are_removed(self):
+        with self.assertLogs(level='INFO') as logs:
+            paths = self._clean(
+                '/motioneye',
+                ['motioneye/2026-11-10', 'motioneye/2026-11-14'],
+                ['2026-11-14'],
+            )
+
+        self.assertEqual(['motioneye', 'motioneye/2026-11-14'], paths)
+        # the count was always 0, as the empty answer of a delete is bytes
+        self.assertIn('INFO:root:gdrive: deleted 1 cloud folder(s)', logs.output)
+
+    def test_a_location_of_several_folders_keeps_them(self):
+        # the first folder of the location was cleaned, so the camera's folder in
+        # it was removed with all its days (#1463)
+        paths = self._clean(
+            '/motioneye/Camera1/',
+            ['motioneye/Camera1/2026-11-10', 'motioneye/Camera1/2026-11-14', 'other'],
+            ['2026-11-14'],
+        )
+
+        self.assertEqual(
+            ['motioneye', 'motioneye/Camera1', 'motioneye/Camera1/2026-11-14', 'other'],
+            paths,
+        )
+
+    def test_the_root_is_never_cleaned(self):
+        paths = self._clean('/', ['2026-11-10', 'documents'], ['2026-11-14'])
+
+        self.assertEqual(['2026-11-10', 'documents'], paths)
+
+
+class TestExpiredAccessToken(unittest.TestCase):
+    @patch.object(GoogleDrive, '_refresh_credentials', return_value=_CREDENTIALS)
+    @patch('motioneye.uploadservices.utils.urlopen')
+    def test_the_retry_keeps_the_method(self, urlopen, _refresh_credentials):
+        service = GoogleDrive('1')
+        service._credentials = dict(_CREDENTIALS)
+        expired = HTTPError('url', 401, 'Unauthorized', {}, BytesIO())
+        urlopen.side_effect = [expired, BytesIO(b'')]
+
+        with patch.object(service, 'save'):
+            self.assertTrue(service._delete_file('id1'))
+
+        # the retry was a GET, so the folder was not deleted
+        self.assertEqual(
+            ['DELETE', 'DELETE'], [c[0][0].get_method() for c in urlopen.call_args_list]
+        )
 
 
 if __name__ == '__main__':
