@@ -291,6 +291,13 @@ def _list_disks_dev_by_id():
             disks_by_dev[partition['target']] = partition
             partition['partitions'] = [dict(partition)]
 
+    # a disk without partitions, e.g. an MD RAID array or a disk formatted as a
+    # whole, is mounted itself (#3393)
+    for disk in disks_by_dev.values():
+        if not disk['partitions']:
+            partition = {k: v for k, v in disk.items() if k != 'partitions'}
+            disk['partitions'] = [dict(partition, part_no=None)]
+
     # prepare flat list of disks
     disks = list(disks_by_dev.values())
     disks.sort(key=lambda d: d['vendor'])
