@@ -542,6 +542,21 @@ class TestDefaultMotion(unittest.TestCase):
         self.assertEqual(2, data['webcontrol_parms'])
 
 
+class TestDefaultMotionBuffer(unittest.TestCase):
+    def test_new_cameras_buffer_no_extra_pictures(self):
+        # 20 frames froze every movie one second in on a slow machine (#2887)
+        data = {}
+        config._set_default_motion_camera(1, data)
+
+        self.assertEqual((1, 0), (data['minimum_motion_frames'], data['pre_capture']))
+
+    def test_keeps_stored_values(self):
+        data = {'minimum_motion_frames': 20, 'pre_capture': 1}
+        config._set_default_motion_camera(1, data)
+
+        self.assertEqual((20, 1), (data['minimum_motion_frames'], data['pre_capture']))
+
+
 class TestDefaultMovieCodec(unittest.TestCase):
     def _default(self):
         data = {}
