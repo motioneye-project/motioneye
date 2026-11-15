@@ -23,6 +23,7 @@ from base64 import urlsafe_b64encode
 from hashlib import sha256
 from io import BytesIO
 from unittest.mock import patch
+from urllib.error import HTTPError
 from urllib.parse import parse_qs, unquote, urlparse
 
 from motioneye import uploadservices
@@ -218,18 +219,21 @@ class _DriveFolders:
         del self.folders[folder_id]
 
     def request(self, url, body=None, headers=None, retry_auth=True, method='GET'):
+        # the answers are bytes, as from the real _request
         path, _, query = url.partition('?q=')
         folder_id = path.split('/files/')[1].split('/')[0]
         if method == 'DELETE':
             self._remove(folder_id)
-            return ''
+            return b''
         if query:
             name = unquote(query).split("title = '")[1].split("'")[0]
             found = self._find(folder_id, name)
-            return json.dumps({'items': [{'id': found}] if found else []})
-        if path.endswith('/children'):
-            return json.dumps({'items': [{'id': i} for i in self._children(folder_id)]})
-        return json.dumps({'title': self.folders[folder_id][0]})
+            answer = {'items': [{'id': found}] if found else []}
+        elif path.endswith('/children'):
+            answer = {'items': [{'id': i} for i in self._children(folder_id)]}
+        else:
+            answer = {'title': self.folders[folder_id][0]}
+        return json.dumps(answer).encode()
 
 
 class TestCleanCloud(unittest.TestCase):
@@ -257,13 +261,16 @@ class TestCleanCloud(unittest.TestCase):
         return drive.paths()
 
     def test_old_days_are_removed(self):
-        paths = self._clean(
-            '/motioneye',
-            ['motioneye/2026-11-10', 'motioneye/2026-11-14'],
-            ['2026-11-14'],
-        )
+        with self.assertLogs(level='INFO') as logs:
+            paths = self._clean(
+                '/motioneye',
+                ['motioneye/2026-11-10', 'motioneye/2026-11-14'],
+                ['2026-11-14'],
+            )
 
         self.assertEqual(['motioneye', 'motioneye/2026-11-14'], paths)
+        # the count was always 0, as the empty answer of a delete is bytes
+        self.assertIn('INFO:root:gdrive: deleted 1 cloud folder(s)', logs.output)
 
     def test_a_location_of_several_folders_keeps_them(self):
         # the first folder of the location was cleaned, so the camera's folder in
@@ -283,6 +290,24 @@ class TestCleanCloud(unittest.TestCase):
         paths = self._clean('/', ['2026-11-10', 'documents'], ['2026-11-14'])
 
         self.assertEqual(['2026-11-10', 'documents'], paths)
+
+
+class TestExpiredAccessToken(unittest.TestCase):
+    @patch.object(GoogleDrive, '_refresh_credentials', return_value=_CREDENTIALS)
+    @patch('motioneye.uploadservices.utils.urlopen')
+    def test_the_retry_keeps_the_method(self, urlopen, _refresh_credentials):
+        service = GoogleDrive('1')
+        service._credentials = dict(_CREDENTIALS)
+        expired = HTTPError('url', 401, 'Unauthorized', {}, BytesIO())
+        urlopen.side_effect = [expired, BytesIO(b'')]
+
+        with patch.object(service, 'save'):
+            self.assertTrue(service._delete_file('id1'))
+
+        # the retry was a GET, so the folder was not deleted
+        self.assertEqual(
+            ['DELETE', 'DELETE'], [c[0][0].get_method() for c in urlopen.call_args_list]
+        )
 
 
 if __name__ == '__main__':

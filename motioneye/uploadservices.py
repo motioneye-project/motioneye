@@ -261,7 +261,9 @@ class GoogleBase(UploadService, ABC):
                     self.save()
 
                     # retry the request with refreshed credentials
-                    return self._request(url, body, headers, retry_auth=False)
+                    return self._request(
+                        url, body, headers, retry_auth=False, method=method
+                    )
 
                 except Exception:
                     self.error('refreshing credentials failed')
@@ -539,7 +541,8 @@ class GoogleDrive(GoogleBase):
     def _delete_file(self, file_id) -> bool:
         url = f'{self.CREATE_FOLDER_URL}/{file_id}'
         response = self._request(url, None, None, True, 'DELETE')
-        return response == ''
+        # the answer is empty, as bytes
+        return not response
 
     def _get_file_metadata(self, file_id) -> dict:
         url = f'{self.CREATE_FOLDER_URL}/{file_id}'
