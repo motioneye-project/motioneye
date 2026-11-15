@@ -264,5 +264,35 @@ class DevByIdDisksTest(unittest.TestCase):
         )
 
 
+class FdiskFallbackTest(unittest.TestCase):
+    # a Linux system without /dev/disk/by-id/, e.g. a container (#2411)
+    def setUp(self):
+        self.call = patch(
+            'motioneye.controls.diskctl.utils.call_subprocess', return_value=''
+        ).start()
+        for target, kwargs in (
+            ('sys.platform', {'new': 'linux'}),
+            ('os.path.exists', {'return_value': False}),
+        ):
+            patch(f'motioneye.controls.diskctl.{target}', **kwargs).start()
+        self.addCleanup(patch.stopall)
+
+    def test_no_disks_are_listed_without_fdisk(self):
+        patch('motioneye.controls.diskctl.shutil.which', return_value=None).start()
+        with patch('motioneye.controls.diskctl.logging.exception') as exception:
+            self.assertEqual([], diskctl._list_disks())
+
+        self.call.assert_not_called()
+        exception.assert_not_called()
+
+    def test_disks_are_listed_with_fdisk(self):
+        with patch(
+            'motioneye.controls.diskctl.shutil.which', return_value='/usr/sbin/fdisk'
+        ):
+            diskctl._list_disks()
+
+        self.call.assert_called_once_with(['fdisk', '-l'])
+
+
 if __name__ == '__main__':
     unittest.main()
