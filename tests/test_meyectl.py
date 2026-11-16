@@ -103,6 +103,7 @@ class LoadSettingsLogToFileTest(unittest.TestCase):
         'MEDIA_PATH',
         'LOG_LEVEL',
         'LOG_TO_FILE',
+        'LISTEN',
         'config_file',
     )
 
@@ -144,6 +145,31 @@ class LoadSettingsLogToFileTest(unittest.TestCase):
     def test_l_argument_overrides_config(self):
         self._load_settings('log_to_file false\n', argv=('-l',))
         self.assertEqual(True, settings.LOG_TO_FILE)
+
+    def test_listen_defaults_to_all_addresses(self):
+        # empty makes Tornado listen on all IPv4 and IPv6 addresses (#779)
+        self._load_settings('log_level info\n')
+        self.assertEqual('', settings.LISTEN)
+
+    def test_listen_without_an_address_is_the_default(self):
+        self._load_settings('listen 127.0.0.1\nlisten\n')
+        self.assertEqual('', settings.LISTEN)
+
+    def test_other_text_options_still_need_a_value(self):
+        with self.assertLogs(level='CRITICAL') as logs, self.assertRaises(SystemExit):
+            self._load_settings('media_path\n')
+
+        self.assertIn('invalid configuration line: media_path', logs.output[0])
+
+    def test_listen_with_an_ipv6_address(self):
+        self._load_settings('listen ::\n')
+        self.assertEqual('::', settings.LISTEN)
+
+    def test_a_number_without_a_value_is_still_an_error(self):
+        with self.assertLogs(level='CRITICAL') as logs, self.assertRaises(SystemExit):
+            self._load_settings('port\n')
+
+        self.assertIn('invalid configuration line: port', logs.output[0])
 
     def test_validate_certs_is_gone_and_only_warns(self):
         with self.assertLogs(level='WARNING') as logs:
