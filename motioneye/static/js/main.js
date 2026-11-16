@@ -2815,7 +2815,7 @@ function doApiKeys() {
                             '<option value="normal">' + i18n.gettext("Surveillance") + '</option>' +
                             '<option value="admin">' + i18n.gettext("Admin") + '</option>' +
                         '</select></td>' +
-                        '<td><span class="help-mark" title="' + i18n.gettext("a key can do what this user can do") + '">?</span></td>' +
+                        '<td><span class="help-mark" title="' + i18n.gettext("A key can do what this user can do. Treat an admin key like the admin password.") + '">?</span></td>' +
                     '</tr>' +
                     '<tr>' +
                         '<td></td>' +
