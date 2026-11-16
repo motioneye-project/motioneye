@@ -125,11 +125,17 @@ class BaseHandler(RequestHandler):
 
     def get_json(self):
         if not hasattr(self, '_json'):
-            self._json = None
-            if self.request.headers.get('Content-Type', '').startswith(
-                'application/json'
-            ):
-                self._json = json.loads(self.request.body)
+            data = None
+            # a request without a body has no JSON, whatever its Content-Type
+            if self.request.body and self.request.headers.get(
+                'Content-Type', ''
+            ).startswith('application/json'):
+                try:
+                    data = json.loads(self.request.body)
+                except ValueError:
+                    raise HTTPError(400, 'invalid json body') from None
+
+            self._json = data
 
         return self._json
 
@@ -166,6 +172,20 @@ class BaseHandler(RequestHandler):
 
         content = template.render(template_name, **context)
         self.finish(content)
+
+    def refuse_navigation(self):
+        # the session cookie is SameSite=Lax, so it comes along when another site
+        # links here: such a navigation asks for text/html, motionEye's own requests
+        # do not, and a hub's neither; to HTTPS and localhost, browsers also
+        # say so in Sec-Fetch-*
+        headers = self.request.headers
+        site = headers.get('Sec-Fetch-Site')
+        if (
+            headers.get('Sec-Fetch-Mode') == 'navigate'
+            or (site is not None and site != 'same-origin')
+            or 'text/html' in headers.get('Accept', '')
+        ):
+            raise HTTPError(403, 'this cannot be started by opening a link')
 
     def finish_json(self, data=None):
         if data is None:

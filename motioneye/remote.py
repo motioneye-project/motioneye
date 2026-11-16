@@ -372,19 +372,20 @@ async def get_authorize_url(local_config, service: str) -> str | None:
         query={'service': service},
         validate_cert=verify,
     )
-    try:
-        response = await AsyncHTTPClient().fetch(request, raise_error=False)
+    response = await _send_request(request)
+    url = None
+    if not response.error:
+        try:
+            url = json.loads(response.body).get('url')
 
-    except Exception as e:
-        logging.error(f'failed to get the authorization url of {service}: {e}')
-        return None
+        except (ValueError, AttributeError):  # e.g. a 0.45.0b1 remote's redirect
+            pass
 
-    # the remote answers with a redirect to the authorization url
-    url = response.headers.get('Location') if response.code in (301, 302) else None
     if not url:
+        problem = utils.pretty_http_error(response) if response.error else response.code
         logging.error(
             f'failed to get the authorization url of {service} from remote camera '
-            f'{camera_id}, on {pretty_camera_url(local_config)}: {response.code}'
+            f'{camera_id}, on {pretty_camera_url(local_config)}: {problem}'
         )
 
     return url

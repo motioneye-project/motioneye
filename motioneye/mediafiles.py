@@ -22,11 +22,15 @@ import multiprocessing
 import os.path
 import re
 import subprocess
-from collections.abc import Awaitable
+from collections import deque
+from collections.abc import Awaitable, Callable
+from contextlib import suppress
 from datetime import datetime, timedelta
 from errno import EAGAIN, ENOENT
 from hashlib import sha1
 from io import BytesIO
+from multiprocessing.reduction import ForkingPickler
+from select import PIPE_BUF
 from signal import SIGKILL, SIGTERM
 from time import time
 from typing import Any
@@ -41,6 +45,14 @@ from motioneye.utils.dtconv import pretty_date_time
 
 _PICTURE_EXTS = ['.jpg']
 _MOVIE_EXTS = ['.avi', '.mp4', '.mov', '.swf', '.flv', '.mkv', '.mpg']
+
+# entries per message from the listing subprocess: one per file made the child wait
+# for the parent at every pipe buffer, the whole list at once costs it the memory
+_LIST_CHUNK = 32
+# a message has to fit one pipe write of PIPE_BUF bytes, which is atomic: the parent
+# then never finds a part of a message in the pipe, to wait for the rest of it
+# (4 bytes are the length that multiprocessing puts in front)
+_LIST_MESSAGE_MAX = PIPE_BUF - 4
 
 FFMPEG_CODEC_MAPPING = {
     'mpeg4': 'mpeg4',
@@ -267,6 +279,20 @@ def _remove_older_files(
         uploadservices.clean_cloud(directory, {}, clean_cloud_info)
 
 
+def _send_entries(pipe, entries: list[dict]) -> None:
+    """Send the entries as one message, or in halves while that is too big for one
+    atomic pipe write. Only a single entry bigger than that, with a path of some
+    kB, is sent as it is."""
+    data = bytes(ForkingPickler.dumps(entries))  # pickled as pipe.send() does
+    if len(data) > _LIST_MESSAGE_MAX and len(entries) > 1:
+        half = len(entries) // 2
+        _send_entries(pipe, entries[:half])
+        _send_entries(pipe, entries[half:])
+        return
+
+    pipe.send_bytes(data)
+
+
 def _do_list_media(
     pipe,
     target_dir: str,
@@ -286,6 +312,8 @@ def _do_list_media(
         min_timestamp=min_timestamp,
         max_timestamp=max_timestamp,
     )
+    mime_types: dict[str, str] = {}  # by extension: the same for thousands of files
+    chunk: list[dict] = []
     for p, st in mf:
         path = p[len(target_dir) :]
         if not path.startswith('/'):
@@ -294,26 +322,31 @@ def _do_list_media(
         if with_stat and st is not None:
             timestamp = st.st_mtime
             size = st.st_size
+            ext = os.path.splitext(path)[1].lower()
+            if ext not in mime_types:
+                mime_types[ext] = guess_type(path)[0] or 'video/mpeg'
 
-            pipe.send(
+            moment = datetime.fromtimestamp(timestamp)
+            chunk.append(
                 {
                     'path': path,
-                    'mimeType': (
-                        guess_type(path)[0]
-                        if guess_type(path)[0] is not None
-                        else 'video/mpeg'
-                    ),
-                    'momentStr': pretty_date_time(datetime.fromtimestamp(timestamp)),
-                    'momentStrShort': pretty_date_time(
-                        datetime.fromtimestamp(timestamp), short=True
-                    ),
+                    'mimeType': mime_types[ext],
+                    'momentStr': pretty_date_time(moment),
+                    'momentStrShort': pretty_date_time(moment, short=True),
                     'sizeStr': utils.pretty_size(size),
                     'timestamp': timestamp,
                 }
             )
         else:
             # When stat is not available, only send the path
-            pipe.send({'path': path})
+            chunk.append({'path': path})
+
+        if len(chunk) >= _LIST_CHUNK:
+            _send_entries(pipe, chunk)
+            chunk = []
+
+    if chunk:
+        _send_entries(pipe, chunk)
 
     pipe.close()
 
@@ -457,7 +490,7 @@ def cleanup_media(media_type: str) -> None:
         if media_type == 'picture' and not still_images_enabled:
             continue  # only cleanup pictures for cameras with still images enabled
 
-        elif media_type == 'movie' and not movies_enabled:
+        if media_type == 'movie' and not movies_enabled:
             continue  # only cleanup movies for cameras with movies enabled
 
         preserve_moment = datetime.now() - timedelta(days=preserve_media)
@@ -506,8 +539,7 @@ def get_movie_duration_seconds(path: str) -> int:
 
     try:
         result = utils.call_subprocess(cmd, stderr=None)
-        duration_seconds = int(float(result))
-        return duration_seconds
+        return int(float(result))
 
     except Exception as e:
         logging.error(f'failed to determine duration of {path}: {e}')
@@ -602,11 +634,8 @@ def make_movie_preview(camera_config: dict, rel_path: str) -> str | None:
 
     if st.st_size == 0:
         logging.error(f'failed to create movie preview for {full_path}')
-        try:
+        with suppress(Exception):  # nothing we can do about it
             os.remove(thumb_path)
-
-        except Exception:  # nosec: B110 # noqa: S110
-            pass  # nothing we can do about it
 
         return None
 
@@ -631,62 +660,118 @@ def list_media(
     elif media_type == 'movie':
         exts = _MOVIE_EXTS
 
-    logging.debug('starting media listing subprocess...')
+    fut: Future = Future()
 
-    parent_pipe, child_pipe = multiprocessing.Pipe(duplex=False)
-    process = multiprocessing.Process(
-        target=_do_list_media,
-        args=(
-            child_pipe,
-            target_dir,
-            exts,
-            prefix,
-            with_stat,
-            min_timestamp,
-            max_timestamp,
-        ),
-    )
-    process.start()
-    child_pipe.close()
+    def start() -> None:
+        media_list: list = []
 
-    # poll the subprocess to see when it has finished
-    started = datetime.now()
-    media_list = []
+        def finish(result) -> None:
+            global _listings_running
+            _listings_running -= 1
+            # on the loop, not here: a chain of failing starts would recurse
+            IOLoop.current().add_callback(_start_next_listing)
+            if not fut.done():
+                fut.set_result(result)
 
-    def read_media_list():
-        while parent_pipe.poll():
+        logging.debug('starting media listing subprocess...')
+        try:
+            parent_pipe, child_pipe = multiprocessing.Pipe(duplex=False)
+            process = multiprocessing.Process(
+                target=_do_list_media,
+                args=(
+                    child_pipe,
+                    target_dir,
+                    exts,
+                    prefix,
+                    with_stat,
+                    min_timestamp,
+                    max_timestamp,
+                ),
+            )
+            process.start()
+            child_pipe.close()
+
+        except Exception as e:  # e.g. the fork itself fails for lack of memory
+            logging.error(f'could not start the media listing process: {e}')
+            finish(None)
+            return
+
+        # read the pipe as the child fills it; the child's exit closes the pipe
+        loop = IOLoop.current()
+        fd = parent_pipe.fileno()
+
+        def done(result) -> None:
+            loop.remove_handler(fd)
+            loop.remove_timeout(timeout_handle)
+            parent_pipe.close()
+            finish(result)
+
+        def on_readable(fd, events) -> None:
             try:
-                media_list.append(parent_pipe.recv())
+                while parent_pipe.poll():
+                    media_list.extend(parent_pipe.recv())
 
-            except EOFError:
-                break
+            except (EOFError, OSError):  # finished, or killed, e.g. for lack of memory
+                process.join()
+                if process.exitcode != 0:
+                    logging.error(
+                        f'media listing process ended with code {process.exitcode}'
+                    )
+                    done(None)  # a partial list is no list, like after a timeout
+                    return
 
-    def poll_process():
-        if process.is_alive():  # not finished yet
-            now = datetime.now()
-            delta = now - started
-            if delta.seconds < settings.LIST_MEDIA_TIMEOUT:
-                IOLoop.current().call_later(0.5, poll_process)
-                read_media_list()
+                logging.debug(
+                    f'media listing process has returned {len(media_list)} files'
+                )
+                done(media_list)
 
-            else:  # process did not finish in time
-                logging.error('timeout waiting for the media listing process to finish')
-                try:
+        def on_timeout() -> None:
+            logging.error('timeout waiting for the media listing process to finish')
+            with suppress(Exception):  # nevermind
+                if process.pid is not None:
                     os.kill(process.pid, SIGKILL)
 
-                except Exception:  # nosec: B110 # noqa: S110
-                    pass  # nevermind
+            done(None)
 
+        timeout_handle = loop.call_later(settings.LIST_MEDIA_TIMEOUT, on_timeout)
+        loop.add_handler(fd, on_readable, IOLoop.READ)
+
+    def give_up() -> None:
+        # still waiting after a whole timeout: answer like a timed-out listing
+        # rather than start one that the caller has given up on by now
+        if start in _listings_waiting:
+            _listings_waiting.remove(start)
+            logging.error('timeout waiting for a media listing slot')
+            if not fut.done():
                 fut.set_result(None)
 
-        else:  # finished
-            read_media_list()
-            logging.debug(f'media listing process has returned {len(media_list)} files')
-            fut.set_result(media_list)
+    _listings_waiting.append(start)
+    _start_next_listing()
+    if start in _listings_waiting:
+        logging.debug(
+            f'media listing waits for a slot, {_listings_running} running, '
+            f'{len(_listings_waiting)} waiting'
+        )
+        IOLoop.current().call_later(settings.LIST_MEDIA_TIMEOUT, give_up)
 
-    fut: Future = Future()
-    poll_process()
     return fut
+
+
+# Each listing forks the whole server, so a burst of requests, e.g. a media
+# browser opening every camera at once, could exhaust the memory. At most
+# LIST_MEDIA_MAX_PARALLEL listings run at a time; the others wait their turn,
+# for one timeout at most, and the timeout of a listing counts from when it
+# actually starts.
+_listings_running: int = 0
+_listings_waiting: deque[Callable[[], None]] = deque()
+
+
+def _start_next_listing() -> None:
+    global _listings_running
+    limit = max(1, settings.LIST_MEDIA_MAX_PARALLEL)
+    while _listings_waiting and _listings_running < limit:
+        _listings_running += 1
+        _listings_waiting.popleft()()
 
 
 def get_media_path(camera_config: dict, path: str):
@@ -744,11 +829,8 @@ def get_zipped_content(camera_config: dict, media_type: str, group: str) -> Awai
 
             else:  # process did not finish in time
                 logging.error('timeout waiting for the zip process to finish')
-                try:
+                with suppress(Exception):  # nevermind
                     os.kill(process.pid, SIGTERM)
-
-                except Exception:  # nosec: B110 # noqa: S110
-                    pass  # nevermind
 
                 fut.set_result(None)
 
@@ -819,11 +901,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
 
             else:  # process did not finish in time
                 logging.error('timeout waiting for the media listing process to finish')
-                try:
+                with suppress(Exception):  # nevermind
                     os.kill(_timelapse_process.pid, SIGTERM)
-
-                except Exception:  # nosec: B110 # noqa: S110
-                    pass  # nevermind
 
                 _timelapse_process.progress = -1
 
@@ -894,12 +973,22 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
 
         logging.debug(f'running command {cmd}')
 
-        _timelapse_process = subprocess.Popen(
-            cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            stdin=subprocess.PIPE,
-        )
+        try:
+            process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                stdin=subprocess.PIPE,
+            )
+
+        except OSError as e:
+            logging.error(f'failed to start ffmpeg: {e}')
+            # end the timelapse, or every next one is refused as already running
+            _timelapse_process.progress = -1
+
+            return
+
+        _timelapse_process = process
         _timelapse_process.progress = 0.01  # 1%
 
         for p in pictures:
@@ -980,11 +1069,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                 )
                 _timelapse_data = None
 
-                try:
+                with suppress(Exception):  # nothing we can do about it
                     os.remove(tmp_filename)
-
-                except Exception:  # nosec: B110 # noqa: S110
-                    pass  # nothing we can do about it
 
             else:
                 logging.debug(
@@ -1005,11 +1091,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                     )
 
                 finally:
-                    try:
+                    with suppress(Exception):  # nothing we can do about it
                         os.remove(tmp_filename)
-
-                    except Exception:  # nosec: B110 # noqa: S110
-                        pass  # nothing we can do about it
 
     poll_media_list_process()
 
@@ -1023,11 +1106,9 @@ def check_timelapse_movie():
         ):
             return {'progress': _timelapse_process.progress, 'data': None}
 
-        else:
-            return {'progress': _timelapse_process.progress, 'data': _timelapse_data}
+        return {'progress': _timelapse_process.progress, 'data': _timelapse_data}
 
-    else:
-        return {'progress': -1, 'data': _timelapse_data}
+    return {'progress': -1, 'data': _timelapse_data}
 
 
 def get_media_preview(
@@ -1095,11 +1176,8 @@ def del_media_content(camera_config: dict, path: str):
         os.remove(full_path)
 
         # remove the thumb file
-        try:
+        with suppress(Exception):  # thumb file may not exist
             os.remove(full_path + '.thumb')
-
-        except Exception:  # nosec: B110 # noqa: S110
-            pass  # thumb file may not exist
 
         # remove the parent directories if empty or contains only thumb files
         dir_path = os.path.dirname(full_path)
@@ -1203,7 +1281,7 @@ def get_prepared_cache(key):
 
 
 def set_prepared_cache(data):
-    key = sha1(str(time()).encode()).hexdigest()  # nosec: B324
+    key = sha1(str(time()).encode(), usedforsecurity=False).hexdigest()
 
     if key in _prepared_files:
         logging.warning(f'key "{key}" already present in prepared cache')

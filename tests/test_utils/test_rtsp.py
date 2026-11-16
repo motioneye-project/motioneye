@@ -94,7 +94,7 @@ class UtilsRtspTest(AsyncTestCase):
     @gen_test
     async def test_test_rtsp_url_basic_auth(self):
         camera = BasicAuthRtspCamera(b'u:s')
-        resp = await self.check(camera, username='u', password='s')  # nosec B106
+        resp = await self.check(camera, username='u', password='s')  # noqa: S106
         self.assertIsNone(resp.error)
         self.assertEqual(['tcp', 'udp'], [c['id'] for c in resp.cameras])
         self.assertIsNotNone(camera.authorizations[-1])
@@ -102,7 +102,7 @@ class UtilsRtspTest(AsyncTestCase):
     @gen_test
     async def test_test_rtsp_url_basic_auth_wrong_password(self):
         camera = BasicAuthRtspCamera(b'u:s')
-        resp = await self.check(camera, username='u', password='x')  # nosec B106
+        resp = await self.check(camera, username='u', password='x')  # noqa: S106
         self.assertIsNone(resp.cameras)
         self.assertEqual('authentication failed', resp.error)
 

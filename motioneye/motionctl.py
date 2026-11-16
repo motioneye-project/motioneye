@@ -124,7 +124,12 @@ def start(deferred=False):
         output = None
 
     process = Popen(
-        args, stdout=output, stderr=output, close_fds=True, cwd=settings.CONF_PATH
+        args,
+        stdout=output,
+        stderr=output,
+        close_fds=True,
+        cwd=settings.CONF_PATH,
+        env=utils.libcamera_v4l2_env(),
     )
 
     # wait 2 seconds to see that the process has successfully started
@@ -240,7 +245,7 @@ async def get_motion_detection(camera_id) -> utils.GetMotionDetectionResult:
         elif resp.body.startswith(b'Bad Request'):
             error = resp.body.decode(errors='replace')
 
-    except HTTPClientError as e:
+    except (HTTPClientError, OSError) as e:
         error = str(e)
 
     if error is not None:
@@ -288,7 +293,7 @@ async def set_motion_detection(camera_id: int, state: str) -> str | None:
         elif resp.body.startswith(b'Bad Request'):
             error = resp.body.decode(errors='replace')
 
-    except HTTPClientError as e:
+    except (HTTPClientError, OSError) as e:
         error = str(e)
 
     if error is not None:
@@ -322,7 +327,7 @@ async def trigger_action(camera_id: int, action: str) -> str | None:
         elif resp.body.startswith(b'Bad Request'):
             error = resp.body.decode(errors='replace')
 
-    except HTTPClientError as e:
+    except (HTTPClientError, OSError) as e:
         error = str(e)
 
     if error is not None:

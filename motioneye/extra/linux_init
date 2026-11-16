@@ -2,27 +2,61 @@
 
 set -e
 
-if (( UID )); then
-  echo 'ERROR: Root permissions required. Please run this command as root user, via "sudo" or "su". Aborting ...'
+Error_Out(){
+  echo "ERROR: $1 Aborting ..." >&2
   exit 1
-fi
+}
+
+(( UID )) && Error_Out 'Root permissions required. Please run this command as root user, via "sudo" or "su".'
 
 # Process CLI arguments
 SKIP_SYSTEMD=0
 SKIP_APT_UPDATE=0
 MEYECTL=''
+LIBCAMERA=''
 while (( $# )); do
   case "$1" in
     '--skip-systemd') SKIP_SYSTEMD=1;;
     '--skip-apt-update') SKIP_APT_UPDATE=1;;
-    '--meyectl') (( $# > 1 )) || { echo 'ERROR: Missing path after "--meyectl". Aborting ...'; exit 1; }; MEYECTL=$2; shift;;
-    *) echo "ERROR: Invalid command-line argument \"$1\". Aborting ..."; exit 1;;
+    '--libcamera') LIBCAMERA=1;;
+    '--no-libcamera') LIBCAMERA=0;;
+    '--meyectl') (( $# > 1 )) || Error_Out 'Missing path after "--meyectl".'; MEYECTL=$2; shift;;
+    *) Error_Out "Invalid command-line argument \"$1\".";;
   esac
   shift
 done
-if [[ $MEYECTL && ! ( -f $MEYECTL && -x $MEYECTL ) ]]; then
-  echo "ERROR: meyectl executable \"$MEYECTL\" given with --meyectl does not exist. Aborting ..."
-  exit 1
+
+# Check meyectl path for the systemd unit
+if (( ! SKIP_SYSTEMD )); then
+  if [[ $MEYECTL ]]; then
+    [[ -f $MEYECTL ]] || Error_Out "meyectl executable \"$MEYECTL\" given with --meyectl does not exist."
+    [[ -x $MEYECTL ]] || Error_Out "meyectl file \"$MEYECTL\" given with --meyectl is not executable."
+  else
+    MEYECTL=$(command -v meyectl) || :
+    if [[ ! $MEYECTL ]]; then
+      if [[ -f '/usr/local/bin/meyectl' ]]; then
+        MEYECTL='/usr/local/bin/meyectl'
+        [[ -x $MEYECTL ]] || Error_Out "$MEYECTL is not executable. Please check your motionEye installation."
+      else
+        Error_Out 'meyectl executable has not been found. Please check your motionEye installation.'
+      fi
+    fi
+  fi
+  MEYECTL=$(realpath "$MEYECTL")
+  [[ $MEYECTL =~ ^/(home|root)/ ]] && Error_Out 'This venv is located in a user home directory below /home or /root. This is not supported, as it violates basic security concepts. Move the venv to an appropriate directory like /opt, which is better suited for access by system services.'
+fi
+
+# Preload libcamera's V4L2 layer for motion and v4l2-ctl, for Raspberry Pi camera modules on the libcamera camera stack
+if [[ ! $LIBCAMERA ]]; then
+  LIBCAMERA=0
+  # Already set: install the package and update the path again, as a repair step
+  if [[ -f '/etc/motioneye/motioneye.conf' ]] && grep -q '^libcamera_v4l2 ' /etc/motioneye/motioneye.conf; then
+    LIBCAMERA=1
+  elif [[ -t 0 ]] && grep -qa 'Raspberry Pi' /proc/device-tree/model 2> /dev/null; then
+    echo "NOTE: Through libcamera's V4L2 layer, other V4L2 cameras like USB webcams lose their controls (brightness etc.) and are listed by their libcamera name, and while motion uses a camera, a common list of resolutions is offered instead of the camera's own."
+    read -rp 'Raspberry Pi detected. Use a camera module through libcamera (installs libcamera-v4l2)? [y/N] ' REPLY
+    [[ $REPLY == [Yy]* ]] && LIBCAMERA=1
+  fi
 fi
 
 # Install dependencies
@@ -58,7 +92,9 @@ if command -v apt-get > /dev/null; then
   else
     echo 'WARNING: Distribution version could not be detected, installing motion from APT repository'
   fi
-  DEBIAN_FRONTEND='noninteractive' apt-get -y --no-install-recommends install "${MOTION}" v4l-utils ffmpeg curl
+  LIBCAMERA_PACKAGES=()
+  (( LIBCAMERA )) && LIBCAMERA_PACKAGES=('libcamera-v4l2')
+  DEBIAN_FRONTEND='noninteractive' apt-get -y --no-install-recommends install "${MOTION}" v4l-utils ffmpeg curl "${LIBCAMERA_PACKAGES[@]}"
   [[ $TMPDIR ]] && rm -R "$TMPDIR"
 elif command -v yum > /dev/null; then
   echo 'INFO: YUM-based distribution detected, installing motionEye dependencies'
@@ -68,9 +104,9 @@ else
   motion v4l-utils ffmpeg curl'
 fi
 
-# Stop and disable conflicting motion.service
+# Stop and mask conflicting motion.service
 if systemctl -q is-active motion 2> /dev/null || systemctl -q is-enabled motion 2> /dev/null; then
-  systemctl disable --now motion
+  systemctl mask --now motion
 fi
 
 # Pre-create config and data dirs and install configuration files
@@ -84,24 +120,32 @@ else
 fi
 chown -R motion:motion /etc/motioneye
 # The settings may contain credentials (motion_control_authentication), and motionEye is not supposed to write to this file
-chown root:motion /etc/motioneye/motioneye.conf
+chown 0:motion /etc/motioneye/motioneye.conf
 chmod 0640 /etc/motioneye/motioneye.conf
+if [[ -n ${LIBCAMERA_PACKAGES[0]} ]]; then
+  V4L2_COMPAT=$(dpkg -L libcamera-v4l2 2> /dev/null | grep -m1 '/v4l2-compat\.so$' || :)
+  if [[ ! -f $V4L2_COMPAT ]]; then
+    echo 'WARNING: v4l2-compat.so has not been found, please install the libcamera-v4l2 package and set "libcamera_v4l2" in /etc/motioneye/motioneye.conf to its path'
+  elif grep -q '^libcamera_v4l2 ' /etc/motioneye/motioneye.conf; then
+    sed -i "/^libcamera_v4l2 /c\libcamera_v4l2 $V4L2_COMPAT" /etc/motioneye/motioneye.conf
+  else
+    echo "INFO: Enabling libcamera's V4L2 layer in /etc/motioneye/motioneye.conf"
+    if grep -q '^#libcamera_v4l2 ' /etc/motioneye/motioneye.conf; then
+      sed -i "/^#libcamera_v4l2 /c\libcamera_v4l2 $V4L2_COMPAT" /etc/motioneye/motioneye.conf
+    else
+      [[ -n $(tail -c1 /etc/motioneye/motioneye.conf) ]] && echo >> /etc/motioneye/motioneye.conf
+      echo "libcamera_v4l2 $V4L2_COMPAT" >> /etc/motioneye/motioneye.conf
+    fi
+  fi
+fi
 
 (( SKIP_SYSTEMD )) && exit 0
 
 # Install service
 cp extra/motioneye.systemd /etc/systemd/system/motioneye.service
-# - Update meyectl path if given, e.g. by motioneye_init from a venv, or if expected /usr/local/bin/meyectl does not exist, found on Arch Linux: https://github.com/motioneye-project/motioneye/issues/3005
-if [[ $MEYECTL || ! -f '/usr/local/bin/meyectl' ]]
-then
-  if meyectl_path=${MEYECTL:-$(command -v meyectl)}
-  then
-    echo "Using $meyectl_path for systemd service"
-    sed -i "s|^ExecStart=/usr/local/bin/meyectl|ExecStart=$meyectl_path|" /etc/systemd/system/motioneye.service
-  else
-    echo 'ERROR: meyectl executable has not been found. systemd service will fail to start. Please check your motionEye installation.'
-  fi
-fi
+# - Update meyectl path
+sed -i "s|^ExecStart=/usr/local/bin/meyectl|ExecStart=$MEYECTL|" /etc/systemd/system/motioneye.service
+
 systemctl daemon-reload
 systemctl enable motioneye
 systemctl restart motioneye

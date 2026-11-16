@@ -403,12 +403,34 @@ function doLogout() {
     });
 }
 
+function openAuthorizeTab(url) {
+    /* the tab is opened right away, as browsers allow it only during the click,
+     * and the link is asked for apart: the server refuses to create one when a
+     * link from another site is followed */
+    var tab = window.open('', '_blank');
+    if (!tab) {
+        /* asking for a link anyway would replace the pending one for nothing */
+        showErrorMessage(i18n.gettext("The browser did not open a new tab. Allow pop-ups for this page and try again."));
+        return;
+    }
+
+    tab.opener = null;
+    ajax('GET', url, null, function (data) {
+        if (data && data.url) {
+            tab.location = data.url;
+        }
+        else {
+            tab.close();
+        }
+    });
+}
+
 function authorizeUpload() {
     var service = $('#uploadServiceSelect').val();
     var cameraId = $('#cameraSelect').val();
     var url = basePath + 'config/' + cameraId + '/authorize/?service=' + service;
     if (service != 'gdrive' && service != 'gphoto') {
-        window.open(url, '_blank');
+        openAuthorizeTab(url);
         return;
     }
 
@@ -431,7 +453,7 @@ function authorizeUpload() {
         content: content,
         buttons: 'okcancel',
         onOk: function () {
-            window.open(url, '_blank');
+            openAuthorizeTab(url);
         }
     });
 }
@@ -1901,6 +1923,12 @@ function dict2MainUi(dict) {
     updateConfigUI();
 }
 
+function smtpTlsSetting() {
+    /* STARTTLS stays true, as older versions read it */
+    var value = $('#smtpTlsSelect').val();
+    return value == 'tls' ? 'implicit' : value == 'starttls';
+}
+
 function cameraUi2Dict() {
     if ($('#videoDeviceEnabledSwitch')[0].error) { /* config error */
         return {
@@ -2047,13 +2075,14 @@ function cameraUi2Dict() {
         'email_notifications_smtp_port': $('#smtpPortEntry').val(),
         'email_notifications_smtp_account': $('#smtpAccountEntry').val(),
         'email_notifications_smtp_password': $('#smtpPasswordEntry').val(),
-        'email_notifications_smtp_tls': $('#smtpTlsSwitch')[0].checked,
+        'email_notifications_smtp_tls': smtpTlsSetting(),
         'email_notifications_smtp_verify': $('#smtpVerifySwitch')[0].checked,
         'email_notifications_picture_time_span': $('#emailPictureTimeSpanEntry').val(),
         'telegram_notifications_enabled': $('#telegramNotificationsEnabledSwitch')[0].checked,
         'telegram_notifications_api': $('#telegramAPIEntry').val(),
         'telegram_notifications_chat_id': $('#telegramCIDEntry').val(),
         'telegram_notifications_picture_time_span': $('#telegramPictureTimeSpanEntry').val(),
+        'telegram_notifications_text_first': $('#telegramTextFirstSwitch')[0].checked,
         'web_hook_notifications_enabled': $('#webHookNotificationsEnabledSwitch')[0].checked,
         'web_hook_notifications_url': $('#webHookNotificationsUrlEntry').val(),
         'web_hook_notifications_http_method': $('#webHookNotificationsHttpMethodSelect').val(),
@@ -2412,7 +2441,8 @@ function dict2CameraUi(dict) {
     $('#smtpPortEntry').val(dict['email_notifications_smtp_port']);
     $('#smtpAccountEntry').val(dict['email_notifications_smtp_account']);
     $('#smtpPasswordEntry').val(dict['email_notifications_smtp_password']);
-    $('#smtpTlsSwitch')[0].checked = dict['email_notifications_smtp_tls'];
+    var smtpTls = dict['email_notifications_smtp_tls'];
+    $('#smtpTlsSelect').val(smtpTls == 'implicit' ? 'tls' : smtpTls ? 'starttls' : 'none');
     $('#smtpVerifySwitch')[0].checked = dict['email_notifications_smtp_verify'] !== false;
     $('#emailPictureTimeSpanEntry').val(dict['email_notifications_picture_time_span']);
 
@@ -2420,6 +2450,7 @@ function dict2CameraUi(dict) {
     $('#telegramAPIEntry').val(dict['telegram_notifications_api']);
     $('#telegramCIDEntry').val(dict['telegram_notifications_chat_id']);
     $('#telegramPictureTimeSpanEntry').val(dict['telegram_notifications_picture_time_span']);
+    $('#telegramTextFirstSwitch')[0].checked = dict['telegram_notifications_text_first'] === true;
 
     $('#webHookNotificationsEnabledSwitch')[0].checked = dict['web_hook_notifications_enabled']; markHideIfNull('web_hook_notifications_enabled', 'webHookNotificationsEnabledSwitch');
     $('#webHookNotificationsUrlEntry').val(dict['web_hook_notifications_url']);
@@ -3110,7 +3141,7 @@ function doTestEmail() {
         smtp_port: $('#smtpPortEntry').val(),
         smtp_account: $('#smtpAccountEntry').val(),
         smtp_password: $('#smtpPasswordEntry').val(),
-        smtp_tls: $('#smtpTlsSwitch')[0].checked,
+        smtp_tls: smtpTlsSetting(),
         smtp_verify: $('#smtpVerifySwitch')[0].checked
     };
 
@@ -3821,7 +3852,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
 
     /* the handlers are registered once per dialog and read entries[pos] at
      * click time, so they always act on the currently displayed file */
-    playButton.on('click', function() {
+    function playEntry() {
         var entry = entries[pos];
         if (video_container.get(0).canPlayType(entry.mimeType) == '') {
             return;  /* the timelapse chain may trigger this on a non-playable entry */
@@ -3835,15 +3866,21 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
         video_container.off('canplay.pictureDialog').one('canplay.pictureDialog', function() {
            video_container.get(0).play();  /* Automatically play the video once the browser is ready */
         });
+    }
+
+    playButton.on('click', function() {
+        /* a plain play ends any chain started by the timelapse button */
+        video_container.off('ended.pictureDialog');
+        playEntry();
     });
 
     timelapseButton.on('click', function() {
-        playButton.trigger('click');
+        playEntry();
         video_container.get(0).playbackRate = 5;
         video_container.off('ended.pictureDialog').on('ended.pictureDialog', function() {
             if (pos > 0) {
                 nextArrow.trigger('click');
-                playButton.trigger('click');
+                playEntry();
                 video_container.get(0).playbackRate = 5;
             }
         });

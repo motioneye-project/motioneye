@@ -60,6 +60,51 @@ class PictureTimespanTest(unittest.TestCase):
         sendtelegram.make_message('message', 1, _MOMENT, _TIMESPAN, None)
         self._assert_timespan(list_media)
 
+    def _assert_failed_listing_messages(self, list_media, module, send, setting):
+        # a listing answers None when it failed; only one that ran for the whole
+        # timeout is called a timeout, with the setting to raise
+        for timeout, expected in ((0, setting), (120, 'picture listing failed;')):
+            with (
+                self.subTest(timeout=timeout),
+                patch.object(module.settings, 'LIST_MEDIA_TIMEOUT', timeout),
+            ):
+                callback = Mock()
+                send(callback)
+                on_media_files = list_media.return_value.add_done_callback.call_args
+                with self.assertLogs(level='WARNING') as logs:
+                    on_media_files.args[0](None)
+
+                self.assertEqual(1, len(logs.output))
+                self.assertIn(expected, logs.output[0])
+                self.assertEqual('list_media_timeout' in logs.output[0], timeout == 0)
+                self.assertEqual([], callback.call_args.args[-1])  # no pictures
+
+    @patch('motioneye.sendmail.IOLoop')
+    def test_email_names_the_timeout_setting_only_after_a_timeout(
+        self, _loop, _sleep, list_media, _camera
+    ):
+        self._assert_failed_listing_messages(
+            list_media,
+            sendmail,
+            lambda callback: sendmail.make_message(
+                'subject', 'message', 1, _MOMENT, _TIMESPAN, callback
+            ),
+            'list_media_timeout_email',
+        )
+
+    @patch('motioneye.sendtelegram.IOLoop')
+    def test_telegram_names_the_timeout_setting_only_after_a_timeout(
+        self, _loop, _sleep, list_media, _camera
+    ):
+        self._assert_failed_listing_messages(
+            list_media,
+            sendtelegram,
+            lambda callback: sendtelegram.make_message(
+                'message', 1, _MOMENT, _TIMESPAN, callback
+            ),
+            'list_media_timeout_telegram',
+        )
+
     @patch('motioneye.sendtelegram.IOLoop')
     def test_telegram_sends_pictures_oldest_first(
         self, _loop, _sleep, list_media, _camera
@@ -74,6 +119,35 @@ class PictureTimespanTest(unittest.TestCase):
         )
         paths = [f'/var/lib/motioneye/{s}.jpg' for s in (0, 1, 2)]
         self.assertEqual(paths, callback.call_args.args[1])
+
+    @patch('motioneye.sendtelegram.IOLoop')
+    def test_telegram_sends_the_text_before_the_wait_when_asked(
+        self, _loop, sleep, list_media, _camera
+    ):
+        order = []
+        sleep.side_effect = lambda seconds: order.append(('sleep', seconds))
+        callback = Mock(side_effect=lambda m, files: order.append((m, files)))
+
+        sendtelegram.make_message(
+            'motion at %(camera)s', 1, _MOMENT, _TIMESPAN, callback, text_first=True
+        )
+        on_media_files = list_media.return_value.add_done_callback.call_args.args[0]
+        on_media_files([])
+
+        self.assertEqual(
+            [('motion at cam', None), ('sleep', _TIMESPAN), ('motion at cam', [])],
+            order,
+        )
+
+    @patch('motioneye.sendtelegram.IOLoop')
+    def test_telegram_waits_for_the_pictures_first_by_default(
+        self, _loop, sleep, list_media, _camera
+    ):
+        callback = Mock()
+        sendtelegram.make_message('message', 1, _MOMENT, _TIMESPAN, callback)
+
+        sleep.assert_called_once_with(_TIMESPAN)
+        callback.assert_not_called()
 
 
 class _FakeConnection:
@@ -160,7 +234,15 @@ class SendMessageTest(unittest.TestCase):
 
             self.pictures.append(path)
 
-    def _send(self, replies, message='message', files=(), chat_id=42, retry=True):
+    def _send(
+        self,
+        replies,
+        message='message',
+        files=(),
+        chat_id=42,
+        retry=True,
+        reply_to=None,
+    ):
         self.sleeps = []
         self.connections = []
         replies = list(replies)
@@ -171,7 +253,9 @@ class SendMessageTest(unittest.TestCase):
             ),
             patch('motioneye.sendtelegram.time.sleep', side_effect=self.sleeps.append),
         ):
-            sendtelegram.send_message(_TOKEN, chat_id, message, list(files), retry)
+            return sendtelegram.send_message(
+                _TOKEN, chat_id, message, list(files), retry, reply_to=reply_to
+            )
 
     def _connect(self, replies, host, timeout):
         # 10 s to connect
@@ -336,6 +420,31 @@ class SendMessageTest(unittest.TestCase):
             self._send([_too_many_requests(60)])
 
         self.assertEqual([], self.sleeps)
+
+    def test_returns_the_id_of_the_text_sent(self):
+        message_id = self._send([(200, b'{"ok": true, "result": {"message_id": 7}}')])
+
+        self.assertEqual(7, message_id)
+        self.assertIsNone(self._send([_OK]))  # no id in the reply
+
+    def test_pictures_reply_to_the_text_sent_first_without_a_caption(self):
+        self._send([_OK, _OK], files=self.pictures[:2], reply_to=7)
+
+        for connection in self._sent():
+            fields = _form_fields(connection.request_args)
+            self.assertEqual(
+                {'message_id': 7, 'allow_sending_without_reply': True},
+                json.loads(fields['reply_parameters'][1]),
+            )
+            self.assertNotIn('caption', fields)
+            self.assertIn('photo', fields)
+
+    def test_pictures_carry_the_caption_without_a_text_sent_first(self):
+        self._send([_OK], files=self.pictures[:1])
+
+        fields = _form_fields(self._sent()[0].request_args)
+        self.assertEqual((None, b'message'), fields['caption'])
+        self.assertNotIn('reply_parameters', fields)
 
     def test_does_not_retry_when_told_not_to(self):
         with self.assertRaises(OSError):

@@ -80,18 +80,17 @@ class ConfigHandler(BaseHandler):
             await self.get_config(camera_id)
             return None
 
-        elif op == 'list':
+        if op == 'list':
             await self.list()
             return None
 
-        elif op == 'backup':
+        if op == 'backup':
             return self.backup()
 
-        elif op == 'authorize':
+        if op == 'authorize':
             return await self.authorize(camera_id)
 
-        else:
-            raise HTTPError(400, 'unknown operation')
+        raise HTTPError(400, 'unknown operation')
 
     async def post(self, camera_id=None, op=None):
         if camera_id is not None:
@@ -101,29 +100,28 @@ class ConfigHandler(BaseHandler):
             await self.set_config(camera_id)
             return None
 
-        elif op == 'add':
+        if op == 'add':
             await self.add_camera()
             return None
 
-        elif op == 'rem':
+        if op == 'rem':
             return self.rem_camera(camera_id)
 
-        elif op == 'restore':
+        if op == 'restore':
             return self.restore()
 
-        elif op == 'list':
+        if op == 'list':
             await self.list()
             return None
 
-        elif op == 'credentials':
+        if op == 'credentials':
             return await self.set_credentials(camera_id)
 
-        elif op == 'test':
+        if op == 'test':
             await self.test(camera_id)
             return None
 
-        else:
-            raise HTTPError(400, 'unknown operation')
+        raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth(admin=True)
     async def set_credentials(self, camera_id):
@@ -157,12 +155,12 @@ class ConfigHandler(BaseHandler):
             config.set_camera(camera_id, local_config)
             return self.finish_json()
 
-        elif utils.is_simple_mjpeg_camera(local_config):
+        if utils.is_simple_mjpeg_camera(local_config):
             local_config['@url'] = url
             config.set_camera(camera_id, local_config)
             return self.finish_json()
 
-        elif utils.is_net_camera(local_config):
+        if utils.is_net_camera(local_config):
             local_config['netcam_url'] = url
 
             username = data.get('username') or ''
@@ -177,8 +175,7 @@ class ConfigHandler(BaseHandler):
             motionctl.start()
             return self.finish_json()
 
-        else:
-            raise HTTPError(400, 'unsupported camera type for credential update')
+        raise HTTPError(400, 'unsupported camera type for credential update')
 
     @BaseHandler.auth(admin=True)
     @BaseHandler.peer_allowed()
@@ -195,7 +192,7 @@ class ConfigHandler(BaseHandler):
 
                 return self.finish_json(ui_config)
 
-            elif utils.is_remote_camera(local_config):
+            if utils.is_remote_camera(local_config):
                 resp = await remote.get_config(local_config)
                 if resp.error:
                     msg = f'failed to get remote camera config for {remote.pretty_camera_url(local_config)}: {resp.error}'
@@ -221,25 +218,24 @@ class ConfigHandler(BaseHandler):
                 )
                 return self.finish_json(resp.remote_ui_config)
 
-            else:  # assuming simple mjpeg camera
-                ui_config = config.simple_mjpeg_camera_dict_to_ui(local_config)
-
-                return self.finish_json(ui_config)
-
-        else:
-            if self.current_user != 'admin':
-                raise HTTPError(403, 'access denied to read the main config')
-
-            logging.debug('getting main config')
-
-            ui_config = config.main_dict_to_ui(config.get_main())
-
-            # The client secret signs requests as a peer for as long as it stays
-            # unchanged, so a key could keep access after its removal.
-            if self.api_key_used:
-                ui_config.pop('_client_secret', None)
+            # assuming simple mjpeg camera
+            ui_config = config.simple_mjpeg_camera_dict_to_ui(local_config)
 
             return self.finish_json(ui_config)
+
+        if self.current_user != 'admin':
+            raise HTTPError(403, 'access denied to read the main config')
+
+        logging.debug('getting main config')
+
+        ui_config = config.main_dict_to_ui(config.get_main())
+
+        # The client secret signs requests as a peer for as long as it stays
+        # unchanged, so a key could keep access after its removal.
+        if self.api_key_used:
+            ui_config.pop('_client_secret', None)
+
+        return self.finish_json(ui_config)
 
     @BaseHandler.auth(admin=True)
     @BaseHandler.peer_allowed()
@@ -272,10 +268,11 @@ class ConfigHandler(BaseHandler):
                 if ui_config.get('connection_failed'):
                     # a placeholder for an unreachable camera, posted back as it
                     # was listed: there is nothing in it to save
-                    return on_finish(
+                    on_finish(
                         'the remote camera could not be reached, nothing was saved',
                         False,
                     )
+                    return
 
                 # update the camera locally
                 local_config['@enabled'] = ui_config['enabled']
@@ -438,8 +435,7 @@ class ConfigHandler(BaseHandler):
     def _handle_list_cameras_response(self, resp: utils.GetCamerasResponse):
         if resp.error:
             return self.finish_json_with_error(resp.error)
-        else:
-            return self.finish_json({'cameras': resp.cameras})
+        return self.finish_json({'cameras': resp.cameras})
 
     def finish_json_with_error(self, error_msg: str):
         return self.finish_json({'error': error_msg})
@@ -449,8 +445,7 @@ class ConfigHandler(BaseHandler):
             cameras.sort(key=lambda c: c['id'])
             self.finish_json({'cameras': cameras})
             return True
-        else:
-            return False
+        return False
 
     def _handle_get_config_response(
         self,
@@ -514,6 +509,8 @@ class ConfigHandler(BaseHandler):
         proto = self.get_argument('proto', None)
         discovery_in_query = bool(proto and 'proto' in self.request.query_arguments)
         if discovery_in_query:
+            # discovery connects to the given address, so a link must not start it
+            self.refuse_navigation()
             logging.warning(
                 'camera discovery via query string is not recommended because it may expose credentials; '
                 'use POST body instead'
@@ -528,7 +525,7 @@ class ConfigHandler(BaseHandler):
                 await remote.list_cameras(self.get_all_arguments())
             )
 
-        elif proto == 'netcam':
+        if proto == 'netcam':
             scheme = self.get_argument('scheme', 'http')
 
             if scheme in ['http', 'https', 'mjpeg']:
@@ -537,18 +534,17 @@ class ConfigHandler(BaseHandler):
                 )
                 return self._handle_list_cameras_response(resp)
 
-            elif scheme == 'rtsp':
+            if scheme == 'rtsp':
                 resp = await test_rtsp_url(self.get_all_arguments())
                 return self._handle_list_cameras_response(resp)
 
-            elif scheme == 'rtmp':
+            if scheme == 'rtmp':
                 resp = test_rtmp_url(self.get_all_arguments())
                 return self._handle_list_cameras_response(resp)
 
-            else:
-                return self.finish_json_with_error(f'protocol {scheme} not supported')
+            return self.finish_json_with_error(f'protocol {scheme} not supported')
 
-        elif proto == 'mjpeg':
+        if proto == 'mjpeg':
             resp = await test_mjpeg_url(
                 self.get_all_arguments(),
                 auth_modes=['basic', 'digest'],
@@ -556,7 +552,7 @@ class ConfigHandler(BaseHandler):
             )
             return self._handle_list_cameras_response(resp)
 
-        elif proto == 'v4l2':
+        if proto == 'v4l2':
             configured_devices = set()
             for camera_id in config.get_camera_ids():
                 data = config.get_camera(camera_id)
@@ -571,7 +567,7 @@ class ConfigHandler(BaseHandler):
 
             return self.finish_json({'cameras': cameras})
 
-        elif proto == 'mmal':
+        if proto == 'mmal':
             configured_devices = set()
             for camera_id in config.get_camera_ids():
                 data = config.get_camera(camera_id)
@@ -586,55 +582,55 @@ class ConfigHandler(BaseHandler):
 
             return self.finish_json({'cameras': cameras})
 
-        else:  # assuming local motionEye camera listing
-            cameras = []
-            camera_ids = config.get_camera_ids()
-            if not config.get_main().get('@enabled'):
-                camera_ids = []
+        # assuming local motionEye camera listing
+        cameras = []
+        camera_ids = config.get_camera_ids()
+        if not config.get_main().get('@enabled'):
+            camera_ids = []
 
-            length = [len(camera_ids)]
-            remote_cameras = []
+        length = [len(camera_ids)]
+        remote_cameras = []
 
-            for camera_id in camera_ids:
-                local_config = config.get_camera(camera_id)
-                if local_config is None:
-                    continue
-                # hide admin-only cameras from non-admin users (local cameras only; remote handled after sync)
-                if (
-                    local_config.get('@admin_only')
-                    and self.current_user not in ['admin', 'peer']
-                    and not utils.is_remote_camera(local_config)
-                ):
-                    continue
-
-                if utils.is_local_motion_camera(local_config):
-                    ui_config = config.motion_camera_dict_to_ui(local_config)
-                    cameras.append(self._sanitize_camera_on_usertype(ui_config))
-                    if self.check_finished(cameras, length):
-                        return None
-
-                elif utils.is_remote_camera(local_config):
-                    remote_cameras.append((camera_id, local_config))
-
-                else:  # assuming simple mjpeg camera
-                    ui_config = config.simple_mjpeg_camera_dict_to_ui(local_config)
-                    cameras.append(self._sanitize_camera_on_usertype(ui_config))
-                    if self.check_finished(cameras, length):
-                        return None
-
-            for (camera_id, local_config), resp in zip(
-                remote_cameras,
-                await asyncio.gather(
-                    *(self._get_remote_config(c) for _, c in remote_cameras)
-                ),
+        for camera_id in camera_ids:
+            local_config = config.get_camera(camera_id)
+            if local_config is None:
+                continue
+            # hide admin-only cameras from non-admin users (local cameras only; remote handled after sync)
+            if (
+                local_config.get('@admin_only')
+                and self.current_user not in ['admin', 'peer']
+                and not utils.is_remote_camera(local_config)
             ):
-                if self._handle_get_config_response(
-                    camera_id, local_config, resp, cameras, length
-                ):
+                continue
+
+            if utils.is_local_motion_camera(local_config):
+                ui_config = config.motion_camera_dict_to_ui(local_config)
+                cameras.append(self._sanitize_camera_on_usertype(ui_config))
+                if self.check_finished(cameras, length):
                     return None
 
-            cameras.sort(key=lambda c: c['id'])
-            return self.finish_json({'cameras': cameras})
+            elif utils.is_remote_camera(local_config):
+                remote_cameras.append((camera_id, local_config))
+
+            else:  # assuming simple mjpeg camera
+                ui_config = config.simple_mjpeg_camera_dict_to_ui(local_config)
+                cameras.append(self._sanitize_camera_on_usertype(ui_config))
+                if self.check_finished(cameras, length):
+                    return None
+
+        for (camera_id, local_config), resp in zip(
+            remote_cameras,
+            await asyncio.gather(
+                *(self._get_remote_config(c) for _, c in remote_cameras)
+            ),
+        ):
+            if self._handle_get_config_response(
+                camera_id, local_config, resp, cameras, length
+            ):
+                return None
+
+        cameras.sort(key=lambda c: c['id'])
+        return self.finish_json({'cameras': cameras})
 
     async def _get_remote_config(self, local_config) -> utils.GetConfigResponse:
         if local_config.get('@enabled') or self.get_argument('force', None) == 'true':
@@ -677,7 +673,7 @@ class ConfigHandler(BaseHandler):
 
             return self.finish_json(ui_config)
 
-        elif utils.is_remote_camera(camera_config):
+        if utils.is_remote_camera(camera_config):
             resp = await remote.get_config(camera_config)
             if resp.error:
                 return self.finish_json_with_error(resp.error)
@@ -689,10 +685,10 @@ class ConfigHandler(BaseHandler):
 
             return self.finish_json(resp.remote_ui_config)
 
-        else:  # assuming simple mjpeg camera
-            ui_config = config.simple_mjpeg_camera_dict_to_ui(camera_config)
+        # assuming simple mjpeg camera
+        ui_config = config.simple_mjpeg_camera_dict_to_ui(camera_config)
 
-            return self.finish_json(ui_config)
+        return self.finish_json(ui_config)
 
     @BaseHandler.auth(admin=True)
     def rem_camera(self, camera_id):
@@ -747,8 +743,7 @@ class ConfigHandler(BaseHandler):
         if result:
             return self.finish_json({'ok': True, 'reboot': result['reboot']})
 
-        else:
-            return self.finish_json({'ok': False})
+        return self.finish_json({'ok': False})
 
     @classmethod
     def _on_test_result(cls, result):
@@ -764,9 +759,8 @@ class ConfigHandler(BaseHandler):
             logging.info(f'accessing {service_name} succeeded.result {result}')
             return request_handler.finish_json()
 
-        else:
-            logging.warning(f'accessing {service_name} failed: {result}')
-            return request_handler.finish_json({'error': result})
+        logging.warning(f'accessing {service_name} failed: {result}')
+        return request_handler.finish_json({'error': result})
 
     @BaseHandler.auth(admin=True)
     @BaseHandler.peer_allowed()
@@ -787,11 +781,10 @@ class ConfigHandler(BaseHandler):
                 if result is True:
                     logging.info(f'accessing {service_name} succeeded.result {result}')
                     return self.finish_json()
-                else:
-                    logging.warning(f'accessing {service_name} failed: {result}')
-                    return self.finish_json({'error': result})
+                logging.warning(f'accessing {service_name} failed: {result}')
+                return self.finish_json({'error': result})
 
-            elif what == 'email':
+            if what == 'email':
                 from smtplib import SMTPResponseException
 
                 from motioneye import sendmail
@@ -932,15 +925,17 @@ class ConfigHandler(BaseHandler):
             resp = await remote.test(camera_config, data)
             if resp.result is True:
                 return self.finish_json()
-            else:
-                result = resp.result or resp.error
-                return self.finish_json_with_error(result)
+            result = resp.result or resp.error
+            return self.finish_json_with_error(result)
 
         else:
             raise HTTPError(400, 'cannot test features on this type of camera')
 
     @BaseHandler.auth(admin=True)
     async def authorize(self, camera_id):
+        # a new link replaces the pending verifier, so a link must not create one
+        self.refuse_navigation()
+
         service_name = self.get_argument('service')
         if not service_name:
             raise HTTPError(400, 'service_name required')
@@ -961,5 +956,5 @@ class ConfigHandler(BaseHandler):
                 400, f'no authorization url for upload service {service_name}'
             )
 
-        logging.debug(f'redirected to authorization url {url}')
-        self.redirect(url)
+        # motionEye's page opens the tab itself, and a hub passes the link on
+        self.finish_json({'url': url})

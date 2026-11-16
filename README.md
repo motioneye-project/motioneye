@@ -26,10 +26,10 @@ _(Docker images are provided on [Docker Hub](https://hub.docker.com/r/motioneyep
     sudo apt --no-install-recommends install ca-certificates curl python3-venv
     ```
 
-    > On **ARMv6/ARMv7 (32-bit), RISC-V, and other rare CPU architectures**, additional build dependencies may be required to compile the [Pillow](https://pypi.org/project/pillow/), [PycURL](https://pypi.org/project/pycurl/), and [CFFI](https://pypi.org/project/cffi/) modules:
+    > On **ARMv6/ARMv7 (32-bit), RISC-V, and other rare CPU architectures**, additional build dependencies may be required to compile the [Pillow](https://pypi.org/project/pillow/) and [CFFI](https://pypi.org/project/cffi/) modules:
     >
     > ```sh
-    > sudo apt --no-install-recommends install python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev libffi-dev
+    > sudo apt --no-install-recommends install python3-dev gcc libjpeg62-turbo-dev libffi-dev
     > ```
 
 2. Create a Python virtual environment (`venv`) for motionEye
@@ -43,6 +43,12 @@ _(Docker images are provided on [Docker Hub](https://hub.docker.com/r/motioneyep
     ```sh
     sudo /opt/motioneye/bin/pip install motioneye
     sudo /opt/motioneye/bin/motioneye_init
+    ```
+
+    Uploads to Amazon S3 or another S3 service need the [boto3](https://pypi.org/project/boto3/) module, and SFTP uploads the [PycURL](https://pypi.org/project/pycurl/) module. They are not installed with motionEye by default, but can be added with the `s3` and `sftp` extras:
+
+    ```sh
+    sudo /opt/motioneye/bin/pip install 'motioneye[s3,sftp]'
     ```
 
     `motioneye_init` sets up a systemd service with its main executable `meyectl` from the `venv` path, respectively the Python environment the called `motioneye_init` belongs to. A custom `meyectl` path can be given with `--meyectl /path/to/meyectl`.

@@ -258,18 +258,90 @@ def netcam_params(v: str, data: dict) -> dict:
     return params
 
 
+# what motion itself takes from video_params, next to the camera's controls; motion
+# 4.4 made them entries there, out of these options, which we keep using internally
+_VIDEO_PARAMS_OPTIONS = {
+    'palette': 'v4l2_palette',
+    'input': 'input',
+    'norm': 'norm',
+    'frequency': 'frequency',
+}
+
+
+def _split_video_params(v: str) -> list[str]:
+    # by commas outside double quotes, as motion allows a name like "Gain, Automatic"
+    params, start, quoted = [], 0, False
+    for i, c in enumerate(v):
+        if c == '"':
+            quoted = not quoted
+
+        elif c == ',' and not quoted:
+            params.append(v[start:i])
+            start = i + 1
+
+    params.append(v[start:])
+    return params
+
+
+def _video_params_name(param: str) -> str:
+    return param.split('=')[0].strip().strip('"')
+
+
+def _parse_video_params(v: str) -> tuple[str, dict]:
+    # the controls, and motion's own entries as the options they were before 4.4;
+    # motion matches the names of its own entries case-sensitively
+    controls, options = [], {}
+    for param in _split_video_params(v):
+        option = _VIDEO_PARAMS_OPTIONS.get(_video_params_name(param))
+        if option is None:
+            controls.append(param)
+
+        elif '=' in param:
+            options[option] = param.split('=', 1)[1].strip().strip('"')
+
+    return ','.join(controls), options
+
+
+def _add_video_params(v: str, data: dict) -> dict:
+    # motion's own entries first, then the controls
+    params = [p for p in _split_video_params(data.get('video_params', '')) if p]
+    if v:
+        params.append(v)
+
+    params.sort(key=lambda p: _video_params_name(p) not in _VIDEO_PARAMS_OPTIONS)
+    return {'video_params': ','.join(params)}
+
+
+def _video_params_entry(name: str):
+    def mapper(v: bool | float | str, data: dict) -> dict:
+        return _add_video_params(f'{name}={_python_to_value(v)}', data)
+
+    return mapper
+
+
+def video_params(v: str, data: dict) -> dict:
+    controls, result = _parse_video_params(v)
+    # a file may hold vid_control_params next to this line, e.g. with video_params
+    # added as an extra option for motion < 4.4; without controls here, keep those
+    if controls or 'vid_control_params' not in data:
+        result['vid_control_params'] = controls
+
+    return result
+
+
 _MOTION_43_TO_44_OPTIONS_MAPPING = {
     'netcam_keepalive': netcam_keepalive_params,
     'netcam_tolerant_check': netcam_tolerant_check_params,
     'netcam_use_tcp': netcam_use_tcp_params,
-    'vid_control_params': 'video_params',
+    'vid_control_params': _add_video_params,
     'videodevice': 'video_device',
+    **{o: _video_params_entry(n) for n, o in _VIDEO_PARAMS_OPTIONS.items()},
 }
 
 
 _MOTION_44_TO_43_OPTIONS_MAPPING = {
     'netcam_params': netcam_params,
-    'video_params': 'vid_control_params',
+    'video_params': video_params,
     'video_device': 'videodevice',
 }
 
@@ -352,6 +424,8 @@ def get_main(as_lines: bool = False) -> dict | list:
         lines,
         list_names=['camera'],
         no_convert=[
+            'vid_control_params',
+            'video_params',
             '@admin_username',
             '@admin_password',
             '@normal_username',
@@ -591,6 +665,9 @@ def get_camera(camera_id: int, as_lines: bool = False) -> dict | list:
     camera_config: dict = _conf_to_dict(
         lines,
         no_convert=[
+            # a lone number or on/off is still a list of parameters here
+            'vid_control_params',
+            'video_params',
             '@network_share_name',
             '@network_smb_ver',
             '@network_server',
@@ -729,7 +806,7 @@ SENDMAIL_KEYS = {
     'server': '@email_notifications_smtp_server',
     'port': '@email_notifications_smtp_port',
     'account': '@email_notifications_smtp_account',
-    'password': '@email_notifications_smtp_password',  # nosec: B105
+    'password': '@email_notifications_smtp_password',
     'tls': '@email_notifications_smtp_tls',
     'verify': '@email_notifications_smtp_verify',
     'sender': '@email_notifications_from',
@@ -740,9 +817,11 @@ SENDTELEGRAM_KEYS = {
     'api': '@telegram_notifications_api',
     'chatid': '@telegram_notifications_chat_id',
     'timespan': '@telegram_notifications_picture_time_span',
+    'text_first': '@telegram_notifications_text_first',
 }
 _NOTIFICATION_KEYS = [*SENDMAIL_KEYS.values(), *SENDTELEGRAM_KEYS.values()]
-_OPTIONAL_NOTIFICATION_KEYS = {SENDMAIL_KEYS['verify']}  # absent in older camera files
+# absent in older camera files
+_OPTIONAL_NOTIFICATION_KEYS = {SENDMAIL_KEYS['verify'], SENDTELEGRAM_KEYS['text_first']}
 MOMENT = '%Y-%m-%dT%H:%M:%S'  # the event time, expanded by motion
 _SHORT = f" %t '{MOMENT}'"
 
@@ -773,10 +852,14 @@ def _settings_to_ui(data: dict, keys: dict) -> dict:
     ui: dict = {key[1:]: str(data.get(key, '')) for key in keys.values()}
     for name, value in ui.items():
         if name.endswith('_tls'):
-            ui[name] = value.lower() == 'true'
+            # 'implicit' is TLS from the start, True STARTTLS
+            ui[name] = value if value == 'implicit' else value.lower() == 'true'
 
         elif name.endswith('_verify'):
             ui[name] = utils.verify_setting(value)
+
+        elif name.endswith('_text_first'):
+            ui[name] = value.lower() == 'true'
 
         elif name.endswith('_time_span'):
             ui[name] = int(value) if value.isdigit() else 0
@@ -921,9 +1004,7 @@ def add_camera(device_details: dict) -> dict:
     _camera_ids_cache = None
     _camera_config_cache.clear()
 
-    camera_config = get_camera(camera_id)
-
-    return camera_config
+    return get_camera(camera_id)
 
 
 def rem_camera(camera_id: int) -> None:
@@ -1004,10 +1085,10 @@ def main_dict_to_ui(data: dict) -> dict:
     # input box in the frontend. If a password is set, transmit nothing, in
     # which case the input box will show "*****".
     if data['@admin_password'] == '':
-        ui['admin_password'] = ''  # nosec: B105
+        ui['admin_password'] = ''
 
     if data['@normal_password'] == '':
-        ui['normal_password'] = ''  # nosec: B105
+        ui['normal_password'] = ''
 
     ui['_client_secret'] = data.get('@client_secret', '')
 
@@ -1031,10 +1112,9 @@ def input_sanity_check(regex: str, value: str, key: str, msg: str) -> str:
     if match(regex, value):
         return value
 
-    else:
-        raise ValueError(
-            f'Value "{value}" for setting "{key}" did not match regex "{regex}": {msg}'
-        )
+    raise ValueError(
+        f'Value "{value}" for setting "{key}" did not match regex "{regex}": {msg}'
+    )
 
 
 def input_or_stored(ui: dict, key: str, prev_config: dict, default):
@@ -1055,6 +1135,21 @@ def input_required(ui, key):
 def _hook_verified(prev_config: dict, option: str) -> bool:
     # what the stored hook line says, for a client that does not send the key
     return '--no-verify' not in str(prev_config.get(option, ''))
+
+
+def _threshold_pixels(percent: float | str, width: int, height: int) -> int:
+    # Motion skips motion detection with threshold 0: 0 % is the most sensitive setting, 1 pixel
+    return max(1, int(float(percent) * width * height / 100))
+
+
+def _webhook_url_to_motion(url: str) -> str:
+    # motion reads digits after % as the width of a conversion specifier and drops
+    # them, so %20 in a URL turns into %; %% is a plain % to motion (#2818)
+    return sub(r'(?<!%)%(?=[0-9][0-9A-Fa-f])', '%%', url)
+
+
+def _webhook_url_from_motion(url: str) -> str:
+    return sub(r'%%(?=[0-9][0-9A-Fa-f])', '%', url)
 
 
 def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
@@ -1237,7 +1332,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         data['width'] = width
         data['height'] = height
 
-        threshold = int(float(ui['frame_change_threshold']) * width * height / 100)
+        threshold = _threshold_pixels(ui['frame_change_threshold'], width, height)
 
         if proto == 'v4l2':
             # video controls, control_id is the ID Motion actually matches against (see v4l2-ctl --list-ctrls)
@@ -1267,10 +1362,10 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
             data['width'] = width
             data['height'] = height
 
-            threshold = int(float(ui['frame_change_threshold']) * width * height / 100)
+            threshold = _threshold_pixels(ui['frame_change_threshold'], width, height)
 
         else:  # width & height are not available for other netcams
-            threshold = int(float(ui['frame_change_threshold']) * 640 * 480 / 100)
+            threshold = _threshold_pixels(ui['frame_change_threshold'], 640, 480)
 
     data['threshold'] = threshold
 
@@ -1476,8 +1571,14 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
 
     # event start
     on_event_start = [f"{meyectl.find_command('relayevent')} start %t"]
+    # motion runs these one after another, and the senders wait for the pictures
+    # of their time span, so the webhook comes first, not to be held up (#2543);
+    # the senders still come before the custom command, which could exit the
+    # shell or not return
+    senders = []
     # kept for a client that does not send the key
     stored_mail_verify = prev_config.get(SENDMAIL_KEYS['verify'])
+    stored_text_first = prev_config.get(SENDTELEGRAM_KEYS['text_first'])
     for key in _NOTIFICATION_KEYS:  # stored only while enabled
         prev_config.pop(key, None)
 
@@ -1513,11 +1614,20 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         )
         values['@email_notifications_addresses'] = emails
         values['@email_notifications_from'] = email_from
-        on_event_start.append(notification_command(data, 'sendmail', values))
+        senders.append(notification_command(data, 'sendmail', values))
 
     if ui['telegram_notifications_enabled']:
-        values = {key: ui[key[1:]] for key in SENDTELEGRAM_KEYS.values()}
-        on_event_start.append(notification_command(data, 'sendtelegram', values))
+        values = {
+            key: ui[key[1:]]
+            for key in SENDTELEGRAM_KEYS.values()
+            if key != SENDTELEGRAM_KEYS['text_first']
+        }
+        # absent from what an older hub posts: keep the stored choice
+        values[SENDTELEGRAM_KEYS['text_first']] = (
+            str(ui.get('telegram_notifications_text_first', stored_text_first)).lower()
+            == 'true'
+        )
+        senders.append(notification_command(data, 'sendtelegram', values))
 
     if ui['web_hook_notifications_enabled']:
         url = sub(
@@ -1542,10 +1652,11 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
                 script=meyectl.find_command('webhook'),
                 flag='' if verify else ' --no-verify',
                 method=ui['web_hook_notifications_http_method'],
-                url=url,
+                url=_webhook_url_to_motion(url),
             )
         )
 
+    on_event_start += senders
     if ui['command_notifications_enabled']:
         on_event_start += utils.split_semicolon(ui['command_notifications_exec'])
 
@@ -1577,7 +1688,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
                 script=meyectl.find_command('webhook'),
                 flag='' if verify else ' --no-verify',
                 method=ui['web_hook_end_notifications_http_method'],
-                url=url,
+                url=_webhook_url_to_motion(url),
             )
         )
 
@@ -1611,7 +1722,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
                 script=meyectl.find_command('webhook'),
                 flag='' if verify else ' --no-verify',
                 method=ui['web_hook_storage_http_method'],
-                url=url,
+                url=_webhook_url_to_motion(url),
             )
         )
 
@@ -1645,7 +1756,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
                 script=meyectl.find_command('webhook'),
                 flag='' if verify else ' --no-verify',
                 method=ui['web_hook_storage_http_method'],
-                url=url,
+                url=_webhook_url_to_motion(url),
             )
         )
 
@@ -1661,6 +1772,12 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
 
     extra_options = ui.get('extra_options', [])
     for name, value in extra_options:
+        if name == 'video_params':
+            # motion's own entries are kept as the options they were before 4.4, see
+            # _VIDEO_PARAMS_OPTIONS; controls are not taken from here, but from the UI
+            data.update(_parse_video_params(value or '')[1])
+            continue
+
         data[name] = value or ''
 
     prev_config.update(data)
@@ -1802,8 +1919,8 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
     # Only transmit an empty string if no password is set, to show an empty
     # input box in the frontend. If a password is set, transmit nothing, in
     # which case the input box will show "*****".
-    if streaming_password == '':  # nosec: B105
-        ui['streaming_password'] = ''  # nosec: B105
+    if streaming_password == '':
+        ui['streaming_password'] = ''
 
     if utils.is_net_camera(data):
         ui['device_url'] = data['netcam_url']
@@ -2079,7 +2196,7 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
 
             ui['web_hook_notifications_enabled'] = True
             ui['web_hook_notifications_http_method'] = e[-2]
-            ui['web_hook_notifications_url'] = e[-1]
+            ui['web_hook_notifications_url'] = _webhook_url_from_motion(e[-1])
             ui['web_hook_notifications_verify'] = '--no-verify' not in e[:-2]
 
         elif 'relayevent' in e:
@@ -2107,7 +2224,7 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
 
             ui['web_hook_end_notifications_enabled'] = True
             ui['web_hook_end_notifications_http_method'] = e[-2]
-            ui['web_hook_end_notifications_url'] = e[-1]
+            ui['web_hook_end_notifications_url'] = _webhook_url_from_motion(e[-1])
             ui['web_hook_end_notifications_verify'] = '--no-verify' not in e[:-2]
 
         elif 'relayevent' in e or 'eventrelay.py' in e:
@@ -2135,7 +2252,7 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
 
             ui['web_hook_storage_enabled'] = True
             ui['web_hook_storage_http_method'] = e[-2]
-            ui['web_hook_storage_url'] = e[-1]
+            ui['web_hook_storage_url'] = _webhook_url_from_motion(e[-1])
             ui['web_hook_storage_verify'] = '--no-verify' not in e[:-2]
 
         elif 'relayevent' in e:
@@ -2150,8 +2267,24 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
 
     # extra motion options
     extra_options = []
+    # shown as motion gets them: with motion >= 4.4, v4l2_palette, input, norm and
+    # frequency are entries of video_params, see _VIDEO_PARAMS_OPTIONS
+    video_params_entries = []
+    if motionctl.is_motion_post43():
+        video_params_entries = [
+            f'{n}={_python_to_value(data[o])}'
+            for n, o in _VIDEO_PARAMS_OPTIONS.items()
+            if o in data
+        ]
+
     for name, value in list(data.items()):
         if name not in _USED_MOTION_OPTIONS and not name.startswith('@'):
+            if video_params_entries and name in _VIDEO_PARAMS_OPTIONS.values():
+                if ('video_params', ','.join(video_params_entries)) in extra_options:
+                    continue
+
+                name, value = 'video_params', ','.join(video_params_entries)
+
             if isinstance(value, bool):
                 # boolean values should be transferred as on/off
                 value = ['off', 'on'][value]
@@ -2285,7 +2418,7 @@ def restore(content: bytes) -> dict | None:
                 if any(fnmatchcase(name, p) for p in patterns):
                     members.append(m)
 
-            tf.extractall(settings.CONF_PATH, members=members)  # nosec B202
+            tf.extractall(settings.CONF_PATH, members=members)  # noqa: S202
 
         logging.debug('configuration restored successfully')
 
@@ -2322,7 +2455,7 @@ def _value_to_python(value: str) -> bool | float | str:
     if value_lower == 'off':
         return False
 
-    elif value_lower == 'on':
+    if value_lower == 'on':
         return True
 
     try:
@@ -2340,17 +2473,16 @@ def _python_to_value(value: bool | float | str) -> str:
     if value is True:
         return 'on'
 
-    elif value is False:
+    if value is False:
         return 'off'
 
-    elif isinstance(value, (int, float)):
+    if isinstance(value, (int, float)):
         return str(value)
 
-    elif isinstance(value, str):
+    if isinstance(value, str):
         return value.replace('\r', ' ').replace('\n', ' ')
 
-    else:
-        return value
+    return value
 
 
 def _conf_to_dict(
@@ -2629,14 +2761,11 @@ def _set_default_motion_camera(camera_id: int, data: dict) -> None:
     data.setdefault('movie_output', False)
     data.setdefault('movie_passthrough', False)
 
-    if motionctl.has_h264_omx_support():
-        data.setdefault('movie_codec', 'mp4:h264_omx')  # will use h264 codec
-
-    elif motionctl.has_h264_v4l2m2m_support():
-        data.setdefault('movie_codec', 'mp4:h264_v4l2m2m')  # will use h264 codec
-
-    else:
-        data.setdefault('movie_codec', 'mp4')  # will use h264 codec
+    # H.264 in software: ffmpeg lists the OMX and V4L2 M2M encoders when it is built
+    # with them, not when the hardware has one (Debian's ffmpeg lists h264_v4l2m2m
+    # on any machine), and they fail to encode where it has not; they stay
+    # selectable in the UI
+    data.setdefault('movie_codec', 'mp4')
 
     data.setdefault('movie_quality', 75)  # 75%
 

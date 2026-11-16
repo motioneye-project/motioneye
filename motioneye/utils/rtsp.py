@@ -20,6 +20,7 @@ import functools
 import logging
 import re
 import socket
+from contextlib import suppress
 
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
@@ -58,12 +59,10 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
             logging.debug(f'testing rtsp netcam at {url}')
 
         if stream is not None:
-            try:
+            # already closed or closing failed, nothing we can do
+            with suppress(Exception):
                 stream.set_close_callback(None)  # not an error when reconnecting
                 stream.close()
-
-            except Exception:  # nosec: B110 # noqa: S110
-                pass  # already closed or closing failed, nothing we can do
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         s.settimeout(settings.MJPG_CLIENT_TIMEOUT)
@@ -85,8 +84,7 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
             logging.exception('[ON_CONNECT] Stream connection error occurred')
             if _timeout:
                 return handle_error('timeout connecting to rtsp netcam')
-            else:
-                return handle_error('failed to connect to rtsp netcam')
+            return handle_error('failed to connect to rtsp netcam')
         else:
             logging.debug('connected to rtsp netcam')
 
@@ -245,11 +243,8 @@ def test_rtsp_url(data: dict) -> Future[GetCamerasResponse]:
         called[0] = True
         logging.error(f'rtsp client error: {e}')
 
-        try:
+        with suppress(Exception):  # already closed or closing failed, nothing we can do
             stream.close()
-
-        except Exception:  # nosec: B110 # noqa: S110
-            pass  # already closed or closing failed, nothing we can do
 
         future.set_result(GetCamerasResponse(None, error=e))
 

@@ -1,12 +1,23 @@
 [Unit]
 Description=motionEye Server
-After=network.target local-fs.target remote-fs.target
+Documentation=https://github.com/motioneye-project/motioneye
+Wants=network-online.target
+After=network-online.target remote-fs.target
 
 [Service]
+Type=exec
 User=motion
+ConfigurationDirectory=motioneye
 StateDirectory=motioneye
 ExecStart=/usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
-Restart=on-abort
+
+# Sandboxing
+ProtectSystem=full
+ProtectHome=1
+PrivateTmp=1
+PrivateIPC=1
+ProtectControlGroups=1
+ProtectProc=invisible
 
 [Install]
 WantedBy=multi-user.target

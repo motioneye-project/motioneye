@@ -29,8 +29,8 @@ from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
 from http.client import HTTPResponse
 from typing import Any, cast
-from urllib.parse import urlparse, urlsplit
-from urllib.request import Request
+from urllib.parse import urlsplit
+from urllib.request import Request, parse_http_list
 from urllib.request import urlopen as _urlopen
 
 from PIL import Image, ImageDraw
@@ -262,6 +262,49 @@ def build_basic_header(username: str, password: str) -> str:
     return f'Basic {base64.b64encode(f"{username}:{password}".encode()).decode()}'
 
 
+def parse_digest_challenge(challenges: list[str]) -> dict | None:
+    """The parameters of the first usable Digest challenge among
+    WWW-Authenticate header values, None if there is none."""
+    for header in challenges:
+        for scheme, params in _split_challenges(header):
+            if (
+                scheme == 'digest'
+                and 'realm' in params
+                and params.get('nonce', '') != ''
+            ):
+                return params
+
+    return None
+
+
+def _split_challenges(header: str) -> list[tuple[str, dict]]:
+    """The (scheme, parameters) of each challenge in a WWW-Authenticate header
+    value, which may hold several, e.g. `Basic realm="cam", Digest realm="cam",
+    nonce="n"`."""
+    found: list[tuple[str, dict]] = []
+    # quoted values may hold commas, e.g. qop="auth,auth-int"; an item whose first
+    # word is not a parameter is a scheme, which starts the next challenge
+    for item in parse_http_list(header):
+        head, _, rest = item.partition(' ')
+        if '=' not in head and not rest.lstrip().startswith('='):
+            found.append((head.lower(), {}))
+            item = rest.strip()
+            if not item:
+                continue
+
+        if not found:
+            break  # a parameter before any scheme: not a challenge
+
+        key, _, value = item.partition('=')
+        value = value.strip()
+        if len(value) > 1 and value[0] == value[-1] == '"':
+            value = value[1:-1]
+
+        found[-1][1][key.strip().lower()] = value
+
+    return found
+
+
 def build_digest_header(method, url, username, password, state):
     realm = state['realm']
     nonce = state['nonce']
@@ -277,29 +320,26 @@ def build_digest_header(method, url, username, password, state):
     else:
         _algorithm = algorithm.upper()
 
-    if _algorithm == 'MD5' or _algorithm == 'MD5-SESS':
+    hash_name = {
+        'MD5': 'md5',
+        'MD5-SESS': 'md5',
+        'SHA': 'sha1',
+        'SHA-256': 'sha256',
+        'SHA-256-SESS': 'sha256',
+    }.get(_algorithm)
+    if hash_name is None:
+        return None
 
-        def md5_utf8(x):
-            if isinstance(x, str):
-                x = x.encode('utf-8')
-            return hashlib.md5(x).hexdigest()  # nosec: B324
-
-        hash_utf8 = md5_utf8
-
-    else:  # _algorithm == 'SHA'
-
-        def sha_utf8(x):
-            if isinstance(x, str):
-                x = x.encode('utf-8')
-            return hashlib.sha1(x).hexdigest()  # nosec: B324
-
-        hash_utf8 = sha_utf8
+    def hash_utf8(x):
+        if isinstance(x, str):
+            x = x.encode()
+        return hashlib.new(hash_name, x).hexdigest()
 
     def KD(s, d):
         return hash_utf8(f"{s}:{d}")
 
-    p_parsed = urlparse(url)
-    path = p_parsed.path
+    p_parsed = urlsplit(url)  # keeps ;params in the path, as sent
+    path = p_parsed.path or '/'  # what clients send for an empty path
     if p_parsed.query:
         path += '?' + p_parsed.query
 
@@ -321,14 +361,14 @@ def build_digest_header(method, url, username, password, state):
     s += time.ctime().encode('utf-8')
     s += os.urandom(8)
 
-    cnonce = hashlib.sha1(s).hexdigest()[:16]  # nosec B324
-    if _algorithm == 'MD5-SESS':
+    cnonce = hashlib.sha1(s, usedforsecurity=False).hexdigest()[:16]
+    if _algorithm.endswith('-SESS'):
         HA1 = hash_utf8(f'{HA1}:{nonce}:{cnonce}')
 
     if qop is None:
         respdig = KD(HA1, f"{nonce}:{HA2}")
 
-    elif qop == 'auth' or 'auth' in qop.split(','):
+    elif 'auth' in [q.strip() for q in qop.split(',')]:
         noncebit = "{}:{}:{}:{}:{}".format(nonce, ncvalue, cnonce, 'auth', HA2)
         respdig = KD(HA1, noncebit)
 
@@ -341,7 +381,8 @@ def build_digest_header(method, url, username, password, state):
     if opaque:
         base += f', opaque="{opaque}"'
     if algorithm:
-        base += f', algorithm="{algorithm}"'
+        # not quoted, like qop and nc (RFC 7616, section 3.4)
+        base += f', algorithm={algorithm}'
     if qop:
         base += f', qop=auth, nc={ncvalue}, cnonce="{cnonce}"'
 
@@ -375,7 +416,7 @@ def urlopen(request: Request, *, verify: bool = True, **kwargs) -> HTTPResponse:
         context.verify_mode = ssl.CERT_NONE
         kwargs['context'] = context
 
-    return _urlopen(request, **kwargs)  # nosec: B310
+    return _urlopen(request, **kwargs)  # noqa: S310
 
 
 def build_editable_mask_file(
@@ -387,6 +428,11 @@ def build_editable_mask_file(
     width = mask_lines[0]
     height = mask_lines[1]
     mask_lines = mask_lines[2:]
+
+    # a mask file that could not be read gives lines with no size, which the
+    # web UI sends back as they are unless the mask is edited
+    if width <= 0 or height <= 0:
+        return ''
 
     logging.debug(
         f'building editable {mask_class} mask for camera with id {camera_id} ({width}x{height})'
@@ -478,9 +524,7 @@ def build_mask_file_name(camera_id, mask_class):
         if mask_class == 'motion'
         else f'mask_{camera_id}_{mask_class}.pgm'
     )
-    full_path = os.path.join(settings.CONF_PATH, file_name)
-
-    return full_path
+    return os.path.join(settings.CONF_PATH, file_name)
 
 
 def parse_editable_mask_file(
@@ -496,9 +540,11 @@ def parse_editable_mask_file(
         f'parsing editable mask {mask_class} for camera with id {camera_id}: {file_name}'
     )
 
-    # read the image file
+    # read the image file; Image.open() only reads the header, so load the
+    # pixels here too, as a file cut short (e.g. by a full disk) fails only then
     try:
         im = Image.open(file_name)
+        im.load()
 
     except Exception as e:
         logging.error(f'failed to read mask file {file_name}: {e}')
@@ -619,7 +665,7 @@ def call_subprocess(
         stdout=stdout,
         stderr=stderr,
         capture_output=capture_output,
-        shell=shell,  # nosec: B602
+        shell=shell,
         cwd=cwd,
         timeout=timeout,
         check=check,
@@ -628,6 +674,39 @@ def call_subprocess(
         text=text,
         env=env,
     ).stdout.strip()
+
+
+_libcamera_v4l2_missing_reported = False
+
+
+def libcamera_v4l2_env() -> dict[str, str] | None:
+    """The environment for motion and v4l2-ctl, with libcamera's V4L2 layer preloaded
+
+    Raspberry Pi camera modules on the libcamera camera stack are seen as V4L2
+    devices through it (what libcamerify does). None, to inherit motionEye's own,
+    when libcamera_v4l2 is not set or the file is missing.
+    """
+    global _libcamera_v4l2_missing_reported
+
+    path = settings.LIBCAMERA_V4L2
+    if not path:
+        return None
+
+    if not os.path.isfile(path):
+        if not _libcamera_v4l2_missing_reported:
+            logging.error(f'libcamera_v4l2: {path} not found, starting without it')
+            _libcamera_v4l2_missing_reported = True
+
+        return None
+
+    env = dict(os.environ)
+    preload = [p for p in re.split(r'[\s:]+', env.get('LD_PRELOAD', '')) if p]
+    # already preloaded, e.g. with motionEye itself started under libcamerify
+    if not any(os.path.basename(p) == 'v4l2-compat.so' for p in preload):
+        preload.append(path)
+
+    env['LD_PRELOAD'] = ' '.join(preload)
+    return env
 
 
 def validate_paths(

@@ -336,7 +336,7 @@ class LoginHandlerTest(HandlerTestCase):
     def test_login_legacy_password_migrates(self):
         admin_user = 'admin'
         plain = 's3cret'
-        legacy_hash = sha1(plain.encode()).hexdigest()  # nosec: B324
+        legacy_hash = sha1(plain.encode(), usedforsecurity=False).hexdigest()
         main_config = {
             '@admin_username': admin_user,
             '@admin_password': legacy_hash,
@@ -574,6 +574,16 @@ class LoginHandlerTest(HandlerTestCase):
                 _session_store.clear()
                 response = self._login_remember(remember, json_body)
                 self._assert_session_lifetime(response, 'admin', 24 * 3600)
+
+    def test_session_cookie_is_lax(self):
+        # with Strict, an installed web app is logged out when opened again
+        for remember in ('0', '1'):
+            with self.subTest(remember=remember):
+                response = self._login_remember(remember, False)
+                cookie = SimpleCookie()
+                cookie.load(response.headers.get('Set-Cookie', ''))
+                self.assertEqual('Lax', cookie['user']['samesite'])
+                self.assertTrue(cookie['user']['httponly'])
 
     def test_logout(self):
         cookie = self.make_session_cookie('admin')
