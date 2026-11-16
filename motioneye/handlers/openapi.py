@@ -15,15 +15,15 @@ class OpenApiHandler(BaseHandler):
     """Serves the OpenAPI description of the HTTP API, open to anyone, as it
     describes the API and nothing about this server but its version."""
 
-    _spec: str | None = None
+    _spec: bytes | None = None
 
     def get(self):
         if OpenApiHandler._spec is None:
-            with open(_SPEC_PATH, encoding='utf-8') as f:
+            with open(_SPEC_PATH, 'rb') as f:
                 spec = json.load(f)
 
             spec['info']['version'] = VERSION
-            OpenApiHandler._spec = json.dumps(spec)
+            OpenApiHandler._spec = json.dumps(spec, separators=(',', ':')).encode()
 
         self.set_header('Content-Type', 'application/json')
         self.finish(OpenApiHandler._spec)

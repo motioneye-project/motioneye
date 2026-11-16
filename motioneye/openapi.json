@@ -197,31 +197,13 @@
         ],
         "responses": {
           "200": {
-            "description": "The cameras, each with its settings.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "cameras": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/CameraConfig"
-                      }
-                    },
-                    "error": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/CameraList"
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
           }
         },
-        "description": "Lists the cameras with their settings, as `/config/{camera_id}/get/` returns them. The normal user is not shown admin-only cameras, nor secrets such as passwords.\n\nWith `proto`, it instead lists the cameras that can be added from a source, which only the admin may do.\n\nOpen to both users.",
+        "description": "Lists the cameras with their settings, as `/config/{camera_id}/get/` returns them. The normal user is not shown admin-only cameras, nor secrets such as passwords.\n\nWith `proto`, it instead lists the cameras that can be added from a source, which only the admin may do. This form is deprecated: use `POST`, which keeps the address and login out of the URL. In the query, they make motionEye log a warning, and discovery is refused with `403` when opened as a link: a browser navigation, a request from another site, or one that accepts `text/html`.\n\nOpen to both users.",
         "parameters": [
           {
             "name": "proto",
@@ -235,7 +217,8 @@
                 "motioneye",
                 "mjpeg"
               ]
-            }
+            },
+            "deprecated": true
           },
           {
             "name": "scheme",
@@ -244,7 +227,8 @@
             "schema": {
               "type": "string",
               "default": "http"
-            }
+            },
+            "deprecated": true
           },
           {
             "name": "host",
@@ -252,7 +236,8 @@
             "schema": {
               "type": "string"
             },
-            "description": "With `proto` `netcam`, `mjpeg` or `motioneye`: the host."
+            "description": "With `proto` `netcam`, `mjpeg` or `motioneye`: the host.",
+            "deprecated": true
           },
           {
             "name": "port",
@@ -260,7 +245,8 @@
             "schema": {
               "type": "string"
             },
-            "description": "With `proto` `netcam`, `mjpeg` or `motioneye`: the port; empty for the default of the scheme."
+            "description": "With `proto` `netcam`, `mjpeg` or `motioneye`: the port; empty for the default of the scheme.",
+            "deprecated": true
           },
           {
             "name": "path",
@@ -268,7 +254,8 @@
             "schema": {
               "type": "string"
             },
-            "description": "With `proto` `netcam`, `mjpeg` or `motioneye`: the path of the URL."
+            "description": "With `proto` `netcam`, `mjpeg` or `motioneye`: the path of the URL.",
+            "deprecated": true
           },
           {
             "name": "username",
@@ -276,7 +263,8 @@
             "schema": {
               "type": "string"
             },
-            "description": "With `proto` `netcam` or `mjpeg`: the camera login."
+            "description": "With `proto` `netcam` or `mjpeg`: the camera login.",
+            "deprecated": true
           },
           {
             "name": "password",
@@ -284,7 +272,8 @@
             "schema": {
               "type": "string"
             },
-            "description": "With `proto` `netcam` or `mjpeg`: the camera login."
+            "description": "With `proto` `netcam` or `mjpeg`: the camera login.",
+            "deprecated": true
           },
           {
             "name": "remote_secret",
@@ -292,7 +281,8 @@
             "schema": {
               "type": "string"
             },
-            "description": "With `proto=motioneye`: the other motionEye's client secret, from its General Settings. Without it, that server answers that authentication failed."
+            "description": "With `proto=motioneye`: the other motionEye's client secret, from its General Settings. Without it, that server answers that authentication failed.",
+            "deprecated": true
           },
           {
             "name": "remote_verify",
@@ -300,9 +290,83 @@
             "schema": {
               "type": "boolean"
             },
-            "description": "With `proto=motioneye`: whether to check the other motionEye's certificate."
+            "description": "With `proto=motioneye`: whether to check the other motionEye's certificate.",
+            "deprecated": true
           }
         ]
+      },
+      "post": {
+        "summary": "Discover cameras to add",
+        "tags": [
+          "Cameras"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/CameraList"
+          },
+          "403": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        },
+        "description": "Lists the cameras that can be added from a source, with the address and login in the body. This is how the web UI discovers cameras.\n\n**Requires the admin.**",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "proto": {
+                    "type": "string",
+                    "enum": [
+                      "v4l2",
+                      "netcam",
+                      "motioneye",
+                      "mjpeg"
+                    ],
+                    "description": "The source: `v4l2` for local devices, `netcam` for a network camera, `motioneye` for the cameras of another motionEye server, `mjpeg` for a simple MJPEG camera."
+                  },
+                  "scheme": {
+                    "type": "string",
+                    "default": "http",
+                    "description": "With `proto=netcam`: `http`, `https`, `mjpeg` or `rtsp`."
+                  },
+                  "host": {
+                    "type": "string",
+                    "description": "With `proto` `netcam`, `mjpeg` or `motioneye`: the host."
+                  },
+                  "port": {
+                    "type": "string",
+                    "description": "With `proto` `netcam`, `mjpeg` or `motioneye`: the port; empty for the default of the scheme."
+                  },
+                  "path": {
+                    "type": "string",
+                    "description": "With `proto` `netcam`, `mjpeg` or `motioneye`: the path of the URL."
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "With `proto` `netcam` or `mjpeg`: the camera login."
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "With `proto` `netcam` or `mjpeg`: the camera login."
+                  },
+                  "remote_secret": {
+                    "type": "string",
+                    "description": "With `proto=motioneye`: the other motionEye's client secret, from its General Settings. Without it, that server answers that authentication failed."
+                  },
+                  "remote_verify": {
+                    "type": "boolean",
+                    "description": "With `proto=motioneye`: whether to check the other motionEye's certificate."
+                  }
+                },
+                "required": [
+                  "proto"
+                ]
+              }
+            }
+          }
+        }
       }
     },
     "/config/main/get/": {
@@ -384,7 +448,7 @@
             "$ref": "#/components/responses/Unauthorized"
           }
         },
-        "description": "Takes one of the cameras found by `/config/list/?proto=…`.\n\n**Requires the admin.**",
+        "description": "Takes one of the cameras found by `POST /config/list/`.\n\n**Requires the admin.**",
         "requestBody": {
           "required": true,
           "content": {
@@ -828,8 +892,24 @@
           "Cameras"
         ],
         "responses": {
-          "302": {
-            "description": "A redirect to the service's own authorization page."
+          "200": {
+            "description": "The link to the service's own authorization page, to open in a browser.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  },
+                  "required": [
+                    "url"
+                  ]
+                }
+              }
+            }
           },
           "400": {
             "description": "No `service`, or one without an authorization page.",
@@ -848,7 +928,7 @@
             "$ref": "#/components/responses/NoSuchCamera"
           }
         },
-        "description": "For upload services that sign in with OAuth, such as Google Drive and Dropbox. For a camera on another motionEye, that one makes the link.\n\n**Requires the admin.**",
+        "description": "For upload services that sign in with OAuth, such as Google Drive and Dropbox: open the returned `url` to sign in. For a camera on another motionEye, that one makes the link.\n\nA new link replaces the pending one, so this is refused with `403` when opened as a link: a browser navigation, a request from another site, or one that accepts `text/html`.\n\n**Requires the admin.**",
         "parameters": [
           {
             "name": "camera_id",
@@ -1118,7 +1198,8 @@
               "type": "string"
             }
           }
-        ]
+        ],
+        "security": []
       }
     },
     "/picture/{camera_id}/download/{filename}/": {
@@ -1396,7 +1477,7 @@
             }
           }
         },
-        "description": "Two requests: the first, without `key`, builds the archive and returns its key; the second, with that key, downloads it.\n\nOpen to both users.",
+        "description": "Two requests: the first, without `key`, builds the archive and returns its key; the second, with that key, downloads it. The first one is refused with `403` when opened as a link: a browser navigation, a request from another site, or one that accepts `text/html`.\n\nOpen to both users.",
         "parameters": [
           {
             "name": "camera_id",
@@ -1480,7 +1561,7 @@
             }
           }
         },
-        "description": "Start it with `interval` and `framerate`. That answer is `{\"progress\": -1}`, before the movie exists, so ignore it and poll with `check=true` while `progress` is between 0 and 1. At `-1` it has stopped: with a `key`, download the movie with it; without one, making it failed, or the group has no pictures.\n\nOpen to both users.",
+        "description": "Start it with `interval` and `framerate`. That answer is `{\"progress\": -1}`, before the movie exists, so ignore it and poll with `check=true` while `progress` is between 0 and 1. At `-1` it has stopped: with a `key`, download the movie with it; without one, making it failed, or the group has no pictures.\n\nThe request that starts it is refused with `403` when opened as a link: a browser navigation, a request from another site, or one that accepts `text/html`.\n\nOpen to both users.",
         "parameters": [
           {
             "name": "camera_id",
@@ -2080,6 +2161,27 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "CameraList": {
+        "description": "The cameras, each with its settings.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cameras": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CameraConfig"
+                  }
+                },
+                "error": {
+                  "type": "string"
+                }
+              }
             }
           }
         }
