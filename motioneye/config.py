@@ -2733,13 +2733,15 @@ def _set_default_motion_camera(camera_id: int, data: dict) -> None:
     data.setdefault('noise_level', 32)
     data.setdefault('lightswitch_percent', 0)
     data.setdefault('despeckle_filter', '')
-    data.setdefault('minimum_motion_frames', 20)
+    # motion's own defaults: it writes all buffered pictures to the movie at
+    # once when an event starts, so a large buffer freezes the movie (#2887)
+    data.setdefault('minimum_motion_frames', 1)
     data.setdefault('smart_mask_speed', 0)
     data.setdefault('mask_file', '')
     data.setdefault('movie_output_motion', False)
     data.setdefault('picture_output_motion', False)
 
-    data.setdefault('pre_capture', 1)
+    data.setdefault('pre_capture', 0)
     data.setdefault('post_capture', 1)
 
     data.setdefault('picture_output', False)
