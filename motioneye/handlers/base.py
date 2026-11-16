@@ -313,7 +313,10 @@ class BaseHandler(RequestHandler):
         return decorator
 
     @staticmethod
-    def auth(admin=False, prompt=True):
+    def auth(admin=False, prompt=True, api_key=True):
+        """Let only signed-in users through, only the admin with admin=True,
+        and no API key with api_key=False."""
+
         def decorator(func):
             def wrapper(self, *args, **kwargs):
                 _admin = self.get_argument('_admin', None) == 'true'
@@ -332,6 +335,12 @@ class BaseHandler(RequestHandler):
                     self.set_status(403)
 
                     return self.finish_json({'error': 'unauthorized', 'prompt': prompt})
+
+                if not api_key and self.api_key_used:
+                    self.set_status(403)
+                    return self.finish_json(
+                        {'error': 'this cannot be done with an API key'}
+                    )
 
                 return func(self, *args, **kwargs)
 

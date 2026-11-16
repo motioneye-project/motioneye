@@ -312,19 +312,28 @@ class ConfigHandler(BaseHandler):
             if self.current_user != 'admin':
                 raise HTTPError(403, 'access denied to write the main config')
 
-            # A key that could set a password could sign in with it and create
-            # another key, outliving its own removal.
-            if self.api_key_used and (
-                ui_config.get('admin_password') or ui_config.get('normal_password')
-            ):
-                raise HTTPError(403, 'passwords cannot be changed with an API key')
-
-            logging.debug('setting main config...')
-
             old_main_config = config.get_main()
             old_admin_username = old_main_config.get('@admin_username')
             old_normal_username = old_main_config.get('@normal_username')
             old_lang = old_main_config.get('@lang')
+
+            # A key that could set a password could sign in with it and create
+            # another key, outliving its own removal. The user names are part of
+            # signing in too. The web UI sends both names with every save, so
+            # only a change counts.
+            if self.api_key_used and (
+                ui_config.get('admin_password')
+                or ui_config.get('normal_password')
+                or ui_config.get('admin_username', old_admin_username)
+                != old_admin_username
+                or ui_config.get('normal_username', old_normal_username)
+                != old_normal_username
+            ):
+                raise HTTPError(
+                    403, 'user names and passwords cannot be changed with an API key'
+                )
+
+            logging.debug('setting main config...')
 
             main_config = config.main_ui_to_dict(ui_config)
             main_config.setdefault('camera', old_main_config.get('camera', []))
@@ -703,16 +712,11 @@ class ConfigHandler(BaseHandler):
 
         return self.finish_json()
 
-    @BaseHandler.auth(admin=True)
+    # A backup carries the password hashes and the API keys, and a legacy
+    # password hash still signs in, which would let a key outlive itself;
+    # see set_main_config().
+    @BaseHandler.auth(admin=True, api_key=False)
     def backup(self):
-        # A backup carries the password hashes and the API keys, and a legacy
-        # password hash still signs in, which would let a key outlive itself;
-        # see set_main_config().
-        if self.api_key_used:
-            raise HTTPError(
-                403, 'the configuration cannot be backed up with an API key'
-            )
-
         content = config.backup()
 
         if not content:
@@ -724,12 +728,9 @@ class ConfigHandler(BaseHandler):
 
         return self.finish(content)
 
-    @BaseHandler.auth(admin=True)
+    # a backup carries the passwords and the API keys, see backup()
+    @BaseHandler.auth(admin=True, api_key=False)
     def restore(self):
-        # a backup carries the passwords and the API keys, see backup()
-        if self.api_key_used:
-            raise HTTPError(403, 'the configuration cannot be restored with an API key')
-
         try:
             content = self.request.files['files'][0]['body']
 

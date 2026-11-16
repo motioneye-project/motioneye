@@ -164,37 +164,62 @@ class TestRestore(unittest.TestCase):
         config.restore(tarball)
         self._assert_restored_files('mask_1.pgm', 'mask_2.pgm')
 
-    def test_restore_extracts_api_keys_and_reloads_them(self):
-        tarball = self._make_tarball('api_keys.json')
-
-        with patch('motioneye.apikeys.reset') as reset:
-            config.restore(tarball)
-
-        self._assert_restored_files('api_keys.json')
-        reset.assert_called_once()
-
-    def test_restore_uses_the_restored_api_keys_also_before_a_reboot(self):
-        restored = json.dumps(
-            [{'id': 'abcd0123', 'name': 'restored', 'role': 'admin', 'hash': '0' * 64}]
+    def _make_keys_tarball(self, name: str, *others: str) -> bytes:
+        """Create an in-memory .tar.gz with one API key, and empty other members."""
+        keys = json.dumps(
+            [{'id': 'abcd0123', 'name': name, 'role': 'admin', 'hash': '0' * 64}]
         ).encode()
-        member = tarfile.TarInfo('api_keys.json')
-        member.size = len(restored)
         buf = BytesIO()
         with tarfile.open(fileobj=buf, mode='w:gz') as tf:
-            tf.addfile(member, BytesIO(restored))
+            member = tarfile.TarInfo('api_keys.json')
+            member.size = len(keys)
+            tf.addfile(member, BytesIO(keys))
+            for other in others:
+                tf.addfile(tarfile.TarInfo(other))
+        return buf.getvalue()
 
+    def test_restore_brings_back_the_api_keys_when_there_are_none(self):
+        # as on a new install; the keys are read again also before a reboot
         apikeys.reset()
         try:
-            _, token = apikeys.add('in use before the restore', 'normal')
+            self.assertEqual([], apikeys.list_keys())
             with (
                 patch('motioneye.settings.ENABLE_REBOOT', True),
                 patch('motioneye.config.IOLoop'),
             ):
-                self.assertEqual({'reboot': True}, config.restore(buf.getvalue()))
+                tarball = self._make_keys_tarball('restored')
+                self.assertEqual({'reboot': True}, config.restore(tarball))
 
-            # a key used before the reboot must not save the old keys over these
-            self.assertIsNone(apikeys.verify(token))
+            self._assert_restored_files('api_keys.json')
             self.assertEqual(['restored'], [k['name'] for k in apikeys.list_keys()])
+
+        finally:
+            apikeys.reset()
+
+    def test_restore_replaces_an_unreadable_api_keys_file(self):
+        with open(os.path.join(self.conf_dir, 'api_keys.json'), 'w') as f:
+            f.write('[{"id": "1234abcd", "name": "Home Assis')
+
+        apikeys.reset()
+        try:
+            config.restore(self._make_keys_tarball('restored'))
+            self.assertEqual(['restored'], [k['name'] for k in apikeys.list_keys()])
+
+        finally:
+            apikeys.reset()
+
+    def test_restore_keeps_the_api_keys_in_use(self):
+        # keys revoked since the backup stay revoked, newer ones keep working
+        apikeys.reset()
+        try:
+            _, token = apikeys.add('added after the backup', 'normal')
+            config.restore(self._make_keys_tarball('in the backup', 'motion.conf'))
+
+            self._assert_restored_files('api_keys.json', 'motion.conf')
+            self.assertEqual('normal', apikeys.verify(token))
+            self.assertEqual(
+                ['added after the backup'], [k['name'] for k in apikeys.list_keys()]
+            )
 
         finally:
             apikeys.reset()

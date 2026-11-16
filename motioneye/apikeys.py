@@ -34,13 +34,17 @@ TOKEN_PREFIX = 'meye_'
 _FILE_NAME = 'api_keys.json'
 _MAX_KEYS = 100
 _MAX_NAME_LENGTH = 64
-# last use is recorded to the hour, so a camera polled every second does not
-# rewrite the file every second
+# Last use is kept to the hour, and written to the file at most once a day, or
+# with the next key added or removed, so that keys in use do not wear out an SD
+# card.
 _LAST_USED_RESOLUTION = 3600
+_LAST_USED_SAVE_INTERVAL = 86400
 
 _keys: list[dict[str, Any]] | None = None
 # why the file could not be read, logged once while it stays that way
 _load_error: str | None = None
+# when the file was last written; 0 until then, so the first use is written
+_saved_at = 0
 
 
 class ApiKeyError(ValueError):
@@ -102,6 +106,8 @@ def _load() -> list[dict[str, Any]]:
 def _save(keys: list[dict[str, Any]]) -> None:
     """Write the keys to the file, replacing it only once they are all written."""
 
+    global _saved_at
+
     file_path = _file_path()
     tmp_path = file_path + '.tmp'
 
@@ -113,6 +119,7 @@ def _save(keys: list[dict[str, Any]]) -> None:
             json.dump(keys, f, indent=4)
 
         os.replace(tmp_path, file_path)
+        _saved_at = int(time())
 
     except OSError as e:
         logging.error(f'could not save API keys to "{file_path}": {e}')
@@ -212,11 +219,12 @@ def verify(token: str) -> str | None:
             now = int(time())
             if not key['last_used'] or now - key['last_used'] >= _LAST_USED_RESOLUTION:
                 key['last_used'] = now
-                try:
-                    _save(keys)
+                if now - _saved_at >= _LAST_USED_SAVE_INTERVAL:
+                    try:
+                        _save(keys)
 
-                except ApiKeyError:
-                    pass  # only the time of last use is lost, and save logged why
+                    except ApiKeyError:
+                        pass  # only the time of last use is lost, and save logged why
 
             return key['role']
 
@@ -228,9 +236,26 @@ def _set_keys(keys: list[dict[str, Any]]) -> None:
     _keys = keys
 
 
-def reset() -> None:
-    """Forget the cached keys, so they are read from the file again."""
+def file_readable() -> bool:
+    """Whether the keys file is there and can be read.
 
-    global _keys, _load_error
+    A restore keeps such a file, so that keys revoked since the backup stay
+    revoked, and restores the backup's keys only when there are none to lose.
+    """
+
+    try:
+        with open(_file_path(), encoding='utf-8') as f:
+            return isinstance(json.load(f), list)
+
+    except Exception:  # missing, or cannot be read
+        return False
+
+
+def reset() -> None:
+    """Forget the cached keys, so they are read from the file again, as after
+    a start."""
+
+    global _keys, _load_error, _saved_at
     _keys = None
     _load_error = None
+    _saved_at = 0

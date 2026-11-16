@@ -272,15 +272,32 @@ class KeyCredentialsTest(ApiKeyTestCase):
         set_main.assert_not_called()
         set_camera.assert_not_called()
 
-    def test_admin_key_can_change_other_main_settings(self):
+    def test_admin_key_cannot_change_user_names(self):
         with patch.object(config, 'set_main') as set_main:
+            for names in (
+                {'admin_username': 'root', 'normal_username': 'user'},
+                {'admin_username': 'admin', 'normal_username': 'viewer'},
+            ):
+                with self.subTest(names=names):
+                    response = self.post('/config/main/set/', {**names, 'lang': 'en'})
+                    self.assertEqual(403, response.code)
+                    self.assertIn('user names', loads(response.body)['error'])
+
+        set_main.assert_not_called()
+
+    def test_admin_key_can_change_other_main_settings(self):
+        # the web UI sends both user names with every save, unchanged here
+        with (
+            patch.object(config, 'set_main') as set_main,
+            patch('motioneye.template._reload_lang'),
+        ):
             response = self.post(
                 '/config/main/set/',
-                {'admin_username': 'admin', 'normal_username': 'viewer', 'lang': 'en'},
+                {'admin_username': 'admin', 'normal_username': 'user', 'lang': 'de'},
             )
 
         self.assertEqual(200, response.code)
-        self.assertEqual('viewer', set_main.call_args.args[0]['@normal_username'])
+        self.assertEqual('de', set_main.call_args.args[0]['@lang'])
 
     def test_admin_key_does_not_get_the_client_secret(self):
         main = dict(_MAIN_CONFIG, **{'@client_secret': 'peer-secret'})

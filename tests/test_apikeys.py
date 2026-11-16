@@ -102,20 +102,47 @@ class ApiKeysTest(TestCase):
         apikeys.reset()
         self.assertEqual([key['id']], [k['id'] for k in apikeys.list_keys()])
 
-    def test_last_use_is_recorded_to_the_hour(self):
-        _, token = apikeys.add('camera poller', 'normal')
+    def use_at(self, token, now):
+        with patch('motioneye.apikeys.time', return_value=now):
+            apikeys.verify(token)
 
+    def last_used(self):
+        """The time of last use as listed, and as in the file."""
+        return apikeys.list_keys()[0]['last_used'], self.read_file()[0]['last_used']
+
+    def test_last_use_is_kept_to_the_hour_and_written_once_a_day(self):
         with patch('motioneye.apikeys.time', return_value=1_000_000):
+            _, token = apikeys.add('camera poller', 'normal')
+
+        self.use_at(token, 1_000_060)
+        self.assertEqual((1_000_060, None), self.last_used())
+
+        self.use_at(token, 1_000_120)  # within the hour
+        self.assertEqual((1_000_060, None), self.last_used())
+
+        self.use_at(token, 1_003_660)
+        self.assertEqual((1_003_660, None), self.last_used())
+
+        self.use_at(token, 1_086_400)  # a day after the last write
+        self.assertEqual((1_086_400, 1_086_400), self.last_used())
+
+    def test_last_use_is_written_with_the_next_key_change(self):
+        with patch('motioneye.apikeys.time', return_value=1_000_000):
+            _, token = apikeys.add('camera poller', 'normal')
             apikeys.verify(token)
+            self.assertIsNone(self.read_file()[0]['last_used'])
+
+            apikeys.add('script', 'admin')
+
         self.assertEqual(1_000_000, self.read_file()[0]['last_used'])
 
-        with patch('motioneye.apikeys.time', return_value=1_000_000 + 60):
-            apikeys.verify(token)
-        self.assertEqual(1_000_000, self.read_file()[0]['last_used'])
+    def test_the_first_use_after_a_start_is_written(self):
+        with patch('motioneye.apikeys.time', return_value=1_000_000):
+            _, token = apikeys.add('camera poller', 'normal')
 
-        with patch('motioneye.apikeys.time', return_value=1_000_000 + 3600):
-            apikeys.verify(token)
-        self.assertEqual(1_000_000 + 3600, self.read_file()[0]['last_used'])
+        apikeys.reset()
+        self.use_at(token, 1_000_060)
+        self.assertEqual(1_000_060, self.read_file()[0]['last_used'])
 
     def test_invalid_input(self):
         for name, role in (

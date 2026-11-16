@@ -16,14 +16,8 @@ class ApiKeyHandler(BaseHandler):
     are answered with an "error" field, which the web UI shows.
     """
 
-    def check_session(self) -> None:
-        if self.api_key_used:
-            raise HTTPError(403, 'API keys cannot be managed with an API key')
-
-    @BaseHandler.auth(admin=True)
+    @BaseHandler.auth(admin=True, api_key=False)
     def get(self, op, key_id=None):
-        self.check_session()
-
         if op != 'list':
             raise HTTPError(400, 'unknown operation')
 
@@ -33,10 +27,8 @@ class ApiKeyHandler(BaseHandler):
         except apikeys.ApiKeyError as e:
             self.finish_json({'error': str(e)})
 
-    @BaseHandler.auth(admin=True)
+    @BaseHandler.auth(admin=True, api_key=False)
     def post(self, op, key_id=None):
-        self.check_session()
-
         try:
             if op == 'add':
                 key, token = apikeys.add(

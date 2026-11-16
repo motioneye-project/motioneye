@@ -2397,7 +2397,16 @@ def backup() -> bytes | None:
 def restore(content: bytes) -> dict | None:
     logging.info('restoring config from backup file')
 
-    patterns = ['motion.conf', 'camera-*.conf', 'mask_*.pgm', 'api_keys.json']
+    patterns = ['motion.conf', 'camera-*.conf', 'mask_*.pgm']
+
+    # The keys in use are kept, so that keys revoked since the backup stay
+    # revoked. The backup's keys are restored only when there are none to lose:
+    # the file is missing or cannot be read.
+    if apikeys.file_readable():
+        logging.info('keeping the API keys in use rather than those of the backup')
+
+    else:
+        patterns.append('api_keys.json')
 
     try:
         with tarfile.open(fileobj=BytesIO(content)) as tf:
