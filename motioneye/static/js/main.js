@@ -3682,7 +3682,8 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
             timelapseButton.show();
         }
 
-        img.on('load', function () {
+        /* Remove the previous load handler before attaching the new one. */
+        img.off('load.pictureDialog').on('load.pictureDialog', function () {
             var aspectRatio = this.naturalWidth / this.naturalHeight;
             var sizeWidth = width * width / aspectRatio;
             var sizeHeight = height * aspectRatio * height;
