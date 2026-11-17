@@ -241,8 +241,16 @@ def _mount(server, share, smb_ver, username, password):
     if not os.path.exists(mount_point):
         os.makedirs(mount_point)
 
+    env = None
     if username:
-        opts = f'username={username},password={password}'
+        opts = f'username={username}'
+        if password:
+            # through the environment, as a comma would end the option (and so
+            # that it is not in the process list)
+            env = dict(os.environ, PASSWD=password)
+
+        else:
+            opts += ',password='
         # Let the kernel negotiate its default first (None), then try the
         # security modes from strongest to weakest, each signed ('*i') variant
         # before its unsigned counterpart. The legacy NTLMv1 'ntlm' mode is
@@ -288,6 +296,7 @@ def _mount(server, share, smb_ver, username, password):
                     actual_opts,
                 ],
                 check=True,
+                env=env,
             )
             break
 
