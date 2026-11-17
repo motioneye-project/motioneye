@@ -1257,6 +1257,9 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         ),
         'movie_max_time': ui['max_movie_length'],
         '@preserve_movies': int(ui['preserve_movies']),
+        # emulate_motion is off while movies are off, so keep the chosen recording
+        # mode for when they are turned on again (#2135)
+        '@recording_mode': ui['recording_mode'],
         # motion detection
         '@motion_detection': ui['motion_detection'],
         '@motion_event_button': input_or_stored(
@@ -2124,7 +2127,9 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
     if data['movie_output']:
         ui['movies'] = True
 
-    if emulate_motion:
+    if emulate_motion or (
+        not data['movie_output'] and data.get('@recording_mode') == 'continuous'
+    ):
         ui['recording_mode'] = 'continuous'
 
     else:
