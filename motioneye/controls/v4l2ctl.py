@@ -97,7 +97,6 @@ def list_resolutions(device):
             cmd,
             stderr=subprocess.PIPE,
             env=utils.libcamera_v4l2_env(),
-            check=False,
         )
 
     except Exception as e:

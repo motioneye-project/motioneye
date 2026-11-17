@@ -228,6 +228,25 @@ class V4l2CtlResolutionsTest(unittest.TestCase):
         )
         self.assertFalse(call.call_args.kwargs.get('shell', False))
 
+    def test_a_failing_v4l2_ctl_is_logged(self):
+        # v4l2-ctl's own exit status is no longer ignored, as only grep's had to be
+        call_subprocess = utils.call_subprocess
+
+        def fail(cmd, **kwargs):
+            return call_subprocess(['sh', '-c', 'exit 1'], **kwargs)
+
+        with (
+            patch.object(utils, 'call_subprocess', side_effect=fail),
+            self.assertLogs(level='ERROR') as logs,
+        ):
+            resolutions = v4l2ctl.list_resolutions('/dev/video0')
+
+        self.assertIn(
+            'failed to list resolutions of device "/dev/video0"', logs.output[0]
+        )
+        v4l2ctl._resolutions_cache.clear()
+        self.assertEqual(self._list('')[0], resolutions)
+
 
 if __name__ == '__main__':
     unittest.main()
