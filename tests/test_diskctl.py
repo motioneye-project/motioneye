@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
+from typing import ClassVar
 from unittest.mock import mock_open, patch
 
 from motioneye.controls import diskctl
@@ -208,6 +209,59 @@ Consumers:
             {t: p['mount_point'] for t, p in partitions.items()},
         )
         self.assertTrue(all(t == p['target'] for t, p in partitions.items()))
+
+
+class DevByIdDisksTest(unittest.TestCase):
+    # /dev/disk/by-id/ of #3393, with a SATA disk with partitions and two MD RAID
+    # arrays, which have none
+    _BY_ID: ClassVar[dict[str, str]] = {
+        'wwn-0x50025388500e6fda': 'sdd',
+        'wwn-0x50025388500e6fda-part1': 'sdd1',
+        'wwn-0x50025388500e6fda-part10': 'sdd10',
+        'md-uuid-8385b5d2:521b811c:0572a3a5:13bff8ea': 'md126',
+        'md-uuid-89d92cf3:bcf1561e:99e2d1a6:d33176c1': 'md124',
+        'md-name-host:project': 'md124',
+    }
+    _PROC_MOUNTS = (
+        'sysfs /sys sysfs rw 0 0\n'
+        '/dev/sdd10 /usr/local ext4 rw 0 0\n'
+        '/dev/md124 /mnt/project ext4 rw 0 0\n'
+    )
+
+    def setUp(self):
+        for target, kwargs in (
+            ('sys.platform', {'new': 'linux'}),
+            ('os.path.exists', {'return_value': True}),
+            ('os.listdir', {'return_value': list(self._BY_ID)}),
+            (
+                'os.path.realpath',
+                {'side_effect': lambda p: '/dev/' + self._BY_ID[p.split('/')[-1]]},
+            ),
+            ('open', {'new': mock_open(read_data=self._PROC_MOUNTS)}),
+            ('os.access', {'return_value': True}),
+        ):
+            patch(f'motioneye.controls.diskctl.{target}', **kwargs).start()
+        self.addCleanup(patch.stopall)
+
+    def test_a_mounted_raid_array_is_listed(self):
+        partitions = diskctl.list_mounted_partitions()
+
+        self.assertEqual(
+            {'/dev/sdd10': '/usr/local', '/dev/md124': '/mnt/project'},
+            {t: p['mount_point'] for t, p in partitions.items()},
+        )
+
+    def test_the_raid_array_is_the_only_partition_of_its_disk(self):
+        disks = {d['target']: d for d in diskctl.list_mounted_disks()}
+
+        self.assertEqual(['/dev/md124', '/dev/sdd'], sorted(disks))
+        self.assertEqual(
+            [('/dev/md124', None)],
+            [(p['target'], p['part_no']) for p in disks['/dev/md124']['partitions']],
+        )
+        self.assertEqual(
+            ['/dev/sdd10'], [p['target'] for p in disks['/dev/sdd']['partitions']]
+        )
 
 
 if __name__ == '__main__':
