@@ -20,7 +20,15 @@ from __future__ import annotations
 import logging
 import os
 
-from motioneye import config, mediafiles, motionctl, tasks, uploadservices, utils
+from motioneye import (
+    config,
+    mediafiles,
+    motionctl,
+    sendtelegram,
+    tasks,
+    uploadservices,
+    utils,
+)
 from motioneye.handlers.base import BaseHandler
 
 __all__ = ('RelayEventHandler',)
@@ -103,6 +111,19 @@ class RelayEventHandler(BaseHandler):
             # upload to external service
             if camera_config['@upload_enabled'] and camera_config['@upload_movie']:
                 self._upload_media_file(filename, camera_id, camera_config)
+
+            if (
+                filename is not None
+                and str(camera_config.get(config.SENDTELEGRAM_KEYS['movies'])).lower()
+                == 'true'
+            ):
+                tasks.add(
+                    5,
+                    sendtelegram.send_camera_movie,
+                    tag=f'send_camera_movie({filename})',
+                    camera_id=camera_id,
+                    filename=os.path.join(camera_config['target_dir'], filename),
+                )
 
         elif event == 'picture_save':
             # upload to external service

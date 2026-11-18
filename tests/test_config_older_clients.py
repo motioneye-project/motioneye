@@ -155,6 +155,7 @@ _NOT_FORWARDED = {
     'email_notifications_smtp_verify': False,
     'telegram_notifications_text_first': True,
     'telegram_notifications_thread_id': '12345',
+    'telegram_notifications_movies': True,
     'web_hook_notifications_verify': False,
     'web_hook_end_notifications_verify': False,
     'web_hook_storage_verify': False,

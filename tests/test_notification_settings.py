@@ -70,6 +70,7 @@ _UI = {
     'telegram_notifications_chat_id': '-1001234567',
     'telegram_notifications_picture_time_span': 10,
     'telegram_notifications_text_first': False,
+    'telegram_notifications_movies': False,
     'web_hook_notifications_enabled': True,
     'web_hook_notifications_http_method': 'POSTj',
     'web_hook_notifications_url': _MOTION_URL,
@@ -103,6 +104,7 @@ _STORED = {
     'telegram_notifications_chat_id': '-1001234567',
     'telegram_notifications_picture_time_span': '10',
     'telegram_notifications_text_first': 'False',
+    'telegram_notifications_movies': 'False',
 }
 _STORED_LINES = ('# @email_notifications', '# @telegram_notifications')
 
@@ -431,6 +433,23 @@ class ConfigTest(_ConfigCase):
         del ui[key]
         saved = config.motion_camera_ui_to_dict(ui, stored)
         self.assertEqual('1', saved['@' + key])
+
+    def test_sending_movies_survives_a_round_trip_through_the_camera_file(self):
+        self._write(1, self.camera)
+        self._post({**self._get(), **_UI, 'telegram_notifications_movies': True})
+        self.assertIn('\n# @telegram_notifications_movies True\n', self._read(1))
+
+        got = self._get()
+        self.assertIs(True, got['telegram_notifications_movies'])
+        self._post(got)
+        self.assertIs(True, self._get()['telegram_notifications_movies'])
+
+    def test_a_file_without_the_movies_key_sends_none(self):
+        data = self._save(**_UI)
+        del data['@telegram_notifications_movies']  # as older releases saved it
+        self._write(1, data)
+
+        self.assertIs(False, self._get()['telegram_notifications_movies'])
 
     def test_a_file_without_the_mail_verify_key_shows_the_check_on(self):
         data = self._save(**_UI)

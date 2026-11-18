@@ -2091,6 +2091,7 @@ function cameraUi2Dict() {
         'telegram_notifications_thread_id': $('#telegramThreadIdEntry').val().trim(),
         'telegram_notifications_picture_time_span': $('#telegramPictureTimeSpanEntry').val(),
         'telegram_notifications_text_first': $('#telegramTextFirstSwitch')[0].checked,
+        'telegram_notifications_movies': $('#telegramMoviesSwitch')[0].checked,
         'web_hook_notifications_enabled': $('#webHookNotificationsEnabledSwitch')[0].checked,
         'web_hook_notifications_url': $('#webHookNotificationsUrlEntry').val(),
         'web_hook_notifications_http_method': $('#webHookNotificationsHttpMethodSelect').val(),
@@ -2460,6 +2461,7 @@ function dict2CameraUi(dict) {
     $('#telegramThreadIdEntry').val(dict['telegram_notifications_thread_id'] || '');
     $('#telegramPictureTimeSpanEntry').val(dict['telegram_notifications_picture_time_span']);
     $('#telegramTextFirstSwitch')[0].checked = dict['telegram_notifications_text_first'] === true;
+    $('#telegramMoviesSwitch')[0].checked = dict['telegram_notifications_movies'] === true;
 
     $('#webHookNotificationsEnabledSwitch')[0].checked = dict['web_hook_notifications_enabled']; markHideIfNull('web_hook_notifications_enabled', 'webHookNotificationsEnabledSwitch');
     $('#webHookNotificationsUrlEntry').val(dict['web_hook_notifications_url']);

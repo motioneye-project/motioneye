@@ -40,6 +40,8 @@ _STALL_TIMEOUT = 60
 # a socket timeout counts for the whole of a sendall(), so the body is sent in
 # pieces, each of which only has to go out within the stall timeout
 _UPLOAD_PIECE = 64 * 1024
+# the largest video a bot can send (#3259)
+MAX_VIDEO_SIZE = 50 * 1024 * 1024
 
 
 class TelegramError(RuntimeError):
@@ -55,7 +57,9 @@ class _NotConnected(OSError):
     """Nothing of the request was sent, so it can be sent again."""
 
 
-def _post_once(path: str, body: bytes, content_type: str) -> dict:
+def _post_once(path: str, body: bytes | list[bytes], content_type: str) -> dict:
+    # a body in parts is sent without joining them, not to hold a video twice
+    parts = [body] if isinstance(body, bytes) else body
     # a new connection per request: none is reused after a stalled one
     conn = HTTPSConnection(_HOST, timeout=_CONNECT_TIMEOUT)
     try:
@@ -67,9 +71,12 @@ def _post_once(path: str, body: bytes, content_type: str) -> dict:
 
         conn.sock.settimeout(_STALL_TIMEOUT)
         pieces = (
-            body[i : i + _UPLOAD_PIECE] for i in range(0, len(body), _UPLOAD_PIECE)
+            part[i : i + _UPLOAD_PIECE]
+            for part in parts
+            for i in range(0, len(part), _UPLOAD_PIECE)
         )
-        headers = {'Content-Type': content_type, 'Content-Length': str(len(body))}
+        length = sum(len(part) for part in parts)
+        headers = {'Content-Type': content_type, 'Content-Length': str(length)}
         conn.request('POST', path, pieces, headers)
         response = conn.getresponse()
         code = response.status
@@ -96,7 +103,7 @@ def _post_once(path: str, body: bytes, content_type: str) -> dict:
     return result
 
 
-def _post(path: str, body: bytes, content_type: str, retry: bool) -> dict:
+def _post(path: str, body: bytes | list[bytes], content_type: str, retry: bool) -> dict:
     try:
         return _post_once(path, body, content_type)
 
@@ -123,16 +130,17 @@ def _post(path: str, body: bytes, content_type: str, retry: bool) -> dict:
     return _post_once(path, body, content_type)
 
 
-def _photo_form(
+def _file_form(
     destination: dict[str, str],
     caption: str,
     filename: str,
     reply_to: int | None = None,
-) -> tuple[bytes, str]:
+    field: str = 'photo',
+) -> tuple[list[bytes], str]:
     boundary = token_hex(16)
     name = os.path.basename(filename).replace('"', '')
     with open(filename, 'rb') as f:
-        photo = f.read()
+        content = f.read()
 
     fields = destination.copy()
     if caption:
@@ -142,25 +150,40 @@ def _photo_form(
         fields['reply_parameters'] = json.dumps(
             {'message_id': reply_to, 'allow_sending_without_reply': True}
         )
+    if field == 'video':
+        fields['supports_streaming'] = 'true'  # played while it downloads
 
     lines = []
-    for field, value in fields.items():
+    for key, value in fields.items():
         lines += [
             f'--{boundary}',
-            f'Content-Disposition: form-data; name="{field}"',
+            f'Content-Disposition: form-data; name="{key}"',
             '',
             value,
         ]
     lines += [
         f'--{boundary}',
-        f'Content-Disposition: form-data; name="photo"; filename="{name}"',
+        f'Content-Disposition: form-data; name="{field}"; filename="{name}"',
         'Content-Type: application/octet-stream',
         '',
     ]
     head = '\r\n'.join(lines).encode() + b'\r\n'
-    body = head + photo + f'\r\n--{boundary}--\r\n'.encode()
+    body = [head, content, f'\r\n--{boundary}--\r\n'.encode()]
 
     return body, f'multipart/form-data; boundary={boundary}'
+
+
+def _destination(chat_id, thread_id: str | int | None) -> dict[str, str]:
+    destination = {'chat_id': str(chat_id)}
+    topic = '' if thread_id is None else str(thread_id).strip()
+    if topic:
+        if topic == '1':
+            raise ValueError('Leave the Telegram topic ID blank to send to General')
+        if not re.fullmatch(r'[1-9][0-9]*', topic):
+            raise ValueError('Telegram topic ID must be a positive integer')
+        destination['message_thread_id'] = topic
+
+    return destination
 
 
 def send_message(
@@ -177,15 +200,7 @@ def send_message(
 
     With reply_to, the photos are replies to that message, which carried the text
     already, so they have no caption. Returns the id of a text message sent."""
-    destination = {'chat_id': str(chat_id)}
-    topic = '' if thread_id is None else str(thread_id).strip()
-    if topic:
-        if topic == '1':
-            raise ValueError('Leave the Telegram topic ID blank to send to General')
-        if not re.fullmatch(r'[1-9][0-9]*', topic):
-            raise ValueError('Telegram topic ID must be a positive integer')
-        destination['message_thread_id'] = topic
-
+    destination = _destination(chat_id, thread_id)
     if not files:
         logging.info('no files')
         body = urlencode({**destination, 'text': message}).encode()
@@ -203,8 +218,8 @@ def send_message(
     failed = 0
     for f in files:
         try:
-            body, content_type = _photo_form(destination, caption, f, reply_to)
-            _post(f'/bot{api_key}/sendPhoto', body, content_type, retry)
+            form, content_type = _file_form(destination, caption, f, reply_to)
+            _post(f'/bot{api_key}/sendPhoto', form, content_type, retry)
 
         except (RuntimeError, OSError, HTTPException) as e:
             logging.error(f'failed to send "{os.path.basename(f)}": {e}')
@@ -215,6 +230,44 @@ def send_message(
 
     logging.debug('sending telegram')
     return None
+
+
+def send_movie(
+    api_key, chat_id, filename: str, caption: str, thread_id: str | int | None = None
+) -> None:
+    """Send the movie as a video, unless it is larger than Telegram takes."""
+    size = os.path.getsize(filename)
+    if size > MAX_VIDEO_SIZE:
+        raise RuntimeError(
+            f'"{os.path.basename(filename)}" is {size / 1024 / 1024:.1f} MB, '
+            f'more than the {MAX_VIDEO_SIZE // 1024 // 1024} MB a bot can send'
+        )
+
+    body, content_type = _file_form(
+        _destination(chat_id, thread_id), caption, filename, field='video'
+    )
+    _post(f'/bot{api_key}/sendVideo', body, content_type, retry=True)
+
+
+def send_camera_movie(camera_id: int, filename: str) -> None:
+    """Send a movie of the camera that has the movies sent, run as a task."""
+    stored = config.get_notification_settings(camera_id, config.SENDTELEGRAM_KEYS)
+    if not stored or str(stored.get('movies')).lower() != 'true':
+        return  # turned off since the movie started
+
+    camera_name = config.get_camera(camera_id)['camera_name']
+    caption = f'{camera_name}/{socket.gethostname()}: {os.path.basename(filename)}'
+    logging.info(f'sending movie "{filename}" by telegram')
+    try:
+        send_movie(
+            stored['api'], stored['chatid'], filename, caption, stored.get('thread_id')
+        )
+
+    except (RuntimeError, ValueError, OSError, HTTPException) as e:
+        logging.error(f'failed to send movie "{filename}" by telegram: {e}')
+        return
+
+    logging.info(f'movie "{filename}" sent by telegram')
 
 
 def make_message(
