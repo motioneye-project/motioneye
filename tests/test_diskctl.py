@@ -278,7 +278,7 @@ class FdiskFallbackTest(unittest.TestCase):
         self.addCleanup(patch.stopall)
 
     def test_no_disks_are_listed_without_fdisk(self):
-        patch('motioneye.controls.diskctl.shutil.which', return_value=None).start()
+        patch('motioneye.controls.diskctl.which', return_value=None).start()
         with patch('motioneye.controls.diskctl.logging.exception') as exception:
             self.assertEqual([], diskctl._list_disks())
 
@@ -286,9 +286,7 @@ class FdiskFallbackTest(unittest.TestCase):
         exception.assert_not_called()
 
     def test_disks_are_listed_with_fdisk(self):
-        with patch(
-            'motioneye.controls.diskctl.shutil.which', return_value='/usr/sbin/fdisk'
-        ):
+        with patch('motioneye.controls.diskctl.which', return_value='/usr/sbin/fdisk'):
             diskctl._list_disks()
 
         self.call.assert_called_once_with(['fdisk', '-l'])

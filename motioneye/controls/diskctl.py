@@ -19,8 +19,8 @@ from __future__ import annotations
 import logging
 import os
 import re
-import shutil
 import sys
+from shutil import which
 
 from motioneye import utils
 
@@ -89,7 +89,7 @@ def _list_disks():
 
     # fall back to fdisk -l, if installed: e.g. a container has no access to the
     # disks, so its image does not need fdisk (#2411)
-    if not shutil.which('fdisk'):
+    if not which('fdisk'):
         logging.debug('not listing disks: no /dev/disk/by-id/ and no fdisk')
         return []
 
