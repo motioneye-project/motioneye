@@ -419,6 +419,19 @@ class ConfigTest(_ConfigCase):
             ):
                 self._save(**_UI, telegram_notifications_thread_id=value)
 
+    def test_general_topic_id_must_be_explicitly_cleared(self):
+        key = 'telegram_notifications_thread_id'
+        with self.assertRaisesRegex(ValueError, 'blank.*General'):
+            self._save(**_UI, **{key: ' 1 '})
+
+        # An older client saving unrelated settings cannot choose a new destination.
+        stored = self._save(**_UI)
+        stored['@' + key] = '1'
+        ui = config.motion_camera_dict_to_ui(stored)
+        del ui[key]
+        saved = config.motion_camera_ui_to_dict(ui, stored)
+        self.assertEqual('1', saved['@' + key])
+
     def test_a_file_without_the_mail_verify_key_shows_the_check_on(self):
         data = self._save(**_UI)
         del data['@email_notifications_smtp_verify']  # as older releases saved it

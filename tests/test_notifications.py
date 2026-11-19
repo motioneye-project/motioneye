@@ -296,6 +296,13 @@ class SendMessageTest(unittest.TestCase):
                     self._send([], thread_id=topic)
                 self.assertEqual([], self.connections)
 
+    def test_general_topic_id_gives_guidance_without_sending(self):
+        for topic in (1, ' 1 '):
+            with self.subTest(topic=topic):
+                with self.assertRaisesRegex(ValueError, 'blank.*General'):
+                    self._send([], thread_id=topic)
+                self.assertEqual([], self.connections)
+
     def test_each_picture_is_sent_to_the_topic_with_or_without_a_reply(self):
         for reply_to in (None, 7):
             with self.subTest(reply_to=reply_to):
