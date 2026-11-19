@@ -1187,6 +1187,8 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
     webHookUrlFailMessage = _(
         'URLs are not allowed to contain caret ^, semicolon ;, or apostrophe \''
     )
+    telegramThreadIdValidRegExp = '^[1-9][0-9]*$'
+    telegramThreadIdFailMessage = _('Telegram topic IDs must be positive integers')
 
     data = {
         # device
@@ -1643,10 +1645,10 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
                     _('Leave the Telegram topic ID blank to send to General')
                 )
             values[SENDTELEGRAM_KEYS['thread_id']] = input_sanity_check(
-                r'^[1-9][0-9]*$',
+                telegramThreadIdValidRegExp,
                 topic,
                 'telegram_notifications_thread_id',
-                _('Telegram topic IDs must be positive integers'),
+                telegramThreadIdFailMessage,
             )
         # absent from what an older hub posts: keep the stored choice
         values[SENDTELEGRAM_KEYS['text_first']] = (
