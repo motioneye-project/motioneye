@@ -583,16 +583,14 @@ function initUI() {
         return true;
     });
     makeCustomValidator($('#telegramThreadIdEntry'), function (value) {
-        var error = '';
         value = value.trim();
         if (value === '1') {
-            error = i18n.gettext('Leave the Topic ID blank to send to General.');
+            return i18n.gettext('Leave the Topic ID blank to send to General.');
         }
-        else if (value && !/^[1-9][0-9]*$/.test(value)) {
-            error = i18n.gettext('Enter the numeric ID from the topic link.');
+        if (value && !/^[1-9][0-9]*$/.test(value)) {
+            return i18n.gettext('Enter the numeric ID from the topic link.');
         }
-        $('#telegramThreadIdError').text(error);
-        return error || true;
+        return true;
     });
     makeCustomValidator($('#imageFileNameEntry, #movieFileNameEntry'), function (value) {
         if (!value.match(filenameValidRegExp)) {
