@@ -1636,10 +1636,15 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
             for key in SENDTELEGRAM_KEYS.values()
             if key not in _OPTIONAL_NOTIFICATION_KEYS
         }
-        if thread_id is not None and str(thread_id).strip():
+        topic = '' if thread_id is None else str(thread_id).strip()
+        if topic:
+            if topic == '1' and 'telegram_notifications_thread_id' in ui:
+                raise ValueError(
+                    _('Leave the Telegram topic ID blank to send to General')
+                )
             values[SENDTELEGRAM_KEYS['thread_id']] = input_sanity_check(
                 r'^[1-9][0-9]*$',
-                str(thread_id).strip(),
+                topic,
                 'telegram_notifications_thread_id',
                 _('Telegram topic IDs must be positive integers'),
             )

@@ -46,6 +46,9 @@ class TelegramError(RuntimeError):
     def __init__(self, code, description, retry_after):
         super().__init__(f'telegram replied {code}: {description}')
         self.retry_after = retry_after
+        self.topic_not_found = (
+            code == 400 and description == 'Bad Request: message thread not found'
+        )
 
 
 class _NotConnected(OSError):
@@ -177,6 +180,8 @@ def send_message(
     destination = {'chat_id': str(chat_id)}
     topic = '' if thread_id is None else str(thread_id).strip()
     if topic:
+        if topic == '1':
+            raise ValueError('Leave the Telegram topic ID blank to send to General')
         if not re.fullmatch(r'[1-9][0-9]*', topic):
             raise ValueError('Telegram topic ID must be a positive integer')
         destination['message_thread_id'] = topic
