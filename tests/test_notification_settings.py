@@ -391,6 +391,34 @@ class ConfigTest(_ConfigCase):
         self._post(got)
         self.assertIs(True, self._get()['telegram_notifications_text_first'])
 
+    def test_telegram_topic_can_be_set_and_cleared(self):
+        key = 'telegram_notifications_thread_id'
+        self._write(1, self._save(**_UI))  # a camera saved before topic support
+        self.assertEqual('', self._get()[key])
+        self.assertIsNone(
+            config.get_notification_settings(1, config.SENDTELEGRAM_KEYS)['thread_id']
+        )
+
+        self._post({**self._get(), key: '12345'})
+        self.assertIn(f'\n# @{key} 12345\n', self._read(1))
+        self.assertEqual('12345', self._get()[key])
+        self.assertEqual(
+            '12345',
+            config.get_notification_settings(1, config.SENDTELEGRAM_KEYS)['thread_id'],
+        )
+
+        self._post({**self._get(), key: ''})
+        self.assertNotIn(key, self._read(1))
+        self.assertEqual('', self._get()[key])
+
+    def test_invalid_telegram_topic_is_rejected(self):
+        for value in ('0', '-1', '1.5', '12\n34', 'abc'):
+            with (
+                self.subTest(value=value),
+                self.assertRaisesRegex(ValueError, 'telegram_notifications_thread_id'),
+            ):
+                self._save(**_UI, telegram_notifications_thread_id=value)
+
     def test_a_file_without_the_mail_verify_key_shows_the_check_on(self):
         data = self._save(**_UI)
         del data['@email_notifications_smtp_verify']  # as older releases saved it
@@ -673,6 +701,19 @@ class SenderTest(_ConfigCase):
         self.assertEqual(('123456:FAKE-token', '-1001234567'), sent)
         _, camera_id, moment, timespan, _ = self.make_telegram.call_args.args
         self.assertEqual((1, datetime(2026, 1, 1), 10), (camera_id, moment, timespan))
+
+    def test_the_stored_topic_reaches_the_text_and_followup_pictures(self):
+        self._write_stored(dict(_STORED, telegram_notifications_thread_id='73'))
+        self.send_telegram.return_value = 7
+        sendtelegram.main(
+            meyectl.make_arg_parser('sendtelegram'), ['-c', _CONF, '1', _EVENT]
+        )
+        on_message = self.make_telegram.call_args.args[-1]
+        on_message('message', None)
+        on_message('message', ['picture.jpg'])
+        text, pictures = self.send_telegram.call_args_list
+        self.assertEqual('73', text.kwargs['thread_id'])
+        self.assertEqual({'reply_to': 7, 'thread_id': '73'}, pictures.kwargs)
 
     def test_missing_settings_send_nothing(self):
         for camera_id in (None, 2):  # unknown motion camera, no settings
