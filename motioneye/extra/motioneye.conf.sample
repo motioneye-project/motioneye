@@ -94,6 +94,8 @@ mjpg_client_idle_timeout 10
 smb_shares false
 
 # the directory where the SMB mount points will be created
+# (without root, the motioneye-smb helper allows only /media, unless only root
+# can change this file and its directories)
 smb_mount_root /media
 
 # enables shutdown and reboot buttons in the UI

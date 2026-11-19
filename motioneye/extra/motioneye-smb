@@ -2,8 +2,9 @@
 # Mounts and unmounts the SMB shares of a motionEye that does not run as root.
 # motioneye_init installs it root-owned as /usr/local/sbin/motioneye-smb and
 # lets the motion user run it through sudo. So it accepts only motionEye's own
-# mount points directly below smb_mount_root of /etc/motioneye/motioneye.conf,
-# and only the mount options motionEye uses.
+# mount points directly below /media, and only the mount options motionEye uses.
+# smb_mount_root of /etc/motioneye/motioneye.conf replaces /media only while
+# that file and its directories cannot be changed by anyone but root.
 #
 # motioneye-smb check
 # motioneye-smb mount //server/share <mount point> <options>   (password on stdin)
@@ -19,14 +20,36 @@ Error_Out(){
 
 (( UID )) && Error_Out 'Root permissions required.'
 
-ROOT=$(sed -n '/^smb_mount_root[[:blank:]]/{s/^smb_mount_root[[:blank:]]*//p;q}' /etc/motioneye/motioneye.conf 2> /dev/null) || :
-ROOT=${ROOT:-/media}
-ROOT=${ROOT%/}
-# Nobody else may write to it, or a link placed there could redirect a mount
-read -r OWNER MODE < <(stat -Lc '%u %a' -- "${ROOT:-/}") || Error_Out "SMB mount root \"${ROOT:-/}\" does not exist."
-if [[ $OWNER != 0 ]] || (( 8#$MODE & 8#022 )); then
-  Error_Out "SMB mount root \"${ROOT:-/}\" must be owned by root and writable only by it."
+# Sets ROOT_ONLY to 1 if the absolute path and every directory above it are root's and writable only
+# by it, with no symbolic link on the way, so that nobody else can replace or redirect any part of it
+Root_Only(){
+  local path=$1 owner mode
+  ROOT_ONLY=0
+  [[ $path == /* && $path/ != *'/./'* && $path/ != *'/../'* ]] || return 0
+  while :; do
+    [[ -L $path ]] && return 0
+    read -r owner mode < <(stat -c '%u %a' -- "$path" 2> /dev/null) || return 0
+    [[ $owner == 0 ]] && (( ! (8#$mode & 8#022) )) || return 0
+    [[ $path == '/' ]] && break
+    path=${path%/*}
+    path=${path:-/}
+  done
+  ROOT_ONLY=1
+}
+
+# The caller owns /etc/motioneye by default and could then swap motioneye.conf for its own
+CONF='/etc/motioneye/motioneye.conf'
+ROOT='/media'
+Root_Only "$CONF"
+if (( ROOT_ONLY )); then
+  ROOT=$(sed -n '/^smb_mount_root[[:blank:]]/{s/^smb_mount_root[[:blank:]]*//p;q}' "$CONF") || :
+  ROOT=${ROOT:-/media}
+elif grep -Eq '^smb_mount_root[[:blank:]]+' "$CONF" 2> /dev/null && ! grep -Eq '^smb_mount_root[[:blank:]]+/media/?[[:blank:]]*$' "$CONF"; then
+  Error_Out "smb_mount_root of $CONF is used only while that file and its directories can be changed by root alone, else /media."
 fi
+ROOT=${ROOT%/}
+Root_Only "${ROOT:-/}"
+(( ROOT_ONLY )) || Error_Out "SMB mount root \"${ROOT:-/}\" and the directories above it must be owned by root and writable only by it, without symbolic links."
 
 Check_Mount_Point(){
   [[ $1 =~ ^(.*)/motioneye_[[:alnum:]_]+$ && ${BASH_REMATCH[1]} == "$ROOT" ]] || Error_Out "\"$1\" is not a motionEye mount point in \"${ROOT:-/}\"."
@@ -55,9 +78,12 @@ case "$1" in
       esac
       OPTS+=",$ITEM"
     done
-    # The files belong to the user who runs this through sudo, so that motionEye and motion can write
-    [[ ${SUDO_UID:-} =~ ^[0-9]+$ ]] && OPTS+=",uid=$SUDO_UID"
-    [[ ${SUDO_GID:-} =~ ^[0-9]+$ ]] && OPTS+=",gid=$SUDO_GID"
+    # The files belong to the user who runs this through sudo, so that motionEye and motion can write,
+    # also when the server tells its own owners
+    [[ ${SUDO_UID:-} =~ ^[0-9]+$ ]] && OPTS+=",uid=$SUDO_UID,forceuid"
+    [[ ${SUDO_GID:-} =~ ^[0-9]+$ ]] && OPTS+=",gid=$SUDO_GID,forcegid"
+    # mount.cifs adds these only for callers that are not root, and this runs as root
+    OPTS+=',nosuid,nodev'
     if (( USERNAME )); then
       # Through the environment, so that it is not in the process list
       IFS= read -r PASSWD || :
