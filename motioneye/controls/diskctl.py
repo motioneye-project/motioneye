@@ -20,6 +20,7 @@ import logging
 import os
 import re
 import sys
+from shutil import which
 
 from motioneye import utils
 
@@ -86,7 +87,12 @@ def _list_disks():
     if sys.platform.startswith('freebsd'):
         return _list_disks_geom()
 
-    # fall back to fdisk -l
+    # fall back to fdisk -l, if installed: e.g. a container has no access to the
+    # disks, so its image does not need fdisk (#2411)
+    if not which('fdisk'):
+        logging.debug('not listing disks: no /dev/disk/by-id/ and no fdisk')
+        return []
+
     return _list_disks_fdisk()
 
 
