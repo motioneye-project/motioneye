@@ -2078,6 +2078,7 @@ function cameraUi2Dict() {
         'telegram_notifications_enabled': $('#telegramNotificationsEnabledSwitch')[0].checked,
         'telegram_notifications_api': $('#telegramAPIEntry').val(),
         'telegram_notifications_chat_id': $('#telegramCIDEntry').val(),
+        'telegram_notifications_thread_id': $('#telegramThreadIdEntry').val(),
         'telegram_notifications_picture_time_span': $('#telegramPictureTimeSpanEntry').val(),
         'telegram_notifications_text_first': $('#telegramTextFirstSwitch')[0].checked,
         'web_hook_notifications_enabled': $('#webHookNotificationsEnabledSwitch')[0].checked,
@@ -2446,6 +2447,7 @@ function dict2CameraUi(dict) {
     $('#telegramNotificationsEnabledSwitch')[0].checked = dict['telegram_notifications_enabled']; markHideIfNull('telegram_notifications_enabled', 'telegramNotificationsEnabledSwitch');
     $('#telegramAPIEntry').val(dict['telegram_notifications_api']);
     $('#telegramCIDEntry').val(dict['telegram_notifications_chat_id']);
+    $('#telegramThreadIdEntry').val(dict['telegram_notifications_thread_id'] || '');
     $('#telegramPictureTimeSpanEntry').val(dict['telegram_notifications_picture_time_span']);
     $('#telegramTextFirstSwitch')[0].checked = dict['telegram_notifications_text_first'] === true;
 
@@ -3017,7 +3019,7 @@ function doTestEmail() {
 }
 
 function doTestTelegram() {
-    var q = $('#telegramAPIEntry, #telegramCIDEntry');
+    var q = $('#telegramAPIEntry, #telegramCIDEntry, #telegramThreadIdEntry');
     var valid = true;
     q.each(function() {
         this.validate();
@@ -3037,6 +3039,10 @@ function doTestTelegram() {
         api: $('#telegramAPIEntry').val(),
         chatid: $('#telegramCIDEntry').val(),
     };
+    var threadId = $('#telegramThreadIdEntry').val();
+    if (threadId) {
+        data.thread_id = threadId;
+    }
 
     var cameraId = $('#cameraSelect').val();
 
