@@ -1083,10 +1083,7 @@
                         </tr>
                         <tr class="settings-item" depends="telegramNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Topic ID (optional)") }}</span></td>
-                            <td class="settings-item-value">
-                                <input type="text" inputmode="numeric" class="styled notifications camera-config" id="telegramThreadIdEntry" aria-describedby="telegramThreadIdError">
-                                <div id="telegramThreadIdError" role="status"></div>
-                            </td>
+                            <td class="settings-item-value"><input type="text" inputmode="numeric" class="styled notifications camera-config" id="telegramThreadIdEntry"></td>
                             <td><span class="help-mark" title="{{ _("Leave blank for General or for chats without topics. For another topic, copy its link from the topic list and enter the last number (for example, 42 in t.me/c/123456789/42).") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" min="0" max="60" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled">
