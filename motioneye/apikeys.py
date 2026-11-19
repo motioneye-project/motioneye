@@ -244,7 +244,7 @@ def file_readable() -> bool:
     """
 
     try:
-        with open(_file_path(), encoding='utf-8') as f:
+        with open(_file_path(), 'rb') as f:
             return isinstance(json.load(f), list)
 
     except Exception:  # missing, or cannot be read
