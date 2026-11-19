@@ -121,14 +121,17 @@ def _post(path: str, body: bytes, content_type: str, retry: bool) -> dict:
 
 
 def _photo_form(
-    chat_id, caption: str, filename: str, reply_to: int | None = None
+    destination: dict[str, str],
+    caption: str,
+    filename: str,
+    reply_to: int | None = None,
 ) -> tuple[bytes, str]:
     boundary = token_hex(16)
     name = os.path.basename(filename).replace('"', '')
     with open(filename, 'rb') as f:
         photo = f.read()
 
-    fields = {'chat_id': str(chat_id)}
+    fields = destination.copy()
     if caption:
         fields['caption'] = caption
     if reply_to is not None:
@@ -158,15 +161,29 @@ def _photo_form(
 
 
 def send_message(
-    api_key, chat_id, message, files, retry=True, *, reply_to: int | None = None
+    api_key,
+    chat_id,
+    message,
+    files,
+    retry=True,
+    *,
+    reply_to: int | None = None,
+    thread_id: str | int | None = None,
 ) -> int | None:
     """Send the message as text when there are no files, else the files as photos.
 
     With reply_to, the photos are replies to that message, which carried the text
     already, so they have no caption. Returns the id of a text message sent."""
+    destination = {'chat_id': str(chat_id)}
+    topic = '' if thread_id is None else str(thread_id).strip()
+    if topic:
+        if not re.fullmatch(r'[1-9][0-9]*', topic):
+            raise ValueError('Telegram topic ID must be a positive integer')
+        destination['message_thread_id'] = topic
+
     if not files:
         logging.info('no files')
-        body = urlencode({'chat_id': chat_id, 'text': message}).encode()
+        body = urlencode({**destination, 'text': message}).encode()
         result = _post(
             f'/bot{api_key}/sendMessage',
             body,
@@ -181,7 +198,7 @@ def send_message(
     failed = 0
     for f in files:
         try:
-            body, content_type = _photo_form(chat_id, caption, f, reply_to)
+            body, content_type = _photo_form(destination, caption, f, reply_to)
             _post(f'/bot{api_key}/sendPhoto', body, content_type, retry)
 
         except (RuntimeError, OSError, HTTPException) as e:
@@ -349,13 +366,18 @@ def main(parser, args):
 
     settings.LIST_MEDIA_TIMEOUT = settings.LIST_MEDIA_TIMEOUT_TELEGRAM
     text_first = str(getattr(options, 'text_first', '')).lower() == 'true'
+    thread_id = stored.get('thread_id')
     text_id: list[int | None] = []  # the id of the text sent first, if any
 
     def on_message(message, files):
         try:
             if files is None:  # the text, before the wait for the pictures
                 logging.info(f'sending telegram : {message}')
-                text_id.append(send_message(options.api, options.chatid, message, []))
+                text_id.append(
+                    send_message(
+                        options.api, options.chatid, message, [], thread_id=thread_id
+                    )
+                )
                 logging.info('telegram text sent')
                 return
 
@@ -370,6 +392,7 @@ def main(parser, args):
                 message,
                 files or [],
                 reply_to=text_id[0] if text_id else None,
+                thread_id=thread_id,
             )
             logging.info('telegram sent')
 
