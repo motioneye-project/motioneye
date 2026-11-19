@@ -582,6 +582,18 @@ function initUI() {
 
         return true;
     });
+    makeCustomValidator($('#telegramThreadIdEntry'), function (value) {
+        var error = '';
+        value = value.trim();
+        if (value === '1') {
+            error = i18n.gettext('Leave the Topic ID blank to send to General.');
+        }
+        else if (value && !/^[1-9][0-9]*$/.test(value)) {
+            error = i18n.gettext('Enter the numeric ID from the topic link.');
+        }
+        $('#telegramThreadIdError').text(error);
+        return error || true;
+    });
     makeCustomValidator($('#imageFileNameEntry, #movieFileNameEntry'), function (value) {
         if (!value.match(filenameValidRegExp)) {
             return i18n.gettext("specialaj signoj ne rajtas en dosiernomo");
@@ -2078,7 +2090,7 @@ function cameraUi2Dict() {
         'telegram_notifications_enabled': $('#telegramNotificationsEnabledSwitch')[0].checked,
         'telegram_notifications_api': $('#telegramAPIEntry').val(),
         'telegram_notifications_chat_id': $('#telegramCIDEntry').val(),
-        'telegram_notifications_thread_id': $('#telegramThreadIdEntry').val(),
+        'telegram_notifications_thread_id': $('#telegramThreadIdEntry').val().trim(),
         'telegram_notifications_picture_time_span': $('#telegramPictureTimeSpanEntry').val(),
         'telegram_notifications_text_first': $('#telegramTextFirstSwitch')[0].checked,
         'web_hook_notifications_enabled': $('#webHookNotificationsEnabledSwitch')[0].checked,
@@ -3039,7 +3051,7 @@ function doTestTelegram() {
         api: $('#telegramAPIEntry').val(),
         chatid: $('#telegramCIDEntry').val(),
     };
-    var threadId = $('#telegramThreadIdEntry').val();
+    var threadId = $('#telegramThreadIdEntry').val().trim();
     if (threadId) {
         data.thread_id = threadId;
     }
