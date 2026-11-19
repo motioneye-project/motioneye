@@ -849,6 +849,7 @@ class ConfigHandler(BaseHandler):
                         message=message,
                         files=[],
                         retry=False,
+                        thread_id=data.get('thread_id'),
                     )
 
                     self.finish_json()
