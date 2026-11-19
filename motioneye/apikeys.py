@@ -74,7 +74,7 @@ def _load() -> list[dict[str, Any]]:
         return _keys
 
     try:
-        with open(file_path, encoding='utf-8') as f:
+        with open(file_path, 'rb') as f:
             data = json.load(f)
 
         if not isinstance(data, list):
