@@ -23,6 +23,7 @@ import time
 import unittest
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
+from urllib.parse import parse_qs
 
 from motioneye import sendmail, sendtelegram
 
@@ -242,6 +243,7 @@ class SendMessageTest(unittest.TestCase):
         chat_id=42,
         retry=True,
         reply_to=None,
+        thread_id=None,
     ):
         self.sleeps = []
         self.connections = []
@@ -254,7 +256,13 @@ class SendMessageTest(unittest.TestCase):
             patch('motioneye.sendtelegram.time.sleep', side_effect=self.sleeps.append),
         ):
             return sendtelegram.send_message(
-                _TOKEN, chat_id, message, list(files), retry, reply_to=reply_to
+                _TOKEN,
+                chat_id,
+                message,
+                list(files),
+                retry,
+                reply_to=reply_to,
+                thread_id=thread_id,
             )
 
     def _connect(self, replies, host, timeout):
@@ -273,6 +281,45 @@ class SendMessageTest(unittest.TestCase):
         self.assertEqual(b'chat_id=42&text=A+%26+B+%2B1+K%C3%BCche', body)
         self.assertEqual('application/x-www-form-urlencoded', headers['Content-Type'])
         self.assertTrue(self.connections[0].closed)
+
+    def test_text_can_target_a_topic(self):
+        for topic, expected in ((' 73 ', [b'73']), (73, [b'73']), ('', None)):
+            with self.subTest(topic=topic):
+                self._send([_OK], thread_id=topic)
+                fields = parse_qs(self._sent()[0].request_args[2])
+                self.assertEqual(expected, fields.get(b'message_thread_id'))
+
+    def test_invalid_topic_is_rejected_before_sending(self):
+        for topic in ('0', '073', '-42', 'one', '1\r\n2'):
+            with self.subTest(topic=topic):
+                with self.assertRaisesRegex(ValueError, 'positive integer'):
+                    self._send([], thread_id=topic)
+                self.assertEqual([], self.connections)
+
+    def test_general_topic_id_gives_guidance_without_sending(self):
+        for topic in (1, ' 1 '):
+            with self.subTest(topic=topic):
+                with self.assertRaisesRegex(ValueError, 'blank.*General'):
+                    self._send([], thread_id=topic)
+                self.assertEqual([], self.connections)
+
+    def test_each_picture_is_sent_to_the_topic_with_or_without_a_reply(self):
+        for reply_to in (None, 7):
+            with self.subTest(reply_to=reply_to):
+                self._send(
+                    [_OK, _OK],
+                    files=self.pictures[:2],
+                    reply_to=reply_to,
+                    thread_id='73',
+                )
+                for connection in self._sent():
+                    fields = _form_fields(connection.request_args)
+                    self.assertEqual((None, b'73'), fields['message_thread_id'])
+                    if reply_to is not None:
+                        self.assertEqual(
+                            reply_to,
+                            json.loads(fields['reply_parameters'][1])['message_id'],
+                        )
 
     def test_gives_up_on_a_stalled_request_only(self):
         # 60 s without data once connected, but no limit for the whole upload

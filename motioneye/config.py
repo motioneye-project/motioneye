@@ -817,12 +817,17 @@ SENDMAIL_KEYS = {
 SENDTELEGRAM_KEYS = {
     'api': '@telegram_notifications_api',
     'chatid': '@telegram_notifications_chat_id',
+    'thread_id': '@telegram_notifications_thread_id',
     'timespan': '@telegram_notifications_picture_time_span',
     'text_first': '@telegram_notifications_text_first',
 }
 _NOTIFICATION_KEYS = [*SENDMAIL_KEYS.values(), *SENDTELEGRAM_KEYS.values()]
 # absent in older camera files
-_OPTIONAL_NOTIFICATION_KEYS = {SENDMAIL_KEYS['verify'], SENDTELEGRAM_KEYS['text_first']}
+_OPTIONAL_NOTIFICATION_KEYS = {
+    SENDMAIL_KEYS['verify'],
+    SENDTELEGRAM_KEYS['thread_id'],
+    SENDTELEGRAM_KEYS['text_first'],
+}
 MOMENT = '%Y-%m-%dT%H:%M:%S'  # the event time, expanded by motion
 _SHORT = f" %t '{MOMENT}'"
 
@@ -1182,6 +1187,8 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
     webHookUrlFailMessage = _(
         'URLs are not allowed to contain caret ^, semicolon ;, or apostrophe \''
     )
+    telegramThreadIdValidRegExp = '^[1-9][0-9]*$'
+    telegramThreadIdFailMessage = _('Telegram topic IDs must be positive integers')
 
     data = {
         # device
@@ -1587,6 +1594,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
     # kept for a client that does not send the key
     stored_mail_verify = prev_config.get(SENDMAIL_KEYS['verify'])
     stored_text_first = prev_config.get(SENDTELEGRAM_KEYS['text_first'])
+    thread_id = input_or_stored(ui, 'telegram_notifications_thread_id', prev_config, '')
     for key in _NOTIFICATION_KEYS:  # stored only while enabled
         prev_config.pop(key, None)
 
@@ -1628,8 +1636,20 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         values = {
             key: ui[key[1:]]
             for key in SENDTELEGRAM_KEYS.values()
-            if key != SENDTELEGRAM_KEYS['text_first']
+            if key not in _OPTIONAL_NOTIFICATION_KEYS
         }
+        topic = '' if thread_id is None else str(thread_id).strip()
+        if topic:
+            if topic == '1' and 'telegram_notifications_thread_id' in ui:
+                raise ValueError(
+                    _('Leave the Telegram topic ID blank to send to General')
+                )
+            values[SENDTELEGRAM_KEYS['thread_id']] = input_sanity_check(
+                telegramThreadIdValidRegExp,
+                topic,
+                'telegram_notifications_thread_id',
+                telegramThreadIdFailMessage,
+            )
         # absent from what an older hub posts: keep the stored choice
         values[SENDTELEGRAM_KEYS['text_first']] = (
             str(ui.get('telegram_notifications_text_first', stored_text_first)).lower()

@@ -849,6 +849,7 @@ class ConfigHandler(BaseHandler):
                         message=message,
                         files=[],
                         retry=False,
+                        thread_id=data.get('thread_id'),
                     )
 
                     self.finish_json()
@@ -857,7 +858,18 @@ class ConfigHandler(BaseHandler):
 
                 except Exception as e:
                     logging.exception('telegram notification test failed')
-                    self.finish_json({'error': str(e)})
+                    msg = str(e)
+                    if (
+                        isinstance(e, sendtelegram.TelegramError)
+                        and e.topic_not_found
+                        and str(data.get('thread_id') or '').strip()
+                    ):
+                        msg += (
+                            '. Check the topic ID in this chat. If the topic was '
+                            'deleted, select another topic or leave the ID blank '
+                            'to send to General'
+                        )
+                    self.finish_json({'error': msg})
 
                 return None
 
