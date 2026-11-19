@@ -302,13 +302,14 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/components/responses/CameraList"
+            "$ref": "#/components/responses/CameraList",
+            "description": "With `proto`, the cameras that can be added, each with only its ID and name. Without, the cameras added to motionEye, each with its settings."
           },
           "403": {
             "$ref": "#/components/responses/Unauthorized"
           }
         },
-        "description": "Lists the cameras that can be added from a source, with the address and login in the body. This is how the web UI discovers cameras.\n\n**Requires the admin.**",
+        "description": "If `proto` is not passed, lists all cameras added to motionEye without `admin-only` flag. If `proto` is passed, which requires admin, lists the cameras that can be added from a source, with the address and login in the body. This is how the web UI discovers cameras.",
         "requestBody": {
           "required": true,
           "content": {
@@ -322,14 +323,15 @@
                       "v4l2",
                       "netcam",
                       "motioneye",
-                      "mjpeg"
+                      "mjpeg",
+                      "mmal"
                     ],
                     "description": "The source: `v4l2` for local devices, `netcam` for a network camera, `motioneye` for the cameras of another motionEye server, `mjpeg` for a simple MJPEG camera."
                   },
                   "scheme": {
                     "type": "string",
                     "default": "http",
-                    "description": "With `proto=netcam`: `http`, `https`, `mjpeg` or `rtsp`."
+                    "description": "With `proto=netcam`: `http`, `https`, `mjpeg`, `rtsp`, or `rtmp`."
                   },
                   "host": {
                     "type": "string",
@@ -359,10 +361,7 @@
                     "type": "boolean",
                     "description": "With `proto=motioneye`: whether to check the other motionEye's certificate."
                   }
-                },
-                "required": [
-                  "proto"
-                ]
+                }
               }
             }
           }
