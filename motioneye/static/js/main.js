@@ -18,6 +18,8 @@ var filenameValidRegExp = new RegExp('^([A-Za-z0-9 \(\)/._-]|%[CYmdHMSIplqv$])+$
 var dirnameValidRegExp = new RegExp('^[A-Za-z0-9 \(\)/._-]+$');
 var emailValidRegExp = new RegExp('^[A-Za-z0-9 _+.@^~<>,-]+$');
 var webHookUrlValidRegExp = new RegExp('^[^;\']+$');
+// in motioneye/uploadservices.py: an SSE-C key is 32 bytes in base64
+var sseCKeyValidRegExp = /^[A-Za-z0-9+\/]{43}=$/;
 var initialConfigFetched = false; /* used to workaround browser extensions that trigger stupid change events */
 var pageContainer = null;
 var overlayVisible = false;
@@ -595,6 +597,14 @@ function initUI() {
     makeCustomValidator($('#imageFileNameEntry, #movieFileNameEntry'), function (value) {
         if (!value.match(filenameValidRegExp)) {
             return i18n.gettext("specialaj signoj ne rajtas en dosiernomo");
+        }
+
+        return true;
+    });
+    makeCustomValidator($('#uploadSseCKeyEntry'), function (value) {
+        value = value.trim();
+        if (value && !sseCKeyValidRegExp.test(value)) {
+            return i18n.gettext('The encryption key must be 32 bytes in base64, as made by "openssl rand 32 | base64"');
         }
 
         return true;
@@ -2011,7 +2021,7 @@ function cameraUi2Dict() {
         'upload_access_key': $('#uploadAccessKeyEntry').val(),
         'upload_secret_key': $('#uploadSecretKeyEntry').val(),
         'upload_bucket': $('#uploadBucketEntry').val(),
-        'upload_sse_c_key': $('#uploadSseCKeyEntry').val(),
+        'upload_sse_c_key': $('#uploadSseCKeyEntry').val().trim(),
         'clean_cloud_enabled': $('#cleanCloudEnabledSwitch')[0].checked,
         'clean_uploaded': $('#cleanUploadedSwitch')[0].checked,
         'web_hook_storage_enabled': $('#webHookStorageEnabledSwitch')[0].checked,
@@ -2939,7 +2949,7 @@ function doRestore() {
 }
 
 function doTestUpload() {
-    var q = $('#uploadPortEntry, #uploadLocationEntry, #uploadServerEntry');
+    var q = $('#uploadPortEntry, #uploadLocationEntry, #uploadServerEntry, #uploadSseCKeyEntry');
     var valid = true;
     q.each(function() {
         this.validate();
@@ -2971,7 +2981,7 @@ function doTestUpload() {
         access_key: $('#uploadAccessKeyEntry').val(),
         secret_key: $('#uploadSecretKeyEntry').val(),
         bucket: $('#uploadBucketEntry').val(),
-        sse_c_key: $('#uploadSseCKeyEntry').val()
+        sse_c_key: $('#uploadSseCKeyEntry').val().trim()
     };
 
     var cameraId = $('#cameraSelect').val();

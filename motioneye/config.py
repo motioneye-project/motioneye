@@ -1192,6 +1192,19 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
     telegramThreadIdValidRegExp = '^[1-9][0-9]*$'
     telegramThreadIdFailMessage = _('Telegram topic IDs must be positive integers')
 
+    # not with input_sanity_check, whose message would show the key
+    sse_c_key = str(ui['upload_sse_c_key']).strip()
+    if (
+        ui['upload_enabled']
+        and ui['upload_service'] == 's3'
+        and not uploadservices.sse_c_key_is_valid(sse_c_key)
+    ):
+        raise ValueError(
+            _(
+                'The encryption key must be 32 bytes in base64, as made by "openssl rand 32 | base64"'
+            )
+        )
+
     data = {
         # device
         'camera_name': input_sanity_check(
@@ -1227,7 +1240,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         '@upload_access_key': ui['upload_access_key'],
         '@upload_secret_key': ui['upload_secret_key'],
         '@upload_bucket': ui['upload_bucket'],
-        '@upload_sse_c_key': ui['upload_sse_c_key'],
+        '@upload_sse_c_key': sse_c_key,
         '@clean_cloud_enabled': ui['clean_cloud_enabled'],
         '@clean_uploaded': input_or_stored(ui, 'clean_uploaded', prev_config, False),
         # text overlay

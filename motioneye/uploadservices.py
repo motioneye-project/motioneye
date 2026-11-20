@@ -18,6 +18,7 @@ from __future__ import annotations
 import json
 import logging
 import os.path
+import re
 import ssl
 import sys
 import warnings
@@ -1262,6 +1263,19 @@ class SFTP(UploadService):
         return self._conn
 
 
+# SSE-C takes an AES-256 key, 32 bytes, in base64; the same as in main.js
+SSE_C_KEY_REGEXP = r'^[A-Za-z0-9+/]{43}=$'
+SSE_C_KEY_ERROR = (
+    'The encryption key must be 32 bytes in base64, '
+    'as made by "openssl rand 32 | base64"'
+)
+
+
+def sse_c_key_is_valid(key: str) -> bool:
+    """Whether the key is empty or a key that S3 takes for SSE-C."""
+    return not key or re.fullmatch(SSE_C_KEY_REGEXP, key) is not None
+
+
 class S3(UploadService):
     NAME = 's3'
 
@@ -1295,7 +1309,7 @@ class S3(UploadService):
         if data.get('bucket') is not None:
             self._bucket = data['bucket']
         if data.get('sse_c_key') is not None:
-            self._sse_c_key = data['sse_c_key']
+            self._sse_c_key = str(data['sse_c_key']).strip()
         if data.get('verify') is not None:
             self._verify = utils.verify_setting(data['verify'])
 
@@ -1334,6 +1348,10 @@ class S3(UploadService):
             rel_filename = os.path.basename(filename)
 
         if self._sse_c_key:
+            # else S3 refuses every upload, with a less helpful message
+            if not sse_c_key_is_valid(self._sse_c_key):
+                raise ValueError(SSE_C_KEY_ERROR)
+
             sse_key_md5 = b64encode(
                 md5(b64decode(self._sse_c_key), usedforsecurity=False).digest()
             ).decode()
@@ -1353,6 +1371,10 @@ class S3(UploadService):
         s3.upload_file(filename, self._bucket, rel_filename, ExtraArgs=extra_args)
 
     def test_access(self):
+        # listing the buckets does not use the key, which uploads need
+        if not sse_c_key_is_valid(self._sse_c_key or ''):
+            return SSE_C_KEY_ERROR
+
         try:
             s3 = self._client()
             response = s3.list_buckets()

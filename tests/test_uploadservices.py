@@ -14,11 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import hashlib
 import os
 import ssl
 import subprocess
 import sys
 import unittest
+from base64 import b64encode
 from importlib.util import find_spec
 from unittest.mock import MagicMock, patch
 from urllib.error import URLError
@@ -437,6 +439,64 @@ class TestS3Verify(unittest.TestCase):
             with self.subTest(site=site):
                 self.assertIsNone(kwargs['endpoint_url'])
                 self.assertIsNone(kwargs['verify'])
+
+
+class TestS3SseCKey(unittest.TestCase):
+    """S3 takes an SSE-C key of 32 bytes in base64 only; listing the buckets, all
+    that the test did, does not use it, so it passed while every upload failed
+    (#3574)."""
+
+    _KEY = b64encode(bytes(range(32))).decode()
+    _BAD = 'my secret password'
+
+    def _service(self, key):
+        service = uploadservices.S3('1')
+        service.load({'bucket': 'cam', 'sse_c_key': key})
+        return service
+
+    def test_the_valid_keys(self):
+        for key, valid in (
+            ('', True),
+            (self._KEY, True),
+            (self._BAD, False),
+            (b64encode(bytes(16)).decode(), False),
+            (bytes(32).hex(), False),
+            (self._KEY + '\n', False),
+        ):
+            with self.subTest(key=key):
+                self.assertIs(valid, uploadservices.sse_c_key_is_valid(key))
+
+    def test_the_test_reports_a_bad_key_without_connecting(self):
+        with patch.object(uploadservices.S3, '_client') as client:
+            result = self._service(self._BAD).test_access()
+
+        self.assertIn('32 bytes in base64', result)
+        self.assertNotIn(self._BAD, result)
+        client.assert_not_called()
+
+    def test_the_test_still_lists_the_buckets_with_a_good_key(self):
+        with patch.object(uploadservices.S3, '_client') as client:
+            client.return_value.list_buckets.return_value = {'Buckets': []}
+            self.assertIs(True, self._service(f' {self._KEY} ').test_access())
+
+    def test_an_upload_with_a_bad_key_says_why(self):
+        with (
+            patch.object(uploadservices.S3, '_client') as client,
+            self.assertRaisesRegex(ValueError, '32 bytes in base64'),
+        ):
+            self._service(self._BAD).upload_file(None, '/data/x.mp4', 'cam')
+
+        client.return_value.upload_file.assert_not_called()
+
+    def test_an_upload_with_a_good_key_sends_it_with_its_md5(self):
+        with patch.object(uploadservices.S3, '_client') as client:
+            self._service(self._KEY).upload_file(None, '/data/x.mp4', 'cam')
+
+        extra = client.return_value.upload_file.call_args.kwargs['ExtraArgs']
+        self.assertEqual(self._KEY, extra['SSECustomerKey'])
+        digest = hashlib.md5(bytes(range(32)), usedforsecurity=False).digest()
+        md5 = b64encode(digest).decode()
+        self.assertEqual(md5, extra['SSECustomerKeyMD5'])
 
 
 @_needs('pycurl')
