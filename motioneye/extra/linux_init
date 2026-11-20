@@ -139,6 +139,22 @@ if [[ -n ${LIBCAMERA_PACKAGES[0]} ]]; then
   fi
 fi
 
+# Install the helper which mounts SMB shares for the motion user, see smb_shares in motioneye.conf
+install -o 0 -g 0 -m 0755 extra/motioneye-smb /usr/local/sbin/motioneye-smb
+if [[ -d '/etc/sudoers.d' ]] && command -v visudo > /dev/null; then
+  # sudo skips files with a dot in their name, so the check of the rule cannot take effect half-written
+  echo 'motion ALL=(root) NOPASSWD: /usr/local/sbin/motioneye-smb' > /etc/sudoers.d/motioneye.new
+  chmod 0440 /etc/sudoers.d/motioneye.new
+  if visudo -cqf /etc/sudoers.d/motioneye.new; then
+    mv /etc/sudoers.d/motioneye.new /etc/sudoers.d/motioneye
+  else
+    rm /etc/sudoers.d/motioneye.new
+    echo 'WARNING: The sudo rule for /usr/local/sbin/motioneye-smb failed its check, SMB shares need motionEye to run as root'
+  fi
+else
+  echo 'INFO: sudo is not installed. To use SMB shares without running motionEye as root, install sudo and run motioneye_init again.'
+fi
+
 (( SKIP_SYSTEMD )) && exit 0
 
 # Install service
