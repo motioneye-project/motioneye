@@ -820,6 +820,7 @@ SENDTELEGRAM_KEYS = {
     'thread_id': '@telegram_notifications_thread_id',
     'timespan': '@telegram_notifications_picture_time_span',
     'text_first': '@telegram_notifications_text_first',
+    'movies': '@telegram_notifications_movies',
 }
 _NOTIFICATION_KEYS = [*SENDMAIL_KEYS.values(), *SENDTELEGRAM_KEYS.values()]
 # absent in older camera files
@@ -827,6 +828,7 @@ _OPTIONAL_NOTIFICATION_KEYS = {
     SENDMAIL_KEYS['verify'],
     SENDTELEGRAM_KEYS['thread_id'],
     SENDTELEGRAM_KEYS['text_first'],
+    SENDTELEGRAM_KEYS['movies'],
 }
 MOMENT = '%Y-%m-%dT%H:%M:%S'  # the event time, expanded by motion
 _SHORT = f" %t '{MOMENT}'"
@@ -864,7 +866,7 @@ def _settings_to_ui(data: dict, keys: dict) -> dict:
         elif name.endswith('_verify'):
             ui[name] = utils.verify_setting(value)
 
-        elif name.endswith('_text_first'):
+        elif name.endswith(('_text_first', '_movies')):
             ui[name] = value.lower() == 'true'
 
         elif name.endswith('_time_span'):
@@ -1595,6 +1597,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
     stored_mail_verify = prev_config.get(SENDMAIL_KEYS['verify'])
     stored_text_first = prev_config.get(SENDTELEGRAM_KEYS['text_first'])
     thread_id = input_or_stored(ui, 'telegram_notifications_thread_id', prev_config, '')
+    stored_movies = prev_config.get(SENDTELEGRAM_KEYS['movies'])
     for key in _NOTIFICATION_KEYS:  # stored only while enabled
         prev_config.pop(key, None)
 
@@ -1653,6 +1656,10 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         # absent from what an older hub posts: keep the stored choice
         values[SENDTELEGRAM_KEYS['text_first']] = (
             str(ui.get('telegram_notifications_text_first', stored_text_first)).lower()
+            == 'true'
+        )
+        values[SENDTELEGRAM_KEYS['movies']] = (
+            str(ui.get('telegram_notifications_movies', stored_movies)).lower()
             == 'true'
         )
         senders.append(notification_command(data, 'sendtelegram', values))
