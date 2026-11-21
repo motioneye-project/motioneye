@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-10-31 10:37+0000\n"
+"PO-Revision-Date: 2026-11-02 23:57+0000\n"
 "Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/it/>\n"
 "Language: it\n"
@@ -23,82 +23,82 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.1.dev0\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/cleanup.py:47
 msgid "purigado komenciĝis"
 msgstr "pulizia avviata"
 
-#: motioneye/config.py:1055
+#: motioneye/config.py:1060
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
 msgstr "I nomi dei dispositivi possono contenere solo caratteri alfanumerici, trattino -, trattino basso _, segno più + e spazio"
 
-#: motioneye/config.py:1059
+#: motioneye/config.py:1064
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 msgstr "I nomi dei file possono contenere solo caratteri alfanumerici, parentesi (), la barra /, il punto ., il trattino basso _, il trattino -, lo spazio, e un sottoinsieme degli specificatori di conversione di motion: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 
-#: motioneye/config.py:1064
+#: motioneye/config.py:1069
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
 msgstr "I nomi delle directory possono contenere solo caratteri alfanumerici, lo spazio, parentesi (), la barra /, il punto ., il trattino basso _ e il trattino -"
 
-#: motioneye/config.py:1069
+#: motioneye/config.py:1074
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
 msgstr "Gli indirizzi email possono contenere solo caratteri alfanumerici, il trattino basso _, il segno più +, il punto ., la chiocciola @, l'accento circonflesso ^, la tilde ~, le parentesi angolari <>, il trattino - e possono essere separati da virgola e spazio"
 
-#: motioneye/config.py:1074
+#: motioneye/config.py:1079
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr "Gli URL non possono contenere l'accento circonflesso ^, il punto e virgola ; o l'apostrofo '"
 
-#: motioneye/server.py:236
+#: motioneye/server.py:234
 msgid "interrompa signalo ricevita, fermanta …"
 msgstr "Ricevuto un segnale di interrupt, chiusura …"
 
-#: motioneye/server.py:278
+#: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
 msgstr "le condivisioni smb richiedono i privilegi di root"
 
-#: motioneye/server.py:285
+#: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
 msgstr "per favore installa tornado versione 3.1 o successiva"
 
-#: motioneye/server.py:292
+#: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
 msgstr "per favore installa jinja2"
 
-#: motioneye/server.py:299
+#: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
 msgstr "per favore installa pillow o PIL"
 
-#: motioneye/server.py:306
+#: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
 msgstr "per favore installare pycurl"
 
-#: motioneye/server.py:428
+#: motioneye/server.py:426
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "Ciao! questo è un server motionEye "
 
-#: motioneye/server.py:443
+#: motioneye/server.py:441
 msgid "The admin and/or surveillance user has no password assigned. Please login to the web interface to set both passwords."
 msgstr "L'utente admin e/o l'utente surveillance non ha alcuna password assegnata. Effettua l'accesso all'interfaccia web per impostare entrambe le password."
 
-#: motioneye/server.py:464
+#: motioneye/server.py:462
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "mjpg client garbage collector del cliente è stato avviato"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:479
 msgid "servilo komenciĝis"
 msgstr "server avviato"
 
-#: motioneye/server.py:489
+#: motioneye/server.py:487
 msgid "servilo haltis"
 msgstr "server arrestato"
 
-#: motioneye/server.py:497
+#: motioneye/server.py:495
 msgid "motion haltis"
 msgstr "il movimento si è interrotto"
 
-#: motioneye/server.py:503
+#: motioneye/server.py:501
 msgid "adiaŭ!"
 msgstr "arrivederci!"
 
@@ -110,7 +110,7 @@ msgstr "attività avviate"
 msgid "taskoj haltis"
 msgstr "attività interrotte"
 
-#: motioneye/wsswitch.py:36
+#: motioneye/wsswitch.py:46
 msgid "wsswitch komenciĝis"
 msgstr "wsswitch è stato avviato"
 
@@ -669,8 +669,9 @@ msgid "Rajtiga ŝlosilo"
 msgstr "Chiave di autorizzazione"
 
 #: motioneye/templates/main.html:471
-msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "La chiave utilizzata per l'autenticazione con il servizio di caricamento (di solito richiesta solo durante l'installazione)"
+#, fuzzy
+msgid "the key used to authenticate with the upload service, usually only needed during setup; for Google, the whole address of the page that cannot be loaded after allowing access"
+msgstr "la chiave utilizzata per autenticare con l'upload del servizio, necessaria solo durante una configurazione; per Google, l'intero indirizzo della pagina che si adatta essere caricato dopo l'accesso agli occhi"
 
 #: motioneye/templates/main.html:477
 msgid "Akiri ŝlosilon"

@@ -15,90 +15,90 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-10-31 10:37+0000\n"
-"Last-Translator: MichaIng <michaing@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-11-02 23:57+0000\n"
+"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.1.dev0\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/cleanup.py:47
 msgid "purigado komenciĝis"
 msgstr "Reinigung hat begonnen"
 
-#: motioneye/config.py:1055
+#: motioneye/config.py:1060
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
 msgstr "Gerätenamen dürfen nur alphanumerische Zeichen, Bindestrich -, Unterstrich _, Pluszeichen +, und Leerzeichen enthalten"
 
-#: motioneye/config.py:1059
+#: motioneye/config.py:1064
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 msgstr "Dateinamen dürfen nur alphanumerische Zeichen, Klammern (), Schrägstrich /, Punkt ., Unterstrich _, Bindestrich -, Leerzeichen, und folgende motion Umwandlungscodes enthalten: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 
-#: motioneye/config.py:1064
+#: motioneye/config.py:1069
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
 msgstr "Verzeichnisnamen dürfen nur alphanumerische Zeichen, Leerzeichen, Klammern (), Schrägstrich /, Punkt ., Unterstrich _, und Bindestrich - enthalten"
 
-#: motioneye/config.py:1069
+#: motioneye/config.py:1074
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
 msgstr "E-Mail-Adressen dürfen nur alphanumerische Zeichen, Unterstrich _, Pluszeichen +, Punkt ., @-Zeichen, Hochzeichen ^, Tilde ~, spitze Klammern <>, und Bindestrich - enthalten, sowie per Komma , und Leerzeichen voneinander getrennt sein"
 
-#: motioneye/config.py:1074
+#: motioneye/config.py:1079
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr "URLs dürfen kein Hochzeichen ^, Semikolon ;, oder Apostroph ' enthalten"
 
-#: motioneye/server.py:236
+#: motioneye/server.py:234
 msgid "interrompa signalo ricevita, fermanta …"
 msgstr "Unterbrechungssignal empfangen, schließe …"
 
-#: motioneye/server.py:278
+#: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
 msgstr "SMB-Freigaben erfordern Root-Rechte"
 
-#: motioneye/server.py:285
+#: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
 msgstr "Bitte installieren Sie tornado Version 3.1 oder höher"
 
-#: motioneye/server.py:292
+#: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
 msgstr "Bitte installieren Sie jinja2"
 
-#: motioneye/server.py:299
+#: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
 msgstr "Bitte installieren Sie pillow oder PIL"
 
-#: motioneye/server.py:306
+#: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
 msgstr "Bitte installieren Sie pycurl"
 
-#: motioneye/server.py:428
+#: motioneye/server.py:426
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "Hallo! Dies ist ein MotionEye-Server "
 
-#: motioneye/server.py:443
+#: motioneye/server.py:441
 msgid "The admin and/or surveillance user has no password assigned. Please login to the web interface to set both passwords."
 msgstr "Der Administrator und/oder Überwachungsbenutzer hat kein Password gesetzt. Bitte melden Sie sich an der Weboberfläche an, um beide Passwörter zu setzen."
 
-#: motioneye/server.py:464
+#: motioneye/server.py:462
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "Der mjpg-Client-Garbage-Collector wurde gestartet"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:479
 msgid "servilo komenciĝis"
 msgstr "Der Server wurde gestartet"
 
-#: motioneye/server.py:489
+#: motioneye/server.py:487
 msgid "servilo haltis"
 msgstr "Der Server wurde gestoppt"
 
-#: motioneye/server.py:497
+#: motioneye/server.py:495
 msgid "motion haltis"
 msgstr "motion wurde gestoppt"
 
-#: motioneye/server.py:503
+#: motioneye/server.py:501
 msgid "adiaŭ!"
 msgstr "Auf Wiedersehen!"
 
@@ -110,7 +110,7 @@ msgstr "Aufgaben wurden gestartet"
 msgid "taskoj haltis"
 msgstr "Aufgaben wurden gestoppt"
 
-#: motioneye/wsswitch.py:36
+#: motioneye/wsswitch.py:46
 msgid "wsswitch komenciĝis"
 msgstr "wsswitch wurde gestartet"
 
@@ -355,8 +355,9 @@ msgid "Verify certificate"
 msgstr "Verifiziere Zertifikat"
 
 #: motioneye/templates/main.html:215
+#, fuzzy
 msgid "check the remote motionEye's TLS certificate against the trusted authorities of this system; turn this off only for a remote with a self-signed certificate that you trust; the connection is then still encrypted, but the remote is not authenticated"
-msgstr ""
+msgstr "überprüfen Sie das Remote Motion Eye's TLS-Zertifikat gegen die Gesetzgebungsbehörden dieses Systems; schalten Sie dieses nur aus einer Fernbedienung mit einem selbstsignierten Zertifikat, das Sie vertrauen; die Spezifikation wird dann noch verschlüsselt, aber die Fernbedienung ist nicht authentifiziert"
 
 #: motioneye/templates/main.html:218
 msgid "Admin-only access"
@@ -568,8 +569,9 @@ msgid "Use TLS (FTPS)"
 msgstr "TLS (FTPS) nutzen"
 
 #: motioneye/templates/main.html:404
+#, fuzzy
 msgid "encrypt the connection with explicit TLS on the normal FTP port (usually 21), the way most servers offer it; implicit TLS on port 990 is not supported"
-msgstr ""
+msgstr "verschlüsselung der Spezifikation mit TLS auf der normalen FTP Portland, die Art, wie die meisten Modelle ihr bieten; implizite TLS auf Port 990 wird nicht unterstützt"
 
 #: motioneye/templates/main.html:407
 msgid "Servila Adreso"
@@ -614,8 +616,9 @@ msgstr "Für WebDAV: z.B. https://my.cloud/remote.php/dav/files/me/"
 #: motioneye/templates/main.html:436 motioneye/templates/main.html:535
 #: motioneye/templates/main.html:1048 motioneye/templates/main.html:1115
 #: motioneye/templates/main.html:1165
+#, fuzzy
 msgid "check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated"
-msgstr ""
+msgstr "prüfen Sie das TLS-Zertifikat gegen die Deklarationsgrenzen dieses Systems; schalten Sie dieses nur mit einem selbstsignierten Zertifikat fort, das Sie vertrauen; das Unternehmen wird dann noch verschlüsselt, aber die zweite ist keine harmonische"
 
 #: motioneye/templates/main.html:439
 msgid "Loko"
@@ -662,8 +665,9 @@ msgid "Rajtiga ŝlosilo"
 msgstr "Autorisierungsschlüssel"
 
 #: motioneye/templates/main.html:471
-msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "der Authentifizierungsschlüssel für den Upload-Dienst (normalerweise nur während der Konfiguration erforderlich)"
+#, fuzzy
+msgid "the key used to authenticate with the upload service, usually only needed during setup; for Google, the whole address of the page that cannot be loaded after allowing access"
+msgstr "der Schlüssel, der verwendet wird, um mit dem Dienst-Upload zu authentifizieren, nur während eines Setups benötigt; für Google, die ganze Adresse der Seite, die nach dem Augenzugriff geladen werden"
 
 #: motioneye/templates/main.html:477
 msgid "Akiri ŝlosilon"
@@ -1304,16 +1308,18 @@ msgid "Manual motion event button"
 msgstr "Schaltfläche für manuelle Bewegungsereignisse"
 
 #: motioneye/templates/main.html:982
+#, fuzzy
 msgid "If enabled, an action button is added to the camera frame, which allows to start and end a manual motion event. This can be used to manually create motion-triggered recordings, and test the motion notification pipeline."
-msgstr ""
+msgstr "Wenn aktiviert, wird eine Aktionstaste zum Kamerarahmen hinzugefügt, der ein manuelles Bewegungsereignis starten und beenden wird. Dies kann verwendet werden, um manuell bewegungsgesteuerte Wahl zu erstellen, und testen Sie die Bewegung, um eine Pipeline zu beachten."
 
 #: motioneye/templates/main.html:985
 msgid "Motion detection toggle button"
 msgstr "Schaltfläche zum Umschalten der Bewegungserkennung"
 
 #: motioneye/templates/main.html:987
+#, fuzzy
 msgid "If enabled, an action button is added to the camera frame, which allows to temporarily pause and reactivate motion detection. Saving settings, adding/removing cameras, and restarting motionEye resets the state."
-msgstr ""
+msgstr "Wenn aktiviert, ist eine Aktionstaste, um den Kamerarahmen hinzuzufügen, was der Fall ist, dass Sie ein Bewegungsbild wählen können. Saving Room, Content/Removing Zeitplan, und Neustart BewegungEye setzt den Zustand zurück."
 
 #: motioneye/templates/main.html:993
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
