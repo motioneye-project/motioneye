@@ -28,90 +28,90 @@ msgstr ""
 msgid "purigado komenciĝis"
 msgstr "পরিস্কার করা শুরু"
 
-#: motioneye/config.py:1055
+#: motioneye/config.py:1060
 #, fuzzy
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
 msgstr "ডিভাইসের নামের মধ্যে শুধুমাত্র অক্ষর, সংখ্যা, হাইফেন (-), আন্ডারস্কোর (_), প্লাস (+) এবং স্পেস থাকতে পারে"
 
-#: motioneye/config.py:1059
+#: motioneye/config.py:1064
 #, fuzzy
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 msgstr "ফাইল নামের মধ্যে শুধুমাত্র আলফানিউমেরিক অক্ষর, বন্ধনী (), ফরওয়ার্ড স্ল্যাশ /, ডট ., আন্ডারস্কোর _, হাইফেন -, স্পেস এবং মোশন কনভার্শন স্পেসিফায়ারগুলির একটি উপসেট %C %Y %m %d %H %M %S %I %p %l %q %v %$ ব্যবহার করা যায়"
 
-#: motioneye/config.py:1064
+#: motioneye/config.py:1069
 #, fuzzy
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
 msgstr "ডিরেক্টরি নামের মধ্যে শুধুমাত্র আলফানিউমেরিক অক্ষর, স্পেস, বন্ধনী (), ফরওয়ার্ড স্ল্যাশ /, ডট ., আন্ডারস্কোর _ এবং হাইফেন - ব্যবহার করা যাবে"
 
-#: motioneye/config.py:1069
+#: motioneye/config.py:1074
 #, fuzzy
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
 msgstr "ইমেইল ঠিকানায় শুধুমাত্র অক্ষর, সংখ্যা, আন্ডারস্কোর (_), প্লাস (+), ডট (.), এট (@), ক্যারেট (^), টিল্ড (~), কোণীয় বন্ধনী (<>), হাইফেন (-) থাকতে পারে এবং সেগুলো কমা ও স্পেস দিয়ে পৃথক করা যেতে পারে"
 
-#: motioneye/config.py:1074
+#: motioneye/config.py:1079
 #, fuzzy
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr "ইউআরএলে ক্যারেট ^, সেমিকোলন ; বা অ্যাপোস্ট্রফি ' ব্যবহার করা যাবে না"
 
-#: motioneye/server.py:236
+#: motioneye/server.py:234
 #, fuzzy
 msgid "interrompa signalo ricevita, fermanta …"
 msgstr "একটি বাধা সংকেত প্রাপ্ত, বন্ধ …"
 
-#: motioneye/server.py:278
+#: motioneye/server.py:276
 #, fuzzy
 msgid "smb-akcioj postulas radikajn privilegiojn"
 msgstr "এসএমবি শেয়ারের রুট সুবিধার দরকার"
 
-#: motioneye/server.py:285
+#: motioneye/server.py:283
 #, fuzzy
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
 msgstr "টর্নেডো সংস্করণ 3.1 বা ততোধিক ইনস্টল করুন"
 
-#: motioneye/server.py:292
+#: motioneye/server.py:290
 #, fuzzy
 msgid "bonvolu instali jinja2"
 msgstr "jinja2 ইনস্টল করুন"
 
-#: motioneye/server.py:299
+#: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
 msgstr "\"pillow\" বা \"PIL\" ইনস্টল করুন"
 
-#: motioneye/server.py:306
+#: motioneye/server.py:304
 #, fuzzy
 msgid "bonvolu instali pycurl"
 msgstr "পাইকারল ইনস্টল করুন"
 
-#: motioneye/server.py:428
+#: motioneye/server.py:426
 #, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "হ্যালো! এটি একটি মোশনই সার্ভার "
 
-#: motioneye/server.py:443
+#: motioneye/server.py:441
 msgid "The admin and/or surveillance user has no password assigned. Please login to the web interface to set both passwords."
 msgstr ""
 
-#: motioneye/server.py:464
+#: motioneye/server.py:462
 #, fuzzy
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "mjpg গ্রাহকের আবর্জনা সংগ্রহকারী শুরু হয়েছে"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:479
 #, fuzzy
 msgid "servilo komenciĝis"
 msgstr "সার্ভার শুরু হয়েছে"
 
-#: motioneye/server.py:489
+#: motioneye/server.py:487
 #, fuzzy
 msgid "servilo haltis"
 msgstr "সার্ভার বন্ধ"
 
-#: motioneye/server.py:497
+#: motioneye/server.py:495
 #, fuzzy
 msgid "motion haltis"
 msgstr "গতি বন্ধ"
 
-#: motioneye/server.py:503
+#: motioneye/server.py:501
 #, fuzzy
 msgid "adiaŭ!"
 msgstr "বিদায়!"
@@ -126,7 +126,7 @@ msgstr "কাজ শুরু"
 msgid "taskoj haltis"
 msgstr "কাজ বন্ধ"
 
-#: motioneye/wsswitch.py:36
+#: motioneye/wsswitch.py:46
 #, fuzzy
 msgid "wsswitch komenciĝis"
 msgstr "wsswitch শুরু হয়েছে itch"
@@ -795,9 +795,8 @@ msgid "Rajtiga ŝlosilo"
 msgstr "অনুমোদনের কী"
 
 #: motioneye/templates/main.html:471
-#, fuzzy
-msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "আপলোড পরিষেবার সাথে প্রমাণীকরণ করতে ব্যবহৃত কী (সাধারণত কেবলমাত্র কনফিগারেশনের সময় প্রয়োজন)"
+msgid "the key used to authenticate with the upload service, usually only needed during setup; for Google, the whole address of the page that cannot be loaded after allowing access"
+msgstr ""
 
 #: motioneye/templates/main.html:477
 #, fuzzy
