@@ -113,6 +113,30 @@ class RelayMovieEndTest(HandlerTestCase):
             {k: v for k, v in task.kwargs.items() if k != 'tag'},
         )
 
+    def test_the_movie_is_sent_before_the_upload_that_may_remove_it(self):
+        # the tasks run one at a time, in the order they are added
+        camera = {
+            **self._CAMERA,
+            '@telegram_notifications_movies': 'True',
+            '@upload_enabled': True,
+            '@upload_movie': True,
+            '@upload_service': 's3',
+            '@upload_subfolders': True,
+            '@clean_uploaded': True,
+        }
+        tasks = self._movie_end(camera)
+
+        self.assertEqual(
+            [
+                'make_movie_preview(2026-11-18/12-00-00.mp4)',
+                'send_camera_movie(2026-11-18/12-00-00.mp4)',
+                'upload_media_file(2026-11-18/12-00-00.mp4)',
+            ],
+            list(tasks),
+        )
+        # with the same delay, or they would not run in that order
+        self.assertEqual({5}, {c.args[0] for c in tasks.values()})
+
     def test_not_when_turned_off(self):
         for camera in (
             self._CAMERA,

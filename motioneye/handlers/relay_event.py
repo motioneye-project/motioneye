@@ -108,10 +108,7 @@ class RelayEventHandler(BaseHandler):
                 rel_path=filename,
             )
 
-            # upload to external service
-            if camera_config['@upload_enabled'] and camera_config['@upload_movie']:
-                self._upload_media_file(filename, camera_id, camera_config)
-
+            # before the upload, which may remove the movie once it is done
             if (
                 filename is not None
                 and str(camera_config.get(config.SENDTELEGRAM_KEYS['movies'])).lower()
@@ -124,6 +121,10 @@ class RelayEventHandler(BaseHandler):
                     camera_id=camera_id,
                     filename=os.path.join(camera_config['target_dir'], filename),
                 )
+
+            # upload to external service
+            if camera_config['@upload_enabled'] and camera_config['@upload_movie']:
+                self._upload_media_file(filename, camera_id, camera_config)
 
         elif event == 'picture_save':
             # upload to external service
