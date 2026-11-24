@@ -22,6 +22,7 @@ import tempfile
 import time
 import unittest
 from types import SimpleNamespace
+from typing import ClassVar
 from unittest.mock import Mock, patch
 from urllib.parse import parse_qs
 
@@ -499,6 +500,111 @@ class SendMessageTest(unittest.TestCase):
 
         self.assertEqual([], self.sleeps)
         self.assertEqual(1, len(self.connections))
+
+
+class SendMovieTest(unittest.TestCase):
+    """A movie goes out as a video once its recording ends (#3259)."""
+
+    def setUp(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        self.movie = os.path.join(tmp.name, 'movie.mp4')
+        with open(self.movie, 'wb') as f:
+            f.write(b'mp4 ' * 50_000)
+
+    _connect = SendMessageTest._connect
+    _sent = SendMessageTest._sent
+
+    def _send_movie(self, replies, thread_id=None):
+        self.sleeps = []
+        self.connections = []
+        replies = list(replies)
+        with (
+            patch(
+                'motioneye.sendtelegram.HTTPSConnection',
+                side_effect=lambda host, timeout: self._connect(replies, host, timeout),
+            ),
+            patch('motioneye.sendtelegram.time.sleep', side_effect=self.sleeps.append),
+        ):
+            sendtelegram.send_movie(_TOKEN, 42, self.movie, 'cam: movie.mp4', thread_id)
+
+    def test_the_movie_is_sent_as_a_streamable_video(self):
+        self._send_movie([_OK], thread_id='17')
+
+        (connection,) = self._sent()
+        self.assertEqual(f'/bot{_TOKEN}/sendVideo', connection.request_args[1])
+        fields = _form_fields(connection.request_args)
+        self.assertEqual(('movie.mp4', b'mp4 ' * 50_000), fields['video'])
+        self.assertEqual((None, b'cam: movie.mp4'), fields['caption'])
+        self.assertEqual((None, b'true'), fields['supports_streaming'])
+        self.assertEqual((None, b'17'), fields['message_thread_id'])
+        # in pieces, as the pictures
+        self.assertLessEqual(max(connection.pieces), 64 * 1024)
+
+    def test_a_movie_larger_than_telegram_takes_is_not_sent(self):
+        with (
+            patch.object(sendtelegram, 'MAX_VIDEO_SIZE', 100_000),
+            self.assertRaisesRegex(RuntimeError, 'more than the 0 MB a bot can send'),
+        ):
+            self._send_movie([_OK])
+
+        self.assertEqual([], self.connections)
+
+    def test_a_rejected_movie_is_retried_like_a_picture(self):
+        too_many = (429, b'{"ok": false, "parameters": {"retry_after": 3}}')
+        self._send_movie([too_many, _OK])
+
+        self.assertEqual([3], self.sleeps)
+        self.assertEqual(2, len(self._sent()))
+
+
+class SendCameraMovieTest(unittest.TestCase):
+    """The movie of a camera goes out with its Telegram settings, if they say so."""
+
+    _STORED: ClassVar[dict] = {
+        'api': _TOKEN,
+        'chatid': '42',
+        'timespan': '0',
+        'text_first': 'False',
+        'thread_id': '17',
+        'movies': 'True',
+    }
+
+    def _run(self, stored, side_effect=None):
+        with (
+            patch(
+                'motioneye.config.get_notification_settings', return_value=stored
+            ) as settings,
+            patch('motioneye.config.get_camera', return_value={'camera_name': 'Cam'}),
+            patch('motioneye.sendtelegram.socket.gethostname', return_value='host'),
+            patch('motioneye.sendtelegram.send_movie', side_effect=side_effect) as send,
+        ):
+            sendtelegram.send_camera_movie(1, '/media/cam/2026-11-18/12-00-00.mp4')
+
+        settings.assert_called_once_with(1, sendtelegram.config.SENDTELEGRAM_KEYS)
+        return send
+
+    def test_sends_the_movie_with_the_stored_settings(self):
+        send = self._run(self._STORED)
+
+        send.assert_called_once_with(
+            _TOKEN,
+            '42',
+            '/media/cam/2026-11-18/12-00-00.mp4',
+            'Cam/host: 12-00-00.mp4',
+            '17',
+        )
+
+    def test_not_when_turned_off_since(self):
+        self.assertFalse(self._run({**self._STORED, 'movies': 'False'}).called)
+        self.assertFalse(self._run(None).called)
+
+    def test_a_failure_is_logged(self):
+        with self.assertLogs(level='ERROR') as logs:
+            self._run(self._STORED, side_effect=RuntimeError('too large'))
+
+        self.assertIn('failed to send movie', logs.output[0])
+        self.assertIn('too large', logs.output[0])
 
 
 if __name__ == '__main__':

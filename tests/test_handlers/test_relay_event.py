@@ -1,8 +1,10 @@
 from json import loads
+from typing import ClassVar
 from unittest.mock import patch
 
 import tornado.testing
 
+from motioneye import sendtelegram
 from motioneye.handlers.relay_event import RelayEventHandler
 from tests.test_handlers import HandlerTestCase
 
@@ -67,6 +69,84 @@ class RelayEventHandlerTest(HandlerTestCase):
         response = self.relay_event('192.0.2.10', cookie=cookie)
         self.assertEqual(403, response.code)
         self.assertEqual('unauthorized', loads(response.body)['error'])
+
+
+class RelayMovieEndTest(HandlerTestCase):
+    """The end of a movie sends it to Telegram, if the camera has that on (#3259)."""
+
+    handler_cls = RelayEventHandler
+
+    _CAMERA: ClassVar[dict] = {
+        'target_dir': '/media/cam',
+        'camera_name': 'Cam',
+        '@upload_enabled': False,
+        '@upload_movie': False,
+    }
+
+    def _movie_end(self, camera):
+        with (
+            patch('motioneye.config.get_relay_secret', return_value=_RELAY_SECRET),
+            patch('motioneye.motionctl.motion_camera_id_to_camera_id', return_value=1),
+            patch('motioneye.config.get_camera', return_value=camera),
+            patch('motioneye.utils.is_local_motion_camera', return_value=True),
+            patch('motioneye.tasks.add') as add,
+        ):
+            response = self.fetch(
+                '/_relay_event/?event=movie_end&motion_camera_id=1'
+                '&filename=/media/cam/2026-11-18/12-00-00.mp4',
+                method='POST',
+                body='{}',
+                headers={'X-Relay-Secret': _RELAY_SECRET},
+            )
+
+        self.assertEqual(200, response.code)
+        return {c.kwargs['tag']: c for c in add.call_args_list}
+
+    def test_the_movie_is_sent_when_turned_on(self):
+        camera = {**self._CAMERA, '@telegram_notifications_movies': 'True'}
+        tasks = self._movie_end(camera)
+
+        task = tasks['send_camera_movie(2026-11-18/12-00-00.mp4)']
+        self.assertIs(sendtelegram.send_camera_movie, task.args[1])
+        self.assertEqual(
+            {'camera_id': 1, 'filename': '/media/cam/2026-11-18/12-00-00.mp4'},
+            {k: v for k, v in task.kwargs.items() if k != 'tag'},
+        )
+
+    def test_the_movie_is_sent_before_the_upload_that_may_remove_it(self):
+        # the tasks run one at a time, in the order they are added
+        camera = {
+            **self._CAMERA,
+            '@telegram_notifications_movies': 'True',
+            '@upload_enabled': True,
+            '@upload_movie': True,
+            '@upload_service': 's3',
+            '@upload_subfolders': True,
+            '@clean_uploaded': True,
+        }
+        tasks = self._movie_end(camera)
+
+        self.assertEqual(
+            [
+                'make_movie_preview(2026-11-18/12-00-00.mp4)',
+                'send_camera_movie(2026-11-18/12-00-00.mp4)',
+                'upload_media_file(2026-11-18/12-00-00.mp4)',
+            ],
+            list(tasks),
+        )
+        # with the same delay, or they would not run in that order
+        self.assertEqual({5}, {c.args[0] for c in tasks.values()})
+
+    def test_not_when_turned_off(self):
+        for camera in (
+            self._CAMERA,
+            {**self._CAMERA, '@telegram_notifications_movies': 'False'},
+        ):
+            with self.subTest(camera=camera):
+                tasks = self._movie_end(camera)
+                self.assertEqual(
+                    ['make_movie_preview(2026-11-18/12-00-00.mp4)'], list(tasks)
+                )
 
 
 if __name__ == '__main__':
