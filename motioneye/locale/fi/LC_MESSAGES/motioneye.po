@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-10-31 10:37+0000\n"
+"PO-Revision-Date: 2026-11-02 23:58+0000\n"
 "Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/fi/>\n"
 "Language: fi\n"
@@ -20,90 +20,90 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.11.dev0\n"
+"X-Generator: Weblate 2026.11.1.dev0\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: motioneye/cleanup.py:47
 msgid "purigado komenciĝis"
 msgstr "puhdistus aloitettu"
 
-#: motioneye/config.py:1055
+#: motioneye/config.py:1060
 #, fuzzy
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
 msgstr "Laitteet ovat käytettävissä vain alfanumeeristen merkkien, hypenin, alipinnan, plus + ja paikkakunnille"
 
-#: motioneye/config.py:1059
+#: motioneye/config.py:1064
 #, fuzzy
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 msgstr "Tiedostonimissä saa olla vain aakkosnumeerisia merkkejä, sulkeita (), kauttaviivaa /, pistettä ., alaviivaa _, tavuviivaa -, välilyöntiä ja osa liikkeen muunnosmääritteistä: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 
-#: motioneye/config.py:1064
+#: motioneye/config.py:1069
 #, fuzzy
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
 msgstr "Hakemistojen nimet vastaavat vain aakkosnumeerisia hahmoja, spatiaalisesti, vanhemmuus (), eteenpäin/, piste., aliarvostus ja hyphen-"
 
-#: motioneye/config.py:1069
+#: motioneye/config.py:1074
 #, fuzzy
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
 msgstr "Sähköpostiprotokolla on vain opas alfanumeerisiin merkkeihin, alipisteisiin, plus +, piste., at @, caret^, tilde ~ Englanninkieliset nounit < >, hyphen – ja se voi olla hieno tiivistelmällä ja spatiaalisesti"
 
-#: motioneye/config.py:1074
+#: motioneye/config.py:1079
 #, fuzzy
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr "URL-osoitteita ei tunneta nimellä complier, semicolon tai apostrophe. \"\"\""
 
-#: motioneye/server.py:236
+#: motioneye/server.py:234
 #, fuzzy
 msgid "interrompa signalo ricevita, fermanta …"
 msgstr "keskeytyssignaali vastaanotettu, sulkeutuu…"
 
-#: motioneye/server.py:278
+#: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
 msgstr "SMB jaot vaativat pääkäyttäjän oikeudet"
 
-#: motioneye/server.py:285
+#: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
 msgstr "ole hyvä ja asenna tornado versio 3.1 tai korkeampi"
 
-#: motioneye/server.py:292
+#: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
 msgstr "ole hyvä ja asenna jinja2"
 
-#: motioneye/server.py:299
+#: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
 msgstr "ole hyvä ja asenna pillow tai PIL"
 
-#: motioneye/server.py:306
+#: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
 msgstr "ole hyvä ja asenna pycurl"
 
-#: motioneye/server.py:428
+#: motioneye/server.py:426
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "Tervehdys! Tämä on motionEye-palvelin "
 
-#: motioneye/server.py:443
+#: motioneye/server.py:441
 #, fuzzy
 msgid "The admin and/or surveillance user has no password assigned. Please login to the web interface to set both passwords."
 msgstr "Käyttäjällä ja/tai Windowsilla ei ole käyttäjää. Ole hyvä ja kirjaudu verkkokäyttöliittymään määrittääksesi molemmat salasanat."
 
-#: motioneye/server.py:464
+#: motioneye/server.py:462
 #, fuzzy
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "mjpg-jätteenkerääjä aloitti"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:479
 msgid "servilo komenciĝis"
 msgstr "palvelin käynnistetty"
 
-#: motioneye/server.py:489
+#: motioneye/server.py:487
 msgid "servilo haltis"
 msgstr "palvelin pysäytetty"
 
-#: motioneye/server.py:497
+#: motioneye/server.py:495
 msgid "motion haltis"
 msgstr "motion pysäytetty"
 
-#: motioneye/server.py:503
+#: motioneye/server.py:501
 msgid "adiaŭ!"
 msgstr "hyvästi!"
 
@@ -115,7 +115,7 @@ msgstr "tehtävät käynnistetty"
 msgid "taskoj haltis"
 msgstr "tehtävät pysäytetty"
 
-#: motioneye/wsswitch.py:36
+#: motioneye/wsswitch.py:46
 msgid "wsswitch komenciĝis"
 msgstr "wsswitch käynnistetty"
 
@@ -748,8 +748,8 @@ msgstr "Avaimen mahdollistaminen"
 
 #: motioneye/templates/main.html:471
 #, fuzzy
-msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "avain, jota käytetään latauspalvelun todentamiseen (yleensä tarvitaan vain määrityksen yhteydessä)"
+msgid "the key used to authenticate with the upload service, usually only needed during setup; for Google, the whole address of the page that cannot be loaded after allowing access"
+msgstr "avain, jota käytetään palvelun lataamiseen, tarvitaan vain asennuksen aikana; Googlelle koko sivun osoite, joka on ladattu silmän käytön jälkeen"
 
 #: motioneye/templates/main.html:477
 #, fuzzy
