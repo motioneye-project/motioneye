@@ -23,6 +23,8 @@ import subprocess
 from motioneye import utils
 
 _resolutions_cache: dict = {}
+# kept when the device list is read again, as motion still uses the cameras then
+_resolutions_before_motion: dict = {}
 _ctrls_cache: dict = {}
 
 _DEV_V4L_BY_ID = '/dev/v4l/by-id/'
@@ -85,6 +87,43 @@ def list_resolutions(device):
     if device in _resolutions_cache:
         return _resolutions_cache[device]
 
+    resolutions = _read_resolutions(device)
+    if not resolutions and device in _resolutions_before_motion:
+        logging.debug(
+            f'using the resolutions of device {device} read before motion started'
+        )
+        resolutions = _resolutions_before_motion[device]
+
+    if not resolutions:
+        logging.debug(f'no resolutions found for device {device}, using common values')
+
+        # no resolution returned by v4l2-ctl call, add common default resolutions
+        resolutions = utils.COMMON_RESOLUTIONS
+        resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
+        resolutions = sorted(resolutions, key=lambda r: (r[0], r[1]))
+
+    _resolutions_cache[device] = resolutions
+
+    return resolutions
+
+
+def read_resolutions_before_motion(devices):
+    """Reads the resolutions of the cameras while motion is stopped: libcamera's V4L2
+    layer cannot list them while motion uses a camera, so they are offered then
+    instead of a common list."""
+
+    for device in devices:
+        device = utils.make_str(device)
+        _resolutions_cache.pop(device, None)
+        resolutions = _read_resolutions(device)
+        if resolutions:
+            _resolutions_before_motion[device] = resolutions
+
+
+def _read_resolutions(device):
+    # the valid resolutions that v4l2-ctl lists for the device, in order
+    from motioneye import motionctl
+
     logging.debug(f'listing resolutions of device {device}...')
 
     resolutions = set()
@@ -130,17 +169,7 @@ def list_resolutions(device):
 
         logging.debug(f'found resolution {width}x{height} for device {device}')
 
-    if not resolutions:
-        logging.debug(f'no resolutions found for device {device}, using common values')
-
-        # no resolution returned by v4l2-ctl call, add common default resolutions
-        resolutions = utils.COMMON_RESOLUTIONS
-        resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
-
-    resolutions = sorted(resolutions, key=lambda r: (r[0], r[1]))
-    _resolutions_cache[device] = resolutions
-
-    return resolutions
+    return sorted(resolutions, key=lambda r: (r[0], r[1]))
 
 
 def device_present(device):
