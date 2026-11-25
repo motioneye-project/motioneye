@@ -1485,6 +1485,7 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
         else:
             data['text_right'] = ui['custom_right_text']
 
+    all_frames = False
     if ui['still_images']:
         data['picture_filename'] = input_sanity_check(
             filenameValidRegExp,
@@ -1507,20 +1508,19 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
 
         elif capture_mode == 'all-frames':
             data['picture_output'] = True
-            data['emulate_motion'] = True
+            all_frames = True
 
         elif capture_mode == 'manual':
             data['picture_output'] = False
-            data['emulate_motion'] = False
 
     if ui['movies']:
         data['movie_output'] = True
-        recording_mode = ui['recording_mode']
-        if recording_mode == 'motion-triggered':
-            data['emulate_motion'] = False
 
-        elif recording_mode == 'continuous':
-            data['emulate_motion'] = True
+    # all frames and continuous recording both make motion emulate motion, and
+    # continuous recording keeps it on with the other still image modes (#2541)
+    data['emulate_motion'] = all_frames or (
+        ui['movies'] and ui['recording_mode'] == 'continuous'
+    )
 
     data['movie_codec'] = ui['movie_format']
     q = int(ui['movie_quality'])
@@ -2125,7 +2125,7 @@ def motion_camera_dict_to_ui(data: dict) -> dict:
 
     ui['still_images'] = bool(snapshot_filename) or bool(picture_filename)
 
-    if emulate_motion:
+    if emulate_motion and picture_output:
         ui['capture_mode'] = 'all-frames'
         if picture_filename:
             ui['image_file_name'] = picture_filename

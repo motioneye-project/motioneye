@@ -801,12 +801,17 @@ function initUI() {
     });
 
     /* capture mode and recording mode are not completely independent:
-     * all-frames capture mode implies continuous recording (and vice-versa) */
+     * all-frames capture mode implies continuous recording, and continuous
+     * recording takes every frame as motion, so it cannot go with the
+     * motion-triggered capture modes */
+    function isMotionTriggeredCapture() {
+        return $('#captureModeSelect').val().indexOf('motion-triggered') == 0;
+    }
     $('#captureModeSelect').on('change', function (val) {
         if ($('#captureModeSelect').val() == 'all-frames') {
             $('#recordingModeSelect').val('continuous');
         }
-        else {
+        else if (isMotionTriggeredCapture()) {
             if ($('#recordingModeSelect').val() == 'continuous') {
                 $('#recordingModeSelect').val('motion-triggered');
             }
@@ -816,7 +821,9 @@ function initUI() {
     });
     $('#recordingModeSelect').on('change', function (val) {
         if ($('#recordingModeSelect').val() == 'continuous') {
-            $('#captureModeSelect').val('all-frames');
+            if (isMotionTriggeredCapture()) {
+                $('#captureModeSelect').val('manual');
+            }
         }
         else {
             if ($('#captureModeSelect').val() == 'all-frames') {
