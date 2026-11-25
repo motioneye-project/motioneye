@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Mounts and unmounts the SMB shares of a motionEye that does not run as root.
 # motioneye_init installs it root-owned as /usr/local/sbin/motioneye-smb and
 # lets the motion user run it through sudo. So it accepts only motionEye's own
@@ -63,7 +63,9 @@ case "$1" in
     ;;
   'mount')
     (( $# == 4 )) || Error_Out 'Usage: motioneye-smb mount //server/share <mount point> <options>'
-    [[ $2 =~ ^//[^/]+/[^/] ]] || Error_Out "\"$2\" is not an SMB share."
+    # mount.cifs passes the share on to the kernel in its options, so a comma would add options
+    SHARE_PART='[^/\,[:cntrl:]]+'
+    [[ $2 =~ ^//$SHARE_PART(/$SHARE_PART)+/?$ ]] || Error_Out "\"$2\" is not an SMB share."
     Check_Mount_Point "$3"
     OPTS=''
     USERNAME=0
