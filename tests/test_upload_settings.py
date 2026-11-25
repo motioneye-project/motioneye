@@ -58,6 +58,18 @@ class SseCKeyTest(_ConfigCase):
 
             self.assertNotIn(key, str(raised.exception))
 
+    def test_a_stored_bad_key_keeps_no_other_setting_from_being_saved(self):
+        for stored in ('my secret password', ' my secret password '):
+            with self.subTest(stored=stored):
+                self.camera['@upload_sse_c_key'] = stored
+                data = self._save_upload('my secret password')
+                self.assertEqual('my secret password', data['@upload_sse_c_key'])
+
+                with self.assertRaisesRegex(ValueError, '32 bytes in base64'):
+                    self._save_upload('another password')
+
+                self.assertEqual(_KEY, self._save_upload(_KEY)['@upload_sse_c_key'])
+
     def test_only_s3_uploads_check_the_key(self):
         # the field is hidden for the other services, so a stale value stays
         for service, enabled in (('ftp', True), ('s3', False)):

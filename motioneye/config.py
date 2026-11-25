@@ -1192,11 +1192,13 @@ def motion_camera_ui_to_dict(ui: dict, prev_config: dict | None = None) -> dict:
     telegramThreadIdValidRegExp = '^[1-9][0-9]*$'
     telegramThreadIdFailMessage = _('Telegram topic IDs must be positive integers')
 
-    # not with input_sanity_check, whose message would show the key
+    # not with input_sanity_check, whose message would show the key; a stored key
+    # from before this check must not keep the other settings from being saved
     sse_c_key = str(ui['upload_sse_c_key']).strip()
     if (
         ui['upload_enabled']
         and ui['upload_service'] == 's3'
+        and sse_c_key != str(prev_config.get('@upload_sse_c_key', '')).strip()
         and not uploadservices.sse_c_key_is_valid(sse_c_key)
     ):
         raise ValueError(
