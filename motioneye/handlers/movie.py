@@ -201,8 +201,11 @@ class MovieHandler(BaseHandler):
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
             try:
-                mediafiles.del_media_content(camera_config, filename)
+                mediafiles.del_media_content(camera_config, filename, 'movie')
                 return self.finish_json()
+
+            except HTTPError:
+                raise
 
             except Exception as e:
                 return self.finish_json({'error': str(e)})
