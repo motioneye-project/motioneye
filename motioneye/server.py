@@ -271,8 +271,11 @@ def test_requirements():
         )
         sys.exit(-1)
 
-    if os.geteuid() != 0 and settings.SMB_SHARES:
-        logging.fatal(_('smb-akcioj postulas radikajn privilegiojn'))
+    if os.geteuid() != 0 and settings.SMB_SHARES and not smbctl.helper_works():
+        logging.fatal(
+            f'SMB shares need root privileges, or "{smbctl.SMB_HELPER}" allowed '
+            'through sudo, which motioneye_init sets up'
+        )
         sys.exit(-1)
 
     try:
@@ -336,6 +339,13 @@ def make_media_folders():
     camera_ids = config.get_camera_ids()
     for camera_id in camera_ids:
         camera_config = config.get_camera(camera_id)
+        if (
+            settings.SMB_SHARES
+            and camera_config.get('@storage_device') == 'network-share'
+        ):
+            # the share is not mounted yet, and its mount point is root's
+            continue
+
         if 'target_dir' in camera_config and not os.path.exists(
             camera_config['target_dir']
         ):

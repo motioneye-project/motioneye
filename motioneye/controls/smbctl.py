@@ -18,6 +18,7 @@ from __future__ import annotations
 import logging
 import os
 import re
+import shutil
 import subprocess
 import time
 
@@ -27,6 +28,36 @@ from motioneye import config, settings, utils
 
 _mount_cifs_path_cache: str | None = None
 _umount_path_cache: str | None = None
+
+# installed by motioneye_init, which lets the motion user run it through sudo,
+# so that SMB shares work without running motionEye as root (#2710)
+SMB_HELPER = '/usr/local/sbin/motioneye-smb'
+
+
+def _as_root() -> bool:
+    return os.geteuid() == 0
+
+
+def _helper(*args: str, password: str = '') -> None:
+    sudo = shutil.which('sudo')
+    if sudo is None:
+        raise FileNotFoundError('sudo')
+
+    subprocess.run(
+        [sudo, '-n', SMB_HELPER, *args],
+        input=password.encode(),
+        check=True,
+    )
+
+
+def helper_works() -> bool:
+    try:
+        _helper('check')
+
+    except (OSError, subprocess.CalledProcessError):
+        return False
+
+    return True
 
 
 def start():
@@ -236,20 +267,22 @@ def _mount(server, share, smb_ver, username, password):
         raise RuntimeError('mount.cifs not found, please install cifs-utils')
 
     mount_point = make_mount_point(server, share, username)
-    logging.debug(f'making sure mount point "{mount_point}" exists')
+    if _as_root():
+        logging.debug(f'making sure mount point "{mount_point}" exists')
 
-    if not os.path.exists(mount_point):
-        os.makedirs(mount_point)
+        if not os.path.exists(mount_point):
+            os.makedirs(mount_point)
 
     env = None
     if username:
         opts = f'username={username}'
-        if password:
+        # without root, the helper takes the password on its standard input
+        if _as_root() and password:
             # through the environment, as a comma would end the option (and so
             # that it is not in the process list)
             env = dict(os.environ, PASSWD=password)
 
-        else:
+        elif _as_root():
             opts += ',password='
         # Let the kernel negotiate its default first (None), then try the
         # security modes from strongest to weakest, each signed ('*i') variant
@@ -287,17 +320,27 @@ def _mount(server, share, smb_ver, username, password):
             logging.debug(
                 f'mounting "//{server}/{share}" at "{mount_point}" (sec={sec})'
             )
-            subprocess.run(
-                [
-                    _mount_cifs_path_cache,
+            if _as_root():
+                subprocess.run(
+                    [
+                        _mount_cifs_path_cache,
+                        f'//{server}/{share}',
+                        mount_point,
+                        '-o',
+                        actual_opts,
+                    ],
+                    check=True,
+                    env=env,
+                )
+
+            else:
+                _helper(
+                    'mount',
                     f'//{server}/{share}',
                     mount_point,
-                    '-o',
                     actual_opts,
-                ],
-                check=True,
-                env=env,
-            )
+                    password=password if username else '',
+                )
             break
 
         except subprocess.CalledProcessError:
@@ -331,7 +374,13 @@ def _umount(server, share, username):
     logging.debug(f'unmounting "//{server}/{share}" from "{mount_point}"')
 
     try:
-        subprocess.run([_umount_path_cache, mount_point], check=True)
+        if _as_root():
+            subprocess.run([_umount_path_cache, mount_point], check=True)
+
+        else:
+            # it removes the mount point as well
+            _helper('umount', mount_point)
+            return True
 
     except subprocess.CalledProcessError:
         logging.error(
