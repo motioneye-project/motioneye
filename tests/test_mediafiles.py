@@ -27,13 +27,14 @@ from multiprocessing.connection import Connection
 from multiprocessing.reduction import ForkingPickler
 from pathlib import Path
 from shutil import rmtree
-from tempfile import mkdtemp
+from tempfile import TemporaryDirectory, mkdtemp
 from time import time
 from typing import ClassVar
 from unittest.mock import MagicMock, patch
 from zipfile import ZipFile
 
 from tornado.testing import AsyncTestCase, gen_test
+from tornado.web import HTTPError
 
 from motioneye import mediafiles
 from motioneye.mediafiles import _list_media_files
@@ -648,6 +649,131 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                     group,
                     'picture',
                 )
+
+
+class TestMediaExtensionValidation(unittest.TestCase):
+    def setUp(self):
+        tmp = TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        self.target_dir = tmp.name
+        self.camera_config = {'target_dir': self.target_dir}
+
+    def _file(self, name, data=b'data'):
+        path = Path(self.target_dir, name)
+        path.write_bytes(data)
+        return path
+
+    def test_validate_media_ext_accepts_the_matching_extensions(self):
+        accepted = [
+            ('a.jpg', 'picture'),
+            ('A.JPG', 'picture'),
+            ('2024-01-01/a.jpg', 'picture'),
+            ('a.MP4', 'movie'),
+            ('a.jpg', 'media'),
+            ('a.mp4', 'media'),
+            ('a.jpg',),
+        ] + [(f'a{ext}', 'movie') for ext in mediafiles._MOVIE_EXTS]
+        for args in accepted:
+            with self.subTest(args=args):
+                mediafiles.validate_media_ext(*args)
+
+    def test_validate_media_ext_rejects_other_extensions(self):
+        rejected = [
+            ('a.mp4', 'picture'),
+            ('a.png', 'picture'),
+            ('a.jpg.html', 'picture'),
+            ('a.jpg.thumb', 'picture'),
+            ('jpg', 'picture'),
+            ('', 'picture'),
+            ('a.jpg', 'movie'),
+            ('a.mp4.thumb', 'movie'),
+            ('a.txt', 'movie'),
+            ('a.webp', 'media'),
+            ('a.thumb', 'media'),
+            ('a.webp',),
+            ('motion.conf',),
+        ]
+        for args in rejected:
+            with self.subTest(args=args):
+                with self.assertRaises(HTTPError) as error:
+                    mediafiles.validate_media_ext(*args)
+
+                self.assertEqual(403, error.exception.status_code)
+                self.assertEqual('Unsupported file type', error.exception.reason)
+
+    def test_validate_media_ext_names_the_media_type_in_the_message(self):
+        for media_type in ('picture', 'movie', 'media'):
+            with self.subTest(media_type=media_type):
+                with self.assertRaises(HTTPError) as error:
+                    mediafiles.validate_media_ext('a.txt', media_type)
+
+                self.assertEqual(
+                    f'"a.txt" is not a {media_type} file', error.exception.log_message
+                )
+
+    def test_file_functions_refuse_the_wrong_type_and_leave_the_files(self):
+        photo = self._file('photo.jpg')
+        clip = self._file('clip.mp4')
+        note = self._file('note.txt')
+        config = self.camera_config
+        calls = [
+            (mediafiles.get_media_content, (config, 'note.txt')),
+            (mediafiles.get_media_content, (config, 'clip.mp4')),
+            (mediafiles.get_media_path, (config, 'note.txt')),
+            (mediafiles.get_media_path, (config, 'photo.jpg')),
+            (mediafiles.get_media_preview, (config, 'note.txt', 'picture')),
+            (mediafiles.get_media_preview, (config, 'clip.mp4', 'picture')),
+            (mediafiles.get_media_preview, (config, 'photo.jpg', 'movie')),
+            (mediafiles.del_media_content, (config, 'note.txt')),
+            (mediafiles.del_media_content, (config, 'clip.mp4', 'picture')),
+            (mediafiles.del_media_content, (config, 'photo.jpg', 'movie')),
+        ]
+        for function, args in calls:
+            with self.subTest(function=function.__name__, args=args[1:]):
+                with self.assertRaises(HTTPError) as error:
+                    function(*args)
+
+                self.assertEqual(403, error.exception.status_code)
+
+        for path in (photo, clip, note):
+            self.assertEqual(b'data', path.read_bytes())
+
+    def test_file_functions_serve_the_matching_type(self):
+        self._file('photo.jpg', b'jpeg data')
+        clip = self._file('clip.MP4')
+
+        self.assertEqual(
+            b'jpeg data', mediafiles.get_media_content(self.camera_config, 'photo.jpg')
+        )
+        self.assertEqual(
+            b'jpeg data',
+            mediafiles.get_media_preview(self.camera_config, 'photo.jpg', 'picture'),
+        )
+        self.assertEqual(
+            str(clip), mediafiles.get_media_path(self.camera_config, 'clip.MP4')
+        )
+
+    def test_del_media_content_deletes_the_matching_type(self):
+        photo = self._file('photo.jpg')
+        clip = self._file('clip.mp4')
+        other = self._file('other.jpg')
+
+        mediafiles.del_media_content(self.camera_config, 'photo.jpg', 'picture')
+        mediafiles.del_media_content(self.camera_config, 'clip.mp4', 'movie')
+
+        self.assertFalse(photo.exists())
+        self.assertFalse(clip.exists())
+        self.assertTrue(other.exists())
+
+    def test_del_media_content_without_a_type_accepts_pictures_and_movies(self):
+        photo = self._file('photo.jpg')
+        clip = self._file('clip.mkv')
+
+        mediafiles.del_media_content(self.camera_config, 'photo.jpg')
+        mediafiles.del_media_content(self.camera_config, 'clip.mkv')
+
+        self.assertFalse(photo.exists())
+        self.assertFalse(clip.exists())
 
 
 class TestTimelapseMovie(AsyncTestCase):

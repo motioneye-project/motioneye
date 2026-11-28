@@ -39,6 +39,7 @@ from zipfile import ZipFile
 from PIL import Image
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
+from tornado.web import HTTPError
 
 from motioneye import config, settings, uploadservices, utils
 from motioneye.utils.dtconv import pretty_date_time
@@ -774,9 +775,20 @@ def _start_next_listing() -> None:
         _listings_waiting.popleft()()
 
 
+def validate_media_ext(path: str, media_type: str = 'media') -> None:
+    exts = {'picture': _PICTURE_EXTS, 'movie': _MOVIE_EXTS}.get(
+        media_type, _PICTURE_EXTS + _MOVIE_EXTS
+    )
+    if not path.lower().endswith(tuple(exts)):
+        raise HTTPError(
+            403, f'"{path}" is not a {media_type} file', reason='Unsupported file type'
+        )
+
+
 def get_media_path(camera_config: dict, path: str):
     target_dir: str = camera_config['target_dir']
     utils.validate_paths(path, target_dir=target_dir)
+    validate_media_ext(path, 'movie')
     full_path: str = os.path.join(target_dir, path)
     return full_path
 
@@ -784,6 +796,7 @@ def get_media_path(camera_config: dict, path: str):
 def get_media_content(camera_config: dict, path: str):
     target_dir: str = camera_config['target_dir']
     utils.validate_paths(path, target_dir=target_dir)
+    validate_media_ext(path, 'picture')
     full_path: str = os.path.join(target_dir, path)
 
     try:
@@ -1127,6 +1140,7 @@ def get_media_preview(
 ) -> bytes | None:
     target_dir: str = camera_config['target_dir']
     utils.validate_paths(path, target_dir=target_dir)
+    validate_media_ext(path, media_type)
     full_path: str = os.path.join(target_dir, path)
 
     if media_type == 'movie':
@@ -1173,9 +1187,10 @@ def get_media_preview(
     return bio.getvalue()
 
 
-def del_media_content(camera_config: dict, path: str):
+def del_media_content(camera_config: dict, path: str, media_type: str = 'media'):
     target_dir: str = camera_config['target_dir']
     utils.validate_paths(path, target_dir=target_dir)
+    validate_media_ext(path, media_type)
     full_path: str = os.path.join(target_dir, path)
 
     try:
