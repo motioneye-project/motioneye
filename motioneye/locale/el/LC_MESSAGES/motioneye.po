@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-10-09 23:22+0000\n"
+"PO-Revision-Date: 2026-11-20 05:51+0000\n"
 "Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/el/>\n"
 "Language: el\n"
@@ -20,90 +20,90 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.10.1.dev0\n"
+"X-Generator: Weblate 2026.12.dev0\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/cleanup.py:47
 msgid "purigado komenciĝis"
 msgstr "Ο καθαρισμός έχει αρχίσει"
 
-#: motioneye/config.py:1055
+#: motioneye/config.py:1060
 #, fuzzy
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
 msgstr "Τα ονόματα συσκευών επιτρέπεται να περιέχουν μόνο αλφαριθμητικούς χαρακτήρες, παύλα -, κάτω παύλα _, σύμβολο συν + και κενό διάστημα"
 
-#: motioneye/config.py:1059
+#: motioneye/config.py:1064
 #, fuzzy
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 msgstr "Τα αρχεία είναι ισοδύναμα μόνο με αλφαριθμικούς χαρακτήρες, γονιότοπους (), προς τα εμπρός/, π.χ., υπογράμμιση, υστερία -, χωροταξικό και υποσύνολο χαρακτηριστικών κίνησης κατά %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 
-#: motioneye/config.py:1064
+#: motioneye/config.py:1069
 #, fuzzy
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
 msgstr "Τα ονόματα του Διευθυντή είναι ισοδύναμα μόνο με αλφααριθμικούς χαρακτήρες, χωρικά, γονισέ (), προς τα εμπρός/, dot., υπογραμμίζει και υστερεί –"
 
-#: motioneye/config.py:1069
+#: motioneye/config.py:1074
 #, fuzzy
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
 msgstr "Το πρωτόκολλο ηλεκτρονικού ταχυδρομείου είναι μόνο ένας οδηγός για τους άλφααριθμικούς χαρακτήρες, υπογραμμίζει, συν +, dot., στο @, φροντιστές , κεραμίδι ~, Αγγλικά nouns <>, hyphen - και μπορεί να είναι ένα πρόστιμο από την comma, και χωροφοβικά"
 
-#: motioneye/config.py:1074
+#: motioneye/config.py:1079
 #, fuzzy
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr "Τα URLs δεν είναι γνωστά ως \"Complier\" , ημιcolon, ή αποτροπία «««"
 
-#: motioneye/server.py:236
+#: motioneye/server.py:234
 #, fuzzy
 msgid "interrompa signalo ricevita, fermanta …"
 msgstr "Ένα σήμα διακοπής που ελήφθη, κλείνοντας …"
 
-#: motioneye/server.py:278
+#: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
 msgstr "Οι μετοχές της SMB απαιτούν προνόμια root"
 
-#: motioneye/server.py:285
+#: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
 msgstr "Εγκαταστήστε το Tornado Version 3.1 ή περισσότερο"
 
-#: motioneye/server.py:292
+#: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
 msgstr "Εγκαταστήστε το Jinja2"
 
-#: motioneye/server.py:299
+#: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
 msgstr "Εγκαταστήστε μαξιλάρι ή pil"
 
-#: motioneye/server.py:306
+#: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
 msgstr "Εγκαταστήστε το Pycurl"
 
-#: motioneye/server.py:428
+#: motioneye/server.py:426
 #, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "Γειά σου! Αυτός είναι ένας διακομιστής motionEye "
 
-#: motioneye/server.py:443
+#: motioneye/server.py:441
 #, fuzzy
 msgid "The admin and/or surveillance user has no password assigned. Please login to the web interface to set both passwords."
 msgstr "Ο διαχειριστής ή/και τα Windows δεν έχουν χρήστη. Παρακαλούμε συνδεθείτε στο web interface για να ρυθμίσετε και τους δύο κωδικούς πρόσβασης."
 
-#: motioneye/server.py:464
+#: motioneye/server.py:462
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "Ο συλλέκτης απορριμμάτων πελατών MJPG ξεκίνησε"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:479
 msgid "servilo komenciĝis"
 msgstr "Ο διακομιστής έχει αρχίσει"
 
-#: motioneye/server.py:489
+#: motioneye/server.py:487
 msgid "servilo haltis"
 msgstr "Ο διακομιστής σταμάτησε"
 
-#: motioneye/server.py:497
+#: motioneye/server.py:495
 msgid "motion haltis"
 msgstr "Η πρόταση σταμάτησε"
 
-#: motioneye/server.py:503
+#: motioneye/server.py:501
 msgid "adiaŭ!"
 msgstr "Αντιο σας!"
 
@@ -115,7 +115,7 @@ msgstr "Ξεκίνησαν τα καθήκοντα"
 msgid "taskoj haltis"
 msgstr "Σταμάτησαν οι εργασίες"
 
-#: motioneye/wsswitch.py:36
+#: motioneye/wsswitch.py:46
 msgid "wsswitch komenciĝis"
 msgstr "Ξεκίνησε το wsswitch"
 
@@ -364,12 +364,14 @@ msgstr "επεξεργάστηκε το URL της κάμερας και τα δ
 #: motioneye/templates/main.html:213 motioneye/templates/main.html:434
 #: motioneye/templates/main.html:533 motioneye/templates/main.html:1046
 #: motioneye/templates/main.html:1113 motioneye/templates/main.html:1163
+#, fuzzy
 msgid "Verify certificate"
-msgstr ""
+msgstr "Εφαρμογή πιστοποιητικού"
 
 #: motioneye/templates/main.html:215
+#, fuzzy
 msgid "check the remote motionEye's TLS certificate against the trusted authorities of this system; turn this off only for a remote with a self-signed certificate that you trust; the connection is then still encrypted, but the remote is not authenticated"
-msgstr ""
+msgstr "ελέγξτε το πιστοποιητικό TLS της απομακρυσμένης κίνησης του Eye κατά των νομοθετικών αρχών αυτού του συστήματος· απενεργοποιήστε αυτό μόνο μακριά από ένα απομακρυσμένο με ένα πιστοποιητικό αυτοαπογραφής που εμπιστεύεστε· η προδιαγραφή εξακολουθεί να κρυπτογραφείται, αλλά το απομακρυσμένο δεν είναι αυθεντικό"
 
 #: motioneye/templates/main.html:218
 #, fuzzy
@@ -579,12 +581,14 @@ msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
 msgstr "Επιλέξτε μια υπηρεσία στην οποία πρέπει να μεταφορτωθούν τα αρχεία πολυμέσων"
 
 #: motioneye/templates/main.html:402
+#, fuzzy
 msgid "Use TLS (FTPS)"
-msgstr ""
+msgstr "Χρησιμοποιήστε TLS (FTPS)"
 
 #: motioneye/templates/main.html:404
+#, fuzzy
 msgid "encrypt the connection with explicit TLS on the normal FTP port (usually 21), the way most servers offer it; implicit TLS on port 990 is not supported"
-msgstr ""
+msgstr "η κρυπτογράφηση της προδιαγραφής με την TLS στο κανονικό FTP Πόρτλαντ, ο τρόπος με τον οποίο τα περισσότερα μοντέλα προσφέρουν τη δική της, η σιωπηρή TLS στο λιμάνι 990 δεν υποστηρίζεται"
 
 #: motioneye/templates/main.html:407
 msgid "Servila Adreso"
@@ -629,8 +633,9 @@ msgstr "Για το WebDAV: π.χ. https://my.cloud/remote.php/dav/files/me/"
 #: motioneye/templates/main.html:436 motioneye/templates/main.html:535
 #: motioneye/templates/main.html:1048 motioneye/templates/main.html:1115
 #: motioneye/templates/main.html:1165
+#, fuzzy
 msgid "check the server's TLS certificate against the trusted authorities of this system; turn this off only for a server with a self-signed certificate that you trust; the connection is then still encrypted, but the server is not authenticated"
-msgstr ""
+msgstr "ελέγξτε το πιστοποιητικό TLS έναντι των ορίων δήλωσης αυτού του συστήματος· γυρίστε αυτό το ένα μακριά μόνο με ένα αυτοαποκαλούμενο πιστοποιητικό που εμπιστεύεστε· η εταιρεία εξακολουθεί να κρυπτογραφείται, αλλά το δεύτερο δεν είναι αρμονοποιημένο"
 
 #: motioneye/templates/main.html:439
 msgid "Loko"
@@ -680,8 +685,9 @@ msgid "Rajtiga ŝlosilo"
 msgstr "Κλειδί εξουσιοδότησης"
 
 #: motioneye/templates/main.html:471
-msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "Το κλειδί που χρησιμοποιείται για τον έλεγχο ταυτότητας με την υπηρεσία μεταφόρτωσης (συνήθως απαιτείται μόνο κατά τη διάρκεια της διαμόρφωσης)"
+#, fuzzy
+msgid "the key used to authenticate with the upload service, usually only needed during setup; for Google, the whole address of the page that cannot be loaded after allowing access"
+msgstr "το κλειδί που χρησιμοποιείται για να πιστοποιηθεί με το upload υπηρεσιών, που απαιτείται μόνο κατά τη διάρκεια μιας εγκατάστασης, για την Google, ολόκληρη η διεύθυνση της σελίδας που ταιριάζει να φορτωθεί μετά την πρόσβαση στα μάτια"
 
 #: motioneye/templates/main.html:477
 msgid "Akiri ŝlosilon"
@@ -1328,20 +1334,24 @@ msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi
 msgstr "Όταν είναι ενεργοποιημένη, δημιουργεί ειδικά βίντεο και εικόνες που βοηθούν στην εξάλειψη προβλημάτων με την ανίχνευση κίνησης."
 
 #: motioneye/templates/main.html:980
+#, fuzzy
 msgid "Manual motion event button"
-msgstr ""
+msgstr "Manual κίνηση κουμπί κουμπί"
 
 #: motioneye/templates/main.html:982
+#, fuzzy
 msgid "If enabled, an action button is added to the camera frame, which allows to start and end a manual motion event. This can be used to manually create motion-triggered recordings, and test the motion notification pipeline."
-msgstr ""
+msgstr "Εάν ενεργοποιηθεί, ένα κουμπί δράσης είναι να προσθέσετε στο πλαίσιο της κάμερας, το οποίο θα ξεκινήσει και θα τελειώσει μια χειρωνακτική εκδήλωση κίνησης. Αυτό μπορεί να χρησιμοποιηθεί για τη μη δημιουργία δοκιμασμένης από κίνηση επιλογής και να ελέγξει την κίνηση για να επισημάνει έναν αγωγό."
 
 #: motioneye/templates/main.html:985
+#, fuzzy
 msgid "Motion detection toggle button"
-msgstr ""
+msgstr "Κίνηση κουμπί"
 
 #: motioneye/templates/main.html:987
+#, fuzzy
 msgid "If enabled, an action button is added to the camera frame, which allows to temporarily pause and reactivate motion detection. Saving settings, adding/removing cameras, and restarting motionEye resets the state."
-msgstr ""
+msgstr "Εάν ενεργοποιήσετε, ένα κουμπί δράσης είναι να προσθέσετε στο πλαίσιο κάμερας, γι 'αυτό μπορείτε να επιλέξετε μια εικόνα κίνησης. Η αποθήκευση του δωματίου, του προγράμματος Content/removing και η επανεκκίνηση της κίνησης Eye επαναφέρει το κράτος."
 
 #: motioneye/templates/main.html:993
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
