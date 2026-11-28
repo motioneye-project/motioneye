@@ -27,6 +27,7 @@ from tornado.web import HTTPError
 
 from motioneye import (
     config,
+    mediafiles,
     meyectl,
     migration,
     motionctl,
@@ -644,6 +645,9 @@ class ConfigHandler(BaseHandler):
         except ValueError as e:
             return self.finish_json_with_error(str(e))
 
+        # the cameras are read anew from here, and an id may now be another camera's
+        mediafiles.forget_cameras()
+
         if utils.is_local_motion_camera(camera_config):
             motionctl.stop()
 
@@ -683,6 +687,7 @@ class ConfigHandler(BaseHandler):
 
         local = utils.is_local_motion_camera(config.get_camera(camera_id))
         config.rem_camera(camera_id)
+        mediafiles.forget_cameras()  # as when a camera is added
 
         if local:
             motionctl.stop()
@@ -711,6 +716,8 @@ class ConfigHandler(BaseHandler):
         except KeyError:
             raise HTTPError(400, 'file attachment required')
 
+        # the restored cameras may reuse ids, even when the restore fails halfway
+        mediafiles.forget_cameras()
         result = config.restore(content)
         if result and not result['reboot']:  # a reboot converts them at startup
             migration.migrate_cameras()

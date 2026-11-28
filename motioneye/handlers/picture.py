@@ -488,7 +488,7 @@ class PictureHandler(BaseHandler):
             )
 
             if utils.is_local_motion_camera(camera_config):
-                data = mediafiles.get_prepared_cache(key)
+                data = mediafiles.get_prepared_cache(camera_id, key)
                 if not data:
                     logging.error(f'prepared cache data for key "{key}" does not exist')
                     raise HTTPError(404, 'no such key')
@@ -537,7 +537,7 @@ class PictureHandler(BaseHandler):
             if data is None:
                 return self.finish_json({'error': 'failed to create zip file'})
 
-            key = mediafiles.set_prepared_cache(data)
+            key = mediafiles.set_prepared_cache(camera_id, data)
             logging.debug(
                 f'prepared zip file for group "{group or "ungrouped"}" of camera {camera_id} with key {key}'
             )
@@ -572,7 +572,7 @@ class PictureHandler(BaseHandler):
             )
 
             if utils.is_local_motion_camera(camera_config):
-                data = mediafiles.get_prepared_cache(key)
+                data = mediafiles.get_prepared_cache(camera_id, key)
                 if data is None:
                     logging.error(f'prepared cache data for key "{key}" does not exist')
                     raise HTTPError(404, 'no such key')
@@ -622,9 +622,9 @@ class PictureHandler(BaseHandler):
             )
 
             if utils.is_local_motion_camera(camera_config):
-                status = mediafiles.check_timelapse_movie()
+                status = mediafiles.check_timelapse_movie(camera_id)
                 if status['progress'] == -1 and status['data']:
-                    key = mediafiles.set_prepared_cache(status['data'])
+                    key = mediafiles.set_prepared_cache(camera_id, status['data'])
                     logging.debug(
                         f'prepared timelapse movie for group "{group or "ungrouped"}" of camera {camera_id} with key {key}'
                     )
@@ -661,8 +661,14 @@ class PictureHandler(BaseHandler):
         )
 
         if utils.is_local_motion_camera(camera_config):
+            # one timelapse at a time, of whichever camera
             status = mediafiles.check_timelapse_movie()
             if status['progress'] != -1:
+                if mediafiles.check_timelapse_movie(camera_id)['progress'] == -1:
+                    return self.finish_json(
+                        {'error': 'a timelapse movie of another camera is being made'}
+                    )
+
                 return self.finish_json(
                     {'progress': status['progress']}
                 )  # timelapse already active

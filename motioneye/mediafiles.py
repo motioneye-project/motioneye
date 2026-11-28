@@ -27,12 +27,12 @@ from collections.abc import Awaitable, Callable
 from contextlib import suppress
 from datetime import datetime, timedelta
 from errno import EAGAIN, ENOENT
-from hashlib import sha1
 from io import BytesIO
 from multiprocessing.reduction import ForkingPickler
+from secrets import token_hex
 from select import PIPE_BUF
 from signal import SIGKILL, SIGTERM
-from time import time
+from tempfile import TemporaryFile
 from typing import Any
 from zipfile import ZipFile
 
@@ -109,11 +109,13 @@ MOVIE_EXT_TYPE_MAPPING = {
     'mpg': 'video/mpeg',
 }
 
-# a cache of prepared files (whose preparing time is significant)
+# a cache of prepared files (whose preparing time is significant), by camera and key
 _prepared_files: dict = {}
 
 _timelapse_process: Any = None
 _timelapse_data = None
+# the camera of the timelapse: only it gets to follow the run and fetch the movie
+_timelapse_camera_id = None
 
 _ffmpeg_binary_cache = None
 
@@ -357,38 +359,36 @@ def _do_zip(pipe, target_dir, exts, sub_path, working):
     for p, st in mf:  # st will be None when with_stat=False
         paths.append(p[len(target_dir) :].removeprefix('/'))
 
-    zip_filename = os.path.join(settings.MEDIA_PATH, f'.zip-{int(time())}')
-    logging.debug(f'adding {len(paths)} files to zip file "{zip_filename}"')
+    logging.debug(f'adding {len(paths)} files to the zip file')
 
     try:
-        with ZipFile(zip_filename, mode='w') as f:
-            for path in paths:
-                full_path = os.path.join(target_dir, path)
-                f.write(full_path, path)
+        # without a name, so that zips made at the same time cannot share the file
+        with TemporaryFile(dir=settings.MEDIA_PATH) as zip_file:
+            with ZipFile(zip_file, mode='w') as f:
+                for path in paths:
+                    full_path = os.path.join(target_dir, path)
+                    f.write(full_path, path)
+
+            logging.debug('reading zip file into memory')
+            zip_file.seek(0)
+            data = zip_file.read()
 
     except Exception as e:
-        logging.error(f'failed to create zip file "{zip_filename}": {e}')
+        logging.error(f'failed to create zip file: {e}')
 
         working.value = False
         pipe.close()
         return
 
-    logging.debug(f'reading zip file "{zip_filename}" into memory')
-
     try:
-        with open(zip_filename, mode='rb') as f:
-            data = f.read()
-
         working.value = False
         pipe.send(data)
         logging.debug('zip data ready')
 
     except Exception as e:
-        logging.error(f'failed to read zip file "{zip_filename}": {e}')
-        working.value = False
+        logging.error(f'failed to send zip file: {e}')
 
     finally:
-        os.remove(zip_filename)
         pipe.close()
 
 
@@ -852,6 +852,7 @@ def get_zipped_content(camera_config: dict, media_type: str, group: str) -> Awai
 def make_timelapse_movie(camera_config, framerate, interval, group: str):
     global _timelapse_process
     global _timelapse_data
+    global _timelapse_camera_id
 
     target_dir: str = camera_config['target_dir']
     utils.validate_paths(group, target_dir=target_dir)
@@ -864,22 +865,24 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
 
     logging.debug('starting picture listing subprocess...')
 
+    # the previous movie goes before the slot changes camera, never after
+    _timelapse_data = None
+    _timelapse_camera_id = camera_config['@id']
     parent_pipe, child_pipe = multiprocessing.Pipe(duplex=False)
     _timelapse_process = multiprocessing.Process(
         target=_do_list_pictures, args=(child_pipe, target_dir, group)
     )
     _timelapse_process.progress = 0
     _timelapse_process.start()
-    _timelapse_data = None
 
     child_pipe.close()
 
     started = [datetime.now()]
     media_list = []
 
-    # use correct extension for the movie_codec
+    # use correct extension for the movie_codec; a name that cannot be guessed
     tmp_filename: str = os.path.join(
-        settings.MEDIA_PATH, f'.{int(time())}.{file_format}'
+        settings.MEDIA_PATH, f'.{token_hex(16)}.{file_format}'
     )
 
     def read_media_list():
@@ -1097,7 +1100,11 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
     poll_media_list_process()
 
 
-def check_timelapse_movie():
+def check_timelapse_movie(camera_id=None):
+    # a camera sees only its own timelapse; without one, whether any is running
+    if camera_id is not None and camera_id != _timelapse_camera_id:
+        return {'progress': -1, 'data': None}
+
     if _timelapse_process:
         if (
             hasattr(_timelapse_process, 'poll') and _timelapse_process.poll() is None
@@ -1276,20 +1283,17 @@ def get_current_picture(camera_config, width, height):
     return bio.getvalue()
 
 
-def get_prepared_cache(key):
-    return _prepared_files.pop(key, None)
+def get_prepared_cache(camera_id, key):
+    # a key is only good for the camera it was prepared for
+    return _prepared_files.pop((camera_id, key), None)
 
 
-def set_prepared_cache(data):
-    key = sha1(str(time()).encode(), usedforsecurity=False).hexdigest()
-
-    if key in _prepared_files:
-        logging.warning(f'key "{key}" already present in prepared cache')
-
-    _prepared_files[key] = data
+def set_prepared_cache(camera_id, data):
+    key = token_hex(32)  # random: the key is all it takes to download the file
+    _prepared_files[(camera_id, key)] = data
 
     def clear():
-        if _prepared_files.pop(key, None) is not None:
+        if _prepared_files.pop((camera_id, key), None) is not None:
             logging.warning(
                 f'key "{key}" was still present in the prepared cache, removed'
             )
@@ -1299,3 +1303,13 @@ def set_prepared_cache(data):
     IOLoop.current().call_later(timeout, clear)
 
     return key
+
+
+def forget_cameras():
+    # camera ids are reused: a new camera must not get another one's movie or files
+    global _timelapse_data
+    global _timelapse_camera_id
+
+    _timelapse_data = None
+    _timelapse_camera_id = None
+    _prepared_files.clear()

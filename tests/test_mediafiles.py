@@ -16,10 +16,13 @@
 from __future__ import annotations
 
 import asyncio
+import multiprocessing
 import os
 import struct
 import unittest
 from datetime import datetime
+from errno import EMFILE
+from io import BytesIO
 from multiprocessing.connection import Connection
 from multiprocessing.reduction import ForkingPickler
 from pathlib import Path
@@ -28,6 +31,7 @@ from tempfile import mkdtemp
 from time import time
 from typing import ClassVar
 from unittest.mock import MagicMock, patch
+from zipfile import ZipFile
 
 from tornado.testing import AsyncTestCase, gen_test
 
@@ -656,9 +660,21 @@ class TestTimelapseMovie(AsyncTestCase):
         media_path = patch.object(mediafiles.settings, 'MEDIA_PATH', self.target_dir)
         media_path.start()
         self.addCleanup(media_path.stop)
-        process = patch.object(mediafiles, '_timelapse_process', None)
-        process.start()
-        self.addCleanup(process.stop)
+        state = patch.multiple(
+            mediafiles,
+            _timelapse_process=None,
+            _timelapse_data=None,
+            _timelapse_camera_id=None,
+        )
+        state.start()
+        self.addCleanup(state.stop)
+
+    def _camera_config(self, camera_id):
+        return {
+            '@id': camera_id,
+            'target_dir': self.target_dir,
+            'movie_codec': 'mp4:h264',
+        }
 
     @gen_test(timeout=30)
     async def test_ffmpeg_that_cannot_start_ends_the_timelapse(self):
@@ -669,11 +685,11 @@ class TestTimelapseMovie(AsyncTestCase):
             Path(path).touch()
             os.utime(path, (1000 + i * 10, 1000 + i * 10))
 
-        camera_config = {'target_dir': self.target_dir, 'movie_codec': 'mp4:h264'}
+        camera_config = self._camera_config(1)
         no_ffmpeg = patch.object(
             mediafiles.subprocess, 'Popen', side_effect=FileNotFoundError('ffmpeg')
         )
-        with no_ffmpeg, self.assertLogs(level='ERROR'):
+        with no_ffmpeg as ffmpeg, self.assertLogs(level='ERROR'):
             mediafiles.make_timelapse_movie(camera_config, 20, 10, '2024-01-01')
             for _ in range(100):
                 await asyncio.sleep(0.1)
@@ -683,6 +699,146 @@ class TestTimelapseMovie(AsyncTestCase):
         self.assertEqual(
             {'progress': -1, 'data': None}, mediafiles.check_timelapse_movie()
         )
+        # the movie is made under a name that cannot be guessed
+        movie = os.path.basename(ffmpeg.call_args.args[0][-1])
+        self.assertRegex(movie, r'^\.[0-9a-f]{32}\.')
+
+    def test_a_new_timelapse_drops_the_previous_movie_and_takes_the_slot(self):
+        mediafiles._timelapse_camera_id = 2
+        mediafiles._timelapse_data = b'movie of camera 2'
+        listing = MagicMock(spec=['start', 'is_alive', 'pid', 'progress'])
+        listing.is_alive.return_value = True
+
+        with (
+            patch.object(mediafiles.multiprocessing, 'Process', return_value=listing),
+            patch.object(mediafiles, 'IOLoop'),  # no polling after the first look
+        ):
+            mediafiles.make_timelapse_movie(self._camera_config(1), 20, 10, '')
+
+        self.assertIsNone(mediafiles._timelapse_data)
+        self.assertEqual(
+            {'progress': -1, 'data': None}, mediafiles.check_timelapse_movie(2)
+        )
+        self.assertEqual(
+            {'progress': 0, 'data': None}, mediafiles.check_timelapse_movie(1)
+        )
+
+    def test_a_start_that_fails_leaves_no_movie_to_the_new_camera(self):
+        # the previous movie goes before the slot changes camera
+        mediafiles._timelapse_camera_id = 2
+        mediafiles._timelapse_data = b'movie of camera 2'
+        no_pipe = patch.object(
+            mediafiles.multiprocessing,
+            'Pipe',
+            side_effect=OSError(EMFILE, 'Too many open files'),
+        )
+
+        with no_pipe, self.assertRaises(OSError):
+            mediafiles.make_timelapse_movie(self._camera_config(1), 20, 10, '')
+
+        self.assertEqual(
+            {'progress': -1, 'data': None}, mediafiles.check_timelapse_movie(1)
+        )
+
+
+class TestPreparedFilesPerCamera(AsyncTestCase):
+    """Prepared files and the timelapse belong to the camera they were made for."""
+
+    def setUp(self):
+        super().setUp()
+        state = patch.multiple(
+            mediafiles,
+            _prepared_files={},
+            _timelapse_process=None,
+            _timelapse_data=None,
+            _timelapse_camera_id=None,
+        )
+        state.start()
+        self.addCleanup(state.stop)
+
+    def test_a_key_is_random_and_only_good_for_its_camera(self):
+        key = mediafiles.set_prepared_cache(2, b'zip')
+
+        self.assertRegex(key, '^[0-9a-f]{64}$')
+        self.assertNotEqual(key, mediafiles.set_prepared_cache(2, b'zip'))
+        self.assertIsNone(mediafiles.get_prepared_cache(1, key))
+        self.assertEqual(b'zip', mediafiles.get_prepared_cache(2, key))
+        self.assertIsNone(mediafiles.get_prepared_cache(2, key))  # used up
+
+    def test_a_run_ending_after_the_cameras_are_forgotten_goes_to_no_camera(self):
+        running = MagicMock(spec=['poll', 'progress'])
+        running.poll.return_value = None
+        running.progress = 0.5
+        mediafiles._timelapse_process = running
+        mediafiles._timelapse_camera_id = 2
+        mediafiles._prepared_files[(1, 'key')] = b'zip'
+
+        mediafiles.forget_cameras()
+        # then the run ends, as _poll_movie_process ends it
+        mediafiles._timelapse_process = None
+        mediafiles._timelapse_data = b'movie of the removed camera'
+
+        self.assertEqual({}, mediafiles._prepared_files)
+        self.assertEqual(
+            {'progress': -1, 'data': None}, mediafiles.check_timelapse_movie(2)
+        )
+
+
+class TestZip(AsyncTestCase):
+    def setUp(self):
+        super().setUp()
+        self.media_path = mkdtemp()
+        self.addCleanup(rmtree, self.media_path, ignore_errors=True)
+        media_path = patch.object(mediafiles.settings, 'MEDIA_PATH', self.media_path)
+        media_path.start()
+        self.addCleanup(media_path.stop)
+
+    def _camera_dir(self, name):
+        target_dir = mkdtemp()
+        self.addCleanup(rmtree, target_dir, ignore_errors=True)
+        os.mkdir(os.path.join(target_dir, 'g'))
+        Path(target_dir, 'g', name).write_bytes(name.encode())
+        return target_dir
+
+    def _zip(self, target_dir):
+        pipe = MagicMock()
+        working = MagicMock(value=True)
+        mediafiles._do_zip(pipe, target_dir, mediafiles._PICTURE_EXTS, 'g', working)
+        self.assertFalse(working.value)
+        with ZipFile(BytesIO(pipe.send.call_args.args[0])) as f:
+            return {name: f.read(name) for name in f.namelist()}
+
+    def test_zips_made_at_the_same_time_do_not_share_a_file(self):
+        mine, other = self._camera_dir('mine.jpg'), self._camera_dir('other.jpg')
+        zips = {}
+        write = ZipFile.write
+
+        def write_while_another_zip_is_made(zip_file, *args, **kwargs):
+            if not zips:
+                self.assertEqual([], os.listdir(self.media_path))  # no name to find
+                zips['other'] = None
+                zips['other'] = self._zip(other)
+
+            return write(zip_file, *args, **kwargs)
+
+        with patch.object(ZipFile, 'write', write_while_another_zip_is_made):
+            zips['mine'] = self._zip(mine)
+
+        self.assertEqual({'g/mine.jpg': b'mine.jpg'}, zips['mine'])
+        self.assertEqual({'g/other.jpg': b'other.jpg'}, zips['other'])
+        self.assertEqual([], os.listdir(self.media_path))  # and nothing left behind
+
+    @gen_test(timeout=30)
+    async def test_the_zip_comes_back_from_its_process(self):
+        camera_config = {'target_dir': self._camera_dir('a.jpg')}
+
+        # forked, as the server does: the zip process needs the MEDIA_PATH set here
+        fork = multiprocessing.get_context('fork')
+        with patch.object(mediafiles, 'multiprocessing', fork):
+            data = await mediafiles.get_zipped_content(camera_config, 'picture', 'g')
+
+        with ZipFile(BytesIO(data)) as f:
+            self.assertEqual(['g/a.jpg'], f.namelist())
 
 
 class TestRemoveOlderFiles(unittest.TestCase):
